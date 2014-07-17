@@ -37,8 +37,10 @@ namespace SelfHost
                     RelyingPartyService = Registration.RegisterFactory<IRelyingPartyService>(() => new InMemoryRelyingPartyService(RelyingParties.Get())),
                     WsFederationSettings = Registration.RegisterFactory<WsFederationSettings>(() => new WsFedSettings())
                 },
+                DataProtector = options.DataProtector
             };
 
+            options.ProtocolLogoutUrls.Add(wsFedOptions.LogoutUrl);
             pluginApp.UseWsFederationPlugin(wsFedOptions);
         }
     }
