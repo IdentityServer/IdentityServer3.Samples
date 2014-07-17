@@ -14,8 +14,8 @@ namespace SelfHost
             const string url = "http://localhost:3333/core";
             using (WebApp.Start<Startup>(url))
             {
-                Console.WriteLine("Server listening at {0}. Press a key to stop", url);
-                Console.ReadKey();
+                Console.WriteLine("Server listening at {0}. Press enter to stop", url);
+                Console.ReadLine();
             }
         }
     }
