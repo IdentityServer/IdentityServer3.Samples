@@ -51,7 +51,7 @@
     <Reference Include="System.Web" />
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-alpha-20140717-1\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-alpha-20140717-2\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer.WsFederation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -59,11 +59,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\Certificate.cs" />
     <Compile Include="Config\Clients.cs" />
-    <Compile Include="Config\Settings.cs" />
-    <Compile Include="Config\Factory.cs" />
     <Compile Include="Config\RelyingParties.cs" />
     <Compile Include="Config\Scopes.cs" />
+    <Compile Include="Config\Users.cs" />
     <Compile Include="Config\WsFedSettings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
