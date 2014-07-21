@@ -39,7 +39,6 @@ namespace SelfHost
                 {
                     UserService = options.Factory.UserService,
                     RelyingPartyService = Registration.RegisterFactory<IRelyingPartyService>(() => new InMemoryRelyingPartyService(RelyingParties.Get())),
-                    WsFederationSettings = Registration.RegisterFactory<WsFederationSettings>(() => new WsFedSettings())
                 }
             };
 
