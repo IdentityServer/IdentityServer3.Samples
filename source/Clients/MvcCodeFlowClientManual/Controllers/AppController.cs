@@ -49,6 +49,11 @@ namespace MvcCodeFlowClientManual.Controllers
 
         private void UpdateCookie(TokenResponse response)
         {
+            if (response.IsError)
+            {
+                throw new Exception(response.Error);
+            }
+
             var identity = (User as ClaimsPrincipal).Identities.First();
             var result = from c in identity.Claims
                          where c.Type != "access_token" &&
