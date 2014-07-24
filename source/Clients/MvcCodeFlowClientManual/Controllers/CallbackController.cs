@@ -57,7 +57,17 @@ namespace MvcCodeFlowClientManual.Controllers
         {
             if (!string.IsNullOrWhiteSpace(response.IdentityToken))
             {
-                var claims = ValidateToken(response.IdentityToken);
+                var tokenClaims = ValidateToken(response.IdentityToken);
+                var claims = new List<Claim>(from c in tokenClaims
+                                             where c.Type != "iss" &&
+                                                   c.Type != "aud" &&
+                                                   c.Type != "nbf" &&
+                                                   c.Type != "exp" &&
+                                                   c.Type != "iat" &&
+                                                   c.Type != "amr" &&
+                                                   c.Type != "idp"
+                                             select c);
+
 
                 if (!string.IsNullOrWhiteSpace(response.AccessToken))
                 {
