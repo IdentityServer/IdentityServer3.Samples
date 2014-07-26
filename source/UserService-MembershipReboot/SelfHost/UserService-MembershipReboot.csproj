@@ -32,8 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BrockAllen.MembershipReboot">
-      <HintPath>..\packages\BrockAllen.MembershipReboot.7.3.0\lib\net45\BrockAllen.MembershipReboot.dll</HintPath>
+    <Reference Include="BrockAllen.MembershipReboot, Version=7.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\BrockAllen.MembershipReboot.7.4.0\lib\net45\BrockAllen.MembershipReboot.dll</HintPath>
     </Reference>
     <Reference Include="BrockAllen.MembershipReboot.Ef">
       <HintPath>..\packages\BrockAllen.MembershipReboot.Ef.7.1.0\lib\net45\BrockAllen.MembershipReboot.Ef.dll</HintPath>
@@ -66,11 +67,11 @@
     <Reference Include="System.Web" />
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-alpha-20140721\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-alpha-20140726\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer.MembershipReboot, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.MembershipReboot.1.0.0-alpha-1\lib\net45\Thinktecture.IdentityServer.MembershipReboot.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.MembershipReboot.1.0.0-alpha-20140726\lib\net45\Thinktecture.IdentityServer.MembershipReboot.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
