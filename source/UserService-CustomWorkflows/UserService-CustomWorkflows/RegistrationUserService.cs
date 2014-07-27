@@ -25,10 +25,12 @@ namespace SampleApp
 
         public Task<Thinktecture.IdentityServer.Core.Authentication.ExternalAuthenticateResult> AuthenticateExternalAsync(string subject, Thinktecture.IdentityServer.Core.Models.ExternalIdentity externalUser)
         {
+            // look for the user in our local identity system from the external identifiers
             var user = Users.SingleOrDefault(x => x.Provider == externalUser.Provider.Name && x.ProviderID == externalUser.ProviderId);
             string name = "Unknown";
             if (user == null)
             {
+                // new user, so add them here
                 var nameClaim = externalUser.Claims.First(x => x.Type == Constants.ClaimTypes.Name);
                 if (nameClaim != null) name = nameClaim.Value;
 
@@ -45,10 +47,12 @@ namespace SampleApp
 
             if (user.IsRegistered)
             {
+                // user not registered so we will issue a partial login and redirect them to our registration page
                 return Task.FromResult<ExternalAuthenticateResult>(new ExternalAuthenticateResult(user.Provider, user.Subject, name));
             }
             else
             {
+                // user is registered so continue
                 return Task.FromResult<ExternalAuthenticateResult>(new ExternalAuthenticateResult("/core/register", user.Provider, user.Subject, name));
             }
         }
@@ -60,6 +64,7 @@ namespace SampleApp
 
         public Task<IEnumerable<System.Security.Claims.Claim>> GetProfileDataAsync(string subject, IEnumerable<string> requestedClaimTypes = null)
         {
+            // issue the claims for the user
             var user = Users.SingleOrDefault(x => x.Subject == subject);
             if (user == null)
             {
@@ -71,7 +76,8 @@ namespace SampleApp
 
         public Task<bool> IsActive(string subject)
         {
-            return Task.FromResult(true);
+            var user = Users.SingleOrDefault(x => x.Subject == subject);
+            return Task.FromResult(user != null && user.IsRegistered);
         }
     }
 }
