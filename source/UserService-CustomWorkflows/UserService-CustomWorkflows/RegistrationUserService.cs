@@ -10,17 +10,17 @@ using Thinktecture.IdentityServer.Core.Services;
 
 namespace SampleApp
 {
-    public class CustomUser
-    {
-        public string Subject { get; set; }
-        public string Provider { get; set; }
-        public string ProviderID { get; set; }
-        public bool IsRegistered { get; set; }
-        public List<Claim> Claims { get; set; }
-    }
-
     public class RegistrationUserService : IUserService
     {
+        public class CustomUser
+        {
+            public string Subject { get; set; }
+            public string Provider { get; set; }
+            public string ProviderID { get; set; }
+            public bool IsRegistered { get; set; }
+            public List<Claim> Claims { get; set; }
+        }
+        
         public static List<CustomUser> Users = new List<CustomUser>();
 
         public Task<Thinktecture.IdentityServer.Core.Authentication.ExternalAuthenticateResult> AuthenticateExternalAsync(string subject, Thinktecture.IdentityServer.Core.Models.ExternalIdentity externalUser)
