@@ -53,7 +53,7 @@ namespace SampleApp
             else
             {
                 // user is registered so continue
-                return Task.FromResult<ExternalAuthenticateResult>(new ExternalAuthenticateResult("/core/registerexternal", user.Provider, user.Subject, name));
+                return Task.FromResult<ExternalAuthenticateResult>(new ExternalAuthenticateResult("/core/externalregistration", user.Provider, user.Subject, name));
             }
         }
 

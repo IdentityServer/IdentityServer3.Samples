@@ -11,9 +11,9 @@ using Thinktecture.IdentityServer.Core.Extensions;
 
 namespace SampleApp.Controllers
 {
-    public class RegisterExternalController : Controller
+    public class ExternalRegistrationController : Controller
     {
-        [Route("core/registerexternal")]
+        [Route("core/externalregistration")]
         [HttpGet]
         public async Task<ActionResult> Index()
         {
@@ -28,9 +28,9 @@ namespace SampleApp.Controllers
             return View();
         }
 
-        [Route("core/registerexternal")]
+        [Route("core/externalregistration")]
         [HttpPost]
-        public async Task<ActionResult> Index(RegisterModel model)
+        public async Task<ActionResult> Index(ExternalRegistrationModel model)
         {
             var ctx = Request.GetOwinContext();
             var authentication = await ctx.Authentication.AuthenticateAsync(Constants.PartialSignInAuthenticationType);

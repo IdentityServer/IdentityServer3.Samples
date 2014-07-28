@@ -6,7 +6,7 @@ using System.Web;
 
 namespace SampleApp.Models
 {
-    public class RegisterModel
+    public class ExternalRegistrationModel
     {
         [Required]
         public string First { get; set; }

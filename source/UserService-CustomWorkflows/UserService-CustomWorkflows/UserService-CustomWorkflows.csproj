@@ -149,8 +149,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-    <Content Include="Views\RegisterExternal\Index.cshtml" />
+    <Content Include="Views\ExternalRegistration\Index.cshtml" />
     <Content Include="Views\Eula\Index.cshtml" />
+    <Content Include="Views\LocalRegistration\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -170,11 +171,14 @@
     <Compile Include="Config\Scopes.cs" />
     <Compile Include="Config\Users.cs" />
     <Compile Include="Controllers\EulaController.cs" />
-    <Compile Include="Controllers\RegisterExternalController.cs" />
+    <Compile Include="Controllers\LocalRegistrationController.cs" />
+    <Compile Include="Controllers\ExternalRegistrationController.cs" />
+    <Compile Include="LocalRegistrationUserService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\RegisterModel.cs" />
+    <Compile Include="Models\LocalRegistrationModel.cs" />
+    <Compile Include="Models\ExternalRegistrationModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EulaAtLoginUserService.cs" />
     <Compile Include="ExternalRegistrationUserService.cs" />

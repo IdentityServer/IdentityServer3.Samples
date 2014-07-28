@@ -18,8 +18,9 @@ namespace SampleApp
                     clients: Clients.Get(),
                     scopes: Scopes.Get());
 
-                var userService = new ExternalRegistrationUserService();
+                //var userService = new ExternalRegistrationUserService();
                 //var userService = new EulaAtLoginUserService();
+                var userService = new LocalRegistrationUserService();
                 factory.UserService = Registration.RegisterFactory<IUserService>(() => userService);
 
                 var options = new IdentityServerOptions
@@ -30,7 +31,15 @@ namespace SampleApp
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
                     AdditionalIdentityProviderConfiguration = ConfigureAdditionalIdentityProviders,
-                    CorsPolicy = CorsPolicy.AllowAll
+                    CorsPolicy = CorsPolicy.AllowAll,
+                    AuthenticationOptions = new AuthenticationOptions {
+                        LoginPageLinks = new LoginPageLink[] { 
+                            new LoginPageLink{
+                                Text = "Register",
+                                Href = "localregistration"
+                            }
+                        }
+                    }
                 };
 
                 coreApp.UseIdentityServer(options);
