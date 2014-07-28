@@ -10,7 +10,7 @@ using Thinktecture.IdentityServer.Core.Services;
 
 namespace SampleApp
 {
-    public class RegistrationUserService : IUserService
+    public class ExternalRegistrationUserService : IUserService
     {
         public class CustomUser
         {
@@ -53,7 +53,7 @@ namespace SampleApp
             else
             {
                 // user is registered so continue
-                return Task.FromResult<ExternalAuthenticateResult>(new ExternalAuthenticateResult("/core/register", user.Provider, user.Subject, name));
+                return Task.FromResult<ExternalAuthenticateResult>(new ExternalAuthenticateResult("/core/registerexternal", user.Provider, user.Subject, name));
             }
         }
 

@@ -18,8 +18,8 @@ namespace SampleApp
                     clients: Clients.Get(),
                     scopes: Scopes.Get());
 
-                //var userService = new RegistrationUserService();
-                var userService = new EulaAtLoginUserService();
+                var userService = new ExternalRegistrationUserService();
+                //var userService = new EulaAtLoginUserService();
                 factory.UserService = Registration.RegisterFactory<IUserService>(() => userService);
 
                 var options = new IdentityServerOptions

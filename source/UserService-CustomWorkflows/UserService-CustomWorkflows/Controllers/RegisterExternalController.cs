@@ -11,9 +11,9 @@ using Thinktecture.IdentityServer.Core.Extensions;
 
 namespace SampleApp.Controllers
 {
-    public class RegisterController : Controller
+    public class RegisterExternalController : Controller
     {
-        [Route("core/register")]
+        [Route("core/registerexternal")]
         [HttpGet]
         public async Task<ActionResult> Index()
         {
@@ -28,7 +28,7 @@ namespace SampleApp.Controllers
             return View();
         }
 
-        [Route("core/register")]
+        [Route("core/registerexternal")]
         [HttpPost]
         public async Task<ActionResult> Index(RegisterModel model)
         {
@@ -43,7 +43,7 @@ namespace SampleApp.Controllers
             {
                 // update the "database" for our users with the registration data
                 var subject = authentication.Identity.GetSubjectId();
-                var user = RegistrationUserService.Users.Single(x => x.Subject == subject);
+                var user = ExternalRegistrationUserService.Users.Single(x => x.Subject == subject);
                 user.Claims.Add(new Claim(Constants.ClaimTypes.GivenName, model.First));
                 user.Claims.Add(new Claim(Constants.ClaimTypes.FamilyName, model.Last));
 
