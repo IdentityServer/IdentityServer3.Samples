@@ -23,8 +23,8 @@ namespace SelfHost.Config
             var userService = new Thinktecture.IdentityServer.Core.Services.InMemory.InMemoryUserService(Users.Get());
             factory.UserService = Registration.RegisterFactory<IUserService>(() => userService);
 
-            factory.ScopeService = Registration.RegisterFactory<IScopeService>(() => svcFactory.CreateScopeService());
-            factory.ClientService = Registration.RegisterFactory<IClientService>(() => svcFactory.CreateClientService());
+            factory.ScopeStore = Registration.RegisterFactory<IScopeStore>(() => svcFactory.CreateScopeStore());
+            factory.ClientStore = Registration.RegisterFactory<IClientStore>(() => svcFactory.CreateClientStore());
             
             factory.AuthorizationCodeStore = Registration.RegisterFactory<IAuthorizationCodeStore>(() => svcFactory.CreateAuthorizationCodeStore());
             factory.TokenHandleStore = Registration.RegisterFactory<ITokenHandleStore>(() => svcFactory.CreateTokenHandleStore());
