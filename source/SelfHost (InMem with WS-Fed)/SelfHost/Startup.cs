@@ -24,7 +24,7 @@ namespace SelfHost
 
                 SigningCertificate = Certificate.Get(),
                 Factory = factory,
-                ConfigurePlugins = ConfigurePlugins
+                PluginConfiguration = ConfigurePlugins
             };
 
             appBuilder.UseIdentityServer(options);
