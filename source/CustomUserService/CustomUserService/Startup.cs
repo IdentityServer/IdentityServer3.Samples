@@ -26,7 +26,7 @@ namespace SampleApp
                 var options = new IdentityServerOptions
                 {
                     IssuerUri = "https://idsrv3.com",
-                    SiteName = "Thinktecture IdentityServer v3 - UserService-CustomWorkflows",
+                    SiteName = "Thinktecture IdentityServer v3 - CustomUserService",
                     PublicHostName = "http://localhost:3333",
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
