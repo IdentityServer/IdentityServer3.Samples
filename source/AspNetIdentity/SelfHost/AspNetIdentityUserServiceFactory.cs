@@ -22,7 +22,7 @@ namespace SelfHost
             var db = new IdentityDbContext<IdentityUser>(connString);
             var store = new UserStore<IdentityUser>(db);
             var mgr = new UserManager<IdentityUser>(store);
-            var userSvc = new UserService<IdentityUser, string>(mgr, db);
+            var userSvc = new AspNetIdentityUserService<IdentityUser, string>(mgr, db);
             return userSvc;
 
             //var db = new CustomDbContext("CustomAspId");

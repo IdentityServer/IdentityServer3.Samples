@@ -16,7 +16,7 @@ namespace SelfHost
         {
             var repo = new DefaultUserAccountRepository(connString);
             var userAccountService = new UserAccountService(config, repo);
-            var userSvc = new UserService<UserAccount>(userAccountService, repo);
+            var userSvc = new MembershipRebootUserService<UserAccount>(userAccountService, repo);
             return userSvc;
         }
 

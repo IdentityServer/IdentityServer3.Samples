@@ -16,6 +16,7 @@ namespace SelfHost
 
                 SigningCertificate = Certificate.Get(),
                 Factory = Factory.Configure("AspId"),
+                CorsPolicy = CorsPolicy.AllowAll
             };
 
             appBuilder.UseIdentityServer(options);
