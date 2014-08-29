@@ -59,6 +59,11 @@ namespace WpfClient
             RequestToken("read write", "token");
         }
 
+        private void IdentityManager_Click(object sender, RoutedEventArgs e)
+        {
+            RequestToken("idmgr", "token");
+        }
+
         private void RequestToken(string scope, string responseType)
         {
             var additional = new Dictionary<string, string>
