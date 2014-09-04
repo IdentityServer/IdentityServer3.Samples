@@ -3,7 +3,7 @@ Thinktecture IdentityServer v3 Samples
 
 Samples for Thinktecture IdentityServer v3
 
-#### Clients [link](https://github.com/thinktecture/Thinktecture.IdentityServer.v3.Samples/tree/master/source/clients)
+#### Clients [link](https://github.com/thinktecture/Thinktecture.IdentityServer.v3.Samples/tree/master/source/Clients)
 Sample clients and API for: client credentials, resource owner flow, code flow, form post, native and JavaScript implicit flow, WS-Federation and OpenID Connect Katana middleware.
 
 #### Self-Host (minimal) [link](https://github.com/thinktecture/Thinktecture.IdentityServer.v3.Samples/tree/master/source/SelfHost%20(Minimal))
