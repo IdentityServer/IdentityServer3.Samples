@@ -89,12 +89,13 @@ namespace MvcCodeFlowClientManual.Controllers
         {
             var parameters = new TokenValidationParameters
             {
-                AllowedAudience = "codeclient",
+                ValidAudience = "codeclient",
                 ValidIssuer = "https://idsrv3.com",
-                SigningToken = new X509SecurityToken(X509.LocalMachine.TrustedPeople.SubjectDistinguishedName.Find("CN=idsrv3test", false).First())
+                IssuerSigningToken = new X509SecurityToken(X509.LocalMachine.TrustedPeople.SubjectDistinguishedName.Find("CN=idsrv3test", false).First())
             };
 
-            var id = new JwtSecurityTokenHandler().ValidateToken(token, parameters);
+            SecurityToken jwt;
+            var id = new JwtSecurityTokenHandler().ValidateToken(token, parameters, out jwt);
             return id.Claims.ToList();
         }
 

@@ -65,9 +65,9 @@ namespace MvcFormPostClient.Controllers
 
 	        var parameters = new TokenValidationParameters
 	        {
-		        AllowedAudience = "implicitclient",
+		        ValidAudience = "implicitclient",
 		        ValidIssuer = "https://idsrv3.com",
-		        SigningToken = new X509SecurityToken(
+		        IssuerSigningToken = new X509SecurityToken(
                     X509
                     .LocalMachine
                     .TrustedPeople
@@ -77,7 +77,8 @@ namespace MvcFormPostClient.Controllers
 	        };
 
             var handler = new JwtSecurityTokenHandler();
-	        var id = handler.ValidateToken(token, parameters);
+            SecurityToken jwt;
+	        var id = handler.ValidateToken(token, parameters, out jwt);
 
 	        if (id.FindFirst("nonce").Value != 
                 result.Identity.FindFirst("nonce").Value)

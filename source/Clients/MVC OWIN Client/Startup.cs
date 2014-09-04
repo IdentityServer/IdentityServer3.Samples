@@ -27,10 +27,10 @@ namespace MVC_OWIN_Client
 
             app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
                 {
-                    Client_Id = "implicitclient",
+                    ClientId = "implicitclient",
                     Authority = Constants.BaseAddress,
-                    Redirect_Uri = "http://localhost:2671/",
-                    Response_Type = "id_token token",
+                    RedirectUri = "http://localhost:2671/",
+                    ResponseType = "id_token token",
                     Scope = "openid email",
 
                     SignInAsAuthenticationType = "Cookies",
