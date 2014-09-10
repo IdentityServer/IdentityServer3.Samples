@@ -51,7 +51,7 @@ namespace WpfClient
 
         private void LoginWithProfileAndAccessTokenButton_Click(object sender, RoutedEventArgs e)
         {
-            RequestToken("openid profile roles read write", "id_token token");
+            RequestToken("openid profile read write", "id_token token");
         }
 
         private void AccessTokenOnlyButton_Click(object sender, RoutedEventArgs e)
