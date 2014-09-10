@@ -51,7 +51,7 @@ namespace WpfClient
 
         private void LoginWithProfileAndAccessTokenButton_Click(object sender, RoutedEventArgs e)
         {
-            RequestToken("openid profile read write", "id_token token");
+            RequestToken("openid profile roles read write", "id_token token");
         }
 
         private void AccessTokenOnlyButton_Click(object sender, RoutedEventArgs e)
@@ -82,9 +82,32 @@ namespace WpfClient
                 "state",
                 additional);
 
-
             _login.Show();
             _login.Start(new Uri(startUrl), new Uri("oob://localhost/wpfclient"));
+        }
+
+        private async void CallUserInfo_Click(object sender, RoutedEventArgs e)
+        {
+            if (_response.Values.ContainsKey("access_token"))
+            {
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(Constants.UserInfoEndpoint)
+                };
+                client.SetBearerToken(_response.AccessToken);
+
+                var response = await client.GetAsync("");
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    Textbox1.Text = JObject.Parse(json).ToString();
+                }
+                else
+                {
+                    MessageBox.Show(response.StatusCode.ToString());
+                }
+            }
         }
 
         private void ShowIdTokenButton_Click(object sender, RoutedEventArgs e)
