@@ -69,7 +69,8 @@ namespace WpfClient
             var additional = new Dictionary<string, string>
             {
                 { "nonce", "nonce" },
-                // { "login_hint", "idp:Google" }
+                // { "login_hint", "idp:Google" },
+                // { "acr_values", "a b c" }
             };
 
             var client = new OAuth2Client(new Uri(Constants.AuthorizeEndpoint));
