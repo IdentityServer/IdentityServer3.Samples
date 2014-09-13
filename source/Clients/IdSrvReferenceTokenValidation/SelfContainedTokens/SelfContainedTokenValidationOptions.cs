@@ -3,10 +3,10 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
 {
-    public class SelfContainedTokenValidationOptions : AuthenticationOptions
+    public class JwtTokenValidationOptions : AuthenticationOptions
     {
-        public SelfContainedTokenValidationOptions()
-            : base("IdSrvSelfContainedToken")
+        public JwtTokenValidationOptions()
+            : base("IdentityServerJwt")
         { }
 
         // either provide base url for discovery

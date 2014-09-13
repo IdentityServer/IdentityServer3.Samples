@@ -18,7 +18,7 @@ namespace SampleAspNetWebApi
             JwtSecurityTokenHandler.InboundClaimTypeMap = ClaimMappings.None;
 
             // for self contained tokens
-            app.UseIdentitiyServerSelfContainedToken(new SelfContainedTokenValidationOptions
+            app.UseIdentitiyServerJwt(new JwtTokenValidationOptions
                 {
                     Authority = "http://localhost:3333/core"
                 });
