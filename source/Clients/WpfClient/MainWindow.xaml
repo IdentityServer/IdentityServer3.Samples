@@ -8,9 +8,11 @@
         <TextBox x:Name="Textbox1" HorizontalAlignment="Left" Height="322" Margin="10,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="553"/>
         <Button Content="Login with Profile" x:Name="LoginWithProfileButton" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="119" Click="LoginWithProfileButton_Click" />
         <Button Content="Login with Profile and Access Token" x:Name="LoginWithProfileAndAccessTokenButton" HorizontalAlignment="Left" Margin="214,10,0,0" VerticalAlignment="Top" Width="211" Click="LoginWithProfileAndAccessTokenButton_Click" />
+        <Button Content="Profile, Roles and Access Token" x:Name="LoginWithProfileRolesAndAccessTokenButton" HorizontalAlignment="Left" Margin="214,35,0,0" VerticalAlignment="Top" Width="211" Click="LoginWithProfileRolesAndAccessTokenButton_Click" />
+        
         <Button Content="Access Token only" x:Name="AccessTokenOnlyButton" HorizontalAlignment="Left" Margin="430,10,0,0" VerticalAlignment="Top" Width="133" Click="AccessTokenOnlyButton_Click" />
         <Button Content="IdentityManager" x:Name="IdentityManager" HorizontalAlignment="Left" Margin="430,35,0,0" VerticalAlignment="Top" Width="133" Click="IdentityManager_Click" />
-        <Button Content="Call UserInfo Endpoint" x:Name="CallUserInfo" HorizontalAlignment="Left" Margin="214,35,0,0" VerticalAlignment="Top" Width="211" Click="CallUserInfo_Click" />
+        <Button Content="Call UserInfo Endpoint" x:Name="CallUserInfo" HorizontalAlignment="Left" Margin="577,264,0,0" VerticalAlignment="Top" Width="133" Click="CallUserInfo_Click" Height="33" />
 
         <Button Content="Show IdToken" x:Name="ShowIdTokenButton" HorizontalAlignment="Left" Margin="577,109,0,0" VerticalAlignment="Top" Width="133" Height="33" Click="ShowIdTokenButton_Click"/>
         <Button Content="Show Access Token" x:Name="ShowAccessTokenButton" HorizontalAlignment="Left" Margin="577,147,0,0" VerticalAlignment="Top" Width="133" Height="33" Click="ShowAccessTokenButton_Click" />

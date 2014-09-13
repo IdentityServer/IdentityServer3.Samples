@@ -54,6 +54,11 @@ namespace WpfClient
             RequestToken("openid profile read write", "id_token token");
         }
 
+        private void LoginWithProfileRolesAndAccessTokenButton_Click(object sender, RoutedEventArgs e)
+        {
+            RequestToken("openid profile roles read write", "id_token token");
+        }
+
         private void AccessTokenOnlyButton_Click(object sender, RoutedEventArgs e)
         {
             RequestToken("read write", "token");
@@ -88,25 +93,26 @@ namespace WpfClient
 
         private async void CallUserInfo_Click(object sender, RoutedEventArgs e)
         {
-            if (_response.Values.ContainsKey("access_token"))
+            var client = new HttpClient
             {
-                var client = new HttpClient
-                {
-                    BaseAddress = new Uri(Constants.UserInfoEndpoint)
-                };
+                BaseAddress = new Uri(Constants.UserInfoEndpoint)
+            };
+
+            if (_response != null && _response.Values.ContainsKey("access_token"))
+            {  
                 client.SetBearerToken(_response.AccessToken);
+            }
 
-                var response = await client.GetAsync("");
+            var response = await client.GetAsync("");
 
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    Textbox1.Text = JObject.Parse(json).ToString();
-                }
-                else
-                {
-                    MessageBox.Show(response.StatusCode.ToString());
-                }
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                Textbox1.Text = JObject.Parse(json).ToString();
+            }
+            else
+            {
+                MessageBox.Show(response.StatusCode.ToString());
             }
         }
 
@@ -132,25 +138,26 @@ namespace WpfClient
 
         private async void CallServiceButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_response.Values.ContainsKey("access_token"))
+            var client = new HttpClient
             {
-                var client = new HttpClient
-                {
-                    BaseAddress = new Uri("http://localhost:2727/")
-                };
-                client.SetBearerToken(_response.AccessToken);
+                BaseAddress = new Uri("http://localhost:2727/")
+            };
 
-                var response = await client.GetAsync("identity");
-                
-                if (response.StatusCode == HttpStatusCode.OK)
-                {
-                    var json = await response.Content.ReadAsStringAsync();
-                    Textbox1.Text = JArray.Parse(json).ToString();
-                }
-                else
-                {
-                    MessageBox.Show(response.StatusCode.ToString());
-                }
+            if (_response != null && _response.Values.ContainsKey("access_token"))
+            {
+                client.SetBearerToken(_response.AccessToken);
+            }
+
+            var response = await client.GetAsync("identity");
+
+            if (response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                Textbox1.Text = JArray.Parse(json).ToString();
+            }
+            else
+            {
+                MessageBox.Show(response.StatusCode.ToString());
             }
         }
     }
