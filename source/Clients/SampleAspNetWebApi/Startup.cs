@@ -3,6 +3,7 @@ using Owin;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using Thinktecture.IdentityModel;
+using Thinktecture.IdentityModel.Owin.ScopeValidation;
 using Thinktecture.IdentityModel.Tokens;
 using Thinktecture.IdentityServer.v3.AccessTokenValidation;
 
@@ -29,6 +30,13 @@ namespace SampleAspNetWebApi
                     TokenValidationEndpoint = "http://localhost:3333/core/connect/accessTokenValidation"
                 });
 
+            // require read OR write scope
+            app.RequireScopes(new ScopeValidationOptions
+                {
+                    AllowAnonymousAccess = true,
+                    Scopes = new[] { "read", "write" }
+                });
+            
             app.UseWebApi(WebApiConfig.Register());
         }
     }
