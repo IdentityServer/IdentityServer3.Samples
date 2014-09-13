@@ -20,14 +20,13 @@ namespace SampleAspNetWebApi
             // for self contained tokens
             app.UseIdentitiyServerSelfContainedToken(new SelfContainedTokenValidationOptions
                 {
-                    IssuerName = "https://idsrv3.com",
-                    SigningCertificate = X509.LocalMachine.TrustedPeople.SubjectDistinguishedName.Find("CN=idsrv3test", false).First()
+                    Authority = "http://localhost:3333/core"
                 });
 
             // for reference tokens
             app.UseIdentitiyServerReferenceToken(new ReferenceTokenValidationOptions
                 {
-                    TokenValidationEndpoint = "http://localhost:3333/core/connect/accessTokenValidation"
+                    Authority = "http://localhost:3333/core"
                 });
 
             // require read OR write scope

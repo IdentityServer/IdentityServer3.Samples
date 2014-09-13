@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Net;
@@ -15,9 +16,16 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
         private string _tokenValidationEndpoint;
         private string _authenticationType;
 
-        public ReferenceTokenProvider(string tokenValidationEndpoint, string authenticationType)
+        public ReferenceTokenProvider(string authority, string authenticationType)
         {
-            _tokenValidationEndpoint = tokenValidationEndpoint + "?token={0}";
+            if (!authority.EndsWith("/"))
+            {
+                authority += "/";
+            }
+
+            authority += "connect/accesstokenvalidation";
+
+            _tokenValidationEndpoint = authority + "?token={0}";
             _client = new HttpClient();
             _authenticationType = authenticationType;
         }
@@ -32,12 +40,26 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
                 return;
             }
 
-            var json = JArray.Parse(await response.Content.ReadAsStringAsync());
+            var jsonString = await response.Content.ReadAsStringAsync();
+            var dictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
+
             var claims = new List<Claim>();
 
-            foreach (var item in json)
+            foreach (var item in dictionary)
             {
-                claims.Add(new Claim(item["Type"].ToString(), item["Value"].ToString()));
+                var values = item.Value as IEnumerable<object>;
+
+                if (values == null)
+                {
+                    claims.Add(new Claim(item.Key, item.Value.ToString()));
+                }
+                else
+                {
+                    foreach (var value in values)
+                    {
+                        claims.Add(new Claim(item.Key, value.ToString()));
+                    }
+                }
             }
 
             context.SetTicket(new AuthenticationTicket(new ClaimsIdentity(claims, _authenticationType), new AuthenticationProperties()));

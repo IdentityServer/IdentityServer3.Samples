@@ -8,7 +8,11 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
         public SelfContainedTokenValidationOptions()
             : base("IdSrvSelfContainedToken")
         { }
-        
+
+        // either provide base url for discovery
+        public string Authority { get; set; }
+
+        // or set issuer and cert manually
         public string IssuerName { get; set; }
         public X509Certificate2 SigningCertificate { get; set; }
     }

@@ -1,5 +1,9 @@
-﻿using Microsoft.Owin.Security.Jwt;
+﻿using Microsoft.IdentityModel.Protocols;
+using Microsoft.Owin.Security.Jwt;
+using System.Security.Cryptography.X509Certificates;
 using Thinktecture.IdentityServer.v3.AccessTokenValidation;
+using System.Linq;
+using System;
 
 namespace Owin
 {
@@ -7,27 +11,59 @@ namespace Owin
     {
         public static IAppBuilder UseIdentitiyServerSelfContainedToken(this IAppBuilder app, SelfContainedTokenValidationOptions options)
         {
-            var audience = options.IssuerName;
-
-            if (audience.EndsWith("/"))
+            if (!string.IsNullOrWhiteSpace(options.Authority))
             {
-                audience = options.IssuerName.Substring(0, options.IssuerName.Length - 1);
+                return app.UseDiscovery(options);
+            }
+            else
+            {
+                return app.ConfigureMiddleware(options.IssuerName, options.SigningCertificate, options.AuthenticationType);
+            }
+        }
+
+        private static IAppBuilder UseDiscovery(this IAppBuilder app, SelfContainedTokenValidationOptions options)
+        {
+            var authority = options.Authority;
+
+            if (!authority.EndsWith("/"))
+            {
+                authority += "/";
             }
 
-            audience += "/resources";
+            authority += ".well-known/openid-configuration";
+            var configuration = new ConfigurationManager<OpenIdConnectConfiguration>(authority);
+
+            var result = configuration.GetConfigurationAsync().Result;
+
+            var webkeys = result.JsonWebKeySet;
+            var x5c = webkeys.Keys.First().X5c.First();
+
+            return app.ConfigureMiddleware(result.Issuer, new X509Certificate2(Convert.FromBase64String(x5c)), options.AuthenticationType);
+        }
+
+        private static IAppBuilder ConfigureMiddleware(this IAppBuilder app, string issuerName, X509Certificate2 signingCertificate, string authenticationType)
+        {
+            var audience = issuerName;
+
+            if (!audience.EndsWith("/"))
+            {
+                audience += "/";
+            }
+
+            audience += "resources";
 
             app.UseJwtBearerAuthentication(new Microsoft.Owin.Security.Jwt.JwtBearerAuthenticationOptions
-                {
-                    AuthenticationType = options.AuthenticationType,
+            {
+                AuthenticationType = authenticationType,
 
-                    AllowedAudiences = new[] { audience },
-                    IssuerSecurityTokenProviders = new[] 
+                AllowedAudiences = new[] { audience },
+                IssuerSecurityTokenProviders = new[] 
                         {
                             new X509CertificateSecurityTokenProvider(
-                                options.IssuerName,
-                                options.SigningCertificate)
+                                issuerName,
+                                signingCertificate)
                         }
-                });
+            });
 
             return app;
         }

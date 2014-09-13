@@ -9,7 +9,7 @@ namespace Owin
         {
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions
                 {
-                    AccessTokenProvider = new ReferenceTokenProvider(options.TokenValidationEndpoint, options.AuthenticationType)
+                    AccessTokenProvider = new ReferenceTokenProvider(options.Authority, options.AuthenticationType)
                 });
 
             return app;
