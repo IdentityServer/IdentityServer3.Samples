@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace SampleAspNetWebApi
 {
@@ -12,6 +13,8 @@ namespace SampleAspNetWebApi
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.EnableCors(new EnableCorsAttribute("http://localhost:21575", "accept, authorization", "GET"));
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

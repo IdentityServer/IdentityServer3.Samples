@@ -18,6 +18,11 @@
                 <li><button class="btn btn-default" ng-click="request('read write', 'token')">Access Token Only</button></li>
             </ul>
         </div>
+        <div class="row">
+            <ul class="list-unstyled list-inline">
+                <li><button class="btn btn-default" ng-click="call()">Call Service</button></li>
+            </ul>
+        </div>
 
         <div class="row" ng-show="response.raw">
             <div class="panel panel-default">
@@ -43,6 +48,18 @@
                         <pre>{{response.access_token_json}}</pre>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6" ng-show="ajax_result">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Ajax Result</div>
+                    <div class="panel-body">
+                        <pre ng-bind="ajax_result | json"></pre>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -147,6 +164,25 @@
                     responseType);
                 store.set(req.state);
                 $window.location = req.url;
+            }
+
+            $scope.call = function () {
+                $.ajax({
+                    url: 'http://localhost:2727/Identity',
+                    headers: {
+                        Authorization: "Bearer " + $scope.response.access_token
+                    }
+                }).then(function (data) {
+                    $scope.ajax_result = data;
+                    $scope.$apply();
+                }, function (xhr, error, msg) {
+                    $scope.ajax_result = {
+                        result:error,
+                        message:msg,
+                        status: xhr.status
+                    };
+                    $scope.$apply();
+                });
             }
         });
 
