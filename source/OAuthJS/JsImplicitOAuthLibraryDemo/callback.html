@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="message"></div>
+    <div><a href="index.html">Go Back To Home Page</a></div>
+    <script src="jquery-2.1.0.min.js"></script>
+    <script src="oauth.js"></script>
+    <script>
+        $(function () {
+            var config = {
+                persistToken: true,
+            };
+            var tokenManager = new TokenManager(config);
+            tokenManager.processTokenCallback(function () {
+                console.log("Successfully Obtained Token", tokenManager.token);
+                $("#message").text("Successfully Obtained Token", tokenManager.token);
+                window.location = "/index.html";
+            }, function (error) {
+                $("#message").text("Problem Getting Token : " + error);
+            });
+        });
+    </script>
+</body>
+
+</html>

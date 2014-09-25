@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div id="message"></div>
+    <button id="token">Get Token</button>
+    <button id="api">Call API</button>
+    <button id="forget">Forget Token</button>
+    <pre id="result"></pre>
+    <script src="jquery-2.1.0.min.js"></script>
+    <script src="oauth.js"></script>
+    <script>
+        $(function () {
+            var config = {
+                authorizationUrl: "http://localhost:3333/core/connect/authorize",
+                clientId: "implicitclient",
+                scope: "read write",
+                callbackUrl : window.location.protocol + "//" + window.location.host + "/callback.html",
+                persistToken: true,
+                frameCallbackUrl: window.location.protocol + "//" + window.location.host + "/frame.html",
+                autoRenewToken: true
+            };
+            var tokenManager = new TokenManager(config);
+
+            if (tokenManager.token && !tokenManager.token.expired) {
+                console.log("Token loaded, expires in: ", tokenManager.token.expires_in, tokenManager.token.access_token);
+            }
+            else {
+                console.log("No token loaded");
+            }
+
+            function toggleApiButton() {
+                var isTokenValid = tokenManager.token && !tokenManager.expired;
+                $("#api").text("Call API (" + (isTokenValid ? "with" : "without") + " token)");
+            }
+            tokenManager.addOnTokenObtained(toggleApiButton);
+            tokenManager.addOnTokenRemoved(toggleApiButton);
+            toggleApiButton();
+
+            tokenManager.addOnTokenExpired(function () {
+                $("#message").text("your session is expired");
+            });
+
+            $("#token").click(function () {
+                tokenManager.redirectForToken();
+            });
+
+            $("#forget").click(function () {
+                tokenManager.removeToken();
+            });
+            function toggleForget() {
+                var isTokenValid = tokenManager.token && !tokenManager.expired;
+                $("#forget").prop("disabled", !isTokenValid);
+            }
+            tokenManager.addOnTokenObtained(toggleForget);
+            tokenManager.addOnTokenRemoved(toggleForget);
+            toggleForget();
+
+            $(document).ajaxSend(function (e, xhr, settings) {
+                var token = tokenManager.token && tokenManager.token.access_token;
+                if (token) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                }
+            });
+
+            $(document).ajaxError(function (e, xhr) {
+                if (xhr.status === 401) {
+                    tokenManager.removeToken();
+                }
+            });
+
+            $("#api").click(function () {
+                $.ajax({
+                    url: "/api/test",
+                }).then(function (data) {
+                    $("#result").text(JSON.stringify(data, null, 2));
+                }, function (xhr, status, data) {
+                    var data = xhr.responseJSON || data;
+                    $("#result").text(JSON.stringify(data, null, 2));
+                });
+            });
+        });
+    </script>
+</body>
+</html>
