@@ -28,7 +28,7 @@ namespace SelfHost.Config
             
             factory.AuthorizationCodeStore = Registration.RegisterFactory<IAuthorizationCodeStore>(() => svcFactory.CreateAuthorizationCodeStore());
             factory.TokenHandleStore = Registration.RegisterFactory<ITokenHandleStore>(() => svcFactory.CreateTokenHandleStore());
-            factory.ConsentService = Registration.RegisterFactory<IConsentService>(() => svcFactory.CreateConsentService());
+            factory.ConsentStore = Registration.RegisterFactory<IConsentStore>(() => svcFactory.CreateConsentStore());
             factory.RefreshTokenStore = Registration.RegisterFactory<IRefreshTokenStore>(() => svcFactory.CreateRefreshTokenStore());
 
             return factory;

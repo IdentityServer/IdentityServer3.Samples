@@ -71,11 +71,11 @@
     <Reference Include="System.Web" />
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-beta1-1\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-beta1-2\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer.MembershipReboot, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.MembershipReboot.1.0.0-beta1-1\lib\net45\Thinktecture.IdentityServer.MembershipReboot.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.MembershipReboot.1.0.0-beta1-2\lib\net45\Thinktecture.IdentityServer.MembershipReboot.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

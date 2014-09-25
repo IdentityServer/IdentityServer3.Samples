@@ -11,80 +11,24 @@ namespace Thinktecture.IdentityServer.Host.Config
         {
             return new Scope[]
             {
-                new Scope
-                {
-                    Name = Constants.StandardScopes.OpenId, 
-                    DisplayName = "Your user identifier",
-                    Required = true,
-                    IsOpenIdScope = true,
-                    Claims = new List<ScopeClaim>
-                        {
-                            new ScopeClaim
-                            {
-                                AlwaysIncludeInIdToken = true,
-                                Name = "sub",
-                                Description = "subject identifier"
-                            }
-                        }
-                 },
-                 new Scope
-                 {
-                    Name = Constants.StandardScopes.Profile, 
-                    DisplayName = "Basic profile",
-                    Description = "Your basic user profile information (first name, last name, etc.). This is a really long string to see what the UI look like when someone puts in too much stuff here. I know this is not what we really want, but this is just test data (for now). KThxBye.",
-                    IsOpenIdScope = true,
-                    Emphasize = true,
-                    Claims = (Constants.ScopeToClaimsMapping[Constants.StandardScopes.Profile].Select(x=>new ScopeClaim{Name = x, Description = x}))
-                },
-                new Scope
-                {
-                    Name = Constants.StandardScopes.Email, 
-                    DisplayName = "Your email address",
-                    IsOpenIdScope = true,
-                    Emphasize = true,
-                    Claims = new List<ScopeClaim>
-                    {
-                        new ScopeClaim
-                        {
-                            Name = "email",
-                            Description = "email address",
-                        },
-                        new ScopeClaim
-                        {
-                            Name = "email_verified",
-                            Description = "email is verified",
-                        }
-                    }
-                },
-                new Scope
-                {
-                    Name = Constants.StandardScopes.OfflineAccess, 
-                    DisplayName = "Offline Access",
-                    Description = "Access to your data while you are not logged in.",
-                    IsOpenIdScope = true,
-                    Emphasize = true,
-                    //Claims = (Constants.ScopeToClaimsMapping[Constants.StandardScopes.Profile].Select(x=>new ScopeClaim{Name = x, Description = x}))
-                },
+                 Scope.OpenId,
+                Scope.Profile,
+                Scope.Email,
+                Scope.OfflineAccess,
                 new Scope
                 {
                     Name = "read",
                     DisplayName = "Read data",
-                    IsOpenIdScope = false,
+                    Type = ScopeType.Resource,
                     Emphasize = false,
                 },
                 new Scope
                 {
                     Name = "write",
                     DisplayName = "Write data",
-                    IsOpenIdScope = false,
+                    Type = ScopeType.Resource,
                     Emphasize = true,
                 },
-                new Scope
-                {
-                    Name = "forbidden",
-                    DisplayName = "Forbidden scope",
-                    Emphasize = true
-                }
              };
         }
     }
