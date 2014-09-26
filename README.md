@@ -33,3 +33,5 @@ Sample to illustrate how to completely replace the views shown to the user for l
 #### DependencyInjection [link](https://github.com/thinktecture/Thinktecture.IdentityServer.v3.Samples/tree/master/source/DependencyInjection)
 Sample to illustrate how to register custom services with IdentityServer and how to accept as constructor parameters other IdentityServer dependencies and custom dependencies.
 
+#### Custom Grant Types [link](https://github.com/thinktecture/Thinktecture.IdentityServer.v3.Samples/tree/master/source/Custom%20Grants)
+Sample to illustrate how add support for non-standard grant types at the token endpoint.
