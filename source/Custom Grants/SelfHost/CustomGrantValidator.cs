@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Thinktecture.IdentityModel;
 using Thinktecture.IdentityServer.Core.Connect;
+using Thinktecture.IdentityServer.Core.Plumbing;
 using Thinktecture.IdentityServer.Core.Services;
 
 namespace SelfHost
@@ -33,8 +34,11 @@ namespace SelfHost
             }
 
             // validate assertion and return principal
-            var principal = Principal.Create("custom",
-                new Claim("sub", "bob"));
+            var principal = IdentityServerPrincipal.Create(
+                "bob",
+                "bob",
+                "custom_grant",
+                "idsrv3");
 
             return Task.FromResult(principal);
         }
