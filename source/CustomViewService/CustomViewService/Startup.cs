@@ -27,11 +27,13 @@ namespace SampleApp
                 {
                     IssuerUri = "https://idsrv3.com",
                     SiteName = "Thinktecture IdentityServer v3 - CustomViewService",
-                    PublicHostName = "http://localhost:3333",
+                    RequireSsl = false,
+
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
-                    AdditionalIdentityProviderConfiguration = ConfigureAdditionalIdentityProviders,
                     CorsPolicy = CorsPolicy.AllowAll,
+
+                    AdditionalIdentityProviderConfiguration = ConfigureAdditionalIdentityProviders,
                 };
 
                 coreApp.UseIdentityServer(options);

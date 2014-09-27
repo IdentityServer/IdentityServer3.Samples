@@ -4,6 +4,7 @@ using Microsoft.Owin.Security.Twitter;
 using Owin;
 using SampleApp.Config;
 using Thinktecture.IdentityServer.Core.Configuration;
+using Thinktecture.IdentityServer.Core.Logging;
 using Thinktecture.IdentityServer.Core.Services;
 
 namespace SampleApp
@@ -12,27 +13,35 @@ namespace SampleApp
     {
         public void Configuration(IAppBuilder app)
         {
+            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+
             app.Map("/core", coreApp =>
             {
                 var factory = InMemoryFactory.Create(
                     clients: Clients.Get(),
                     scopes: Scopes.Get());
 
+                // different examples of custom user services
                 //var userService = new ExternalRegistrationUserService();
                 //var userService = new EulaAtLoginUserService();
                 var userService = new LocalRegistrationUserService();
+                
                 factory.UserService = Registration.RegisterFactory<IUserService>(() => userService);
 
                 var options = new IdentityServerOptions
                 {
                     IssuerUri = "https://idsrv3.com",
                     SiteName = "Thinktecture IdentityServer v3 - CustomUserService",
-                    PublicHostName = "http://localhost:3333",
+                    RequireSsl = false,
+
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
-                    AdditionalIdentityProviderConfiguration = ConfigureAdditionalIdentityProviders,
                     CorsPolicy = CorsPolicy.AllowAll,
-                    AuthenticationOptions = new AuthenticationOptions {
+                    
+                    AdditionalIdentityProviderConfiguration = ConfigureAdditionalIdentityProviders,
+
+                    AuthenticationOptions = new AuthenticationOptions
+                    {
                         LoginPageLinks = new LoginPageLink[] { 
                             new LoginPageLink{
                                 Text = "Register",

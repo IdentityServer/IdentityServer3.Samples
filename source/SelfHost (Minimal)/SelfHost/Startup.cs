@@ -18,7 +18,7 @@ namespace SelfHost
             {
                 IssuerUri = "https://idsrv3.com",
                 SiteName = "Thinktecture IdentityServer v3 - preview 1 (SelfHost)",
-                PublicHostName = "http://localhost:3333",
+                RequireSsl = false,
 
                 SigningCertificate = Certificate.Get(),
                 Factory = factory,

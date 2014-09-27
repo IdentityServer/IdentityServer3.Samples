@@ -5,9 +5,11 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Thinktecture.IdentityServer.Core;
+using Thinktecture.IdentityServer.Core.Extensions;
 using Thinktecture.IdentityServer.Core.Authentication;
 using Thinktecture.IdentityServer.Core.Models;
 using Thinktecture.IdentityServer.Core.Services;
+using Thinktecture.IdentityServer.Core.Plumbing;
 
 namespace SampleApp
 {
@@ -24,7 +26,7 @@ namespace SampleApp
         
         public static List<CustomUser> Users = new List<CustomUser>();
 
-        public Task<ExternalAuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
+        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
         {
             // look for the user in our local identity system from the external identifiers
             var user = Users.SingleOrDefault(x => x.Provider == externalUser.Provider.Name && x.ProviderID == externalUser.ProviderId);
@@ -48,25 +50,35 @@ namespace SampleApp
 
             if (user.IsRegistered)
             {
-                // user not registered so we will issue a partial login and redirect them to our registration page
-                return Task.FromResult<ExternalAuthenticateResult>(new ExternalAuthenticateResult(user.Provider, user.Subject, name));
+                // user is registered so continue
+                var p = IdentityServerPrincipal.Create(
+                    user.Subject, name,
+                    Thinktecture.IdentityServer.Core.Constants.AuthenticationMethods.External,
+                    user.Provider
+                );
+                return Task.FromResult<AuthenticateResult>(new AuthenticateResult(p));
             }
             else
             {
-                // user is registered so continue
-                return Task.FromResult<ExternalAuthenticateResult>(new ExternalAuthenticateResult("/core/externalregistration", user.Provider, user.Subject, name));
+                // user not registered so we will issue a partial login and redirect them to our registration page
+                var p = IdentityServerPrincipal.Create(
+                    user.Subject, name,
+                    Thinktecture.IdentityServer.Core.Constants.AuthenticationMethods.External,
+                    user.Provider
+                );
+                return Task.FromResult<AuthenticateResult>(new AuthenticateResult("/core/externalregistration", p));
             }
         }
 
-        public Task<Thinktecture.IdentityServer.Core.Authentication.AuthenticateResult> AuthenticateLocalAsync(string username, string password)
+        public Task<Thinktecture.IdentityServer.Core.Authentication.AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message)
         {
             return Task.FromResult<AuthenticateResult>(null);
         }
 
-        public Task<IEnumerable<System.Security.Claims.Claim>> GetProfileDataAsync(string subject, IEnumerable<string> requestedClaimTypes = null)
+        public Task<IEnumerable<System.Security.Claims.Claim>> GetProfileDataAsync(ClaimsPrincipal subject, IEnumerable<string> requestedClaimTypes = null)
         {
             // issue the claims for the user
-            var user = Users.SingleOrDefault(x => x.Subject == subject);
+            var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
             if (user == null)
             {
                 return Task.FromResult<IEnumerable<Claim>>(null);
@@ -75,9 +87,9 @@ namespace SampleApp
             return Task.FromResult(user.Claims.Where(x => requestedClaimTypes.Contains(x.Type)));
         }
 
-        public Task<bool> IsActive(string subject)
+        public Task<bool> IsActive(ClaimsPrincipal subject)
         {
-            var user = Users.SingleOrDefault(x => x.Subject == subject);
+            var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
             return Task.FromResult(user != null && user.IsRegistered);
         }
     }

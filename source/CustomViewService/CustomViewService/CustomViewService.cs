@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using Thinktecture.IdentityServer.Core.Authentication;
 using Thinktecture.IdentityServer.Core.Services;
 using Thinktecture.IdentityServer.Core.Views;
 
@@ -13,7 +14,7 @@ namespace SampleApp
 {
     public class CustomViewService : IViewService
     {
-        public virtual Task<System.IO.Stream> Login(IDictionary<string, object> env, LoginViewModel model)
+        public virtual Task<System.IO.Stream> Login(IDictionary<string, object> env, LoginViewModel model, SignInMessage message)
         {
             return Render(model, "login");
         }

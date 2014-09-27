@@ -5,8 +5,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Thinktecture.IdentityServer.Core;
+using Thinktecture.IdentityServer.Core.Extensions;
 using Thinktecture.IdentityServer.Core.Authentication;
 using Thinktecture.IdentityServer.Core.Models;
+using Thinktecture.IdentityServer.Core.Plumbing;
 using Thinktecture.IdentityServer.Core.Services;
 
 namespace SampleApp
@@ -48,32 +50,33 @@ namespace SampleApp
             },
         };
 
-        public Task<ExternalAuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
+        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
         {
-            return Task.FromResult<ExternalAuthenticateResult>(null);
+            return Task.FromResult<AuthenticateResult>(null);
         }
 
-        public Task<Thinktecture.IdentityServer.Core.Authentication.AuthenticateResult> AuthenticateLocalAsync(string username, string password)
+        public Task<Thinktecture.IdentityServer.Core.Authentication.AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message)
         {
             var user = Users.SingleOrDefault(x => x.Username == username && x.Password == password);
             if (user == null)
             {
                 return Task.FromResult<AuthenticateResult>(null);
             }
+            var p = IdentityServerPrincipal.Create(user.Subject, user.Username);
             if (user.AccpetedEula)
             {
-                return Task.FromResult<AuthenticateResult>(new AuthenticateResult(user.Subject, user.Username));
+                return Task.FromResult<AuthenticateResult>(new AuthenticateResult(p));
             }
             else
             {
-                return Task.FromResult<AuthenticateResult>(new AuthenticateResult("/core/eula", user.Subject, user.Username));
+                return Task.FromResult<AuthenticateResult>(new AuthenticateResult("/core/eula", p));
             }
         }
 
-        public Task<IEnumerable<System.Security.Claims.Claim>> GetProfileDataAsync(string subject, IEnumerable<string> requestedClaimTypes = null)
+        public Task<IEnumerable<System.Security.Claims.Claim>> GetProfileDataAsync(ClaimsPrincipal subject, IEnumerable<string> requestedClaimTypes = null)
         {
             // issue the claims for the user
-            var user = Users.SingleOrDefault(x => x.Subject == subject);
+            var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
             if (user == null)
             {
                 return Task.FromResult<IEnumerable<Claim>>(null);
@@ -82,9 +85,9 @@ namespace SampleApp
             return Task.FromResult(user.Claims.Where(x => requestedClaimTypes.Contains(x.Type)));
         }
 
-        public Task<bool> IsActive(string subject)
+        public Task<bool> IsActive(ClaimsPrincipal subject)
         {
-            var user = Users.SingleOrDefault(x => x.Subject == subject);
+            var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
             return Task.FromResult(user != null && user.AccpetedEula);
         }
     }

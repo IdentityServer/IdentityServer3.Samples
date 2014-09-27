@@ -30,11 +30,13 @@ namespace SampleApp
                 {
                     IssuerUri = "https://idsrv3.com",
                     SiteName = "Thinktecture IdentityServer v3 - UserService-CustomWorkflows",
-                    PublicHostName = "http://localhost:3333",
+                    RequireSsl = false,
+
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
-                    AdditionalIdentityProviderConfiguration = ConfigureAdditionalIdentityProviders,
                     CorsPolicy = CorsPolicy.AllowAll,
+
+                    AdditionalIdentityProviderConfiguration = ConfigureAdditionalIdentityProviders,
                 };
 
                 coreApp.UseIdentityServer(options);
@@ -43,10 +45,12 @@ namespace SampleApp
 
         public static void ConfigureAdditionalIdentityProviders(IAppBuilder app, string signInAsType)
         {
-            var google = new GoogleAuthenticationOptions
+            var google = new GoogleOAuth2AuthenticationOptions
             {
                 AuthenticationType = "Google",
-                SignInAsAuthenticationType = signInAsType
+                SignInAsAuthenticationType = signInAsType,
+                ClientId = "767400843187-8boio83mb57ruogr9af9ut09fkg56b27.apps.googleusercontent.com",
+                ClientSecret = "5fWcBT0udKY7_b6E3gEiJlze"
             };
             app.UseGoogleAuthentication(google);
 
