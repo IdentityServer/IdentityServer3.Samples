@@ -160,5 +160,25 @@ namespace WpfClient
                 MessageBox.Show(response.StatusCode.ToString());
             }
         }
+
+        private async void ValidateIdTokenButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_response != null && _response.Values.ContainsKey("id_token"))
+            {
+                var client = new HttpClient();
+
+                var response = await client.GetAsync(Constants.IdentityTokenValidationEndpoint + "?token=" + _response.Values["id_token"] + "&client_id=implicitclient");
+
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var json = await response.Content.ReadAsStringAsync();
+                    Textbox1.Text = JObject.Parse(json).ToString();
+                }
+                else
+                {
+                    MessageBox.Show(response.StatusCode.ToString());
+                }
+            }
+        }
     }
 }
