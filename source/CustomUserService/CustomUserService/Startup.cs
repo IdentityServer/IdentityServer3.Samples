@@ -23,8 +23,8 @@ namespace SampleApp
 
                 // different examples of custom user services
                 //var userService = new ExternalRegistrationUserService();
-                //var userService = new EulaAtLoginUserService();
-                var userService = new LocalRegistrationUserService();
+                var userService = new EulaAtLoginUserService();
+                //var userService = new LocalRegistrationUserService();
                 
                 factory.UserService = Registration.RegisterFactory<IUserService>(() => userService);
 
@@ -45,6 +45,7 @@ namespace SampleApp
                         LoginPageLinks = new LoginPageLink[] { 
                             new LoginPageLink{
                                 Text = "Register",
+                                //Href = "~/localregistration"
                                 Href = "localregistration"
                             }
                         }
@@ -57,10 +58,12 @@ namespace SampleApp
 
         public static void ConfigureAdditionalIdentityProviders(IAppBuilder app, string signInAsType)
         {
-            var google = new GoogleAuthenticationOptions
+            var google = new GoogleOAuth2AuthenticationOptions
             {
                 AuthenticationType = "Google",
-                SignInAsAuthenticationType = signInAsType
+                SignInAsAuthenticationType = signInAsType,
+                ClientId = "767400843187-8boio83mb57ruogr9af9ut09fkg56b27.apps.googleusercontent.com",
+                ClientSecret = "5fWcBT0udKY7_b6E3gEiJlze"
             };
             app.UseGoogleAuthentication(google);
 

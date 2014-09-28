@@ -69,7 +69,9 @@ namespace SampleApp
             }
             else
             {
+                // either redirect path works
                 return Task.FromResult<AuthenticateResult>(new AuthenticateResult("/core/eula", p));
+                //return Task.FromResult<AuthenticateResult>(new AuthenticateResult("~/eula", p));
             }
         }
 
