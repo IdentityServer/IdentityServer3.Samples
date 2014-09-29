@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
+﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using Thinktecture.IdentityModel;
 using Thinktecture.IdentityServer.Core.Connect;
 using Thinktecture.IdentityServer.Core.Plumbing;
 using Thinktecture.IdentityServer.Core.Services;
@@ -38,7 +33,7 @@ namespace SelfHost
                 "bob",
                 "bob",
                 "custom_grant",
-                "idsrv3");
+                "idsrv");
 
             return Task.FromResult(principal);
         }
