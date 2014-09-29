@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Thinktecture.IdentityServer.Core;
 using Thinktecture.IdentityServer.Core.Models;
 
 namespace Thinktecture.IdentityServer.Host.Config
@@ -17,12 +19,6 @@ namespace Thinktecture.IdentityServer.Host.Config
                     ClientSecret = "secret",
                     Flow = Flows.Custom,
                     
-                    ScopeRestrictions = new List<string>
-                    { 
-                        "read",
-                        "write",
-                    },
-
                     AccessTokenType = AccessTokenType.Jwt,
                     AccessTokenLifetime = 3600,
                 }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using Thinktecture.IdentityModel.Client;
 using Thinktecture.IdentityModel.Extensions;
@@ -15,7 +16,13 @@ namespace Client
                 "client",
                 "secret");
 
-            var result = client.RequestAssertionAsync("custom", "foo", "read").Result;
+            var result = client.RequestCustomGrantAsync("legacy_account_store", "read", new Dictionary<string, string>
+                {
+                    { "account_store", "foo" },
+                    { "legacy_id", "bob" },
+                    { "legacy_secret", "bob" }
+                }).Result;
+
             ShowResponse(result);
         }
 

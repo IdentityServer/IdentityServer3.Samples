@@ -65,7 +65,9 @@
     <Compile Include="Config\Clients.cs" />
     <Compile Include="Config\Scopes.cs" />
     <Compile Include="Config\Users.cs" />
-    <Compile Include="CustomGrantValidator.cs" />
+    <Compile Include="Extensions\CustomClaimsProvider.cs" />
+    <Compile Include="Extensions\CustomGrantValidator.cs" />
+    <Compile Include="Extensions\CustomUserService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -77,6 +79,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
