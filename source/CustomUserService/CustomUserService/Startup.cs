@@ -23,8 +23,8 @@ namespace SampleApp
 
                 // different examples of custom user services
                 //var userService = new ExternalRegistrationUserService();
-                var userService = new EulaAtLoginUserService();
-                //var userService = new LocalRegistrationUserService();
+                //var userService = new EulaAtLoginUserService();
+                var userService = new LocalRegistrationUserService();
                 
                 factory.UserService = Registration.RegisterFactory<IUserService>(() => userService);
 
