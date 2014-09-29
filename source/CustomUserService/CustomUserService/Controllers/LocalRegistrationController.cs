@@ -15,14 +15,14 @@ namespace SampleApp.Controllers
     {
         [Route("core/localregistration")]
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string signin)
         {
             return View();
         }
 
         [Route("core/localregistration")]
         [HttpPost]
-        public ActionResult Index(LocalRegistrationModel model)
+        public ActionResult Index(string signin, LocalRegistrationModel model)
         {
             if (ModelState.IsValid)
             {
@@ -37,7 +37,7 @@ namespace SampleApp.Controllers
                 user.Claims.Add(new Claim(Constants.ClaimTypes.GivenName, model.First));
                 user.Claims.Add(new Claim(Constants.ClaimTypes.FamilyName, model.Last));
 
-                return Redirect("~/core/" + Constants.RoutePaths.Login);
+                return Redirect("~/core/" + Constants.RoutePaths.Login + "?signin=" + signin);
             }
 
             return View();
