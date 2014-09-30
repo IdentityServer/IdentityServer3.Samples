@@ -22,9 +22,10 @@ namespace SampleApp
                     scopes: Scopes.Get());
 
                 // different examples of custom user services
+                var userService = new RegisterFirstExternalRegistrationUserService();
                 //var userService = new ExternalRegistrationUserService();
                 //var userService = new EulaAtLoginUserService();
-                var userService = new LocalRegistrationUserService();
+                //var userService = new LocalRegistrationUserService();
                 
                 factory.UserService = Registration.RegisterFactory<IUserService>(() => userService);
 

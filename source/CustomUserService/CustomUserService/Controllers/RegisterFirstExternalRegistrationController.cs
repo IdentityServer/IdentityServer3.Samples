@@ -11,9 +11,9 @@ using Thinktecture.IdentityServer.Core.Extensions;
 
 namespace SampleApp.Controllers
 {
-    public class ExternalRegistrationController : Controller
+    public class RegisterFirstExternalRegistrationController : Controller
     {
-        [Route("core/externalregistration")]
+        [Route("core/registerfirstexternalregistration")]
         [HttpGet]
         public async Task<ActionResult> Index()
         {
@@ -28,7 +28,7 @@ namespace SampleApp.Controllers
             return View();
         }
 
-        [Route("core/externalregistration")]
+        [Route("core/registerfirstexternalregistration")]
         [HttpPost]
         public async Task<ActionResult> Index(ExternalRegistrationModel model)
         {
@@ -42,28 +42,23 @@ namespace SampleApp.Controllers
             if (ModelState.IsValid)
             {
                 // update the "database" for our users with the registration data
-                var subject = authentication.Identity.GetSubjectId();
-                var user = ExternalRegistrationUserService.Users.Single(x => x.Subject == subject);
-                user.Claims.Add(new Claim(Constants.ClaimTypes.GivenName, model.First));
-                user.Claims.Add(new Claim(Constants.ClaimTypes.FamilyName, model.Last));
+                var nameIdClaim = authentication.Identity.Claims.First(x => x.Type == Constants.ClaimTypes.ExternalProviderUserId);
+                var provider = nameIdClaim.Issuer;
+                var providerUserId = nameIdClaim.Value;
 
-                // replace the name captured from the external identity provider
-                var nameClaim = user.Claims.Single(x => x.Type == Constants.ClaimTypes.Name);
-                user.Claims.Remove(nameClaim);
-                nameClaim = new Claim(Constants.ClaimTypes.Name, model.First + " " + model.Last);
-                user.Claims.Add(nameClaim);
-
-                // mark user as registered
-                user.IsRegistered = true;
+                var user = new SampleApp.RegisterFirstExternalRegistrationUserService.CustomUser
+                {
+                    Subject = Guid.NewGuid().ToString(),
+                    Provider = provider,
+                    ProviderID = providerUserId,
+                    Claims = new List<Claim> { 
+                        new Claim(Constants.ClaimTypes.Name, model.First + " " + model.Last),
+                        new Claim(Constants.ClaimTypes.GivenName, model.First),
+                        new Claim(Constants.ClaimTypes.FamilyName, model.Last),
+                    }
+                };
                 
-                // this replaces the name issued in the partial signin cookie
-                // the reason for doing is so when we redriect back to IdSvr it will
-                // use the updated name for display purposes. this is only needed if
-                // the registration process needs to use a different name than the one
-                // we captured from the external provider
-                var partialClaims = authentication.Identity.Claims.Where(x => x.Type != Constants.ClaimTypes.Name).ToList();
-                partialClaims.Add(nameClaim);
-                ctx.Authentication.SignIn(new ClaimsIdentity(partialClaims, Constants.PartialSignInAuthenticationType));
+                SampleApp.RegisterFirstExternalRegistrationUserService.Users.Add(user);
 
                 // find the URL to continue with the process to the issue the token to the RP
                 var resumeUrl = authentication.Identity.Claims.Single(x => x.Type == Constants.ClaimTypes.PartialLoginReturnUrl).Value;

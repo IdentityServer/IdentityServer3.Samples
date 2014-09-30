@@ -125,7 +125,7 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-20140929-1\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-20140929-2\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -168,6 +168,7 @@
     <Content Include="Views\ExternalRegistration\Index.cshtml" />
     <Content Include="Views\Eula\Index.cshtml" />
     <Content Include="Views\LocalRegistration\Index.cshtml" />
+    <Content Include="Views\RegisterFirstExternalRegistration\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -187,8 +188,10 @@
     <Compile Include="Config\Scopes.cs" />
     <Compile Include="Config\Users.cs" />
     <Compile Include="Controllers\EulaController.cs" />
+    <Compile Include="Controllers\RegisterFirstExternalRegistrationController.cs" />
     <Compile Include="Controllers\LocalRegistrationController.cs" />
     <Compile Include="Controllers\ExternalRegistrationController.cs" />
+    <Compile Include="RegisterFirstExternalRegistrationUserService.cs" />
     <Compile Include="LocalRegistrationUserService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
