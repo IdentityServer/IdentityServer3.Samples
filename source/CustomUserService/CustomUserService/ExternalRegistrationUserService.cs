@@ -48,12 +48,12 @@ namespace SampleApp
 
             if (user.IsRegistered)
             {
-                // user not registered so we will issue a partial login and redirect them to our registration page
+                // user is registered so continue
                 return Task.FromResult<ExternalAuthenticateResult>(new ExternalAuthenticateResult(user.Provider, user.Subject, name));
             }
             else
             {
-                // user is registered so continue
+                // user not registered so we will issue a partial login and redirect them to our registration page
                 return Task.FromResult<ExternalAuthenticateResult>(new ExternalAuthenticateResult("/core/externalregistration", user.Provider, user.Subject, name));
             }
         }
