@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC CodeFlowClient Manual",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client", "JavaScriptImplicitClient\JavaScript Implicit Client.csproj", "{76BE0CCA-2F1E-4071-BEF0-C8A2673E7B04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN Client", "MVC OWIN Client\MVC OWIN Client.csproj", "{A0D39237-D450-4F23-A3CC-79EBCA1D720D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN Client (Implicit)", "MVC OWIN Client\MVC OWIN Client (Implicit).csproj", "{A0D39237-D450-4F23-A3CC-79EBCA1D720D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "APIs", "APIs", "{22C083F3-1F8A-4E90-B79C-13A6012492BC}"
 EndProject
