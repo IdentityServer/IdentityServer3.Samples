@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Resource Owner Flow
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF Hybrid Client", "WpfClient (Hybrid)\WPF Hybrid Client.csproj", "{51F181C7-F918-48E2-A2E2-09431C14D4FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN Client (Hybrid)", "MVC OWIN Client (Hybrid)\MVC OWIN Client (Hybrid).csproj", "{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
