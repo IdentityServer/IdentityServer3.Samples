@@ -51,22 +51,7 @@ namespace WpfClient
 
         private void LoginWithProfileAndAccessTokenButton_Click(object sender, RoutedEventArgs e)
         {
-            RequestToken("openid profile read write", "code id_token token");
-        }
-
-        private void LoginWithProfileRolesAndAccessTokenButton_Click(object sender, RoutedEventArgs e)
-        {
-            RequestToken("openid profile roles read write", "code id_token token");
-        }
-
-        private void AccessTokenOnlyButton_Click(object sender, RoutedEventArgs e)
-        {
-            RequestToken("read write", "token");
-        }
-
-        private void IdentityManager_Click(object sender, RoutedEventArgs e)
-        {
-            RequestToken("idmgr", "token");
+            RequestToken("openid profile read write offline_access", "code id_token token");
         }
 
         private void RequestToken(string scope, string responseType)
@@ -89,6 +74,23 @@ namespace WpfClient
 
             _login.Show();
             _login.Start(new Uri(startUrl), new Uri("oob://localhost/wpfclient"));
+        }
+
+        private async void UseCodeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_response != null && _response.Values.ContainsKey("code"))
+            {
+                var client = new OAuth2Client(
+                    new Uri(Constants.TokenEndpoint),
+                    "hybridclient",
+                    "secret");
+
+                var response = await client.RequestAuthorizationCodeAsync(
+                    _response.Code,
+                    "oob://localhost/wpfclient");
+
+                Textbox1.Text = response.Json.ToString();
+            }
         }
 
         private async void CallUserInfo_Click(object sender, RoutedEventArgs e)
