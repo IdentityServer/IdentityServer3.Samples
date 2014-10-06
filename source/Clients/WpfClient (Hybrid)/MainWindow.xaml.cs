@@ -39,11 +39,6 @@ namespace WpfClient
             Textbox1.Text = e.Raw;
         }
 
-        private void LoginOnlyButton_Click(object sender, RoutedEventArgs e)
-        {
-            RequestToken("openid", "code id_token");
-        }
-
         private void LoginWithProfileButton_Click(object sender, RoutedEventArgs e)
         {
             RequestToken("openid profile", "code id_token");
