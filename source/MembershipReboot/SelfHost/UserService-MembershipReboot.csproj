@@ -90,22 +90,24 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
-    <Reference Include="Thinktecture.IdentityManager">
-      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-beta1-2\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-pre-20141006-1\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityManager.MembershipReboot">
-      <HintPath>..\packages\Thinktecture.IdentityManager.MembershipReboot.1.0.0-beta1-1\lib\net45\Thinktecture.IdentityManager.MembershipReboot.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityManager.MembershipReboot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityManager.MembershipReboot.1.0.0-pre-20141006\lib\net45\Thinktecture.IdentityManager.MembershipReboot.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityModel.Core">
       <HintPath>..\packages\Thinktecture.IdentityModel.Core.1.2.0\lib\net45\Thinktecture.IdentityModel.Core.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-20140927\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-20141006\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer.MembershipReboot, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.MembershipReboot.1.0.0-pre-20140927\lib\net45\Thinktecture.IdentityServer.MembershipReboot.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.MembershipReboot.1.0.0-pre-20141002-1\lib\net45\Thinktecture.IdentityServer.MembershipReboot.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
