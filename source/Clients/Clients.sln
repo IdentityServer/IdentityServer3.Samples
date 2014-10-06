@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN WS-Federation", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Resource Owner Flow with Refresh Token", "ConsoleResourceOwnerRefreshTokenClient\Console Resource Owner Flow with Refresh Token.csproj", "{9BF9BAF9-75F3-47BA-9B47-A95023764D82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF Hybrid Client", "WpfClient (Hybrid)\WPF Hybrid Client.csproj", "{51F181C7-F918-48E2-A2E2-09431C14D4FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{9BF9BAF9-75F3-47BA-9B47-A95023764D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BF9BAF9-75F3-47BA-9B47-A95023764D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BF9BAF9-75F3-47BA-9B47-A95023764D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
