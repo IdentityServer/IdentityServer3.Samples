@@ -30,12 +30,12 @@ namespace MVC_OWIN_Client
                     ClientId = "implicitclient",
                     Authority = Constants.BaseAddress,
                     RedirectUri = "http://localhost:2671/",
-                    ResponseType = "id_token token",
+                    ResponseType = "id_token",
                     Scope = "openid email",
 
                     SignInAsAuthenticationType = "Cookies",
 
-                    // sample how to access token on form (for token response type)
+                    // sample how to access token on form (when adding the token response type)
                     //Notifications = new OpenIdConnectAuthenticationNotifications
                     //{
                     //    MessageReceived = async n =>
