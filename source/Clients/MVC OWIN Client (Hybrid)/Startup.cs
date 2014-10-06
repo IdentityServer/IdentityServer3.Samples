@@ -41,8 +41,6 @@ namespace MVC_OWIN_Client
                     {
                         AuthorizationCodeReceived = async n =>
                             {
-                                var code = n.Code;
-
                                 // filter "protocol" claims
                                 var claims = new List<Claim>(from c in n.AuthenticationTicket.Identity.Claims
                                                              where c.Type != "iss" &&
@@ -69,7 +67,7 @@ namespace MVC_OWIN_Client
                                     "katanaclient",
                                     "secret");
 
-                                var response = await tokenClient.RequestAuthorizationCodeAsync(code, n.RedirectUri);
+                                var response = await tokenClient.RequestAuthorizationCodeAsync(n.Code, n.RedirectUri);
 
                                 claims.Add(new Claim("access_token", response.AccessToken));
                                 claims.Add(new Claim("expires_at", DateTime.Now.AddSeconds(response.ExpiresIn).ToLocalTime().ToString()));
