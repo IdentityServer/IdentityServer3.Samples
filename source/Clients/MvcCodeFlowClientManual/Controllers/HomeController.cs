@@ -1,7 +1,7 @@
 ﻿using Sample;
 using System;
-using System.Web.Mvc;
 using System.Web;
+using System.Web.Mvc;
 using Thinktecture.IdentityModel.Client;
 
 namespace MvcCodeFlowClientManual.Controllers

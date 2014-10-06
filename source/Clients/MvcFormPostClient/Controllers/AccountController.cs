@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Thinktecture.IdentityModel;
-using Thinktecture.IdentityModel.Client;
 
 namespace MvcFormPostClient.Controllers
 {

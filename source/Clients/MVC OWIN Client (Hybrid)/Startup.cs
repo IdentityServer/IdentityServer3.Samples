@@ -1,19 +1,16 @@
-﻿using Microsoft.IdentityModel.Protocols;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Notifications;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
 using Sample;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Thinktecture.IdentityModel.Client;
 using System.Linq;
-using Microsoft.Owin.Security;
+using System.Security.Claims;
 using Thinktecture.IdentityModel;
+using Thinktecture.IdentityModel.Client;
 
 [assembly: OwinStartup(typeof(MVC_OWIN_Client.Startup))]
 

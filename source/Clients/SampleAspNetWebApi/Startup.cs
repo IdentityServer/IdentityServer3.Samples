@@ -1,8 +1,6 @@
 ﻿using Microsoft.Owin;
 using Owin;
 using System.IdentityModel.Tokens;
-using System.Linq;
-using Thinktecture.IdentityModel;
 using Thinktecture.IdentityModel.Owin.ScopeValidation;
 using Thinktecture.IdentityModel.Tokens;
 using Thinktecture.IdentityServer.v3.AccessTokenValidation;

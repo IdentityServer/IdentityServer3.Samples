@@ -3,14 +3,14 @@ using Sample;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 using Thinktecture.IdentityModel;
 using Thinktecture.IdentityModel.Client;
-using System.Linq;
-using System.Web;
 
 namespace MvcCodeFlowClientManual.Controllers
 {

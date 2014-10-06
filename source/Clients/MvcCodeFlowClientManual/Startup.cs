@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Owin;
-using Owin;
+﻿using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Owin;
 using System.IdentityModel.Tokens;
 using Thinktecture.IdentityModel.Tokens;
 
