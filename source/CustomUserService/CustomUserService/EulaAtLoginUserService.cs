@@ -87,7 +87,7 @@ namespace SampleApp
             return Task.FromResult(user.Claims.Where(x => requestedClaimTypes.Contains(x.Type)));
         }
 
-        public Task<bool> IsActive(ClaimsPrincipal subject)
+        public Task<bool> IsActiveAsync(ClaimsPrincipal subject)
         {
             var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
             return Task.FromResult(user != null && user.AccpetedEula);
