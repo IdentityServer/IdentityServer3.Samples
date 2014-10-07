@@ -16,13 +16,13 @@ namespace SampleAspNetWebApi
             JwtSecurityTokenHandler.InboundClaimTypeMap = ClaimMappings.None;
 
             // for self contained tokens
-            app.UseIdentitiyServerJwt(new JwtTokenValidationOptions
+            app.UseIdentityServerJwt(new JwtTokenValidationOptions
                 {
                     Authority = "http://localhost:3333/core"
                 });
 
             // for reference tokens
-            app.UseIdentitiyServerReferenceToken(new ReferenceTokenValidationOptions
+            app.UseIdentityServerReferenceToken(new ReferenceTokenValidationOptions
                 {
                     Authority = "http://localhost:3333/core"
                 });
