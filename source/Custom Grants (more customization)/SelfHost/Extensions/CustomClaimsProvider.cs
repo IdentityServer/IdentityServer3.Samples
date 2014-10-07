@@ -14,11 +14,9 @@ namespace SelfHost.Extensions
     class CustomClaimsProvider : DefaultClaimsProvider
     {
         public CustomClaimsProvider(IUserService users) : base(users)
-        {
+        { }
 
-        }
-
-        public override async Task<IEnumerable<Claim>> GetAccessTokenClaimsAsync(ClaimsPrincipal subject, Client client, IEnumerable<Scope> scopes, NameValueCollection request)
+        public override async Task<IEnumerable<Claim>> GetAccessTokenClaimsAsync(ClaimsPrincipal subject, Client client, IEnumerable<Scope> scopes, Thinktecture.IdentityServer.Core.Connect.ValidatedRequest request)
         {
             var claims = await base.GetAccessTokenClaimsAsync(subject, client, scopes, request);
 

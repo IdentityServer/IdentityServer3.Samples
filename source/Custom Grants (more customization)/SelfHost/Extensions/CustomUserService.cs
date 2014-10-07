@@ -41,7 +41,7 @@ namespace SelfHost.Extensions
             throw new NotImplementedException();
         }
 
-        public Task<bool> IsActive(ClaimsPrincipal subject)
+        public Task<bool> IsActiveAsync(ClaimsPrincipal subject)
         {
             throw new NotImplementedException();
         }
