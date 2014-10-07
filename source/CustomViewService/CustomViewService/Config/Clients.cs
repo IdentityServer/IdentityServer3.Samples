@@ -17,7 +17,7 @@ namespace SampleApp.Config
                     Enabled = true,
                     ClientId = "codeclient",
                     ClientSecret = "secret",
-                    Flow = Flows.Code,
+                    Flow = Flows.AuthorizationCode,
                     
                     RequireConsent = true,
                     AllowRememberConsent = true,
