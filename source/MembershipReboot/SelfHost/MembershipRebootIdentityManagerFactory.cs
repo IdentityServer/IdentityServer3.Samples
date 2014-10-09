@@ -51,7 +51,7 @@ namespace Thinktecture.IdentityManager.Host
             var usersvc = new UserAccountService<RelationalUserAccount>(config, userrepo);
             
             var grprepo = new DefaultGroupRepository(this.connString);
-            var grpsvc = new GroupService<RelationalGroup>(grprepo);
+            var grpsvc = new GroupService<RelationalGroup>(config.DefaultTenant, grprepo);
             
             var svc = new MembershipRebootIdentityManagerService<RelationalUserAccount, RelationalGroup>(usersvc, userrepo, grpsvc, grprepo);
             return new DisposableIdentityManagerService(svc, userrepo);
