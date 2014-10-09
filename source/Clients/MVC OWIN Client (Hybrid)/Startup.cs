@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using Microsoft.IdentityModel.Protocols;
+using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OpenIdConnect;
@@ -32,6 +33,7 @@ namespace MVC_OWIN_Client
                     ClientId = "katanaclient",
                     Authority = Constants.BaseAddress,
                     RedirectUri = "http://localhost:2672/",
+                    PostLogoutRedirectUri = "http://localhost:2672/",
                     ResponseType = "code id_token token",
                     Scope = "openid email profile read write offline_access",
 
@@ -75,7 +77,17 @@ namespace MVC_OWIN_Client
                                 claims.Add(new Claim("id_token", n.ProtocolMessage.IdToken));
 
                                 n.AuthenticationTicket = new AuthenticationTicket(new ClaimsIdentity(claims.Distinct(new ClaimComparer()), n.AuthenticationTicket.Identity.AuthenticationType), n.AuthenticationTicket.Properties);
-                            }
+                            },
+
+                        RedirectToIdentityProvider = async n =>
+                            {
+                                // if signing out, add the id_token_hint
+                                if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
+                                {
+                                    var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token").Value;
+                                    n.ProtocolMessage.IdTokenHint = idTokenHint;
+                                }
+                            },
                     }
                 });
         }
