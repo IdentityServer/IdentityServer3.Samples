@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedMvc", "EmbeddedMvc\EmbeddedMvc.csproj", "{6FF07508-76CF-459D-AA97-76B3BAD58D65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC Authentication", "EmbeddedMvc\MVC Authentication.csproj", "{6FF07508-76CF-459D-AA97-76B3BAD58D65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

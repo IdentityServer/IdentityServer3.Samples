@@ -17,8 +17,6 @@ namespace EmbeddedMvc.Controllers
         [Authorize]
         public ActionResult About()
         {
-            ViewBag.Message = "User claims";
-
             return View((User as ClaimsPrincipal).Claims);
         }
 
