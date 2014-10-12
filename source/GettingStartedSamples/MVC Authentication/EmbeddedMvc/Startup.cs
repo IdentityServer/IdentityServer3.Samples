@@ -30,7 +30,7 @@ namespace EmbeddedMvc
                         Factory = InMemoryFactory.Create(
                             users  : Users.Get(),
                             clients: Clients.Get(),
-                            scopes : Scope.StandardScopes)
+                            scopes : Scopes.Get())
                     });
                 });
 
@@ -43,7 +43,9 @@ namespace EmbeddedMvc
             app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
                 {
                     Authority = "https://localhost:44319/identity",
+                    
                     ClientId = "mvc",
+                    Scope = "openid profile roles",
                     RedirectUri = "https://localhost:44319/",
 
                     SignInAsAuthenticationType = "Cookies"

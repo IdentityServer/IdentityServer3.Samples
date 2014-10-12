@@ -5,25 +5,27 @@ using Thinktecture.IdentityServer.Core.Services.InMemory;
 
 namespace EmbeddedMvc.IdentityServer
 {
-public static class Users
-{
-    public static IEnumerable<InMemoryUser> Get()
+    public static class Users
     {
-        return new[]
+        public static IEnumerable<InMemoryUser> Get()
         {
-            new InMemoryUser
+            return new[]
             {
-                Username = "bob",
-                Password = "secret",
-                Subject = "1",
-
-                Claims = new[]
+                new InMemoryUser
                 {
-                    new Claim(Constants.ClaimTypes.GivenName, "Bob"),
-                    new Claim(Constants.ClaimTypes.FamilyName, "Smith")
+                    Username = "bob",
+                    Password = "secret",
+                    Subject = "1",
+
+                    Claims = new[]
+                    {
+                        new Claim(Constants.ClaimTypes.GivenName, "Bob"),
+                        new Claim(Constants.ClaimTypes.FamilyName, "Smith"),
+                        new Claim(Constants.ClaimTypes.Role, "Geek"),
+                        new Claim(Constants.ClaimTypes.Role, "Foo")
+                    }
                 }
-            }
-        };
+            };
+        }
     }
-}
 }
