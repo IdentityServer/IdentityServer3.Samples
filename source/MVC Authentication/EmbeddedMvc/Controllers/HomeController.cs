@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Web.Mvc;
 using Thinktecture.IdentityModel.Mvc;
+using System.Web;
 
 namespace EmbeddedMvc.Controllers
 {
@@ -22,6 +23,18 @@ namespace EmbeddedMvc.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        [HandleForbidden]
+        public ActionResult UpdateContact()
+        {
+            if (!HttpContext.CheckAccess("Write", "ContactDetails", "some more data"))
+            {
+                return this.AccessDenied();
+            }
+
+            ViewBag.Message = "Upate your contact details!";
             return View();
         }
     }
