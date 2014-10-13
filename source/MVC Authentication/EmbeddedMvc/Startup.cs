@@ -12,7 +12,6 @@ using System.Security.Cryptography.X509Certificates;
 using Thinktecture.IdentityServer.Core;
 using Thinktecture.IdentityServer.Core.Configuration;
 using Thinktecture.IdentityServer.Core.Logging;
-using Thinktecture.IdentityServer.Core.Models;
 
 [assembly: OwinStartup(typeof(EmbeddedMvc.Startup))]
 
@@ -39,6 +38,8 @@ namespace EmbeddedMvc
                             scopes: Scopes.Get())
                     });
                 });
+
+            app.UseResourceAuthorization(new AuthorizationManager());
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
                 {
