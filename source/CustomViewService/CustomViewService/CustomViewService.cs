@@ -71,7 +71,12 @@ namespace SampleApp
         {
             foreach (var key in values.Keys)
             {
-                value = value.Replace("{" + key + "}", values[key].ToString());
+                var val = values[key];
+                val = val ?? String.Empty;
+                if (val != null)
+                {
+                    value = value.Replace("{" + key + "}", val.ToString());
+                }
             }
             return value;
         }
