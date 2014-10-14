@@ -18,6 +18,13 @@ namespace EmbeddedMvc.IdentityServer
                     {
                         new ScopeClaim("role")
                     }
+                },
+                new Scope
+                {
+                    Enabled = true,
+                    Name = "sampleApi",
+                    Description = "Access to a sample API",
+                    Type = ScopeType.Resource
                 }
             };
 
