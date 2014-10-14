@@ -21,6 +21,14 @@ namespace EmbeddedMvc.IdentityServer
                     {
                         new Uri("https://localhost:44319/")
                     }
+                },
+                new Client
+                {
+                    Enabled = true,
+                    ClientName = "MVC Client (service communication)",
+                    ClientId = "mvc_service",
+                    ClientSecret = "secret",
+                    Flow = Flows.ClientCredentials
                 }
             };
         }
