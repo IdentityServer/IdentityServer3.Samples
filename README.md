@@ -35,3 +35,6 @@ Sample to illustrate how to register custom services with IdentityServer and how
 
 #### Custom Grant Types [link](https://github.com/thinktecture/Thinktecture.IdentityServer.v3.Samples/tree/master/source/Custom%20Grants)
 Sample to illustrate how add support for non-standard grant types at the token endpoint.
+
+#### Custom Grant Types (more customization) [link](https://github.com/thinktecture/Thinktecture.IdentityServer.v3.Samples/tree/master/source/Custom%20Grants%20(more%20customization))
+Sample to illustrate how add support for non-standard grant types at the token endpoint. This sample also uses a custom user service and claims provider
