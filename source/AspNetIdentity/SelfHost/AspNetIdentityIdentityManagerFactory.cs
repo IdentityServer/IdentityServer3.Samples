@@ -13,12 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+//#define USE_INT_PRIMARYKEY
+
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SelfHost;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Thinktecture.IdentityManager;
+using Thinktecture.IdentityServer.AspNetIdentity;
 
 namespace Thinktecture.IdentityManager.Host
 {
@@ -26,19 +32,41 @@ namespace Thinktecture.IdentityManager.Host
     {
         static AspNetIdentityIdentityManagerFactory()
         {
+#if USE_INT_PRIMARYKEY
+            System.Data.Entity.Database.SetInitializer(new System.Data.Entity.CreateDatabaseIfNotExists<CustomDbContext>());
+#else
             System.Data.Entity.Database.SetInitializer(new System.Data.Entity.CreateDatabaseIfNotExists<IdentityDbContext>());
-            
-            //System.Data.Entity.Database.SetInitializer(new System.Data.Entity.CreateDatabaseIfNotExists<CustomDbContext>());
+#endif
+
         }
 
         string connString;
         public AspNetIdentityIdentityManagerFactory(string connString)
         {
             this.connString = connString;
+#if USE_INT_PRIMARYKEY
+            this.connString += "_CustomPK";
+#endif
         }
-        
+
         public IIdentityManagerService Create()
         {
+#if USE_INT_PRIMARYKEY
+            var db = new IdentityDbContext<CustomUser, CustomRole, int, CustomUserLogin, CustomUserRole, CustomUserClaim>(connString);
+            var store = new UserStore<CustomUser, CustomRole, int, CustomUserLogin, CustomUserRole, CustomUserClaim>(db);
+            var usermgr = new UserManager<CustomUser, int>(store);
+            usermgr.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 3
+            };
+
+            var rolestore = new RoleStore<CustomRole, int, CustomUserRole>(db);
+            var rolemgr = new RoleManager<CustomRole, int>(rolestore);
+
+            var svc = new Thinktecture.IdentityManager.AspNetIdentity.AspNetIdentityManagerService<CustomUser, int, CustomRole, int>(usermgr, rolemgr);
+            var dispose = new DisposableIdentityManagerService(svc, db);
+            return dispose;
+#else
             var db = new IdentityDbContext<IdentityUser>(this.connString);
             var userstore = new UserStore<IdentityUser>(db);
             var usermgr = new Microsoft.AspNet.Identity.UserManager<IdentityUser>(userstore);
@@ -52,11 +80,7 @@ namespace Thinktecture.IdentityManager.Host
             var svc = new Thinktecture.IdentityManager.AspNetIdentity.AspNetIdentityManagerService<IdentityUser, string, IdentityRole, string>(usermgr, rolemgr);
             var dispose = new DisposableIdentityManagerService(svc, db);
             return dispose;
-
-            //var db = new CustomDbContext("CustomAspId");
-            //var store = new CustomUserStore(db);
-            //var mgr = new CustomUserManager(store);
-            //return new Thinktecture.IdentityManager.AspNetIdentity.UserManager<CustomUser, int, CustomUserLogin, CustomUserRole, CustomUserClaim>(mgr, db);
+#endif
         }
     }
 }
