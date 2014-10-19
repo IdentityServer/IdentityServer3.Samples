@@ -7,6 +7,7 @@
         <Label Content="Output" HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="Textbox1" HorizontalAlignment="Left" Height="322" Margin="10,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="553"/>
         <Button Content="Login with Profile" x:Name="LoginWithProfileButton" HorizontalAlignment="Left" Margin="90,10,0,0" VerticalAlignment="Top" Width="119" Click="LoginWithProfileButton_Click" />
+        <Button Content="Login with all Claims" x:Name="LoginWithAllClaimsButton" HorizontalAlignment="Left" Margin="90,35,0,0" VerticalAlignment="Top" Width="119" Click="LoginWithAllClaimsButton_Click" />
         <Button Content="Login with Profile and Access Token" x:Name="LoginWithProfileAndAccessTokenButton" HorizontalAlignment="Left" Margin="214,10,0,0" VerticalAlignment="Top" Width="211" Click="LoginWithProfileAndAccessTokenButton_Click" />
         <Button Content="Profile, Roles and Access Token" x:Name="LoginWithProfileRolesAndAccessTokenButton" HorizontalAlignment="Left" Margin="214,35,0,0" VerticalAlignment="Top" Width="211" Click="LoginWithProfileRolesAndAccessTokenButton_Click" />
         

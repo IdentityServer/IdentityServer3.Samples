@@ -49,6 +49,11 @@ namespace WpfClient
             RequestToken("openid profile", "id_token");
         }
 
+        private void LoginWithAllClaimsButton_Click(object sender, RoutedEventArgs e)
+        {
+            RequestToken("openid all_claims", "id_token");
+        }
+
         private void LoginWithProfileAndAccessTokenButton_Click(object sender, RoutedEventArgs e)
         {
             RequestToken("openid profile read write", "id_token token");
