@@ -31,6 +31,11 @@ namespace SelfHost.Extensions
             throw new NotImplementedException();
         }
 
+        public Task<AuthenticateResult> PreAuthenticateAsync(IDictionary<string, object> env, SignInMessage message)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
         {
             throw new NotImplementedException();

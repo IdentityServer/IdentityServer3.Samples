@@ -59,5 +59,10 @@ namespace SampleApp
             var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
             return Task.FromResult(user != null);
         }
+
+        public Task<AuthenticateResult> PreAuthenticateAsync(IDictionary<string, object> env, SignInMessage message)
+        {
+            return Task.FromResult<AuthenticateResult>(null);
+        }
     }
 }

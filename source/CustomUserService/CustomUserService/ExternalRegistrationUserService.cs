@@ -29,7 +29,7 @@ namespace SampleApp
         public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
         {
             // look for the user in our local identity system from the external identifiers
-            var user = Users.SingleOrDefault(x => x.Provider == externalUser.Provider.Name && x.ProviderID == externalUser.ProviderId);
+            var user = Users.SingleOrDefault(x => x.Provider == externalUser.Provider && x.ProviderID == externalUser.ProviderId);
             string name = "Unknown";
             if (user == null)
             {
@@ -39,7 +39,7 @@ namespace SampleApp
 
                 user = new CustomUser { 
                     Subject = Guid.NewGuid().ToString(),
-                    Provider = externalUser.Provider.Name,
+                    Provider = externalUser.Provider,
                     ProviderID = externalUser.ProviderId,
                     Claims = new List<Claim> { new Claim(Constants.ClaimTypes.Name, name) }
                 };
@@ -91,6 +91,11 @@ namespace SampleApp
         {
             var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
             return Task.FromResult(user != null && user.IsRegistered);
+        }
+
+        public Task<AuthenticateResult> PreAuthenticateAsync(IDictionary<string, object> env, SignInMessage message)
+        {
+            return Task.FromResult<AuthenticateResult>(null);
         }
     }
 }

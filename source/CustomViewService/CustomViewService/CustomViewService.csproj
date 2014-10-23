@@ -90,12 +90,13 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-20141015\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-20141022\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app.css" />
     <Content Include="Content\app\app.js" />
+    <Content Include="Content\app\permissions.html" />
     <Content Include="Content\app\consent.html" />
     <Content Include="Content\app\error.html" />
     <Content Include="Content\libs\angular\angular.1.2.13.js" />

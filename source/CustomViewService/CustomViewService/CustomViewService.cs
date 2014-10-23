@@ -23,7 +23,8 @@ namespace SampleApp
         public virtual async Task<System.IO.Stream> Login(IDictionary<string, object> env, LoginViewModel model, SignInMessage message)
         {
             var client = await clientStore.FindClientByIdAsync(message.ClientId);
-            return await Render(model, "login", client.ClientName);
+            var name = client != null ? client.ClientName : null;
+            return await Render(model, "login", name);
         }
 
         public virtual Task<System.IO.Stream> Logout(IDictionary<string, object> env, LogoutViewModel model)
@@ -39,6 +40,11 @@ namespace SampleApp
         public virtual Task<System.IO.Stream> Consent(IDictionary<string, object> env, ConsentViewModel model)
         {
             return Render(model, "consent");
+        }
+
+        public Task<Stream> ClientPermissions(IDictionary<string, object> env, ClientPermissionsViewModel model)
+        {
+            return Render(model, "permissions");
         }
 
         public virtual Task<System.IO.Stream> Error(IDictionary<string, object> env, ErrorViewModel model)

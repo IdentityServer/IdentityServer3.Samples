@@ -4,9 +4,9 @@ using Microsoft.Owin.Security.Twitter;
 using Owin;
 using SampleApp.Config;
 using Thinktecture.IdentityServer.Core.Configuration;
+using Thinktecture.IdentityServer.Core.Logging;
 using Thinktecture.IdentityServer.Core.Services;
 using Thinktecture.IdentityServer.Core.Views;
-using Thinktecture.IdentityServer.Core.Views.Embedded;
 
 namespace SampleApp
 {
@@ -14,6 +14,8 @@ namespace SampleApp
     {
         public void Configuration(IAppBuilder app)
         {
+            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+
             app.Map("/core", coreApp =>
             {
                 var factory = InMemoryFactory.Create(

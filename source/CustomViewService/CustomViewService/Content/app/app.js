@@ -17,9 +17,9 @@
     app.directive("antiForgeryToken", function () {
         return {
             restrict: 'E',
-            replace: true,
-            scope: {
-                token: "="
+            replace:true,
+            scope:{
+                token:"="
             },
             template: "<input type='hidden' name='{{token.name}}' value='{{token.value}}'>"
         };

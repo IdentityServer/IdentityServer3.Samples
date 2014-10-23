@@ -11,10 +11,10 @@ namespace Thinktecture.IdentityServer.Host.Config
         {
             return new[]
                 {
-                    Scope.OpenId,
-                    Scope.Profile,
-                    Scope.Email,
-                    Scope.OfflineAccess,
+                    StandardScopes.OpenId,
+                    StandardScopes.Profile,
+                    StandardScopes.Email,
+                    StandardScopes.OfflineAccess,
 
                     new Scope
                     {

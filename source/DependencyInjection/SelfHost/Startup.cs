@@ -16,7 +16,7 @@ namespace SelfHost
                 scopes:  Scopes.Get());
 
             //var factory = new IdentityServerServiceFactory();
-            factory.TokenSigningService = Registration.RegisterType<ITokenSigningService>(typeof(MyCustomTokenSigningService));
+            factory.ClaimsProvider = Registration.RegisterType<IClaimsProvider>(typeof(MyCustomClaimsProvider));
             factory.Register(Registration.RegisterType<ICustomLogger>(typeof(MyCustomDebugLogger)));
 
             var options = new IdentityServerOptions

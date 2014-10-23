@@ -6,7 +6,6 @@ using SampleApp.Config;
 using Thinktecture.IdentityServer.Core.Configuration;
 using Thinktecture.IdentityServer.Core.Services;
 using Thinktecture.IdentityServer.Core.Views;
-using Thinktecture.IdentityServer.Core.Views.Embedded;
 
 namespace SampleApp
 {
@@ -21,7 +20,7 @@ namespace SampleApp
                     clients: Clients.Get(),
                     scopes: Scopes.Get());
 
-                var embeddedViewServiceConfig = new EmbeddedAssetsViewServiceConfiguration();
+                var embeddedViewServiceConfig = new DefaultViewServiceConfiguration();
                 embeddedViewServiceConfig.Stylesheets.Add("/Content/Site.css");
 
                 factory.Register(Registration.RegisterSingleton(embeddedViewServiceConfig));
