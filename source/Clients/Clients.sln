@@ -13,12 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC FormPost Client", "MvcFormPostClient\MVC FormPost Client.csproj", "{E3C5E9C3-2977-4AD5-87EC-00FC4D2F7FF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC CodeFlow Client with Module", "MvcCodeFlowClient\MVC CodeFlow Client with Module.csproj", "{2B7A3A83-D22E-48D2-9345-E48018314F10}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thinktecture.IdentityModel.Oidc", "Thinktecture.IdentityModel.Oidc\Thinktecture.IdentityModel.Oidc.csproj", "{9669AED6-CC75-4DA4-A639-13E084905CA7}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Misc", "Misc", "{C80B5683-6239-42D6-8A8B-36702504C593}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC CodeFlowClient Manual", "MvcCodeFlowClientManual\MVC CodeFlowClient Manual.csproj", "{C67DB8BB-6083-436D-9748-4BDD9EC8C0EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client", "JavaScriptImplicitClient\JavaScript Implicit Client.csproj", "{76BE0CCA-2F1E-4071-BEF0-C8A2673E7B04}"
@@ -63,14 +57,6 @@ Global
 		{E3C5E9C3-2977-4AD5-87EC-00FC4D2F7FF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3C5E9C3-2977-4AD5-87EC-00FC4D2F7FF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3C5E9C3-2977-4AD5-87EC-00FC4D2F7FF4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B7A3A83-D22E-48D2-9345-E48018314F10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B7A3A83-D22E-48D2-9345-E48018314F10}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B7A3A83-D22E-48D2-9345-E48018314F10}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B7A3A83-D22E-48D2-9345-E48018314F10}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9669AED6-CC75-4DA4-A639-13E084905CA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9669AED6-CC75-4DA4-A639-13E084905CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9669AED6-CC75-4DA4-A639-13E084905CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9669AED6-CC75-4DA4-A639-13E084905CA7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C67DB8BB-6083-436D-9748-4BDD9EC8C0EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C67DB8BB-6083-436D-9748-4BDD9EC8C0EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C67DB8BB-6083-436D-9748-4BDD9EC8C0EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -108,8 +94,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D4B8ACDF-5CC3-4A7B-AE30-5055522E025A} = {C80B5683-6239-42D6-8A8B-36702504C593}
-		{9669AED6-CC75-4DA4-A639-13E084905CA7} = {C80B5683-6239-42D6-8A8B-36702504C593}
 		{C8CD1733-783A-4655-814B-9CF7FD7FDFE8} = {22C083F3-1F8A-4E90-B79C-13A6012492BC}
 	EndGlobalSection
 EndGlobal

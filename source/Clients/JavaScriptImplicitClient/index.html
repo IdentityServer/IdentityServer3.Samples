@@ -81,7 +81,7 @@
         var app = angular.module("app", []);
 
         app.factory("signingCertificate", function ($http) {
-            var url = "http://localhost:3333/core/.well-known/jwks";
+            var url = "https://localhost:44333/core/.well-known/jwks";
             return $http.get(url).then(function (response) {
                 console.log(response.data);
                 return response.data.keys[0].x5c[0];
@@ -117,9 +117,7 @@
         });
 
         app.controller("OAuthCtrl", function ($scope, $window, storage, $location, signingCertificate) {
-            var oauth = new OAuthClient("http://localhost:3333/core/connect/authorize");
-            //var oauth = new OAuthClient("http://idsrv3.azurewebsites.net/core/connect/authorize");
-
+            var oauth = new OAuthClient("https://localhost:44333/core/connect/authorize");
             var store = storage.create("js_implicit_demo");
 
             $scope.response = {};
