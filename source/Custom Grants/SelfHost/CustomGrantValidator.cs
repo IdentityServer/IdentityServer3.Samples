@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 using System.Threading.Tasks;
-using Thinktecture.IdentityServer.Core.Connect;
-using Thinktecture.IdentityServer.Core.Plumbing;
+using Thinktecture.IdentityServer.Core;
 using Thinktecture.IdentityServer.Core.Services;
+using Thinktecture.IdentityServer.Core.Validation;
 
 namespace SelfHost
 {
