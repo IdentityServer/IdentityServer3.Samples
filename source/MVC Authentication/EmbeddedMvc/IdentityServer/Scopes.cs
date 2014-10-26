@@ -28,7 +28,7 @@ namespace EmbeddedMvc.IdentityServer
                 }
             };
 
-            scopes.AddRange(Scope.StandardScopes);
+            scopes.AddRange(StandardScopes.All);
 
             return scopes;
         }
