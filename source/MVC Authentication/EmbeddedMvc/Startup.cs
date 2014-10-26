@@ -1,4 +1,5 @@
 ﻿using EmbeddedMvc.IdentityServer;
+using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -81,13 +82,24 @@ namespace EmbeddedMvc
                                 nid.AddClaim(sub);
                                 nid.AddClaims(roles);
 
+                                // keep the id_token for logout
+                                nid.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+
                                 // add some other app specific claim
                                 nid.AddClaim(new Claim("app_specific", "some data"));
 
                                 n.AuthenticationTicket = new AuthenticationTicket(
                                     nid,
                                     n.AuthenticationTicket.Properties);
-                            }
+                            },
+                            RedirectToIdentityProvider = async n =>
+                                {
+                                    if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
+                                    {
+                                        var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token").Value;
+                                        n.ProtocolMessage.IdTokenHint = idTokenHint;
+                                    }
+                                }
                     }
                 });
         }
