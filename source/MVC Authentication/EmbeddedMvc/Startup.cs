@@ -96,8 +96,12 @@ namespace EmbeddedMvc
                                 {
                                     if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
                                     {
-                                        var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token").Value;
-                                        n.ProtocolMessage.IdTokenHint = idTokenHint;
+                                        var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
+
+                                        if (idTokenHint != null)
+                                        {
+                                            n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
+                                        }
                                     }
                                 }
                     }
