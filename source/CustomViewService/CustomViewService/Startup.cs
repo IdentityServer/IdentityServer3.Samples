@@ -6,7 +6,6 @@ using SampleApp.Config;
 using Thinktecture.IdentityServer.Core.Configuration;
 using Thinktecture.IdentityServer.Core.Logging;
 using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Views;
 
 namespace SampleApp
 {
@@ -29,13 +28,13 @@ namespace SampleApp
                 {
                     IssuerUri = "https://idsrv3.com",
                     SiteName = "Thinktecture IdentityServer v3 - CustomViewService",
-                    RequireSsl = false,
 
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
                     CorsPolicy = CorsPolicy.AllowAll,
-
-                    AdditionalIdentityProviderConfiguration = ConfigureAdditionalIdentityProviders,
+                    AuthenticationOptions = new AuthenticationOptions {
+                        IdentityProviders = ConfigureAdditionalIdentityProviders,
+                    }
                 };
 
                 coreApp.UseIdentityServer(options);

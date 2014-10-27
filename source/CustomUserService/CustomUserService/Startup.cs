@@ -33,16 +33,14 @@ namespace SampleApp
                 {
                     IssuerUri = "https://idsrv3.com",
                     SiteName = "Thinktecture IdentityServer v3 - CustomUserService",
-                    RequireSsl = false,
 
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
                     CorsPolicy = CorsPolicy.AllowAll,
                     
-                    AdditionalIdentityProviderConfiguration = ConfigureAdditionalIdentityProviders,
-
                     AuthenticationOptions = new AuthenticationOptions
                     {
+                        IdentityProviders = ConfigureAdditionalIdentityProviders,
                         LoginPageLinks = new LoginPageLink[] { 
                             new LoginPageLink{
                                 Text = "Register",

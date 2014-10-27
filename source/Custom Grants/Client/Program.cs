@@ -11,7 +11,7 @@ namespace Client
         static void Main(string[] args)
         {
             var client = new OAuth2Client(
-                new Uri("http://localhost:3333/core/connect/token"),
+                new Uri("https://localhost:44333/core/connect/token"),
                 "client",
                 "secret");
 

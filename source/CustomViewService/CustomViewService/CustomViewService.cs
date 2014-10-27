@@ -6,9 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using Thinktecture.IdentityServer.Core.Authentication;
+using Thinktecture.IdentityServer.Core.Models;
 using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Views;
+using Thinktecture.IdentityServer.Core.ViewModels;
 
 namespace SampleApp
 {

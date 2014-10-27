@@ -6,10 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Thinktecture.IdentityServer.Core;
 using Thinktecture.IdentityServer.Core.Extensions;
-using Thinktecture.IdentityServer.Core.Authentication;
 using Thinktecture.IdentityServer.Core.Models;
 using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Plumbing;
 
 namespace SampleApp
 {
@@ -45,7 +43,7 @@ namespace SampleApp
             return Task.FromResult<AuthenticateResult>(new AuthenticateResult(p));
         }
 
-        public Task<Thinktecture.IdentityServer.Core.Authentication.AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message)
+        public Task<AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message)
         {
             return Task.FromResult<AuthenticateResult>(null);
         }

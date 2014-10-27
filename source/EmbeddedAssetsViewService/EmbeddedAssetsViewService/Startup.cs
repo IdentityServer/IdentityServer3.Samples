@@ -5,7 +5,7 @@ using Owin;
 using SampleApp.Config;
 using Thinktecture.IdentityServer.Core.Configuration;
 using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Views;
+using Thinktecture.IdentityServer.Core.Services.Default;
 
 namespace SampleApp
 {
@@ -29,13 +29,14 @@ namespace SampleApp
                 {
                     IssuerUri = "https://idsrv3.com",
                     SiteName = "Thinktecture IdentityServer v3 - UserService-CustomWorkflows",
-                    RequireSsl = false,
 
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
                     CorsPolicy = CorsPolicy.AllowAll,
 
-                    AdditionalIdentityProviderConfiguration = ConfigureAdditionalIdentityProviders,
+                    AuthenticationOptions = new AuthenticationOptions{
+                        IdentityProviders = ConfigureAdditionalIdentityProviders,
+                    }
                 };
 
                 coreApp.UseIdentityServer(options);

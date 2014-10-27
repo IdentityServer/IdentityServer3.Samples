@@ -14,9 +14,10 @@ namespace SelfHost
     {
         public static IUserService Factory(string connString)
         {
-            var repo = new DefaultUserAccountRepository(connString);
+            var db = new DefaultMembershipRebootDatabase(connString);
+            var repo = new DefaultUserAccountRepository(db);
             var userAccountService = new UserAccountService(config, repo);
-            var userSvc = new MembershipRebootUserService<UserAccount>(userAccountService, repo);
+            var userSvc = new MembershipRebootUserService<UserAccount>(userAccountService, db);
             return userSvc;
         }
 
