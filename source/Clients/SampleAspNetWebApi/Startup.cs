@@ -18,13 +18,13 @@ namespace SampleAspNetWebApi
             // for self contained tokens
             app.UseIdentityServerJwt(new JwtTokenValidationOptions
                 {
-                    Authority = "http://localhost:3333/core"
+                    Authority = "https://localhost:44333/core"
                 });
 
             // for reference tokens
             app.UseIdentityServerReferenceToken(new ReferenceTokenValidationOptions
                 {
-                    Authority = "http://localhost:3333/core"
+                    Authority = "https://localhost:44333/core"
                 });
 
             // require read OR write scope
