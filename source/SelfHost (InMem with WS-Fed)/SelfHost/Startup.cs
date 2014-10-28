@@ -19,13 +19,11 @@ namespace SelfHost
             var options = new IdentityServerOptions
             {
                 IssuerUri = "https://idsrv3.com",
-                SiteName = "Thinktecture IdentityServer v3 - beta 2 (SelfHost)",
-                RequireSsl = false,
+                SiteName = "Thinktecture IdentityServer v3 - WsFed",
 
                 SigningCertificate = Certificate.Get(),
                 Factory = factory,
                 PluginConfiguration = ConfigurePlugins,
-                AccessTokenValidationEndpoint = EndpointSettings.Enabled
             };
 
             appBuilder.UseIdentityServer(options);

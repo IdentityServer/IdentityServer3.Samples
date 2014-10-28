@@ -21,7 +21,6 @@ namespace SelfHost
 
                 SigningCertificate = Certificate.Get(),
                 Factory = factory,
-                AccessTokenValidationEndpoint = EndpointSettings.Enabled
             };
 
             appBuilder.UseIdentityServer(options);
