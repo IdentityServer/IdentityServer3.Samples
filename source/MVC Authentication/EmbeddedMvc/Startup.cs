@@ -3,6 +3,7 @@ using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.OpenIdConnect;
 using Owin;
 using System;
@@ -36,7 +37,12 @@ namespace EmbeddedMvc
                         Factory = InMemoryFactory.Create(
                             users: Users.Get(),
                             clients: Clients.Get(),
-                            scopes: Scopes.Get())
+                            scopes: Scopes.Get()),
+
+                        AuthenticationOptions = new Thinktecture.IdentityServer.Core.Configuration.AuthenticationOptions
+                        {
+                            IdentityProviders = ConfigureIdentityProviders
+                        }
                     });
                 });
 
@@ -105,6 +111,19 @@ namespace EmbeddedMvc
                                     }
                                 }
                     }
+                });
+        }
+
+        private void ConfigureIdentityProviders(IAppBuilder app, string signInAsType)
+        {
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions
+                {
+                    AuthenticationType = "Google",
+                    Caption = "Sign-in with Google",
+                    SignInAsAuthenticationType = signInAsType,
+
+                    ClientId = "701386055558-9epl93fgsjfmdn14frqvaq2r9i44qgaa.apps.googleusercontent.com",
+                    ClientSecret = "3pyawKDWaXwsPuRDL7LtKm_o"
                 });
         }
 
