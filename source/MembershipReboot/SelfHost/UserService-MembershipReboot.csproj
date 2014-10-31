@@ -92,11 +92,11 @@
     <Reference Include="System.Web" />
     <Reference Include="Thinktecture.IdentityManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-pre-20141006-1\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-beta2\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityManager.MembershipReboot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityManager.MembershipReboot.1.0.0-pre-20141006\lib\net45\Thinktecture.IdentityManager.MembershipReboot.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityManager.MembershipReboot.1.0.0-beta2\lib\net45\Thinktecture.IdentityManager.MembershipReboot.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityModel.Core, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
