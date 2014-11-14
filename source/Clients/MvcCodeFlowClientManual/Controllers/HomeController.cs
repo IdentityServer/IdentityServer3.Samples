@@ -1,5 +1,6 @@
 ﻿using Sample;
 using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using Thinktecture.IdentityModel.Client;
@@ -23,7 +24,11 @@ namespace MvcCodeFlowClientManual.Controllers
                 "codeclient",
                 scopes,
                 "https://localhost:44312/callback",
-                "123");
+                "123",
+                new Dictionary<string, string>
+                {
+                    { "nonce", "should_be_random" }
+                });
 
             return Redirect(url);
         }

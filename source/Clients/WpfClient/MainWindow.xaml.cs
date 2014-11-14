@@ -78,7 +78,7 @@ namespace WpfClient
         {
             var additional = new Dictionary<string, string>
             {
-                { "nonce", "nonce" },
+                { "nonce", "should_be_random" },
                 // { "login_hint", "idp:Google" },
                 // { "acr_values", "a b c" }
             };
@@ -89,7 +89,7 @@ namespace WpfClient
                 responseType,
                 scope,
                 "oob://localhost/wpfclient",
-                "state",
+                "random_state",
                 additional);
 
             _login.Show();
