@@ -11,12 +11,12 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
     {
         public IdentityServerBearerTokenAuthenticationOptions() : base("Bearer")
         {
-            TokenType = IdentityServerTokenType.Reference;
+            TokenType = ValidationType.ValidationEndpoint;
             RequiredScopes = Enumerable.Empty<string>();
         }
 
         // common for JWT and reference token
-        public IdentityServerTokenType TokenType { get; set; }
+        public ValidationType TokenType { get; set; }
         public string Authority { get; set; }
         public IEnumerable<string> RequiredScopes { get; set; }
 

@@ -138,8 +138,8 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Middleware\AppBuilderExtensions.cs" />
     <Compile Include="Middleware\IdentityServerBearerTokensAuthenticationOptions.cs" />
-    <Compile Include="Middleware\IdentityServerTokenType.cs" />
-    <Compile Include="Middleware\ReferenceTokenProvider.cs" />
+    <Compile Include="Middleware\ValidationType.cs" />
+    <Compile Include="Middleware\ValidationEndpointTokenProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

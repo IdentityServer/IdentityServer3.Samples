@@ -13,13 +13,13 @@ namespace Owin
     {
         public static IAppBuilder UseIdentityServerBearerTokenAuthentication(this IAppBuilder app, IdentityServerBearerTokenAuthenticationOptions options)
         {
-            if (options.TokenType == IdentityServerTokenType.Jwt)
+            if (options.TokenType == ValidationType.Local)
             {
                 app.UseJwt(options);
             }
-            else if (options.TokenType == IdentityServerTokenType.Reference)
+            else if (options.TokenType == ValidationType.ValidationEndpoint)
             {
-                app.UseReferenceTokens(options);
+                app.UseValidationEndpoint(options);
             }
 
             if (options.RequiredScopes.Any())
@@ -30,11 +30,11 @@ namespace Owin
             return app;
         }
 
-        internal static IAppBuilder UseReferenceTokens(this IAppBuilder app, IdentityServerBearerTokenAuthenticationOptions options)
+        internal static IAppBuilder UseValidationEndpoint(this IAppBuilder app, IdentityServerBearerTokenAuthenticationOptions options)
         {
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions
             {
-                AccessTokenProvider = new ReferenceTokenProvider(options)
+                AccessTokenProvider = new ValidationEndpointTokenProvider(options)
             });
 
             return app;

@@ -24,13 +24,13 @@ using System.Threading.Tasks;
 
 namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
 {
-    public class ReferenceTokenProvider : AuthenticationTokenProvider
+    public class ValidationEndpointTokenProvider : AuthenticationTokenProvider
     {
         private readonly HttpClient _client;
         private readonly string _tokenValidationEndpoint;
         private readonly IdentityServerBearerTokenAuthenticationOptions _options;
 
-        public ReferenceTokenProvider(IdentityServerBearerTokenAuthenticationOptions options)
+        public ValidationEndpointTokenProvider(IdentityServerBearerTokenAuthenticationOptions options)
         {
             var authority = options.Authority;
 
