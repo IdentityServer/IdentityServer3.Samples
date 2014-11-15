@@ -11,7 +11,7 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
     {
         public IdentityServerBearerTokenAuthenticationOptions() : base("Bearer")
         {
-            TokenType = IdentityServerTokenType.Jwt;
+            TokenType = IdentityServerTokenType.Reference;
             RequiredScopes = Enumerable.Empty<string>();
         }
 

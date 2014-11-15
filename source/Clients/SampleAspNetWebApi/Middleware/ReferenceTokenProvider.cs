@@ -36,7 +36,7 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
 
             if (!authority.EndsWith("/"))
             {
-                options.Authority += "/";
+                authority += "/";
             }
 
             authority += "connect/accesstokenvalidation";
