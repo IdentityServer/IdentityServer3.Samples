@@ -5,6 +5,7 @@ using Owin;
 using Sample;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
+using System.Security.Claims;
 
 [assembly: OwinStartup(typeof(MVC_OWIN_Client.Startup))]
 
@@ -34,18 +35,9 @@ namespace MVC_OWIN_Client
                     // sample how to access token on form (when adding the token response type)
                     //Notifications = new OpenIdConnectAuthenticationNotifications
                     //{
-                    //    MessageReceived = async n =>
-                    //        {
-                    //            var token = n.ProtocolMessage.Token;
-
-                    //            if (!string.IsNullOrEmpty(token))
-                    //            {
-                    //                n.OwinContext.Set<string>("idsrv:token", token);
-                    //            }
-                    //        },
                     //    SecurityTokenValidated = async n =>
                     //        {
-                    //            var token = n.OwinContext.Get<string>("idsrv:token");
+                    //            var token = n.ProtocolMessage.AccessToken;
 
                     //            if (!string.IsNullOrEmpty(token))
                     //            {
