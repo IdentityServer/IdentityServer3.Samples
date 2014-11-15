@@ -65,7 +65,8 @@ namespace MvcCodeFlowClientManual.Controllers
                                                    c.Type != "exp" &&
                                                    c.Type != "iat" &&
                                                    c.Type != "amr" &&
-                                                   c.Type != "idp"
+                                                   c.Type != "idp" &&
+                                                   c.Type != "nonce"
                                              select c);
 
 
