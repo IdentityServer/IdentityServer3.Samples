@@ -16,16 +16,22 @@ namespace SampleAspNetWebApi
             JwtSecurityTokenHandler.InboundClaimTypeMap = ClaimMappings.None;
 
             // for self contained tokens
-            app.UseIdentityServerJwt(new JwtTokenValidationOptions
+            app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
                 {
-                    Authority = "https://localhost:44333/core"
+                    Authority = "https://localhost:44333/core",
+                    TokenType = IdentityServerTokenType.Jwt,
                 });
 
-            // for reference tokens
-            app.UseIdentityServerReferenceToken(new ReferenceTokenValidationOptions
-                {
-                    Authority = "https://localhost:44333/core"
-                });
+            //app.UseIdentityServerJwt(new JwtTokenValidationOptions
+            //    {
+            //        Authority = "https://localhost:44333/core"
+            //    });
+
+            //// for reference tokens
+            //app.UseIdentityServerReferenceToken(new ReferenceTokenValidationOptions
+            //    {
+            //        Authority = "https://localhost:44333/core"
+            //    });
 
             // require read OR write scope
             app.RequireScopes(new ScopeValidationOptions

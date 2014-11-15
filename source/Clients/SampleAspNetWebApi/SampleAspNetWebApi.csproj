@@ -128,10 +128,6 @@
     <Reference Include="Thinktecture.IdentityModel.Owin.ScopeValidation">
       <HintPath>..\packages\Thinktecture.IdentityModel.Owin.ScopeValidation.2.0.0\lib\net45\Thinktecture.IdentityModel.Owin.ScopeValidation.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer.v3.AccessTokenValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AccessTokenValidation.1.0.0-beta2\lib\net45\Thinktecture.IdentityServer.v3.AccessTokenValidation.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />
@@ -140,6 +136,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Middleware\AppBuilderExtensions.cs" />
+    <Compile Include="Middleware\IdentityServerBearerTokensAuthenticationOptions.cs" />
+    <Compile Include="Middleware\IdentityServerTokenType.cs" />
+    <Compile Include="Middleware\ReferenceTokenProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
