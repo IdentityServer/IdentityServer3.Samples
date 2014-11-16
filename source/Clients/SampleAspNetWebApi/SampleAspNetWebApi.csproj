@@ -83,6 +83,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web.Cors">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.2\lib\net45\System.Web.Cors.dll</HintPath>
     </Reference>
@@ -134,10 +135,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Middleware\CachingDiscoveryTokenProvider.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Middleware\AppBuilderExtensions.cs" />
     <Compile Include="Middleware\IdentityServerBearerTokensAuthenticationOptions.cs" />
+    <Compile Include="Middleware\ScopeRequirementMiddleware.cs" />
     <Compile Include="Middleware\ValidationType.cs" />
     <Compile Include="Middleware\ValidationEndpointTokenProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

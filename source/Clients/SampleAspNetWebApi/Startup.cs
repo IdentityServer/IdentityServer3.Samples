@@ -1,7 +1,6 @@
 ﻿using Microsoft.Owin;
 using Owin;
 using System.IdentityModel.Tokens;
-using Thinktecture.IdentityModel.Owin.ScopeValidation;
 using Thinktecture.IdentityModel.Tokens;
 using Thinktecture.IdentityServer.v3.AccessTokenValidation;
 
@@ -18,15 +17,9 @@ namespace SampleAspNetWebApi
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
                 {
                     Authority = "https://localhost:44333/core",
+                    RequiredScopes = new[] { "read", "write" }
                 });
 
-            // require read OR write scope
-            app.RequireScopes(new ScopeValidationOptions
-                {
-                    AllowAnonymousAccess = true,
-                    Scopes = new[] { "read", "write" }
-                });
-            
             app.UseWebApi(WebApiConfig.Register());
         }
     }
