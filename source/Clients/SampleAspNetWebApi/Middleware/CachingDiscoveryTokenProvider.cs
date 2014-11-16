@@ -11,9 +11,6 @@ using System.Threading;
 
 namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
 {
-    /// <summary>
-    /// A security token provider which retrieves the issuer and signing tokens from a WSFed metadata endpoint.
-    /// </summary>
     internal class DiscoveryCachingSecurityTokenProvider : IIssuerSecurityTokenProvider
     {
         private readonly TimeSpan _refreshInterval = new TimeSpan(1, 0, 0, 0);
@@ -130,7 +127,7 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
             _synclock.EnterWriteLock();
             try
             {
-                var result = _configurationManager.GetConfigurationAsync().Result;
+                var result = AsyncHelper.RunSync<OpenIdConnectConfiguration>(async () => await _configurationManager.GetConfigurationAsync());
                 var tokens = from key in result.JsonWebKeySet.Keys
                             select new X509SecurityToken(new X509Certificate2(Convert.FromBase64String(key.X5c.First())));
                 

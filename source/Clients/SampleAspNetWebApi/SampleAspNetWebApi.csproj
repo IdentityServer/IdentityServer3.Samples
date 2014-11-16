@@ -135,6 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Middleware\AsyncHelper.cs" />
     <Compile Include="Middleware\CachingDiscoveryTokenProvider.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\TestController.cs" />
