@@ -210,77 +210,94 @@
     function TokenManager(settings) {
         settings = settings || {};
 
-        this.settings = settings;
-        this.store = settings.store || window.localStorage;
+        this._settings = settings;
+        this._store = settings.store || window.localStorage;
 
-        this.tokenRemovedCallbacks = [];
-        this.tokenExpiredCallbacks = [];
-        this.tokenObtainedCallbacks = [];
+        this._callbacks = {
+            tokenRemovedCallbacks : [],
+            tokenExpiredCallbacks : [],
+            tokenObtainedCallbacks : []
+        };
 
-        this.loadToken();
-        this.configureAutoRenewToken();
-        this.configureTokenExpiration();
+        loadToken(this);
+        configureAutoRenewToken(this);
+        configureTokenExpiration(this);
     }
 
     TokenManager.storageKey = "TokenManager.token";
+
     TokenManager.prototype.saveToken = function (token) {
         this.token = token;
 
-        if (this.settings.persistToken && token && !token.expired) {
-            this.store.setItem(TokenManager.storageKey, token.toJSON());
+        if (this._settings.persistToken && token && !token.expired) {
+            this._store.setItem(TokenManager.storageKey, token.toJSON());
         }
         else {
-            this.store.removeItem(TokenManager.storageKey);
+            this._store.removeItem(TokenManager.storageKey);
+        }
+
+        if (token) {
+            callTokenObtained(this);
+        }
+        else {
+            callTokenRemoved(this);
         }
     }
-    TokenManager.prototype.loadToken = function () {
-        if (this.settings.persistToken) {
-            var tokenJson = this.store.getItem(TokenManager.storageKey);
+
+    function loadToken(mgr) {
+        if (mgr._settings.persistToken) {
+            var tokenJson = mgr._store.getItem(TokenManager.storageKey);
             if (tokenJson) {
                 var token = Token.fromJSON(tokenJson);
                 if (!token.expired) {
-                    this.token = token;
+                    mgr.token = token;
                 }
             }
         }
     }
 
-    TokenManager.prototype.callTokenRemoved = function () {
-        this.tokenRemovedCallbacks.forEach(function (cb) {
+    function callTokenRemoved(mgr) {
+        mgr._callbacks.tokenRemovedCallbacks.forEach(function (cb) {
             cb();
         });
     }
-    TokenManager.prototype.callTokenExpired = function () {
-        this.tokenExpiredCallbacks.forEach(function (cb) {
+
+    function callTokenExpired(mgr) {
+        mgr._callbacks.tokenExpiredCallbacks.forEach(function (cb) {
             cb();
         });
     }
-    TokenManager.prototype.callTokenObtained = function () {
-        this.tokenObtainedCallbacks.forEach(function (cb) {
+
+    function callTokenObtained(mgr) {
+        mgr._callbacks.tokenObtainedCallbacks.forEach(function (cb) {
             cb();
         });
     }
+
     TokenManager.prototype.addOnTokenRemoved = function (cb) {
-        this.tokenRemovedCallbacks.push(cb);
+        this._callbacks.tokenRemovedCallbacks.push(cb);
     }
+
     TokenManager.prototype.addOnTokenObtained = function (cb) {
-        this.tokenObtainedCallbacks.push(cb);
+        this._callbacks.tokenObtainedCallbacks.push(cb);
     }
+
     TokenManager.prototype.addOnTokenExpired = function (cb) {
-        this.tokenExpiredCallbacks.push(cb);
+        this._callbacks.tokenExpiredCallbacks.push(cb);
     }
 
     TokenManager.prototype.removeToken = function () {
         this.saveToken(null);
-        this.callTokenRemoved();
     }
+
     TokenManager.prototype.redirectForToken = function () {
-        var oauth = new OAuthClient(this.settings);
+        var oauth = new OAuthClient(this._settings);
         var request = oauth.createImplicitRequest();
         window.location = request.url;
     }
+
     TokenManager.prototype.processTokenCallback = function (success, error) {
-        var oauth = new OAuthClient(this.settings);
+        var oauth = new OAuthClient(this._settings);
         var result = oauth.readImplicitResult(location.hash);
         if (result.error) {
             if (error) {
@@ -290,15 +307,14 @@
         else {
             var token = Token.fromOAuthResponse(result);
             this.saveToken(token);
-            this.callTokenObtained();
             if (success) {
                 success();
             }
         }
     }
 
-    TokenManager.prototype.tryRenewToken = function (success, error) {
-        var settings = copy(this.settings);
+    TokenManager.prototype.renewTokenSilent = function (success, error) {
+        var settings = copy(this._settings);
         settings.callbackUrl = settings.frameCallbackUrl;
         settings.prompt = "none";
 
@@ -311,7 +327,6 @@
             if (!result.error) {
                 var token = Token.fromOAuthResponse(result);
                 this.saveToken(token);
-                this.callTokenObtained();
                 if (success) {
                     success();
                 }
@@ -322,7 +337,8 @@
             }
         });
     }
-    TokenManager.prototype.checkForRenewedToken = function () {
+
+    TokenManager.prototype.processTokenCallbackSilent = function () {
         if (window.top && window !== window.top) {
             var hash = window.location.hash;
             if (hash) {
@@ -330,12 +346,12 @@
             }
         };
     }
-    TokenManager.prototype.configureAutoRenewToken = function () {
-        if (this.settings.autoRenewToken) {
-            var mgr = this;
+
+    function configureAutoRenewToken(mgr) {
+        if (mgr._settings.autoRenewToken) {
 
             function callback() {
-                mgr.tryRenewToken();
+                mgr.renewTokenSilent();
                 handle = null;
             }
 
@@ -367,13 +383,12 @@
             }
             configure();
 
-            this.addOnTokenRemoved(cancel);
-            this.addOnTokenObtained(configure);
+            mgr.addOnTokenRemoved(cancel);
+            mgr.addOnTokenObtained(configure);
         }
     }
 
-    TokenManager.prototype.configureTokenExpiration = function () {
-        var mgr = this;
+    function configureTokenExpiration(mgr) {
 
         function callback() {
             handle = null;
@@ -381,8 +396,7 @@
             var token = mgr.token;
             if (!token || token.expired) {
                 mgr.saveToken(null);
-                mgr.callTokenRemoved()
-                mgr.callTokenExpired();
+                callTokenExpired(mgr);
             }
         }
 
