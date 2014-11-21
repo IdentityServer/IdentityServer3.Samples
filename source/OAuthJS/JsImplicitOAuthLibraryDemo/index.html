@@ -39,8 +39,19 @@
             tokenManager.addOnTokenRemoved(toggleApiButton);
             toggleApiButton();
 
+            tokenManager.addOnTokenObtained(function () {
+                console.log("token obtained");
+            });
+            tokenManager.addOnTokenRemoved(function () {
+                console.log("token removed");
+            });
+            tokenManager.addOnTokenExpiring(function () {
+                console.log("token is about to expire");
+                //tokenManager.renewTokenSilent();
+            });
             tokenManager.addOnTokenExpired(function () {
                 $("#message").text("your session is expired");
+                console.log("token expired");
             });
 
             $("#token").click(function () {

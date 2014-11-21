@@ -215,13 +215,15 @@
 
         this._callbacks = {
             tokenRemovedCallbacks : [],
-            tokenExpiredCallbacks : [],
-            tokenObtainedCallbacks : []
+            tokenExpiringCallbacks: [],
+            tokenExpiredCallbacks: [],
+            tokenObtainedCallbacks: []
         };
 
         loadToken(this);
+        configureTokenExpiring(this);
+        configureTokenExpired(this);
         configureAutoRenewToken(this);
-        configureTokenExpiration(this);
     }
 
     TokenManager.storageKey = "TokenManager.token";
@@ -262,6 +264,12 @@
         });
     }
 
+    function callTokenExpiring(mgr) {
+        mgr._callbacks.tokenExpiringCallbacks.forEach(function (cb) {
+            cb();
+        });
+    }
+
     function callTokenExpired(mgr) {
         mgr._callbacks.tokenExpiredCallbacks.forEach(function (cb) {
             cb();
@@ -280,6 +288,10 @@
 
     TokenManager.prototype.addOnTokenObtained = function (cb) {
         this._callbacks.tokenObtainedCallbacks.push(cb);
+    }
+
+    TokenManager.prototype.addOnTokenExpiring = function (cb) {
+        this._callbacks.tokenExpiringCallbacks.push(cb);
     }
 
     TokenManager.prototype.addOnTokenExpired = function (cb) {
@@ -347,57 +359,67 @@
         };
     }
 
-    function configureAutoRenewToken(mgr) {
-        if (mgr._settings.autoRenewToken) {
+    function configureTokenExpiring(mgr) {
 
-            function callback() {
-                mgr.renewTokenSilent();
+        function callback() {
+            handle = null;
+            callTokenExpiring(mgr);
+        }
+
+        var handle = null;
+        function cancel() {
+            if (handle) {
+                window.clearTimeout(handle);
                 handle = null;
             }
+        }
 
-            var handle = null;
-            function cancel() {
-                if (handle) {
-                    window.clearTimeout(handle);
-                    handle = null;
+        function setup(duration) {
+            handle = window.setTimeout(callback, duration * 1000);
+        }
+
+        function configure() {
+            cancel();
+
+            var token = mgr.token;
+            if (token && !token.expired) {
+                var duration = token.expires_in;
+                if (duration > 60) {
+                    setup(duration - 60);
+                }
+                else {
+                    callback();
                 }
             }
+        }
+        configure();
 
-            function setup(duration) {
-                handle = window.setTimeout(callback, duration * 1000);
-            }
+        mgr.addOnTokenObtained(configure);
+        mgr.addOnTokenRemoved(cancel);
+    }
 
-            function configure() {
-                cancel();
+    function configureAutoRenewToken(mgr) {
 
-                var token = mgr.token;
-                if (token && !token.expired) {
-                    var duration = token.expires_in;
-                    if (duration > 60) {
-                        setup(duration - 60);
-                    }
-                    else {
-                        callback();
-                    }
-                }
-            }
-            configure();
+        if (mgr._settings.autoRenewToken) {
 
-            mgr.addOnTokenRemoved(cancel);
-            mgr.addOnTokenObtained(configure);
+            mgr.addOnTokenExpiring(function () {
+                mgr.renewTokenSilent();
+            });
+
         }
     }
 
-    function configureTokenExpiration(mgr) {
+    function configureTokenExpired(mgr) {
 
         function callback() {
             handle = null;
 
             var token = mgr.token;
-            if (!token || token.expired) {
+            if (token && token.expired) {
                 mgr.saveToken(null);
-                callTokenExpired(mgr);
             }
+
+            callTokenExpired(mgr);
         }
 
         var handle = null;
@@ -423,6 +445,7 @@
         configure();
 
         mgr.addOnTokenObtained(configure);
+        mgr.addOnTokenRemoved(cancel);
     }
 
     // exports
