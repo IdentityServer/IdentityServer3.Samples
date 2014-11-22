@@ -48,6 +48,16 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
 
         public override async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
         {
+            if (_options.CacheValidationResult)
+            {
+                var result = await _options.ValidationCache.GetAsync(context.Token);
+                if (result != null)
+                {
+                    context.SetTicket(new AuthenticationTicket(new ClaimsIdentity(result, _options.AuthenticationType), new AuthenticationProperties()));
+                    return;
+                }
+            }
+
             var url = string.Format(_tokenValidationEndpoint, context.Token);
 
             var response = await _client.GetAsync(url);
@@ -76,6 +86,11 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
                         claims.Add(new Claim(item.Key, value.ToString()));
                     }
                 }
+            }
+
+            if (_options.CacheValidationResult)
+            {
+                await _options.ValidationCache.AddAsync(context.Token, claims);
             }
 
             context.SetTicket(new AuthenticationTicket(new ClaimsIdentity(claims, _options.AuthenticationType), new AuthenticationProperties()));

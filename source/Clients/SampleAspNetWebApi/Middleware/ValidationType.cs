@@ -1,6 +1,6 @@
 ﻿namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
 {
-    public enum ValidationType
+    public enum ValidationMode
     {
         Local,
         ValidationEndpoint,

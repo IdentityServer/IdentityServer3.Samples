@@ -15,11 +15,11 @@ namespace Owin
                 throw new ArgumentNullException("options");
             }
 
-            if (options.ValidationType == ValidationType.Local)
+            if (options.ValidationMode == ValidationMode.Local)
             {
                 app.UseLocalValidation(options);
             }
-            else if (options.ValidationType == ValidationType.ValidationEndpoint)
+            else if (options.ValidationMode == ValidationMode.ValidationEndpoint)
             {
                 app.UseValidationEndpoint(options);
             }
@@ -77,6 +77,14 @@ namespace Owin
 
         internal static void UseValidationEndpoint(this IAppBuilder app, IdentityServerBearerTokenAuthenticationOptions options)
         {
+            if (options.CacheValidationResult)
+            {
+                if (options.ValidationCache == null)
+                {
+                    options.ValidationCache = new InMemoryValidationCache(options);
+                }
+            }
+
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions
             {
                 AccessTokenProvider = new ValidationEndpointTokenProvider(options)
