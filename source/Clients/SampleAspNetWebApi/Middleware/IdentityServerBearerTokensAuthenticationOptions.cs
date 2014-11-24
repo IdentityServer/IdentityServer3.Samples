@@ -34,8 +34,8 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
 
             ClaimsCacheDuration = TimeSpan.FromMinutes(5);
 
-            NameClaimType = ClaimsIdentity.DefaultNameClaimType;
-            RoleClaimType = ClaimsIdentity.DefaultRoleClaimType;
+            NameClaimType = "name";
+            RoleClaimType = "role";
         }
 
         // common for local and validation endpoint
