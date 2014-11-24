@@ -119,6 +119,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Thinktecture.IdentityServer.v3.AccessTokenValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AccessTokenValidation.1.0.0-beta3-2\lib\net45\Thinktecture.IdentityServer.v3.AccessTokenValidation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />
@@ -127,15 +131,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Middleware\IdentityServerAccessTokenValidationAppBuilderExtensions.cs" />
-    <Compile Include="Middleware\AsyncHelper.cs" />
-    <Compile Include="Middleware\CachingDiscoveryTokenProvider.cs" />
-    <Compile Include="Middleware\IClaimsCache.cs" />
-    <Compile Include="Middleware\IdentityServerBearerTokensAuthenticationOptions.cs" />
-    <Compile Include="Middleware\InMemoryClaimsCache.cs" />
-    <Compile Include="Middleware\ScopeRequirementMiddleware.cs" />
-    <Compile Include="Middleware\ValidationEndpointTokenProvider.cs" />
-    <Compile Include="Middleware\ValidationMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
