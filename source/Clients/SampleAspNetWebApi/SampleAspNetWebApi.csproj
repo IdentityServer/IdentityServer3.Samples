@@ -127,7 +127,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Middleware\AppBuilderExtensions.cs" />
+    <Compile Include="Middleware\IdentityServerAccessTokenValidationAppBuilderExtensions.cs" />
     <Compile Include="Middleware\AsyncHelper.cs" />
     <Compile Include="Middleware\CachingDiscoveryTokenProvider.cs" />
     <Compile Include="Middleware\IClaimsCache.cs" />
@@ -135,7 +135,7 @@
     <Compile Include="Middleware\InMemoryClaimsCache.cs" />
     <Compile Include="Middleware\ScopeRequirementMiddleware.cs" />
     <Compile Include="Middleware\ValidationEndpointTokenProvider.cs" />
-    <Compile Include="Middleware\ValidationType.cs" />
+    <Compile Include="Middleware\ValidationMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

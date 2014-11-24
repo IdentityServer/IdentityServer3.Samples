@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using System;
@@ -20,6 +21,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 
 namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
 {
@@ -31,12 +33,17 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
             RequiredScopes = Enumerable.Empty<string>();
 
             ClaimsCacheDuration = TimeSpan.FromMinutes(5);
+
+            NameClaimType = ClaimsIdentity.DefaultNameClaimType;
+            RoleClaimType = ClaimsIdentity.DefaultRoleClaimType;
         }
 
         // common for local and validation endpoint
         public ValidationMode ValidationMode { get; set; }
         public string Authority { get; set; }
         public IEnumerable<string> RequiredScopes { get; set; }
+        public string NameClaimType { get; set; }
+        public string RoleClaimType { get; set; }
 
         // validation endoint specific
         public bool CacheClaims { get; set; }

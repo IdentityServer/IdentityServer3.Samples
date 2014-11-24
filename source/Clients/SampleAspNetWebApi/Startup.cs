@@ -17,7 +17,7 @@ namespace SampleAspNetWebApi
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
                 {
                     Authority = "https://localhost:44333/core",
-                    RequiredScopes = new[] { "read", "write" }
+                    RequiredScopes = new[] { "read", "write" }, 
                 });
 
             app.UseWebApi(WebApiConfig.Register());

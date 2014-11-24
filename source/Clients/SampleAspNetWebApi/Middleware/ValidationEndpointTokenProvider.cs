@@ -93,7 +93,13 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
                 await _options.ClaimsCache.AddAsync(context.Token, claims);
             }
 
-            context.SetTicket(new AuthenticationTicket(new ClaimsIdentity(claims, _options.AuthenticationType), new AuthenticationProperties()));
+            var id = new ClaimsIdentity(
+                claims,
+                _options.AuthenticationType,
+                _options.NameClaimType,
+                _options.RoleClaimType);
+
+            context.SetTicket(new AuthenticationTicket(id, new AuthenticationProperties()));
         }
     }
 }

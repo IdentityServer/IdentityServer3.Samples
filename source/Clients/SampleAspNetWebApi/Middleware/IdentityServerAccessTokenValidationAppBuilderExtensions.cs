@@ -16,7 +16,9 @@
 using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using System;
+using System.IdentityModel.Tokens;
 using System.Linq;
+using System.Security.Claims;
 using Thinktecture.IdentityServer.v3.AccessTokenValidation;
 
 namespace Owin
@@ -69,7 +71,14 @@ namespace Owin
             }
             else
             {
-                jwtFormat = new JwtFormat(provider.Audience, provider);
+                var valParams = new TokenValidationParameters
+                {
+                    ValidAudience = provider.Audience,
+                    NameClaimType = options.NameClaimType,
+                    RoleClaimType = options.RoleClaimType
+                };
+
+                jwtFormat = new JwtFormat(valParams, provider);
             }
 
             if (options.TokenHandler != null)
