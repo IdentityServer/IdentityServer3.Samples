@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
 namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
 {
-    public enum ValidationMode
+    public interface IClaimsCache
     {
-        Local,
-        ValidationEndpoint,
+        Task AddAsync(string token, IEnumerable<Claim> claims);
+        Task<IEnumerable<Claim>> GetAsync(string token);
     }
 }

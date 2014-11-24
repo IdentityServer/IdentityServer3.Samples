@@ -1,4 +1,19 @@
-﻿using Microsoft.Owin.Security.Jwt;
+﻿/*
+ * Copyright 2014 Dominick Baier, Brock Allen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using System;
 using System.Linq;
@@ -77,11 +92,11 @@ namespace Owin
 
         internal static void UseValidationEndpoint(this IAppBuilder app, IdentityServerBearerTokenAuthenticationOptions options)
         {
-            if (options.CacheValidationResult)
+            if (options.CacheClaims)
             {
-                if (options.ValidationCache == null)
+                if (options.ClaimsCache == null)
                 {
-                    options.ValidationCache = new InMemoryValidationCache(options);
+                    options.ClaimsCache = new InMemoryClaimsCache(options);
                 }
             }
 
@@ -90,105 +105,5 @@ namespace Owin
                 AccessTokenProvider = new ValidationEndpointTokenProvider(options)
             });
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //internal static void UseLocal(this IAppBuilder app, IdentityServerBearerTokenAuthenticationOptions options)
-        //{
-
-
-
-
-
-        //    //if (!string.IsNullOrWhiteSpace(options.Authority))
-        //    //{
-        //    //    return app.UseJwtDiscovery(options);
-        //    //}
-        //    //else
-        //    //{
-        //    //    return app.ConfigureJwtMiddleware(options.IdentityServerName, options.SigningCertificates, options.AuthenticationType);
-        //    //}
-        //}
-
-
-
-
-
-
-
-
-
-        //private static IAppBuilder UseJwtDiscovery(this IAppBuilder app, IdentityServerBearerTokenAuthenticationOptions options)
-        //{
-        //    var authority = options.Authority;
-
-        //    if (!authority.EndsWith("/"))
-        //    {
-        //        authority += "/";
-        //    }
-
-        //    authority += ".well-known/openid-configuration";
-        //    var configuration = new ConfigurationManager<OpenIdConnectConfiguration>(authority);
-
-        //    var result = configuration.GetConfigurationAsync().Result;
-        //    var certs = from key in result.JsonWebKeySet.Keys
-        //                select new X509Certificate2(Convert.FromBase64String(key.X5c.First()));
-
-        //    return app.ConfigureJwtMiddleware(result.Issuer, certs, options.AuthenticationType);
-        //}
-
-        //internal static IAppBuilder ConfigureJwtMiddleware(this IAppBuilder app, string issuerName, IEnumerable<X509Certificate2> signingCertificates, string authenticationType)
-        //{
-        //    if (string.IsNullOrWhiteSpace(issuerName)) throw new ArgumentNullException("issuerName");
-        //    if (!signingCertificates.Any()) throw new ArgumentNullException("signingCertificate");
-
-        //    var audience = issuerName;
-
-        //    if (!audience.EndsWith("/"))
-        //    {
-        //        audience += "/";
-        //    }
-
-        //    audience += "resources";
-
-        //    var providers = new List<X509CertificateSecurityTokenProvider>();
-        //    foreach (var cert in signingCertificates)
-        //    {
-        //        providers.Add(new X509CertificateSecurityTokenProvider(issuerName, cert));
-        //    }
-
-        //    app.UseJwtBearerAuthentication(new Microsoft.Owin.Security.Jwt.JwtBearerAuthenticationOptions
-        //    {
-        //        AuthenticationType = authenticationType,
-
-        //        AllowedAudiences = new[] { audience },
-        //        IssuerSecurityTokenProviders = providers
-        //    });
-
-        //    return app;
-        //}
     }
 }

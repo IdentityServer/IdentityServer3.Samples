@@ -48,9 +48,9 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
 
         public override async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
         {
-            if (_options.CacheValidationResult)
+            if (_options.CacheClaims)
             {
-                var result = await _options.ValidationCache.GetAsync(context.Token);
+                var result = await _options.ClaimsCache.GetAsync(context.Token);
                 if (result != null)
                 {
                     context.SetTicket(new AuthenticationTicket(new ClaimsIdentity(result, _options.AuthenticationType), new AuthenticationProperties()));
@@ -88,9 +88,9 @@ namespace Thinktecture.IdentityServer.v3.AccessTokenValidation
                 }
             }
 
-            if (_options.CacheValidationResult)
+            if (_options.CacheClaims)
             {
-                await _options.ValidationCache.AddAsync(context.Token, claims);
+                await _options.ClaimsCache.AddAsync(context.Token, claims);
             }
 
             context.SetTicket(new AuthenticationTicket(new ClaimsIdentity(claims, _options.AuthenticationType), new AuthenticationProperties()));
