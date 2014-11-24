@@ -78,7 +78,7 @@ namespace WpfClient
         {
             var additional = new Dictionary<string, string>
             {
-                { "nonce", "nonce" },
+                { "nonce", "should_be_random" },
                 // { "login_hint", "idp:Google" },
                 // { "acr_values", "a b c" }
             };
@@ -89,7 +89,7 @@ namespace WpfClient
                 responseType,
                 scope,
                 "oob://localhost/wpfclient",
-                "state",
+                "random_state",
                 additional);
 
             _login.Show();
@@ -103,12 +103,29 @@ namespace WpfClient
                 BaseAddress = new Uri(Constants.UserInfoEndpoint)
             };
 
+            // authorization header
             if (_response != null && _response.Values.ContainsKey("access_token"))
-            {  
+            {
                 client.SetBearerToken(_response.AccessToken);
             }
 
             var response = await client.GetAsync("");
+
+            // form post
+            //HttpResponseMessage response;
+            //if (_response != null && _response.Values.ContainsKey("access_token"))
+            //{
+            //    var body = new Dictionary<string, string>
+            //    {
+            //        { "access_token", _response.AccessToken }
+            //    };
+
+            //    response = await client.PostAsync("", new FormUrlEncodedContent(body));
+            //}
+            //else
+            //{
+            //    return;
+            //}
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
