@@ -20,15 +20,13 @@ namespace MvcCodeFlowClientManual.Controllers
         public ActionResult Index(string scopes)
         {
             var client = new OAuth2Client(new Uri(Constants.AuthorizeEndpoint));
+            
             var url = client.CreateCodeFlowUrl(
-                "codeclient",
-                scopes,
-                "https://localhost:44312/callback",
-                "123",
-                new Dictionary<string, string>
-                {
-                    { "nonce", "should_be_random" }
-                });
+                clientId:    "codeclient",
+                scope:        scopes,
+                redirectUri: "https://localhost:44312/callback",
+                state:       "should be random",
+                nonce:       "should be random as well");
 
             return Redirect(url);
         }
