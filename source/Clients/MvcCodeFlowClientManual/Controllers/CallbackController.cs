@@ -39,7 +39,7 @@ namespace MvcCodeFlowClientManual.Controllers
                 code,
                 "https://localhost:44312/callback");
 
-            ValidateResponseAndSignIn(response);
+            await ValidateResponseAndSignInAsync(response);
 
             if (!string.IsNullOrEmpty(response.IdentityToken))
             {
@@ -53,25 +53,17 @@ namespace MvcCodeFlowClientManual.Controllers
             return View("Token", response);
         }
 
-        private void ValidateResponseAndSignIn(TokenResponse response)
+        private async Task ValidateResponseAndSignInAsync(TokenResponse response)
         {
             if (!string.IsNullOrWhiteSpace(response.IdentityToken))
             {
                 var tokenClaims = ValidateToken(response.IdentityToken);
-                var claims = new List<Claim>(from c in tokenClaims
-                                             where c.Type != "iss" &&
-                                                   c.Type != "aud" &&
-                                                   c.Type != "nbf" &&
-                                                   c.Type != "exp" &&
-                                                   c.Type != "iat" &&
-                                                   c.Type != "amr" &&
-                                                   c.Type != "idp" &&
-                                                   c.Type != "nonce"
-                                             select c);
-
+                var claims = new List<Claim>();
 
                 if (!string.IsNullOrWhiteSpace(response.AccessToken))
                 {
+                    claims.AddRange(await GetUserInfoClaimsAsync(response.AccessToken));
+
                     claims.Add(new Claim("access_token", response.AccessToken));
                     claims.Add(new Claim("expires_at", (DateTime.UtcNow.ToEpochTime() + response.ExpiresIn).ToDateTimeFromEpoch().ToString()));
                 }
@@ -98,6 +90,18 @@ namespace MvcCodeFlowClientManual.Controllers
             SecurityToken jwt;
             var id = new JwtSecurityTokenHandler().ValidateToken(token, parameters, out jwt);
             return id.Claims.ToList();
+        }
+
+        private async Task<IEnumerable<Claim>> GetUserInfoClaimsAsync(string accessToken)
+        {
+            var userInfoClient = new UserInfoClient(new Uri(Constants.UserInfoEndpoint), accessToken);
+
+            var userInfo = await userInfoClient.GetAsync();
+
+            var claims = new List<Claim>();
+            userInfo.Claims.ToList().ForEach(ui => claims.Add(new Claim(ui.Item1, ui.Item2)));
+
+            return claims;
         }
 
         private string ParseJwt(string token)
