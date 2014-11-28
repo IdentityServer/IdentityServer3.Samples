@@ -10,75 +10,73 @@
     <button id="forget">Forget Token</button>
     <pre id="result"></pre>
     <script src="jquery-2.1.0.min.js"></script>
-    <script src="oauth.js"></script>
+    <script src="oidc/oidc.js"></script>
     <script>
         $(function () {
             var config = {
-                authorizationUrl: "https://localhost:44333/core/connect/authorize",
-                clientId: "implicitclient",
-                scope: "read write",
-                callbackUrl : window.location.protocol + "//" + window.location.host + "/callback.html",
-                persistToken: true,
-                frameCallbackUrl: window.location.protocol + "//" + window.location.host + "/frame.html",
-                autoRenewToken: true
+                client_id: "implicitclient",
+                redirect_uri: window.location.protocol + "//" + window.location.host + "/callback.html",
+                post_logout_redirect_uri: "http://localhost:6398/index.html",
+                scope: "openid read write",
+                authority: "https://localhost:44333/core",
+                silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/frame.html",
+                silent_renew : true
             };
-            var tokenManager = new TokenManager(config);
+            var mgr = new TokenManager(config);
 
-            if (tokenManager.token && !tokenManager.token.expired) {
-                console.log("Token loaded, expires in: ", tokenManager.token.expires_in, tokenManager.token.access_token);
+            if (!mgr.expired) {
+                console.log("Token loaded, expires in: ", mgr.expires_in, mgr.access_token);
             }
             else {
                 console.log("No token loaded");
             }
 
             function toggleApiButton() {
-                var isTokenValid = tokenManager.token && !tokenManager.expired;
+                var isTokenValid = !mgr.expired;
                 $("#api").text("Call API (" + (isTokenValid ? "with" : "without") + " token)");
             }
-            tokenManager.addOnTokenObtained(toggleApiButton);
-            tokenManager.addOnTokenRemoved(toggleApiButton);
+            mgr.addOnTokenObtained(toggleApiButton);
+            mgr.addOnTokenRemoved(toggleApiButton);
             toggleApiButton();
 
-            tokenManager.addOnTokenObtained(function () {
+            mgr.addOnTokenObtained(function () {
                 console.log("token obtained");
             });
-            tokenManager.addOnTokenRemoved(function () {
+            mgr.addOnTokenRemoved(function () {
                 console.log("token removed");
             });
-            tokenManager.addOnTokenExpiring(function () {
+            mgr.addOnTokenExpiring(function () {
                 console.log("token is about to expire");
-                //tokenManager.renewTokenSilent();
+                //mgr.renewTokenSilent();
             });
-            tokenManager.addOnTokenExpired(function () {
+            mgr.addOnTokenExpired(function () {
                 $("#message").text("your session is expired");
                 console.log("token expired");
             });
 
             $("#token").click(function () {
-                tokenManager.redirectForToken();
+                mgr.redirectForToken();
             });
 
             $("#forget").click(function () {
-                tokenManager.removeToken();
+                mgr.removeToken();
             });
             function toggleForget() {
-                var isTokenValid = tokenManager.token && !tokenManager.expired;
-                $("#forget").prop("disabled", !isTokenValid);
+                $("#forget").prop("disabled", mgr.expired);
             }
-            tokenManager.addOnTokenObtained(toggleForget);
-            tokenManager.addOnTokenRemoved(toggleForget);
+            mgr.addOnTokenObtained(toggleForget);
+            mgr.addOnTokenRemoved(toggleForget);
             toggleForget();
 
             $(document).ajaxSend(function (e, xhr, settings) {
-                var token = tokenManager.token && tokenManager.token.access_token;
-                if (token) {
-                    xhr.setRequestHeader("Authorization", "Bearer " + token);
+                if (mgr.access_token) {
+                    xhr.setRequestHeader("Authorization", "Bearer " + mgr.access_token);
                 }
             });
 
             $(document).ajaxError(function (e, xhr) {
                 if (xhr.status === 401) {
-                    tokenManager.removeToken();
+                    mgr.removeToken();
                 }
             });
 
