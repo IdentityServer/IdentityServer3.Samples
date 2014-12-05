@@ -72,6 +72,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -98,8 +99,9 @@
     <Reference Include="Thinktecture.IdentityModel.Owin.ScopeValidation">
       <HintPath>..\packages\Thinktecture.IdentityModel.Owin.ScopeValidation.2.0.0\lib\net45\Thinktecture.IdentityModel.Owin.ScopeValidation.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer.v3.AccessTokenValidation">
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AccessTokenValidation.1.0.0-beta2\lib\net45\Thinktecture.IdentityServer.v3.AccessTokenValidation.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer.v3.AccessTokenValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AccessTokenValidation.1.0.0-beta3-2\lib\net45\Thinktecture.IdentityServer.v3.AccessTokenValidation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
