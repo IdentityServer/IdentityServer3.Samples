@@ -13,10 +13,9 @@ namespace Api
         {
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
             {
-                Authority = "https://localhost:44319/identity"
+                Authority = "https://localhost:44319/identity",
+                RequiredScopes = new[] { "sampleApi" }
             });
-
-            app.RequireScopes("sampleApi");
 
             // web api configuration
             var config = new HttpConfiguration();
