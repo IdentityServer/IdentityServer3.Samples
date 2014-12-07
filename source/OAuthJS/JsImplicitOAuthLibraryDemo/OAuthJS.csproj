@@ -101,7 +101,55 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="oidc\crypto.js" />
+    <Content Include="oidc\crypto.min.js">
+      <DependentUpon>crypto.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\es6-promise-2.0.0.js" />
+    <Content Include="oidc\es6-promise-2.0.0.min.js">
+      <DependentUpon>es6-promise-2.0.0.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\iife-end.js" />
+    <Content Include="oidc\iife-start.js" />
+    <Content Include="oidc\json-sans-eval.js" />
+    <Content Include="oidc\json-sans-eval.min.js">
+      <DependentUpon>json-sans-eval.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\jws-3.0.js" />
+    <Content Include="oidc\jws-3.0.min.js">
+      <DependentUpon>jws-3.0.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\oidc.js">
+      <DependentUpon>oidc.js.bundle</DependentUpon>
+    </Content>
+    <Content Include="oidc\rsa.js" />
+    <Content Include="oidc\rsa.min.js">
+      <DependentUpon>rsa.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\token-manager.js" />
+    <Content Include="oidc\token-manager.min.js">
+      <DependentUpon>token-manager.js</DependentUpon>
+    </Content>
     <Content Include="packages.config" />
+    <Content Include="oidc\oidc.js.bundle" />
+    <Content Include="oidc\crypto.min.js.map">
+      <DependentUpon>crypto.min.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\es6-promise-2.0.0.min.js.map">
+      <DependentUpon>es6-promise-2.0.0.min.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\json-sans-eval.min.js.map">
+      <DependentUpon>json-sans-eval.min.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\jws-3.0.min.js.map">
+      <DependentUpon>jws-3.0.min.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\rsa.min.js.map">
+      <DependentUpon>rsa.min.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\token-manager.min.js.map">
+      <DependentUpon>token-manager.min.js</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -114,7 +162,6 @@
     <Content Include="frame.html" />
     <Content Include="index.html" />
     <Content Include="jquery-2.1.0.min.js" />
-    <Content Include="oauth.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

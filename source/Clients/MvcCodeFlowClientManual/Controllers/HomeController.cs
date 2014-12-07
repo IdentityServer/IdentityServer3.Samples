@@ -19,16 +19,17 @@ namespace MvcCodeFlowClientManual.Controllers
         [HttpPost]
         public ActionResult Index(string scopes)
         {
+            var state = Guid.NewGuid().ToString("N");
+            var nonce = Guid.NewGuid().ToString("N");
+
             var client = new OAuth2Client(new Uri(Constants.AuthorizeEndpoint));
+            
             var url = client.CreateCodeFlowUrl(
-                "codeclient",
-                scopes,
-                "https://localhost:44312/callback",
-                "123",
-                new Dictionary<string, string>
-                {
-                    { "nonce", "should_be_random" }
-                });
+                clientId:    "codeclient",
+                scope:        scopes,
+                redirectUri: "https://localhost:44312/callback",
+                state:       state,
+                nonce:       nonce);
 
             return Redirect(url);
         }

@@ -11,10 +11,10 @@ namespace Api
     {
         public void Configuration(IAppBuilder app)
         {
-            app.UseIdentityServerJwt(new JwtTokenValidationOptions
-                {
-                    Authority = "https://localhost:44319/identity"
-                });
+            app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
+            {
+                Authority = "https://localhost:44319/identity"
+            });
 
             app.RequireScopes("sampleApi");
 
