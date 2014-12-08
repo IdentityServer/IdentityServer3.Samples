@@ -21,7 +21,15 @@ function Token(id_token, id_token_jwt, access_token, expires_at) {
     this.id_token = id_token;
     this.id_token_jwt = id_token_jwt;
     this.access_token = access_token;
-    this.expires_at = parseInt(expires_at);
+    if (access_token) {
+        this.expires_at = parseInt(expires_at);
+    }
+    else if (id_token) {
+        this.expires_at = id_token.exp;
+    }
+    else {
+        throw Error("Either access_token or id_token required.");
+    }
 
     Object.defineProperty(this, "expired", {
         get: function () {
@@ -39,8 +47,10 @@ function Token(id_token, id_token_jwt, access_token, expires_at) {
 }
 
 Token.fromResponse = function (response) {
-    var now = parseInt(Date.now() / 1000);
-    var expires_at = now + parseInt(response.expires_in);
+    if (response.access_token) {
+        var now = parseInt(Date.now() / 1000);
+        var expires_at = now + parseInt(response.expires_in);
+    }
     return new Token(response.id_token, response.id_token_jwt, response.access_token, expires_at);
 }
 

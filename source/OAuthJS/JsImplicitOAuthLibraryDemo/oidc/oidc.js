@@ -302,9 +302,12 @@ OidcClient.prototype.loadX509SigningKeyAsync = function () {
     });
 };
 
-OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce) {
+OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce, access_token) {
 
-    return this.loadX509SigningKeyAsync().then(function (cert) {
+    var client = this;
+    var settings = client._settings;
+
+    return client.loadX509SigningKeyAsync().then(function (cert) {
 
         var jws = new KJUR.jws.JWS();
         if (jws.verifyJWSByPemX509Cert(jwt, cert)) {
@@ -314,7 +317,40 @@ OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce) {
                 return error("Invalid nonce");
             }
 
-            return id_token;
+            return client.loadMetadataAsync().then(function (metadata) {
+
+                if (id_token.iss !== metadata.issuer) {
+                    return error("Invalid issuer");
+                }
+
+                if (id_token.aud !== settings.client_id) {
+                    return error("Invalid audience");
+                }
+
+                var now = parseInt(Date.now() / 1000);
+
+                // accept tokens issues up to 5 mins ago
+                var diff = now - id_token.iat;
+                if (diff > (5 * 60)) {
+                    return error("Token issued too long ago");
+                }
+
+                if (id_token.exp < now) {
+                    return error("Token expired");
+                }
+
+                if (access_token){
+                    // if we have an access token, then call user info endpoint
+                    return client.loadUserProfile(access_token, id_token).then(function (id_token) {
+                        return id_token;
+                    });
+                }
+                else{
+                    // no access token, so we have all our claims
+                    return id_token;
+                }
+
+            });
         }
         else {
             return error("JWT failed to validate");
@@ -324,31 +360,21 @@ OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce) {
 
 };
 
-OidcClient.prototype.validateAccessTokenAsync = function (id_token, id_token_jwt, access_token) {
+OidcClient.prototype.validateAccessTokenAsync = function (id_token, access_token) {
 
     if (!id_token.at_hash) {
         return error("No at_hash in id_token");
     }
 
-    return this.loadX509SigningKeyAsync().then(function (cert) {
-        var jws = new KJUR.jws.JWS();
-        if (jws.verifyJWSByPemX509Cert(id_token_jwt, cert)) {
-            if (jws.parsedJWS.headP.alg != "RS256") {
-                return error("JWT signature alg not supported");
-            }
+    var hash = KJUR.crypto.Util.sha256(access_token);
+    var left = hash.substr(0, hash.length / 2);
+    var left_b64u = hextob64u(left);
 
-            var hash = KJUR.crypto.Util.sha256(access_token);
-            var left = hash.substr(0, hash.length / 2);
-            var left_b64u = hextob64u(left);
+    if (left_b64u !== id_token.at_hash) {
+        return error("at_hash failed to validate");
+    }
 
-            if (left_b64u !== id_token.at_hash) {
-                return error("at_hash failed to validate");
-            }
-        }
-        else {
-            return error("JWT failed to validate");
-        }
-    });
+    return Promise.resolve();
 };
 
 OidcClient.prototype.loadUserProfile = function (access_token, id_token) {
@@ -370,38 +396,11 @@ OidcClient.prototype.loadUserProfile = function (access_token, id_token) {
 OidcClient.prototype.validateIdTokenAndAccessTokenAsync = function (id_token_jwt, nonce, access_token) {
     var client = this;
 
-    return client.validateIdTokenAsync(id_token_jwt, nonce).then(function (id_token) {
-        if (!id_token) {
-            return error("Invalid identity token");
-        }
+    return client.validateIdTokenAsync(id_token_jwt, nonce, access_token).then(function (id_token) {
 
-        return client.loadMetadataAsync().then(function (metadata) {
+        return client.validateAccessTokenAsync(id_token, access_token).then(function () {
 
-            if (id_token.iss !== metadata.issuer) {
-                return error("Invalid issuer");
-            }
-
-            if (id_token.aud !== settings.client_id) {
-                return error("Invalid audience");
-            }
-
-            var now = parseInt(Date.now() / 1000);
-
-            // accept tokens issued up to 5 mins ago
-            var diff = now - id_token.iat;
-            if (diff > (5 * 60)) {
-                return error("Token issued too long ago");
-            }
-
-            if (id_token.exp < now) {
-                return error("Token expired");
-            }
-
-            return client.validateAccessTokenAsync(id_token, result.id_token, token).then(function () {
-
-                return client.loadUserProfile(token, id_token);
-
-            });
+            return id_token;
 
         });
 
@@ -478,7 +477,7 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
         return {
             id_token: id_token,
             id_token_jwt: result.id_token,
-            access_token: result.token,
+            access_token: result.access_token,
             expires_in: result.expires_in
         };
     });
@@ -509,7 +508,15 @@ function Token(id_token, id_token_jwt, access_token, expires_at) {
     this.id_token = id_token;
     this.id_token_jwt = id_token_jwt;
     this.access_token = access_token;
-    this.expires_at = parseInt(expires_at);
+    if (access_token) {
+        this.expires_at = parseInt(expires_at);
+    }
+    else if (id_token) {
+        this.expires_at = id_token.exp;
+    }
+    else {
+        throw Error("Either access_token or id_token required.");
+    }
 
     Object.defineProperty(this, "expired", {
         get: function () {
@@ -527,8 +534,10 @@ function Token(id_token, id_token_jwt, access_token, expires_at) {
 }
 
 Token.fromResponse = function (response) {
-    var now = parseInt(Date.now() / 1000);
-    var expires_at = now + parseInt(response.expires_in);
+    if (response.access_token) {
+        var now = parseInt(Date.now() / 1000);
+        var expires_at = now + parseInt(response.expires_in);
+    }
     return new Token(response.id_token, response.id_token_jwt, response.access_token, expires_at);
 }
 
