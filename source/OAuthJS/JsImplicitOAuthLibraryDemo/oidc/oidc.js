@@ -10,7 +10,883 @@ var jsonParse=function(){function r(n,t,r){return t?i[t]:String.fromCharCode(par
 typeof KJUR!="undefined"&&KJUR||(KJUR={});typeof KJUR.jws!="undefined"&&KJUR.jws||(KJUR.jws={});KJUR.jws.JWS=function(){function n(n,t){return utf8tob64u(n)+"."+utf8tob64u(t)}function t(n){var t=n.alg,i="";if(t!="RS256"&&t!="RS512"&&t!="PS256"&&t!="PS512")throw"JWS signature algorithm not supported: "+t;return t.substr(2)=="256"&&(i="sha256"),t.substr(2)=="512"&&(i="sha512"),i}function i(n){return t(jsonParse(n))}function r(n,t,r,u,f,e){var o=new RSAKey,s,h;return o.setPrivate(u,f,e),s=i(n),h=o.signString(r,s),h}function u(n,r,u,f,e){var o=null,s;return o=typeof e=="undefined"?i(n):t(e),s=e.alg.substr(0,2)=="PS",f.hashAndSign?b64tob64u(f.hashAndSign(o,u,"binary","base64",s)):s?hextob64u(f.signStringPSS(u,o)):hextob64u(f.signString(u,o))}function f(n,t,r,u){var f=new RSAKey,e,o;return f.readPrivateKeyFromPEMString(u),e=i(n),o=f.signString(r,e),o}this.parseJWS=function(n,t){var f,o,i,s;if(this.parsedJWS===undefined||!t&&this.parsedJWS.sigvalH===undefined){if(n.match(/^([^.]+)\.([^.]+)\.([^.]+)$/)==null)throw"JWS signature is not a form of 'Head.Payload.SigValue'.";var r=RegExp.$1,u=RegExp.$2,e=RegExp.$3,h=r+"."+u;if(this.parsedJWS={},this.parsedJWS.headB64U=r,this.parsedJWS.payloadB64U=u,this.parsedJWS.sigvalB64U=e,this.parsedJWS.si=h,t||(f=b64utohex(e),o=parseBigInt(f,16),this.parsedJWS.sigvalH=f,this.parsedJWS.sigvalBI=o),i=b64utoutf8(r),s=b64utoutf8(u),this.parsedJWS.headS=i,this.parsedJWS.payloadS=s,!KJUR.jws.JWS.isSafeJSONString(i,this.parsedJWS,"headP"))throw"malformed JSON string for JWS Head: "+i;}};this.verifyJWSByNE=function(n,t,i){return this.parseJWS(n),_rsasign_verifySignatureWithArgs(this.parsedJWS.si,this.parsedJWS.sigvalBI,t,i)};this.verifyJWSByKey=function(n,i){this.parseJWS(n);var r=t(this.parsedJWS.headP),u=this.parsedJWS.headP.alg.substr(0,2)=="PS";return i.hashAndVerify?i.hashAndVerify(r,new Buffer(this.parsedJWS.si,"utf8").toString("base64"),b64utob64(this.parsedJWS.sigvalB64U),"base64",u):u?i.verifyStringPSS(this.parsedJWS.si,this.parsedJWS.sigvalH,r):i.verifyString(this.parsedJWS.si,this.parsedJWS.sigvalH)};this.verifyJWSByPemX509Cert=function(n,t){this.parseJWS(n);var i=new X509;return i.readCertPEM(t),i.subjectPublicKeyRSA.verifyString(this.parsedJWS.si,this.parsedJWS.sigvalH)};this.generateJWSByNED=function(t,i,u,f,e){if(!KJUR.jws.JWS.isSafeJSONString(t))throw"JWS Head is not safe JSON string: "+t;var o=n(t,i),h=r(t,i,o,u,f,e),s=hextob64u(h);return this.parsedJWS={},this.parsedJWS.headB64U=o.split(".")[0],this.parsedJWS.payloadB64U=o.split(".")[1],this.parsedJWS.sigvalB64U=s,o+"."+s};this.generateJWSByKey=function(t,i,r){var o={},f,e;if(!KJUR.jws.JWS.isSafeJSONString(t,o,"headP"))throw"JWS Head is not safe JSON string: "+t;return f=n(t,i),e=u(t,i,f,r,o.headP),this.parsedJWS={},this.parsedJWS.headB64U=f.split(".")[0],this.parsedJWS.payloadB64U=f.split(".")[1],this.parsedJWS.sigvalB64U=e,f+"."+e};this.generateJWSByP1PrvKey=function(t,i,r){if(!KJUR.jws.JWS.isSafeJSONString(t))throw"JWS Head is not safe JSON string: "+t;var u=n(t,i),o=f(t,i,u,r),e=hextob64u(o);return this.parsedJWS={},this.parsedJWS.headB64U=u.split(".")[0],this.parsedJWS.payloadB64U=u.split(".")[1],this.parsedJWS.sigvalB64U=e,u+"."+e}};KJUR.jws.JWS.sign=function(n,t,i,r,u){var s=KJUR.jws.JWS,o,f,l,e,a;if(!s.isSafeJSONString(t))throw"JWS Head is not safe JSON string: "+sHead;if(o=s.readSafeJSONString(t),(n==""||n==null)&&o.alg!==undefined&&(n=o.alg),n!=""&&n!=null&&o.alg===undefined&&(o.alg=n,t=JSON.stringify(o)),f=null,s.jwsalg2sigalg[n]===undefined)throw"unsupported alg name: "+n;else f=s.jwsalg2sigalg[n];var v=utf8tob64u(t),y=utf8tob64u(i),h=v+"."+y,c="";if(f.substr(0,4)=="Hmac"){if(r===undefined)throw"hexadecimal key shall be specified for HMAC";l=new KJUR.crypto.Mac({alg:f,pass:hextorstr(r)});l.updateString(h);c=l.doFinal()}else f.indexOf("withECDSA")!=-1?(e=new KJUR.crypto.Signature({alg:f}),e.init(r,u),e.updateString(h),hASN1Sig=e.sign(),c=KJUR.crypto.ECDSA.asn1SigToConcatSig(hASN1Sig)):f!="none"&&(e=new KJUR.crypto.Signature({alg:f}),e.init(r,u),e.updateString(h),c=e.sign());return a=hextob64u(c),h+"."+a};KJUR.jws.JWS.verify=function(n,t){var f=KJUR.jws.JWS,u=n.split("."),a=u[0],v=u[1],e=a+"."+v,o=b64utohex(u[2]),s=f.readSafeJSONString(b64utoutf8(u[0])),h=null,i,c,l,r;if(s.alg===undefined)throw"algorithm not specified in header";else h=s.alg;if(i=null,f.jwsalg2sigalg[s.alg]===undefined)throw"unsupported alg name: "+h;else i=f.jwsalg2sigalg[h];if(i=="none")return!0;if(i.substr(0,4)=="Hmac"){if(t===undefined)throw"hexadecimal key shall be specified for HMAC";return c=new KJUR.crypto.Mac({alg:i,pass:hextorstr(t)}),c.updateString(e),hSig2=c.doFinal(),o==hSig2}if(i.indexOf("withECDSA")!=-1){l=null;try{l=KJUR.crypto.ECDSA.concatSigToASN1Sig(o)}catch(y){return!1}return r=new KJUR.crypto.Signature({alg:i}),r.init(t),r.updateString(e),r.verify(l)}return r=new KJUR.crypto.Signature({alg:i}),r.init(t),r.updateString(e),r.verify(o)};KJUR.jws.JWS.jwsalg2sigalg={HS256:"HmacSHA256",HS512:"HmacSHA512",RS256:"SHA256withRSA",RS384:"SHA384withRSA",RS512:"SHA512withRSA",ES256:"SHA256withECDSA",ES384:"SHA384withECDSA",PS256:"SHA256withRSAandMGF1",PS384:"SHA384withRSAandMGF1",PS512:"SHA512withRSAandMGF1",none:"none"};KJUR.jws.JWS.isSafeJSONString=function(n,t,i){var r=null;try{return(r=jsonParse(n),typeof r!="object")?0:r.constructor===Array?0:(t&&(t[i]=r),1)}catch(u){return 0}};KJUR.jws.JWS.readSafeJSONString=function(n){var t=null;try{return(t=jsonParse(n),typeof t!="object")?null:t.constructor===Array?null:t}catch(i){return null}};KJUR.jws.JWS.getEncodedSignatureValueFromJWS=function(n){if(n.match(/^[^.]+\.[^.]+\.([^.]+)$/)==null)throw"JWS signature is not a form of 'Head.Payload.SigValue'.";return RegExp.$1};KJUR.jws.IntDate=function(){};KJUR.jws.IntDate.get=function(n){if(n=="now")return KJUR.jws.IntDate.getNow();if(n=="now + 1hour")return KJUR.jws.IntDate.getNow()+3600;if(n=="now + 1day")return KJUR.jws.IntDate.getNow()+86400;if(n=="now + 1month")return KJUR.jws.IntDate.getNow()+2592e3;if(n=="now + 1year")return KJUR.jws.IntDate.getNow()+31536e3;if(n.match(/Z$/))return KJUR.jws.IntDate.getZulu(n);if(n.match(/^[0-9]+$/))return parseInt(n);throw"unsupported format: "+n;};KJUR.jws.IntDate.getZulu=function(n){if(a=n.match(/(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)Z/)){var t=parseInt(RegExp.$1),i=parseInt(RegExp.$2)-1,r=parseInt(RegExp.$3),u=parseInt(RegExp.$4),f=parseInt(RegExp.$5),e=parseInt(RegExp.$6),o=new Date(Date.UTC(t,i,r,u,f,e));return~~(o/1e3)}throw"unsupported format: "+n;};KJUR.jws.IntDate.getNow=function(){return~~(new Date/1e3)};KJUR.jws.IntDate.intDate2UTCString=function(n){var t=new Date(n*1e3);return t.toUTCString()};KJUR.jws.IntDate.intDate2Zulu=function(n){var t=new Date(n*1e3),i=("0000"+t.getUTCFullYear()).slice(-4),r=("00"+(t.getUTCMonth()+1)).slice(-2),u=("00"+t.getUTCDate()).slice(-2),f=("00"+t.getUTCHours()).slice(-2),e=("00"+t.getUTCMinutes()).slice(-2),o=("00"+t.getUTCSeconds()).slice(-2);return i+r+u+f+e+o+"Z"};
 ///#source 1 1 es6-promise-2.0.0.min.js
 (function(){"use strict";function ht(n){return typeof n=="function"||typeof n=="object"&&n!==null}function a(n){return typeof n=="function"}function ct(n){return typeof n=="object"&&n!==null}function tt(){}function vt(){return function(){process.nextTick(v)}}function yt(){var n=0,i=new rt(v),t=document.createTextNode("");return i.observe(t,{characterData:!0}),function(){t.data=n=++n%2}}function pt(){var n=new MessageChannel;return n.port1.onmessage=v,function(){n.port2.postMessage(0)}}function wt(){return function(){setTimeout(v,1)}}function v(){for(var t,i,n=0;n<s;n+=2)t=f[n],i=f[n+1],t(i),f[n]=undefined,f[n+1]=undefined;s=0}function h(){}function bt(){return new TypeError("You cannot resolve a promise with itself")}function kt(){return new TypeError("A promises callback cannot return that same promise.")}function dt(n){try{return n.then}catch(t){return y.error=t,y}}function gt(n,t,i,r){try{n.call(t,i,r)}catch(u){return u}}function ni(i,r,u){l(function(i){var f=!1,e=gt(u,r,function(n){f||(f=!0,r!==n?c(i,n):t(i,n))},function(t){f||(f=!0,n(i,t))},"Settle: "+(i._label||" unknown promise"));!f&&e&&(f=!0,n(i,e))},i)}function ti(i,u){u._state===r?t(i,u._result):i._state===o?n(i,u._result):p(u,undefined,function(n){c(i,n)},function(t){n(i,t)})}function ii(i,r){if(r.constructor===i.constructor)ti(i,r);else{var u=dt(r);u===y?n(i,y.error):u===undefined?t(i,r):a(u)?ni(i,r,u):t(i,r)}}function c(i,r){i===r?n(i,bt()):ht(r)?ii(i,r):t(i,r)}function ri(n){n._onerror&&n._onerror(n._result);d(n)}function t(n,t){n._state===e&&(n._result=t,n._state=r,n._subscribers.length===0||l(d,n))}function n(n,t){n._state===e&&(n._state=o,n._result=t,l(ri,n))}function p(n,t,i,u){var f=n._subscribers,e=f.length;n._onerror=null;f[e]=t;f[e+r]=i;f[e+o]=u;e===0&&n._state&&l(d,n)}function d(n){var i=n._subscribers,e=n._state,r,u,f,t;if(i.length!==0){for(f=n._result,t=0;t<i.length;t+=3)r=i[t],u=i[t+e],r?et(e,r,u,f):u(f);n._subscribers.length=0}}function ft(){this.error=null}function ui(n,t){try{return n(t)}catch(i){return w.error=i,w}}function et(i,u,f,s){var v=a(f),h,y,l,p;if(v){if(h=ui(f,s),h===w?(p=!0,y=h.error,h=null):l=!0,u===h){n(u,kt());return}}else h=s,l=!0;u._state!==e||(v&&l?c(u,h):p?n(u,y):i===r?t(u,h):i===o&&n(u,h))}function fi(t,i){try{i(function(n){c(t,n)},function(i){n(t,i)})}catch(r){n(t,r)}}function i(i,r,u,f){this._instanceConstructor=i;this.promise=new i(h,f);this._abortOnReject=u;this._validateInput(r)?(this._input=r,this.length=r.length,this._remaining=r.length,this._init(),this.length===0?t(this.promise,this._result):(this.length=this.length||0,this._enumerate(),this._remaining===0&&t(this.promise,this._result))):n(this.promise,this._validationError())}function li(){throw new TypeError("You must pass a resolver function as the first argument to the promise constructor");}function ai(){throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");}function u(n,t){this._id=ci++;this._label=t;this._state=undefined;this._result=undefined;this._subscribers=[];h!==n&&(a(n)||li(),this instanceof u||ai(),fi(this,n))}var nt,k,lt,f,ut,w,ot,g,st,b;nt=Array.isArray?Array.isArray:function(n){return Object.prototype.toString.call(n)==="[object Array]"};k=nt;lt=Date.now||function(){return(new Date).getTime()};var vi=Object.create||function(n){if(arguments.length>1)throw new Error("Second argument not supported");if(typeof n!="object")throw new TypeError("Argument must be an object");return tt.prototype=n,new tt},s=0,l=function(n,t){f[s]=n;f[s+1]=t;s+=2;s===2&&ut()},it=typeof window!="undefined"?window:{},rt=it.MutationObserver||it.WebKitMutationObserver,at=typeof Uint8ClampedArray!="undefined"&&typeof importScripts!="undefined"&&typeof MessageChannel!="undefined";f=new Array(1e3);ut=typeof process!="undefined"&&{}.toString.call(process)==="[object process]"?vt():rt?yt():at?pt():wt();var e=void 0,r=1,o=2,y=new ft;w=new ft;i.prototype._validateInput=function(n){return k(n)};i.prototype._validationError=function(){return new Error("Array Methods must be provided an Array")};i.prototype._init=function(){this._result=new Array(this.length)};ot=i;i.prototype._enumerate=function(){for(var t=this.length,i=this.promise,r=this._input,n=0;i._state===e&&n<t;n++)this._eachEntry(r[n],n)};i.prototype._eachEntry=function(n,t){var i=this._instanceConstructor;ct(n)?n.constructor===i&&n._state!==e?(n._onerror=null,this._settledAt(n._state,t,n._result)):this._willSettleAt(i.resolve(n),t):(this._remaining--,this._result[t]=this._makeResult(r,t,n))};i.prototype._settledAt=function(i,r,u){var f=this.promise;f._state===e&&(this._remaining--,this._abortOnReject&&i===o?n(f,u):this._result[r]=this._makeResult(i,r,u));this._remaining===0&&t(f,this._result)};i.prototype._makeResult=function(n,t,i){return i};i.prototype._willSettleAt=function(n,t){var i=this;p(n,undefined,function(n){i._settledAt(r,t,n)},function(n){i._settledAt(o,t,n)})};var ei=function(n,t){return new ot(this,n,!0,t).promise},oi=function(t,i){function s(n){c(r,n)}function l(t){n(r,t)}var f=this,r=new f(h,i),o,u;if(!k(t))return n(r,new TypeError("You must pass an array to race.")),r;for(o=t.length,u=0;r._state===e&&u<o;u++)p(f.resolve(t[u]),undefined,s,l);return r},si=function(n,t){var r=this,i;return n&&typeof n=="object"&&n.constructor===r?n:(i=new r(h,t),c(i,n),i)},hi=function(t,i){var u=this,r=new u(h,i);return n(r,t),r},ci=0;g=u;u.all=ei;u.race=oi;u.resolve=si;u.reject=hi;u.prototype={constructor:u,then:function(n,t,i){var f=this,u=f._state,e,s,c;return u===r&&!n||u===o&&!t?this:(f._onerror=null,e=new this.constructor(h,i),s=f._result,u?(c=arguments[u-1],l(function(){et(u,e,c,s)})):p(f,e,n,t),e)},"catch":function(n,t){return this.then(null,n,t)}};st=function(){var n,t;n=typeof global!="undefined"?global:typeof window!="undefined"&&window.document?window:self;t="Promise"in n&&"resolve"in n.Promise&&"reject"in n.Promise&&"all"in n.Promise&&"race"in n.Promise&&function(){var t;return new n.Promise(function(n){t=n}),a(t)}();t||(n.Promise=g)};b={Promise:g,polyfill:st};typeof define=="function"&&define.amd?define(function(){return b}):typeof module!="undefined"&&module.exports?module.exports=b:typeof this!="undefined"&&(this.ES6Promise=b);window.Promise=window.Promise||this.ES6Promise.Promise}).call(this);
-///#source 1 1 token-manager.min.js
-(function(){"use strict";function e(n,t){t=t||{};for(var i in n)n.hasOwnProperty(i)&&(t[i]=n[i]);return t}function n(n){this._settings=n||{};this._settings.authority&&this._settings.authority.indexOf(".well-known/openid-configuration")<0&&(this._settings.authority[this._settings.authority.length-1]!="/"&&(this._settings.authority+="/"),this._settings.authority+=".well-known/openid-configuration");this._settings.response_type||(this._settings.response_type="id_token token");this._settings.store||(this._settings.store=window.localStorage)}function o(){return((Date.now()+Math.random())*Math.random()).toString().replace(".","")}function f(n,t){return new Promise(function(i,r){var u=new XMLHttpRequest;u.open("GET",n);u.responseType="json";t&&u.setRequestHeader("Authorization","Bearer "+t);u.onload=function(){if(u.status===200){var n=u.response;typeof n=="string"&&(n=JSON.parse(n));i(n)}else r(Error(u.statusText+"("+u.status+")"))};u.onerror=function(){r(Error("Network error"))};u.send()})}function i(n,t,i,r){this.id_token=n;this.id_token_jwt=t;this.access_token=i;this.expires_at=parseInt(r);Object.defineProperty(this,"expired",{get:function(){var n=parseInt(Date.now()/1e3);return this.expires_at<n}});Object.defineProperty(this,"expires_in",{get:function(){var n=parseInt(Date.now()/1e3);return this.expires_at-n}})}function s(n){this.url=n}function t(n){this._settings=n||{};this._settings.persist=this._settings.persist||!0;this._settings.store=this._settings.store||window.localStorage;this._callbacks={tokenRemovedCallbacks:[],tokenExpiringCallbacks:[],tokenExpiredCallbacks:[],tokenObtainedCallbacks:[]};Object.defineProperty(this,"id_token",{get:function(){if(this._token)return this._token.id_token}});Object.defineProperty(this,"id_token_jwt",{get:function(){if(this._token)return this._token.id_token_jwt}});Object.defineProperty(this,"access_token",{get:function(){if(this._token&&!this._token.expired)return this._token.access_token}});Object.defineProperty(this,"expired",{get:function(){return this._token?this._token.expired:!0}});Object.defineProperty(this,"expires_in",{get:function(){return this._token?this._token.expires_in:0}});Object.defineProperty(this,"expires_at",{get:function(){return this._token?this._token.expires_at:0}});h(this);w(this);p(this);var t=this;window.setTimeout(function(){y(t)},0)}function h(n){var t,u;n._settings.persist&&(t=n._settings.store.getItem(r),t&&(u=i.fromJSON(t),u.expired||(n._token=u)))}function c(n){n._callbacks.tokenRemovedCallbacks.forEach(function(n){n()})}function l(n){n._callbacks.tokenExpiringCallbacks.forEach(function(n){n()})}function a(n){n._callbacks.tokenExpiredCallbacks.forEach(function(n){n()})}function v(n){n._callbacks.tokenObtainedCallbacks.forEach(function(n){n()})}function y(n){function i(){t=null;l(n)}function r(){t&&(window.clearTimeout(t),t=null)}function f(n){t=window.setTimeout(i,n*1e3)}function u(){if(r(),!n.expired){var t=n.expires_in;t>60?f(t-60):i()}}var t=null;u();n.addOnTokenObtained(u);n.addOnTokenRemoved(r)}function p(n){n._settings.silent_redirect_uri&&n._settings.silent_renew&&n.addOnTokenExpiring(function(){n.renewTokenSilentAsync().catch(function(n){console.error(n.message||n)})})}function w(n){function u(){t=null;n._token&&n.saveToken(null);a(n)}function i(){t&&(window.clearTimeout(t),t=null)}function f(n){t=window.setTimeout(u,n*1e3)}function r(){i();n.expires_in>0&&f(n.expires_in+1)}var t=null;r();n.addOnTokenObtained(r);n.addOnTokenRemoved(i)}var u="OidcClient.requestDataKey",r;n.prototype.redirectForToken=function(){this.createTokenRequestAsync().then(function(n){window.location=n.url},function(n){console.error(n)})};n.prototype.redirectForLogout=function(n){var t=this._settings;this.loadMetadataAsync().then(function(i){i.end_session_endpoint||console.error("No end_session_endpoint in metadata");var r=i.end_session_endpoint;n&&t.post_logout_redirect_uri&&(r+="?post_logout_redirect_uri="+t.post_logout_redirect_uri,r+="&id_token_hint="+n);window.location=r},function(n){console.error(n)})};n.prototype.loadAuthorizationEndpoint=function(n){return(n=n||this._settings,n.authorization_endpoint)?Promise.resolve(n.authorization_endpoint):n.authority?this.loadMetadataAsync(n).then(function(n){return n.authorization_endpoint?n.authorization_endpoint:Promise.reject("Metadata does not contain authorization_endpoint")}):Promise.reject(Error("No authorization_endpoint configured"))};n.prototype.createTokenRequestAsync=function(n){return n=n||this._settings,this.loadAuthorizationEndpoint(n).then(function(t){var f=o(),e=o(),i=t+"?state="+encodeURIComponent(f)+"&nonce="+encodeURIComponent(e),s,r;return["client_id","redirect_uri","response_type","scope"].forEach(function(t){var r=n[t];r&&(i+="&"+t+"="+encodeURIComponent(r))}),s=["prompt","display","max_age","ui_locales","id_token_hint","login_hint","acr_values"],s.forEach(function(t){var r=n[t];r&&(i+="&"+t+"="+encodeURIComponent(r))}),r={state:f,nonce:e},n.store.setItem(u,JSON.stringify(r)),{data:r,url:i}})};n.prototype.parseResult=function(n){var t,e;n=n||location.hash;t=n.lastIndexOf("#");t>=0&&(n=n.substr(t+1));for(var i={},u=/([^&=]+)=([^&]*)/g,r,f=0;r=u.exec(n);)if(i[decodeURIComponent(r[1])]=decodeURIComponent(r[2]),f++>50)return{error:"Response exceeded expected number of parameters"};for(e in i)return i};n.prototype.loadMetadataAsync=function(n){return n=n||this._settings,n.metadata&&Promise.resolve(n.metadata),n.authority||Promise.reject(Error("No authority configured")),f(n.authority).then(function(t){return n.metadata=t,t},function(n){Promise.reject(Error("Failed to load metadata ("+n.message+")"))})};n.prototype.loadX509SigningKeyAsync=function(n){function t(n){if(!n.keys||!n.keys.length)return Promise.reject(Error("Signing keys empty"));var t=n.keys[0];return t.kty!="RSA"?Promise.reject(Error("Signing key not RSA")):!t.x5c||!t.x5c.length?Promise.reject(Error("RSA keys empty")):Promise.resolve(t.x5c[0])}return(n=n||this._settings,n.jwks)?t(n.jwks):this.loadMetadataAsync(n).then(function(i){return i.jwks_uri?f(i.jwks_uri).then(function(i){return n.jwks=i,t(i)},function(n){return Promise.reject(Error("Failed to load signing keys ("+n.message+")"))}):Promise.reject(Error("Metadata does not contain jwks_uri"))})};n.prototype.validateJwtAsync=function(n,t){return this.loadX509SigningKeyAsync(t).then(function(t){var i=new KJUR.jws.JWS;return i.verifyJWSByPemX509Cert(n,t)?JSON.parse(i.parsedJWS.payloadS):Promise.reject(Error("JWT failed to validate"))})};n.prototype.validateAccessTokenAsync=function(n,t,i){return n.at_hash?this.loadX509SigningKeyAsync().then(function(r){var u=new KJUR.jws.JWS;if(u.verifyJWSByPemX509Cert(t,r)){if(u.parsedJWS.headP.alg!="RS256")return Promise.reject(Error("JWT signature alg not supported"));var f=KJUR.crypto.Util.sha256(i),e=f.substr(0,f.length/2),o=hextob64u(e);if(o!==n.at_hash)return Promise.reject(Error("at_hash failed to validate"))}else return Promise.reject(Error("JWT failed to validate"))}):Promise.reject("No at_hash in id_token")};n.prototype.loadUserProfile=function(n,t){var i=this._settings;return this.loadMetadataAsync(i).then(function(i){return i.userinfo_endpoint?f(i.userinfo_endpoint,n).then(function(n){return e(n,t)}):Promise.reject(Error("Metadata does not contain userinfo_endpoint"))})};n.prototype.readResponseAsync=function(t){function r(n){return Promise.reject(Error(n))}var o=this,h=o._settings,e=h.store.getItem(u),f,s,c;return(h.store.removeItem(u),!e)?r("No request state loaded"):(e=JSON.parse(e),!e)?r("No request state loaded"):e.state?e.nonce?(f=n.prototype.parseResult(t),!f)?r("No OIDC response"):f.error?r(f.error):f.state!==e.state?r("Invalid state"):(s=f.access_token,!s)?r("No access token"):f.token_type!=="Bearer"?r("Invalid token type"):(c=f.expires_in,!c)?r("No token expiration"):f.id_token?o.validateJwtAsync(f.id_token).then(function(n){return n?e.nonce!==n.nonce?r("Invalid nonce"):o.loadMetadataAsync().then(function(t){if(n.iss!==t.issuer)return r("Invalid issuer");if(n.aud!==h.client_id)return r("Invalid audience");var u=parseInt(Date.now()/1e3),e=u-n.iat;return e>300?r("Token issued too long ago"):n.exp<u?r("Token expired"):o.validateAccessTokenAsync(n,f.id_token,s).then(function(){return o.loadUserProfile(s,n).then(function(n){return i.fromResponse({id_token:n,id_token_jwt:f.id_token,access_token:s,expires_in:c})})})}):r("Invalid identity token")}):r("No identity token"):r("No nonce loaded"):r("No state loaded")};i.fromResponse=function(n){var t=parseInt(Date.now()/1e3),r=t+parseInt(n.expires_in);return new i(n.id_token,n.id_token_jwt,n.access_token,r)};i.fromJSON=function(n){if(n)try{var t=JSON.parse(n);return new i(t.id_token,t.id_token_jwt,t.access_token,t.expires_at)}catch(r){}return new i(null,0,null)};i.prototype.toJSON=function(){return JSON.stringify({id_token:this.id_token,id_token_jwt:this.id_token_jwt,access_token:this.access_token,expires_at:this.expires_at})};s.prototype.loadAsync=function(n){return(n=n||this.url,!n)?Promise.reject("No url provided"):new Promise(function(t,i){function f(){window.removeEventListener("message",e,!1);r&&window.clearTimeout(r);r=null;u.remove()}function o(){f();i()}function e(n){r&&n.origin===location.protocol+"//"+location.host&&(f(),t(n.data))}var u=$('<iframe style="display:none"><\/iframe>').appendTo("body"),r=window.setTimeout(o,5e3);window.addEventListener("message",e,!1);u.attr("src",n)})};r="TokenManager.token";t.prototype.saveToken=function(n){this._token=n;this._settings.persist&&!this.expired?this._settings.store.setItem(r,n.toJSON()):this._settings.store.removeItem(r);n?v(this):c(this)};t.prototype.addOnTokenRemoved=function(n){this._callbacks.tokenRemovedCallbacks.push(n)};t.prototype.addOnTokenObtained=function(n){this._callbacks.tokenObtainedCallbacks.push(n)};t.prototype.addOnTokenExpiring=function(n){this._callbacks.tokenExpiringCallbacks.push(n)};t.prototype.addOnTokenExpired=function(n){this._callbacks.tokenExpiredCallbacks.push(n)};t.prototype.removeToken=function(){this.saveToken(null)};t.prototype.redirectForToken=function(){var t=new n(this._settings);t.redirectForToken()};t.prototype.redirectForLogout=function(){var t=new n(this._settings),i=this.id_token_jwt;this.removeToken();t.redirectForLogout(i)};t.prototype.processTokenCallbackAsync=function(t){var i=this,r=new n(i._settings);return r.readResponseAsync(t).then(function(n){i.saveToken(n)})};t.prototype.renewTokenSilentAsync=function(){var i=this,t,r;return i._settings.silent_redirect_uri?(t=e(i._settings),t.redirect_uri=t.silent_redirect_uri,t.prompt="none",r=new n(t),r.createTokenRequestAsync().then(function(n){var t=new s(n.url);return t.loadAsync().then(function(n){return r.readResponseAsync(n).then(function(n){i.saveToken(n)})})})):Promise.reject("silent_redirect_uri not configured")};t.prototype.processTokenCallbackSilent=function(){if(window.top&&window!==window.top){var n=window.location.hash;n&&window.top.postMessage(n,location.protocol+"//"+location.host)}};window.TokenManager=t})();
+///#source 1 1 oidcclient.js
+/*
+ * Copyright 2014 Dominick Baier, Brock Allen
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+
+function copy(obj, target) {
+    target = target || {};
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            target[key] = obj[key];
+        }
+    }
+    return target;
+}
+
+function rand() {
+    return ((Date.now() + Math.random()) * Math.random()).toString().replace(".", "");
+}
+
+function error(message) {
+    return Promise.reject(Error(message));
+}
+
+function parseOidcResult(queryString) {
+    queryString = queryString || location.hash;
+
+    var idx = queryString.lastIndexOf("#");
+    if (idx >= 0) {
+        queryString = queryString.substr(idx + 1);
+    }
+
+    var params = {},
+        regex = /([^&=]+)=([^&]*)/g,
+        m;
+
+    var counter = 0;
+    while (m = regex.exec(queryString)) {
+        params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+        if (counter++ > 50) {
+            return {
+                error: "Response exceeded expected number of parameters"
+            };
+        }
+    }
+
+    for (var prop in params) {
+        return params;
+    }
+}
+
+function getJson(url, token) {
+    return new Promise(function (resolve, reject) {
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.responseType = "json";
+        if (token) {
+            xhr.setRequestHeader("Authorization", "Bearer " + token);
+        }
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var response = xhr.response;
+                if (typeof response === "string") {
+                    response = JSON.parse(response);
+                }
+                resolve(response);
+            }
+            else {
+                reject(Error(xhr.statusText + "(" + xhr.status + ")"));
+            }
+        };
+
+        xhr.onerror = function () {
+            reject(Error("Network error"));
+        }
+
+        xhr.send();
+    });
+}
+
+var requestDataKey = "OidcClient.requestDataKey";
+
+function OidcClient(settings) {
+    this._settings = settings || {};
+
+    if (this._settings.authority && this._settings.authority.indexOf('.well-known/openid-configuration') < 0) {
+        if (this._settings.authority[this._settings.authority.length - 1] != '/') {
+            this._settings.authority += '/';
+        }
+        this._settings.authority += '.well-known/openid-configuration';
+    }
+
+    if (!this._settings.response_type) {
+        this._settings.response_type = "id_token token";
+    }
+
+    if (!this._settings.store) {
+        this._settings.store = window.localStorage;
+    }
+
+    Object.defineProperty(this, "isOidc", {
+        get: function () {
+            if (this._settings.response_type) {
+                var result = this._settings.response_type.split(/\s+/g).filter(function (item) {
+                    return item === "id_token";
+                });
+                return !!(result[0]);
+            }
+            return false;
+        }
+    });
+
+    Object.defineProperty(this, "isOAuth", {
+        get: function () {
+            if (this._settings.response_type) {
+                var result = this._settings.response_type.split(/\s+/g).filter(function (item) {
+                    return item === "token";
+                });
+                return !!(result[0]);
+            }
+            return false;
+        }
+    });
+}
+
+OidcClient.prototype.redirectForToken = function () {
+    this.createTokenRequestAsync().then(function (request) {
+        window.location = request.url;
+    }, function (err) {
+        console.error(err);
+    });
+}
+
+OidcClient.prototype.redirectForLogout = function (id_token_hint) {
+    var settings = this._settings;
+    this.loadMetadataAsync().then(function (metadata) {
+        if (!metadata.end_session_endpoint) {
+            console.error("No end_session_endpoint in metadata");
+        }
+        var url = metadata.end_session_endpoint;
+        if (id_token_hint && settings.post_logout_redirect_uri) {
+            url += "?post_logout_redirect_uri=" + settings.post_logout_redirect_uri;
+            url += "&id_token_hint=" + id_token_hint;
+        }
+        window.location = url;
+    }, function (err) {
+        console.error(err);
+    });
+}
+
+OidcClient.prototype.loadAuthorizationEndpoint = function () {
+
+    if (this._settings.authorization_endpoint) {
+        return Promise.resolve(this._settings.authorization_endpoint);
+    }
+
+    if (!this._settings.authority) {
+        return error("No authorization_endpoint configured");
+    }
+
+    return this.loadMetadataAsync().then(function (metadata) {
+        if (!metadata.authorization_endpoint) {
+            return error("Metadata does not contain authorization_endpoint");
+        }
+
+        return metadata.authorization_endpoint;
+    });
+};
+
+OidcClient.prototype.createTokenRequestAsync = function () {
+    var client = this;
+    var settings = client._settings;
+
+    return client.loadAuthorizationEndpoint().then(function (authorization_endpoint) {
+        var state = rand();
+
+        var url =
+            authorization_endpoint + "?state=" + encodeURIComponent(state);
+
+        if (client.isOidc) {
+            var nonce = rand();
+            url += "&nonce=" + encodeURIComponent(nonce);
+        }
+
+        var required = ["client_id", "redirect_uri", "response_type", "scope"];
+        required.forEach(function (key) {
+            var value = settings[key];
+            if (value) {
+                url += "&" + key + "=" + encodeURIComponent(value);
+            }
+        });
+
+        var optional = ["prompt", "display", "max_age", "ui_locales", "id_token_hint", "login_hint", "acr_values"];
+        optional.forEach(function (key) {
+            var value = settings[key];
+            if (value) {
+                url += "&" + key + "=" + encodeURIComponent(value);
+            }
+        });
+
+        var data = {
+            oidc: client.isOidc,
+            oauth: client.isOAuth,
+            state: state
+        };
+
+        if (nonce) {
+            data["nonce"] = nonce;
+        }
+
+        settings.store.setItem(requestDataKey, JSON.stringify(data));
+
+        return {
+            data: data,
+            url: url
+        };
+    });
+}
+
+OidcClient.prototype.loadMetadataAsync = function () {
+    var settings = this._settings;
+
+    if (settings.metadata) {
+        Promise.resolve(settings.metadata);
+    }
+
+    if (!settings.authority) {
+        error("No authority configured");
+    }
+
+    return getJson(settings.authority)
+        .then(function (metadata) {
+            settings.metadata = metadata;
+            return metadata;
+        }, function (err) {
+            error("Failed to load metadata (" + err.message + ")");
+        });
+};
+
+OidcClient.prototype.loadX509SigningKeyAsync = function () {
+    var settings = this._settings;
+
+    function getKeyAsync(jwks) {
+        if (!jwks.keys || !jwks.keys.length) {
+            return error("Signing keys empty");
+        }
+
+        var key = jwks.keys[0];
+        if (key.kty != "RSA") {
+            return error("Signing key not RSA");
+        }
+
+        if (!key.x5c || !key.x5c.length) {
+            return error("RSA keys empty");
+        }
+
+        return Promise.resolve(key.x5c[0]);
+    }
+
+    if (settings.jwks) {
+        return getKeyAsync(settings.jwks);
+    }
+
+    return this.loadMetadataAsync().then(function (metadata) {
+        if (!metadata.jwks_uri) {
+            return error("Metadata does not contain jwks_uri");
+        }
+
+        return getJson(metadata.jwks_uri).then(function (jwks) {
+            settings.jwks = jwks;
+            return getKeyAsync(jwks);
+        }, function (err) {
+            return error("Failed to load signing keys (" + err.message + ")");
+        });
+    });
+};
+
+OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce) {
+
+    return this.loadX509SigningKeyAsync().then(function (cert) {
+
+        var jws = new KJUR.jws.JWS();
+        if (jws.verifyJWSByPemX509Cert(jwt, cert)) {
+            var id_token = JSON.parse(jws.parsedJWS.payloadS);
+
+            if (nonce !== id_token.nonce) {
+                return error("Invalid nonce");
+            }
+
+            return id_token;
+        }
+        else {
+            return error("JWT failed to validate");
+        }
+
+    });
+
+};
+
+OidcClient.prototype.validateAccessTokenAsync = function (id_token, id_token_jwt, access_token) {
+
+    if (!id_token.at_hash) {
+        return error("No at_hash in id_token");
+    }
+
+    return this.loadX509SigningKeyAsync().then(function (cert) {
+        var jws = new KJUR.jws.JWS();
+        if (jws.verifyJWSByPemX509Cert(id_token_jwt, cert)) {
+            if (jws.parsedJWS.headP.alg != "RS256") {
+                return error("JWT signature alg not supported");
+            }
+
+            var hash = KJUR.crypto.Util.sha256(access_token);
+            var left = hash.substr(0, hash.length / 2);
+            var left_b64u = hextob64u(left);
+
+            if (left_b64u !== id_token.at_hash) {
+                return error("at_hash failed to validate");
+            }
+        }
+        else {
+            return error("JWT failed to validate");
+        }
+    });
+};
+
+OidcClient.prototype.loadUserProfile = function (access_token, id_token) {
+
+    return this.loadMetadataAsync().then(function (metadata) {
+
+        if (!metadata.userinfo_endpoint) {
+            return Promise.reject(Error("Metadata does not contain userinfo_endpoint"));
+        }
+
+        return getJson(metadata.userinfo_endpoint, access_token).then(function (response) {
+
+            return copy(response, id_token);
+
+        });
+    });
+}
+
+OidcClient.prototype.validateIdTokenAndAccessTokenAsync = function (id_token_jwt, nonce, access_token) {
+    var client = this;
+
+    return client.validateIdTokenAsync(id_token_jwt, nonce).then(function (id_token) {
+        if (!id_token) {
+            return error("Invalid identity token");
+        }
+
+        return client.loadMetadataAsync().then(function (metadata) {
+
+            if (id_token.iss !== metadata.issuer) {
+                return error("Invalid issuer");
+            }
+
+            if (id_token.aud !== settings.client_id) {
+                return error("Invalid audience");
+            }
+
+            var now = parseInt(Date.now() / 1000);
+
+            // accept tokens issued up to 5 mins ago
+            var diff = now - id_token.iat;
+            if (diff > (5 * 60)) {
+                return error("Token issued too long ago");
+            }
+
+            if (id_token.exp < now) {
+                return error("Token expired");
+            }
+
+            return client.validateAccessTokenAsync(id_token, result.id_token, token).then(function () {
+
+                return client.loadUserProfile(token, id_token);
+
+            });
+
+        });
+
+    });
+}
+
+OidcClient.prototype.readResponseAsync = function (queryString) {
+
+    var client = this;
+    var settings = client._settings;
+
+    var data = settings.store.getItem(requestDataKey);
+    settings.store.removeItem(requestDataKey);
+
+    if (!data) {
+        return error("No request state loaded");
+    }
+
+    data = JSON.parse(data);
+    if (!data) {
+        return error("No request state loaded");
+    }
+
+    if (!data.state) {
+        return error("No state loaded");
+    }
+
+    var result = parseOidcResult(queryString);
+    if (!result) {
+        return error("No OIDC response");
+    }
+
+    if (result.error) {
+        return error(result.error);
+    }
+
+    if (result.state !== data.state) {
+        return error("Invalid state");
+    }
+
+    if (data.oidc) {
+        if (!result.id_token) {
+            return error("No identity token");
+        }
+
+        if (!data.nonce) {
+            return error("No nonce loaded");
+        }
+    }
+
+    if (data.oauth) {
+        if (!result.access_token) {
+            return error("No access token");
+        }
+
+        if (result.token_type !== "Bearer") {
+            return error("Invalid token type");
+        }
+
+        if (!result.expires_in) {
+            return error("No token expiration");
+        }
+    }
+
+    var promise = Promise.resolve();
+    if (data.oidc && data.oauth) {
+        promise = client.validateIdTokenAndAccessTokenAsync(result.id_token, data.nonce, result.access_token);
+    }
+    if (data.oidc) {
+        promise = client.validateIdTokenAsync(result.id_token, data.nonce);
+    }
+
+    return promise.then(function (id_token) {
+        return {
+            id_token: id_token,
+            id_token_jwt: result.id_token,
+            access_token: result.token,
+            expires_in: result.expires_in
+        };
+    });
+}
+
+
+///#source 1 1 token-manager.js
+/// <reference path="es6-promise-2.0.0.js" />
+/// <reference path="base64.js" />
+/*
+* Copyright 2014 Dominick Baier, Brock Allen
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+
+function Token(id_token, id_token_jwt, access_token, expires_at) {
+    this.id_token = id_token;
+    this.id_token_jwt = id_token_jwt;
+    this.access_token = access_token;
+    this.expires_at = parseInt(expires_at);
+
+    Object.defineProperty(this, "expired", {
+        get: function () {
+            var now = parseInt(Date.now() / 1000);
+            return this.expires_at < now;
+        }
+    });
+
+    Object.defineProperty(this, "expires_in", {
+        get: function () {
+            var now = parseInt(Date.now() / 1000);
+            return this.expires_at - now;
+        }
+    });
+}
+
+Token.fromResponse = function (response) {
+    var now = parseInt(Date.now() / 1000);
+    var expires_at = now + parseInt(response.expires_in);
+    return new Token(response.id_token, response.id_token_jwt, response.access_token, expires_at);
+}
+
+Token.fromJSON = function (json) {
+    if (json) {
+        try {
+            var obj = JSON.parse(json);
+            return new Token(obj.id_token, obj.id_token_jwt, obj.access_token, obj.expires_at);
+        }
+        catch (e) {
+        }
+    }
+    return new Token(null, 0, null);
+}
+
+Token.prototype.toJSON = function () {
+    return JSON.stringify({
+        id_token: this.id_token,
+        id_token_jwt: this.id_token_jwt,
+        access_token: this.access_token,
+        expires_at : this.expires_at
+    });
+}
+
+function FrameLoader(url) {
+    this.url = url;
+}
+
+FrameLoader.prototype.loadAsync = function (url) {
+    url = url || this.url;
+
+    if (!url) {
+        return Promise.reject("No url provided");
+    }
+
+    return new Promise(function (resolve, reject) {
+        var frameHtml = '<iframe style="display:none"></iframe>';
+        var frame = $(frameHtml).appendTo("body");
+
+        function cleanup() {
+            window.removeEventListener("message", message, false);
+            if (handle) {
+                window.clearTimeout(handle);
+            }
+            handle = null;
+            frame.remove();
+        }
+
+        function cancel(e) {
+            cleanup();
+            reject();
+        }
+
+        function message(e) {
+            if (handle && e.origin === location.protocol + "//" + location.host) {
+                cleanup();
+                resolve(e.data);
+            }
+        }
+
+        var handle = window.setTimeout(cancel, 5000);
+        window.addEventListener("message", message, false);
+        frame.attr("src", url);
+    });
+}
+
+function loadToken(mgr) {
+    if (mgr._settings.persist) {
+        var tokenJson = mgr._settings.store.getItem(storageKey);
+        if (tokenJson) {
+            var token = Token.fromJSON(tokenJson);
+            if (!token.expired) {
+                mgr._token = token;
+            }
+        }
+    }
+}
+
+function callTokenRemoved(mgr) {
+    mgr._callbacks.tokenRemovedCallbacks.forEach(function (cb) {
+        cb();
+    });
+}
+
+function callTokenExpiring(mgr) {
+    mgr._callbacks.tokenExpiringCallbacks.forEach(function (cb) {
+        cb();
+    });
+}
+
+function callTokenExpired(mgr) {
+    mgr._callbacks.tokenExpiredCallbacks.forEach(function (cb) {
+        cb();
+    });
+}
+
+function callTokenObtained(mgr) {
+    mgr._callbacks.tokenObtainedCallbacks.forEach(function (cb) {
+        cb();
+    });
+}
+
+function configureTokenExpiring(mgr) {
+
+    function callback() {
+        handle = null;
+        callTokenExpiring(mgr);
+    }
+
+    var handle = null;
+    function cancel() {
+        if (handle) {
+            window.clearTimeout(handle);
+            handle = null;
+        }
+    }
+
+    function setup(duration) {
+        handle = window.setTimeout(callback, duration * 1000);
+    }
+
+    function configure() {
+        cancel();
+
+        if (!mgr.expired) {
+            var duration = mgr.expires_in;
+            if (duration > 60) {
+                setup(duration - 60);
+            }
+            else {
+                callback();
+            }
+        }
+    }
+    configure();
+
+    mgr.addOnTokenObtained(configure);
+    mgr.addOnTokenRemoved(cancel);
+}
+
+function configureAutoRenewToken(mgr) {
+
+    if (mgr._settings.silent_redirect_uri && mgr._settings.silent_renew) {
+
+        mgr.addOnTokenExpiring(function () {
+            mgr.renewTokenSilentAsync().catch(function (e) {
+                console.error(e.message || e);
+            });
+        });
+
+    }
+}
+
+function configureTokenExpired(mgr) {
+
+    function callback() {
+        handle = null;
+
+        if (mgr._token) {
+            mgr.saveToken(null);
+        }
+
+        callTokenExpired(mgr);
+    }
+
+    var handle = null;
+    function cancel() {
+        if (handle) {
+            window.clearTimeout(handle);
+            handle = null;
+        }
+    }
+
+    function setup(duration) {
+        handle = window.setTimeout(callback, duration * 1000);
+    }
+
+    function configure() {
+        cancel();
+        if (mgr.expires_in > 0) {
+            // register 1 second beyond expiration so we don't get into edge conditions for expiration
+            setup(mgr.expires_in + 1);
+        }
+    }
+    configure();
+
+    mgr.addOnTokenObtained(configure);
+    mgr.addOnTokenRemoved(cancel);
+}
+
+var storageKey = "TokenManager.token";
+
+function TokenManager(settings) {
+    this._settings = settings || {};
+
+    this._settings.persist = this._settings.persist || true;
+    this._settings.store = this._settings.store || window.localStorage;
+
+    this._callbacks = {
+        tokenRemovedCallbacks: [],
+        tokenExpiringCallbacks: [],
+        tokenExpiredCallbacks: [],
+        tokenObtainedCallbacks: []
+    };
+
+    Object.defineProperty(this, "id_token", {
+        get: function () {
+            if (this._token) {
+                return this._token.id_token;
+            }
+        }
+    });
+    Object.defineProperty(this, "id_token_jwt", {
+        get: function () {
+            if (this._token) {
+                return this._token.id_token_jwt;
+            }
+        }
+    });
+    Object.defineProperty(this, "access_token", {
+        get: function () {
+            if (this._token && !this._token.expired) {
+                return this._token.access_token;
+            }
+        }
+    });
+    Object.defineProperty(this, "expired", {
+        get: function () {
+            if (this._token) {
+                return this._token.expired;
+            }
+            return true;
+        }
+    });
+    Object.defineProperty(this, "expires_in", {
+        get: function () {
+            if (this._token) {
+                return this._token.expires_in;
+            }
+            return 0;
+        }
+    });
+    Object.defineProperty(this, "expires_at", {
+        get: function () {
+            if (this._token) {
+                return this._token.expires_at;
+            }
+            return 0;
+        }
+    });
+
+    loadToken(this);
+    configureTokenExpired(this);
+    configureAutoRenewToken(this);
+
+    // delay this so consuming apps can register for callbacks first
+    var mgr = this;
+    window.setTimeout(function () {
+        configureTokenExpiring(mgr);
+    }, 0);
+}
+
+TokenManager.prototype.saveToken = function (token) {
+    if (token && !(token instanceof Token)) {
+        token = Token.fromResponse(token);
+    }
+
+    this._token = token;
+
+    if (this._settings.persist && !this.expired) {
+        this._settings.store.setItem(storageKey, token.toJSON());
+    }
+    else {
+        this._settings.store.removeItem(storageKey);
+    }
+
+    if (token) {
+        callTokenObtained(this);
+    }
+    else {
+        callTokenRemoved(this);
+    }
+}
+
+
+TokenManager.prototype.addOnTokenRemoved = function (cb) {
+    this._callbacks.tokenRemovedCallbacks.push(cb);
+}
+
+TokenManager.prototype.addOnTokenObtained = function (cb) {
+    this._callbacks.tokenObtainedCallbacks.push(cb);
+}
+
+TokenManager.prototype.addOnTokenExpiring = function (cb) {
+    this._callbacks.tokenExpiringCallbacks.push(cb);
+}
+
+TokenManager.prototype.addOnTokenExpired = function (cb) {
+    this._callbacks.tokenExpiredCallbacks.push(cb);
+}
+
+TokenManager.prototype.removeToken = function () {
+    this.saveToken(null);
+}
+
+TokenManager.prototype.redirectForToken = function () {
+    var oidc = new OidcClient(this._settings);
+    oidc.redirectForToken();
+}
+
+TokenManager.prototype.redirectForLogout = function () {
+    var oidc = new OidcClient(this._settings);
+    var id_token_jwt = this.id_token_jwt;
+    this.removeToken();
+    oidc.redirectForLogout(id_token_jwt);
+}
+
+TokenManager.prototype.processTokenCallbackAsync = function (queryString) {
+    var mgr = this;
+    var oidc = new OidcClient(mgr._settings);
+    return oidc.readResponseAsync(queryString).then(function (token) {
+        mgr.saveToken(token);
+    });
+}
+
+TokenManager.prototype.renewTokenSilentAsync = function () {
+    var mgr = this;
+
+    if (!mgr._settings.silent_redirect_uri) {
+        return Promise.reject("silent_redirect_uri not configured");
+    }
+
+    var settings = copy(mgr._settings);
+    settings.redirect_uri = settings.silent_redirect_uri;
+    settings.prompt = "none";
+
+    var oidc = new OidcClient(settings);
+    return oidc.createTokenRequestAsync().then(function (request) {
+        var frame = new FrameLoader(request.url);
+        return frame.loadAsync().then(function(hash) {
+            return oidc.readResponseAsync(hash).then(function (token) {
+                mgr.saveToken(token);
+            });
+        });
+    });
+}
+
+TokenManager.prototype.processTokenCallbackSilent = function () {
+    if (window.top && window !== window.top) {
+        var hash = window.location.hash;
+        if (hash) {
+            window.top.postMessage(hash, location.protocol + "//" + location.host);
+        }
+    };
+}
+
 ///#source 1 1 iife-end.js
+    // exports
+    window.TokenManager = TokenManager;
+
 })();

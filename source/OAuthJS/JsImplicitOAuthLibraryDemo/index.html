@@ -18,6 +18,7 @@
                 client_id: "implicitclient",
                 redirect_uri: window.location.protocol + "//" + window.location.host + "/callback.html",
                 post_logout_redirect_uri: window.location.protocol + "//" + window.location.host + "/index.html",
+                response_type:"id_token token",
                 scope: "openid read write",
                 authority: "https://localhost:44333/core",
                 silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/frame.html",

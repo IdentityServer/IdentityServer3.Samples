@@ -126,6 +126,10 @@
     <Content Include="oidc\rsa.min.js">
       <DependentUpon>rsa.js</DependentUpon>
     </Content>
+    <Content Include="oidc\oidcclient.js" />
+    <Content Include="oidc\token-manager - Copy.min.js">
+      <DependentUpon>oidcclient.js</DependentUpon>
+    </Content>
     <Content Include="oidc\token-manager.js" />
     <Content Include="oidc\token-manager.min.js">
       <DependentUpon>token-manager.js</DependentUpon>
@@ -150,6 +154,9 @@
     <Content Include="oidc\token-manager.min.js.map">
       <DependentUpon>token-manager.min.js</DependentUpon>
     </Content>
+    <Content Include="oidc\token-manager - Copy.min.js.map">
+      <DependentUpon>token-manager - Copy.min.js</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -162,6 +169,15 @@
     <Content Include="frame.html" />
     <Content Include="index.html" />
     <Content Include="jquery-2.1.0.min.js" />
+    <Content Include="tests\jasmine-2.1.3\boot.js" />
+    <Content Include="tests\jasmine-2.1.3\console.js" />
+    <Content Include="tests\jasmine-2.1.3\jasmine-html.js" />
+    <Content Include="tests\jasmine-2.1.3\jasmine.css" />
+    <Content Include="tests\jasmine-2.1.3\jasmine.js" />
+    <Content Include="tests\jasmine-2.1.3\jasmine_favicon.png" />
+    <Content Include="tests\SpecRunner.html" />
+    <Content Include="tests\oidcclient.spec.js" />
+    <Content Include="tests\token-manager.spec.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +185,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

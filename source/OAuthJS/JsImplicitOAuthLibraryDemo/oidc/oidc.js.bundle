@@ -16,7 +16,8 @@
     <file>json-sans-eval.min.js</file>
     <file>jws-3.0.min.js</file>
     <file>es6-promise-2.0.0.min.js</file>
-    <file>token-manager.min.js</file>
+    <file>oidcclient.js</file>
+    <file>token-manager.js</file>
     <file>iife-end.js</file>
   </files>
 </bundle>
