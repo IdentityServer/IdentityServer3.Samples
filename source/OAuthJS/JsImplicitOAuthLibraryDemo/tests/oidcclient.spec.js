@@ -40,7 +40,7 @@ describe("OidcClient", function () {
 
         it('should detect that "token id_token" is OAuth', function () {
             var sub = new OidcClient({
-                response_type: "id_token"
+                response_type: "token id_token"
             });
 
             expect(sub.isOAuth).toBe(true);
@@ -48,7 +48,7 @@ describe("OidcClient", function () {
 
         it('should detect that "id_token token" is OAuth', function () {
             var sub = new OidcClient({
-                response_type: "id_token"
+                response_type: "id_token token"
             });
 
             expect(sub.isOAuth).toBe(true);
@@ -56,7 +56,7 @@ describe("OidcClient", function () {
 
         it('should detect that "token id_token" is OIDC', function () {
             var sub = new OidcClient({
-                response_type: "id_token"
+                response_type: "token id_token"
             });
 
             expect(sub.isOidc).toBe(true);
@@ -64,7 +64,7 @@ describe("OidcClient", function () {
 
         it('should detect that "id_token token" is OIDC', function () {
             var sub = new OidcClient({
-                response_type: "id_token"
+                response_type: "id_token token"
             });
 
             expect(sub.isOidc).toBe(true);
