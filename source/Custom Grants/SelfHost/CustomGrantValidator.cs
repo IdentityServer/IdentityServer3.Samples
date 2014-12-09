@@ -15,17 +15,20 @@ namespace SelfHost
             _users = users;
         }
 
-        public Task<ClaimsPrincipal> ValidateAsync(ValidatedTokenRequest request)
+        Task<CustomGrantValidationResult> ICustomGrantValidator.ValidateAsync(ValidatedTokenRequest request)
         {
             if (request.GrantType != "custom")
             {
-                return Task.FromResult<ClaimsPrincipal>(null);
+                return Task.FromResult<CustomGrantValidationResult>(null);
             }
 
             var assertion = request.Raw.Get("assertion");
             if (string.IsNullOrWhiteSpace(assertion))
             {
-                return Task.FromResult<ClaimsPrincipal>(null);
+                return Task.FromResult<CustomGrantValidationResult>(new CustomGrantValidationResult
+                    {
+                        ErrorMessage = "Missing assertion."
+                    });
             }
 
             // validate assertion and return principal
@@ -35,7 +38,10 @@ namespace SelfHost
                 "custom_grant",
                 "idsrv");
 
-            return Task.FromResult(principal);
+            return Task.FromResult(new CustomGrantValidationResult
+            {
+                Principal = principal
+            });
         }
     }
 }
