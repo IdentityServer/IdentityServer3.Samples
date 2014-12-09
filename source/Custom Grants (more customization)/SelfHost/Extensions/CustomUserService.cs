@@ -11,7 +11,7 @@ namespace SelfHost.Extensions
 {
     class CustomUserService : IUserService
     {
-        public Task<AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message = null)
+        public Task<AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message = null, IDictionary<string, object> env = null)
         {
             if (message != null)
             {
@@ -20,9 +20,12 @@ namespace SelfHost.Extensions
                 if (username == password)
                 {
                     var user = IdentityServerPrincipal.Create("123", username);
-                    user.Identities.First().AddClaim(new Claim("account_store", tenant));
+                    var claims = new List<Claim>
+                    {
+                        new Claim("account_store", tenant)
+                    };
 
-                    return Task.FromResult(new AuthenticateResult(user));
+                    return Task.FromResult(new AuthenticateResult("123", username, claims));
                 }
             }
 
@@ -30,12 +33,7 @@ namespace SelfHost.Extensions
             throw new NotImplementedException();
         }
 
-        public Task<AuthenticateResult> PreAuthenticateAsync(IDictionary<string, object> env, SignInMessage message)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
+        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser, IDictionary<string, object> env)
         {
             throw new NotImplementedException();
         }
@@ -46,6 +44,16 @@ namespace SelfHost.Extensions
         }
 
         public Task<bool> IsActiveAsync(ClaimsPrincipal subject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<AuthenticateResult> PreAuthenticateAsync(SignInMessage message, IDictionary<string, object> env)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SignOutAsync(ClaimsPrincipal subject, IDictionary<string, object> env)
         {
             throw new NotImplementedException();
         }

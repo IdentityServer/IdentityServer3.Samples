@@ -19,7 +19,7 @@ namespace SelfHost.Extensions
             _users = users;
         }
 
-        public async Task<ClaimsPrincipal> ValidateAsync(ValidatedTokenRequest request)
+        public async Task<CustomGrantValidationResult> ValidateAsync(ValidatedTokenRequest request)
         {
             if (request.GrantType != "legacy_account_store")
             {
@@ -48,7 +48,10 @@ namespace SelfHost.Extensions
                 return null;
             }
 
-            return result.User;
+            return new CustomGrantValidationResult
+                {
+                    Principal = result.User
+                };
         }
     }
 }
