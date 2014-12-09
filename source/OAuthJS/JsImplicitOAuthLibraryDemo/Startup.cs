@@ -1,8 +1,9 @@
 ﻿using Owin;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Web.Http;
-using Thinktecture.IdentityModel.Tokens;
+using Thinktecture.IdentityServer.v3.AccessTokenValidation;
 
 namespace JsImplicitOAuthLibraryDemo
 {
@@ -10,13 +11,12 @@ namespace JsImplicitOAuthLibraryDemo
     {
         public void Configuration(IAppBuilder app)
         {
-            JwtSecurityTokenHandler.InboundClaimTypeMap = ClaimMappings.None;
-            
-            var cert = Thinktecture.IdentityModel.X509.LocalMachine.TrustedPeople.SubjectDistinguishedName.Find("CN=idsrv3test", false).First();
-            app.UseJsonWebToken(
-                "https://idsrv3.com",
-                "https://idsrv3.com/resources",
-                cert);
+            JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
+
+            app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
+                {
+                    Authority = "https://localhost:44333/core"
+                });          
 
             var config = new HttpConfiguration();
             config.SuppressDefaultHostAuthentication();
