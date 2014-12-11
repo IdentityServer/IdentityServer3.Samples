@@ -17,13 +17,13 @@ namespace EmbeddedMvc.IdentityServer
                     ClientId = "mvc",
                     Flow = Flows.Hybrid,
 
-                    RedirectUris = new List<Uri>
+                    RedirectUris = new List<string>
                     {
-                        new Uri("https://localhost:44319/")
+                        "https://localhost:44319/"
                     },
-                    PostLogoutRedirectUris = new List<Uri>
+                    PostLogoutRedirectUris = new List<string>
                     {
-                        new Uri("https://localhost:44319/")
+                        "https://localhost:44319/"
                     }
                 },
                 new Client
