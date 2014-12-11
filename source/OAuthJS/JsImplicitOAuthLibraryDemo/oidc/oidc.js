@@ -845,7 +845,6 @@ TokenManager.prototype.saveToken = function (token) {
     }
 }
 
-
 TokenManager.prototype.addOnTokenRemoved = function (cb) {
     this._callbacks.tokenRemovedCallbacks.push(cb);
 }

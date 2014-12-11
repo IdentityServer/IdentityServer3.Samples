@@ -66,11 +66,9 @@
 
             $("#dialog").click(function () {
                 window.onDone = function () {
-                    console.log('got tokens');
+                    console.log('modal window done');
                     child.close();
                     delete window.onDone;
-                    console.log(mgr.id_token);
-                    console.log(mgr.access_token);
                 };
                 var child = window.open("modal.html", "_blank", "location=no,toolbar=no");
             });
