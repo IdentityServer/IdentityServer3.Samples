@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <script src="oidc/oidc.js"></script>
+    <div id='msg'></div>
+    <script>
+        var config = {
+            client_id: "implicitclient",
+            redirect_uri: window.location.protocol + "//" + window.location.host + "/modal.html",
+            post_logout_redirect_uri: window.location.protocol + "//" + window.location.host + "/index.html",
+            response_type: "id_token token",
+            scope: "openid profile email read write",
+            authority: "https://localhost:44333/core",
+        };
+        var mgr = new TokenManager(config);
+        if (!window.location.hash) {
+            mgr.redirectForToken();
+        }
+        else {
+            mgr.processTokenCallbackAsync().then(function () {
+                window.opener.onDone();
+            }, function (error) {
+                document.getElementById("msg").innerHTML = error;
+            });
+        }
+    </script>
+</body>
+</html>

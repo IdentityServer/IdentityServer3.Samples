@@ -15,6 +15,15 @@
  */
 
 
+function log() {
+    var param = [].join.call(arguments);
+    if (param){
+        console.log(log.caller, param);
+    }
+    else {
+        console.log(log.caller);
+    }
+}
 
 function copy(obj, target) {
     target = target || {};
@@ -35,6 +44,8 @@ function error(message) {
 }
 
 function parseOidcResult(queryString) {
+    log();
+
     queryString = queryString || location.hash;
 
     var idx = queryString.lastIndexOf("#");
@@ -62,6 +73,7 @@ function parseOidcResult(queryString) {
 }
 
 function getJson(url, token) {
+    log("getJson", url);
     return new Promise(function (resolve, reject) {
 
         var xhr = new XMLHttpRequest();
@@ -235,11 +247,11 @@ OidcClient.prototype.loadMetadataAsync = function () {
     var settings = this._settings;
 
     if (settings.metadata) {
-        Promise.resolve(settings.metadata);
+        return Promise.resolve(settings.metadata);
     }
 
     if (!settings.authority) {
-        error("No authority configured");
+        return error("No authority configured");
     }
 
     return getJson(settings.authority)
@@ -247,7 +259,7 @@ OidcClient.prototype.loadMetadataAsync = function () {
             settings.metadata = metadata;
             return metadata;
         }, function (err) {
-            error("Failed to load metadata (" + err.message + ")");
+            return error("Failed to load metadata (" + err.message + ")");
         });
 };
 

@@ -28,6 +28,15 @@ typeof KJUR!="undefined"&&KJUR||(KJUR={});typeof KJUR.jws!="undefined"&&KJUR.jws
  */
 
 
+function log() {
+    var param = [].join.call(arguments);
+    if (param){
+        console.log(log.caller, param);
+    }
+    else {
+        console.log(log.caller);
+    }
+}
 
 function copy(obj, target) {
     target = target || {};
@@ -48,6 +57,8 @@ function error(message) {
 }
 
 function parseOidcResult(queryString) {
+    log();
+
     queryString = queryString || location.hash;
 
     var idx = queryString.lastIndexOf("#");
@@ -75,6 +86,7 @@ function parseOidcResult(queryString) {
 }
 
 function getJson(url, token) {
+    log("getJson", url);
     return new Promise(function (resolve, reject) {
 
         var xhr = new XMLHttpRequest();
@@ -248,11 +260,11 @@ OidcClient.prototype.loadMetadataAsync = function () {
     var settings = this._settings;
 
     if (settings.metadata) {
-        Promise.resolve(settings.metadata);
+        return Promise.resolve(settings.metadata);
     }
 
     if (!settings.authority) {
-        error("No authority configured");
+        return error("No authority configured");
     }
 
     return getJson(settings.authority)
@@ -260,7 +272,7 @@ OidcClient.prototype.loadMetadataAsync = function () {
             settings.metadata = metadata;
             return metadata;
         }, function (err) {
-            error("Failed to load metadata (" + err.message + ")");
+            return error("Failed to load metadata (" + err.message + ")");
         });
 };
 
@@ -789,12 +801,23 @@ function TokenManager(settings) {
         }
     });
 
-    loadToken(this);
-    configureTokenExpired(this);
-    configureAutoRenewToken(this);
+    var mgr = this;
+    loadToken(mgr);
+    window.addEventListener("storage", function (e) {
+        if (e.key === storageKey) {
+            loadToken(mgr);
+            if (mgr._token) {
+                callTokenObtained(mgr);
+            }
+            else {
+                callTokenRemoved(mgr);
+            }
+        }
+    });
+    configureTokenExpired(mgr);
+    configureAutoRenewToken(mgr);
 
     // delay this so consuming apps can register for callbacks first
-    var mgr = this;
     window.setTimeout(function () {
         configureTokenExpiring(mgr);
     }, 0);
@@ -853,6 +876,11 @@ TokenManager.prototype.redirectForLogout = function () {
     var id_token_jwt = this.id_token_jwt;
     this.removeToken();
     oidc.redirectForLogout(id_token_jwt);
+}
+
+TokenManager.prototype.createTokenRequestAsync = function () {
+    var oidc = new OidcClient(this._settings);
+    return oidc.createTokenRequestAsync();
 }
 
 TokenManager.prototype.processTokenCallbackAsync = function (queryString) {

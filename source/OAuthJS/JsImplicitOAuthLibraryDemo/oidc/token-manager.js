@@ -302,12 +302,23 @@ function TokenManager(settings) {
         }
     });
 
-    loadToken(this);
-    configureTokenExpired(this);
-    configureAutoRenewToken(this);
+    var mgr = this;
+    loadToken(mgr);
+    window.addEventListener("storage", function (e) {
+        if (e.key === storageKey) {
+            loadToken(mgr);
+            if (mgr._token) {
+                callTokenObtained(mgr);
+            }
+            else {
+                callTokenRemoved(mgr);
+            }
+        }
+    });
+    configureTokenExpired(mgr);
+    configureAutoRenewToken(mgr);
 
     // delay this so consuming apps can register for callbacks first
-    var mgr = this;
     window.setTimeout(function () {
         configureTokenExpiring(mgr);
     }, 0);
@@ -366,6 +377,11 @@ TokenManager.prototype.redirectForLogout = function () {
     var id_token_jwt = this.id_token_jwt;
     this.removeToken();
     oidc.redirectForLogout(id_token_jwt);
+}
+
+TokenManager.prototype.createTokenRequestAsync = function () {
+    var oidc = new OidcClient(this._settings);
+    return oidc.createTokenRequestAsync();
 }
 
 TokenManager.prototype.processTokenCallbackAsync = function (queryString) {
