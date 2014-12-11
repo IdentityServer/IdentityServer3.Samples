@@ -29,13 +29,8 @@ typeof KJUR!="undefined"&&KJUR||(KJUR={});typeof KJUR.jws!="undefined"&&KJUR.jws
 
 
 function log() {
-    var param = [].join.call(arguments);
-    if (param){
-        console.log(log.caller, param);
-    }
-    else {
-        console.log(log.caller);
-    }
+    //var param = [].join.call(arguments);
+    //console.log(param);
 }
 
 function copy(obj, target) {
@@ -57,7 +52,7 @@ function error(message) {
 }
 
 function parseOidcResult(queryString) {
-    log();
+    log("parseOidcResult");
 
     queryString = queryString || location.hash;
 
@@ -87,6 +82,7 @@ function parseOidcResult(queryString) {
 
 function getJson(url, token) {
     log("getJson", url);
+
     return new Promise(function (resolve, reject) {
 
         var xhr = new XMLHttpRequest();
@@ -163,6 +159,8 @@ function OidcClient(settings) {
 }
 
 OidcClient.prototype.redirectForToken = function () {
+    log("OidcClient.redirectForToken");
+
     this.createTokenRequestAsync().then(function (request) {
         window.location = request.url;
     }, function (err) {
@@ -171,6 +169,8 @@ OidcClient.prototype.redirectForToken = function () {
 }
 
 OidcClient.prototype.redirectForLogout = function (id_token_hint) {
+    log("OidcClient.redirectForLogout");
+
     var settings = this._settings;
     this.loadMetadataAsync().then(function (metadata) {
         if (!metadata.end_session_endpoint) {
@@ -188,6 +188,7 @@ OidcClient.prototype.redirectForLogout = function (id_token_hint) {
 }
 
 OidcClient.prototype.loadAuthorizationEndpoint = function () {
+    log("OidcClient.loadAuthorizationEndpoint");
 
     if (this._settings.authorization_endpoint) {
         return Promise.resolve(this._settings.authorization_endpoint);
@@ -207,6 +208,8 @@ OidcClient.prototype.loadAuthorizationEndpoint = function () {
 };
 
 OidcClient.prototype.createTokenRequestAsync = function () {
+    log("OidcClient.createTokenRequestAsync");
+
     var client = this;
     var settings = client._settings;
 
@@ -257,6 +260,8 @@ OidcClient.prototype.createTokenRequestAsync = function () {
 }
 
 OidcClient.prototype.loadMetadataAsync = function () {
+    log("OidcClient.loadMetadataAsync");
+
     var settings = this._settings;
 
     if (settings.metadata) {
@@ -277,6 +282,8 @@ OidcClient.prototype.loadMetadataAsync = function () {
 };
 
 OidcClient.prototype.loadX509SigningKeyAsync = function () {
+    log("OidcClient.loadX509SigningKeyAsync");
+
     var settings = this._settings;
 
     function getKeyAsync(jwks) {
@@ -315,6 +322,7 @@ OidcClient.prototype.loadX509SigningKeyAsync = function () {
 };
 
 OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce, access_token) {
+    log("OidcClient.validateIdTokenAsync");
 
     var client = this;
     var settings = client._settings;
@@ -373,6 +381,7 @@ OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce, access_token) 
 };
 
 OidcClient.prototype.validateAccessTokenAsync = function (id_token, access_token) {
+    log("OidcClient.validateAccessTokenAsync");
 
     if (!id_token.at_hash) {
         return error("No at_hash in id_token");
@@ -390,6 +399,7 @@ OidcClient.prototype.validateAccessTokenAsync = function (id_token, access_token
 };
 
 OidcClient.prototype.loadUserProfile = function (access_token, id_token) {
+    log("OidcClient.loadUserProfile");
 
     return this.loadMetadataAsync().then(function (metadata) {
 
@@ -406,6 +416,8 @@ OidcClient.prototype.loadUserProfile = function (access_token, id_token) {
 }
 
 OidcClient.prototype.validateIdTokenAndAccessTokenAsync = function (id_token_jwt, nonce, access_token) {
+    log("OidcClient.validateIdTokenAndAccessTokenAsync");
+
     var client = this;
 
     return client.validateIdTokenAsync(id_token_jwt, nonce, access_token).then(function (id_token) {
@@ -420,6 +432,7 @@ OidcClient.prototype.validateIdTokenAndAccessTokenAsync = function (id_token_jwt
 }
 
 OidcClient.prototype.readResponseAsync = function (queryString) {
+    log("OidcClient.readResponseAsync");
 
     var client = this;
     var settings = client._settings;
@@ -481,7 +494,7 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
     if (data.oidc && data.oauth) {
         promise = client.validateIdTokenAndAccessTokenAsync(result.id_token, data.nonce, result.access_token);
     }
-    if (data.oidc) {
+    else if (data.oidc) {
         promise = client.validateIdTokenAsync(result.id_token, data.nonce);
     }
 
