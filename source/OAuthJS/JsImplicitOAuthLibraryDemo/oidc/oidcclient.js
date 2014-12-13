@@ -105,6 +105,10 @@ var requestDataKey = "OidcClient.requestDataKey";
 function OidcClient(settings) {
     this._settings = settings || {};
 
+    if (typeof this._settings.load_user_profile === 'undefined') {
+        this._settings.load_user_profile = true;
+    }
+
     if (this._settings.authority && this._settings.authority.indexOf('.well-known/openid-configuration') < 0) {
         if (this._settings.authority[this._settings.authority.length - 1] != '/') {
             this._settings.authority += '/';
@@ -346,7 +350,7 @@ OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce, access_token) 
                     return error("Token expired");
                 }
 
-                if (access_token){
+                if (access_token && settings.load_user_profile) {
                     // if we have an access token, then call user info endpoint
                     return client.loadUserProfile(access_token, id_token).then(function (id_token) {
                         return id_token;
