@@ -41,7 +41,6 @@ namespace SelfHost
             };
 
             // data sources for in-memory services
-            factory.Register(Registration.RegisterSingleton<List<InMemoryUser>>(Users.Get()));
             factory.Register(Registration.RegisterSingleton<IEnumerable<RelyingParty>>(RelyingParties.Get()));
 
             var wsFedOptions = new WsFederationPluginOptions
