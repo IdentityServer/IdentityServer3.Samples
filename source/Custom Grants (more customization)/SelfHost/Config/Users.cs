@@ -7,9 +7,9 @@ namespace SelfHost.Config
 {
     static class Users
     {
-        public static IEnumerable<InMemoryUser> Get()
+        public static List<InMemoryUser> Get()
         {
-            return new InMemoryUser[]
+            return new List<InMemoryUser>
             {
                 new InMemoryUser{Subject = "alice", Username = "alice", Password = "alice", 
                     Claims = new Claim[]

@@ -11,7 +11,7 @@ namespace SelfHost.Extensions
 {
     class CustomUserService : IUserService
     {
-        public Task<AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message = null, IDictionary<string, object> env = null)
+        public Task<AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message = null)
         {
             if (message != null)
             {
@@ -33,7 +33,7 @@ namespace SelfHost.Extensions
             throw new NotImplementedException();
         }
 
-        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser, IDictionary<string, object> env)
+        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
         {
             throw new NotImplementedException();
         }
@@ -48,12 +48,17 @@ namespace SelfHost.Extensions
             throw new NotImplementedException();
         }
 
-        public Task<AuthenticateResult> PreAuthenticateAsync(SignInMessage message, IDictionary<string, object> env)
+        public Task<AuthenticateResult> PreAuthenticateAsync(SignInMessage message)
         {
             throw new NotImplementedException();
         }
 
         public Task SignOutAsync(ClaimsPrincipal subject, IDictionary<string, object> env)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SignOutAsync(ClaimsPrincipal subject)
         {
             throw new NotImplementedException();
         }
