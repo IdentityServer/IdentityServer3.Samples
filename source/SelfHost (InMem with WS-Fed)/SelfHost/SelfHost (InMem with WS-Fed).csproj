@@ -62,7 +62,7 @@
     </Reference>
     <Reference Include="Thinktecture.IdentityServer.WsFederation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.WsFederation.1.0.0-pre-9\lib\net45\Thinktecture.IdentityServer.WsFederation.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.WsFederation.1.0.0-pre-13\lib\net45\Thinktecture.IdentityServer.WsFederation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
