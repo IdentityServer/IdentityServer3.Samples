@@ -1,8 +1,11 @@
 ﻿using Owin;
 using SelfHost.Config;
+using System.Collections.Generic;
 using Thinktecture.IdentityServer.Core.Configuration;
+using Thinktecture.IdentityServer.Core.Services.InMemory;
 using Thinktecture.IdentityServer.Host.Config;
 using Thinktecture.IdentityServer.WsFederation.Configuration;
+using Thinktecture.IdentityServer.WsFederation.Models;
 using Thinktecture.IdentityServer.WsFederation.Services;
 
 namespace SelfHost
@@ -31,14 +34,20 @@ namespace SelfHost
 
         private void ConfigurePlugins(IAppBuilder pluginApp, IdentityServerOptions options)
         {
+            var factory = new WsFederationServiceFactory
+            {
+                UserService = options.Factory.UserService,
+                RelyingPartyService = Registration.RegisterType<IRelyingPartyService>(typeof(InMemoryRelyingPartyService))
+            };
+
+            // data sources for in-memory services
+            factory.Register(Registration.RegisterSingleton<List<InMemoryUser>>(Users.Get()));
+            factory.Register(Registration.RegisterSingleton<IEnumerable<RelyingParty>>(RelyingParties.Get()));
+
             var wsFedOptions = new WsFederationPluginOptions
             {
                 IdentityServerOptions = options,
-                Factory = new WsFederationServiceFactory
-                {
-                    UserService = options.Factory.UserService,
-                    RelyingPartyService = Registration.RegisterFactory<IRelyingPartyService>(() => new InMemoryRelyingPartyService(RelyingParties.Get())),
-                }
+                Factory = factory
             };
 
             pluginApp.UseWsFederationPlugin(wsFedOptions);
