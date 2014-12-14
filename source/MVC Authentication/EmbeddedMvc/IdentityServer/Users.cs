@@ -7,9 +7,9 @@ namespace EmbeddedMvc.IdentityServer
 {
     public static class Users
     {
-        public static IEnumerable<InMemoryUser> Get()
+        public static List<InMemoryUser> Get()
         {
-            return new[]
+            return new List<InMemoryUser>
             {
                 new InMemoryUser
                 {

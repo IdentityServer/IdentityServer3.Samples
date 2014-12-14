@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Thinktecture.IdentityServer.Core.Models;
 
 namespace EmbeddedMvc.IdentityServer

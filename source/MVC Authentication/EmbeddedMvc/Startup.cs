@@ -35,9 +35,9 @@ namespace EmbeddedMvc
                         SigningCertificate = LoadCertificate(),
 
                         Factory = InMemoryFactory.Create(
-                            users: Users.Get(),
+                            users:   Users.Get(),
                             clients: Clients.Get(),
-                            scopes: Scopes.Get()),
+                            scopes:  Scopes.Get()),
 
                         AuthenticationOptions = new Thinktecture.IdentityServer.Core.Configuration.AuthenticationOptions
                         {
