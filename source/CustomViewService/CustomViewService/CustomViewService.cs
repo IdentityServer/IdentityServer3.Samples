@@ -20,34 +20,34 @@ namespace SampleApp
             this.clientStore = clientStore;
         }
 
-        public virtual async Task<System.IO.Stream> Login(IDictionary<string, object> env, LoginViewModel model, SignInMessage message)
+        public virtual async Task<System.IO.Stream> Login(LoginViewModel model, SignInMessage message)
         {
             var client = await clientStore.FindClientByIdAsync(message.ClientId);
             var name = client != null ? client.ClientName : null;
             return await Render(model, "login", name);
         }
 
-        public virtual Task<System.IO.Stream> Logout(IDictionary<string, object> env, LogoutViewModel model)
+        public virtual Task<System.IO.Stream> Logout(LogoutViewModel model)
         {
             return Render(model, "logout");
         }
 
-        public virtual Task<System.IO.Stream> LoggedOut(IDictionary<string, object> env, LoggedOutViewModel model)
+        public virtual Task<System.IO.Stream> LoggedOut(LoggedOutViewModel model)
         {
             return Render(model, "loggedOut");
         }
 
-        public virtual Task<System.IO.Stream> Consent(IDictionary<string, object> env, ConsentViewModel model)
+        public virtual Task<System.IO.Stream> Consent(ConsentViewModel model)
         {
             return Render(model, "consent");
         }
 
-        public Task<Stream> ClientPermissions(IDictionary<string, object> env, ClientPermissionsViewModel model)
+        public Task<Stream> ClientPermissions(ClientPermissionsViewModel model)
         {
             return Render(model, "permissions");
         }
 
-        public virtual Task<System.IO.Stream> Error(IDictionary<string, object> env, ErrorViewModel model)
+        public virtual Task<System.IO.Stream> Error(ErrorViewModel model)
         {
             return Render(model, "error");
         }

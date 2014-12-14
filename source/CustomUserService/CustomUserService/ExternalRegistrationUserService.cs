@@ -49,22 +49,12 @@ namespace SampleApp
             if (user.IsRegistered)
             {
                 // user is registered so continue
-                var p = IdentityServerPrincipal.Create(
-                    user.Subject, name,
-                    Thinktecture.IdentityServer.Core.Constants.AuthenticationMethods.External,
-                    user.Provider
-                );
-                return Task.FromResult<AuthenticateResult>(new AuthenticateResult(p));
+                return Task.FromResult<AuthenticateResult>(new AuthenticateResult(user.Subject, name, identityProvider:user.Provider));
             }
             else
             {
                 // user not registered so we will issue a partial login and redirect them to our registration page
-                var p = IdentityServerPrincipal.Create(
-                    user.Subject, name,
-                    Thinktecture.IdentityServer.Core.Constants.AuthenticationMethods.External,
-                    user.Provider
-                );
-                return Task.FromResult<AuthenticateResult>(new AuthenticateResult("/core/externalregistration", p));
+                return Task.FromResult<AuthenticateResult>(new AuthenticateResult("/core/externalregistration", user.Subject, name, identityProvider: user.Provider));
             }
         }
 
@@ -91,9 +81,14 @@ namespace SampleApp
             return Task.FromResult(user != null && user.IsRegistered);
         }
 
-        public Task<AuthenticateResult> PreAuthenticateAsync(IDictionary<string, object> env, SignInMessage message)
+        public Task<AuthenticateResult> PreAuthenticateAsync(SignInMessage message)
         {
             return Task.FromResult<AuthenticateResult>(null);
+        }
+
+        public Task SignOutAsync(ClaimsPrincipal subject)
+        {
+            return Task.FromResult(0);
         }
     }
 }

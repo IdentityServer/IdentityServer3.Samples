@@ -60,16 +60,16 @@ namespace SampleApp
             {
                 return Task.FromResult<AuthenticateResult>(null);
             }
-            var p = IdentityServerPrincipal.Create(user.Subject, user.Username);
+
             if (user.AccpetedEula)
             {
-                return Task.FromResult<AuthenticateResult>(new AuthenticateResult(p));
+                return Task.FromResult<AuthenticateResult>(new AuthenticateResult(user.Subject, user.Username));
             }
             else
             {
                 // either redirect path works
-                return Task.FromResult<AuthenticateResult>(new AuthenticateResult("/core/eula", p));
-                //return Task.FromResult<AuthenticateResult>(new AuthenticateResult("~/eula", p));
+                return Task.FromResult<AuthenticateResult>(new AuthenticateResult("/core/eula", user.Subject, user.Username));
+                //return Task.FromResult<AuthenticateResult>(new AuthenticateResult("~/eula", user.Subject, user.Username));
             }
         }
 
@@ -91,9 +91,15 @@ namespace SampleApp
             return Task.FromResult(user != null && user.AccpetedEula);
         }
         
-        public Task<AuthenticateResult> PreAuthenticateAsync(IDictionary<string, object> env, SignInMessage message)
+
+        public Task<AuthenticateResult> PreAuthenticateAsync(SignInMessage message)
         {
             return Task.FromResult<AuthenticateResult>(null);
+        }
+
+        public Task SignOutAsync(ClaimsPrincipal subject)
+        {
+            return Task.FromResult(0);
         }
     }
 }

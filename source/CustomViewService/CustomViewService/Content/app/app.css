@@ -1,6 +1,9 @@
 body {
   margin-top: 65px;
 }
+[ng-cloak]{
+    display:none;
+}
 .consent-buttons {
   margin-top: 25px;
 }

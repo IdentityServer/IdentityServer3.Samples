@@ -35,12 +35,7 @@ namespace SampleApp
 
             // user is registered so continue
             var name = user.Claims.First(x => x.Type == Constants.ClaimTypes.Name).Value;
-            var p = IdentityServerPrincipal.Create(
-                user.Subject, name,
-                Thinktecture.IdentityServer.Core.Constants.AuthenticationMethods.External,
-                user.Provider
-            );
-            return Task.FromResult<AuthenticateResult>(new AuthenticateResult(p));
+            return Task.FromResult<AuthenticateResult>(new AuthenticateResult(user.Subject, name, identityProvider:user.Provider));
         }
 
         public Task<AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message)
@@ -66,9 +61,14 @@ namespace SampleApp
             return Task.FromResult(user != null);
         }
 
-        public Task<AuthenticateResult> PreAuthenticateAsync(IDictionary<string, object> env, SignInMessage message)
+        public Task<AuthenticateResult> PreAuthenticateAsync(SignInMessage message)
         {
             return Task.FromResult<AuthenticateResult>(null);
+        }
+
+        public Task SignOutAsync(ClaimsPrincipal subject)
+        {
+            return Task.FromResult(0);
         }
     }
 }

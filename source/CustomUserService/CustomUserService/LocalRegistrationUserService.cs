@@ -36,8 +36,7 @@ namespace SampleApp
                 return Task.FromResult<AuthenticateResult>(null);
             }
 
-            var p = IdentityServerPrincipal.Create(user.Subject, user.Username);
-            return Task.FromResult<AuthenticateResult>(new AuthenticateResult(p));
+            return Task.FromResult<AuthenticateResult>(new AuthenticateResult(user.Subject, user.Username));
         }
 
         public Task<IEnumerable<System.Security.Claims.Claim>> GetProfileDataAsync(ClaimsPrincipal subject, IEnumerable<string> requestedClaimTypes = null)
@@ -58,9 +57,14 @@ namespace SampleApp
             return Task.FromResult(user != null);
         }
 
-        public Task<AuthenticateResult> PreAuthenticateAsync(IDictionary<string, object> env, SignInMessage message)
+        public Task<AuthenticateResult> PreAuthenticateAsync(SignInMessage message)
         {
             return Task.FromResult<AuthenticateResult>(null);
+        }
+
+        public Task SignOutAsync(ClaimsPrincipal subject)
+        {
+            return Task.FromResult(0);
         }
     }
 }

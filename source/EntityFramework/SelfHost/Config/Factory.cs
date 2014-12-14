@@ -14,22 +14,16 @@ namespace SelfHost.Config
     {
         public static IdentityServerServiceFactory Configure(string connString)
         {
-            var svcFactory = new ServiceFactory(connString);
+            var svcFactory = new EntityFrameworkServiceFactory(connString);
             svcFactory.ConfigureClients(Clients.Get());
             svcFactory.ConfigureScopes(Scopes.Get());
 
             var factory = new IdentityServerServiceFactory();
+            factory.RegisterConfigurationServices(svcFactory);
+            factory.RegisterOperationalServices(svcFactory);
 
             var userService = new Thinktecture.IdentityServer.Core.Services.InMemory.InMemoryUserService(Users.Get());
-            factory.UserService = Registration.RegisterFactory<IUserService>(() => userService);
-
-            factory.ScopeStore = Registration.RegisterFactory<IScopeStore>(() => svcFactory.CreateScopeStore());
-            factory.ClientStore = Registration.RegisterFactory<IClientStore>(() => svcFactory.CreateClientStore());
-            
-            factory.AuthorizationCodeStore = Registration.RegisterFactory<IAuthorizationCodeStore>(() => svcFactory.CreateAuthorizationCodeStore());
-            factory.TokenHandleStore = Registration.RegisterFactory<ITokenHandleStore>(() => svcFactory.CreateTokenHandleStore());
-            factory.ConsentStore = Registration.RegisterFactory<IConsentStore>(() => svcFactory.CreateConsentStore());
-            factory.RefreshTokenStore = Registration.RegisterFactory<IRefreshTokenStore>(() => svcFactory.CreateRefreshTokenStore());
+            factory.UserService = Registration.RegisterFactory<IUserService>((resolver) => userService);
 
             return factory;
         }
