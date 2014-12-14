@@ -11,7 +11,7 @@ namespace SelfHost
         public void Configuration(IAppBuilder appBuilder)
         {
             var factory = InMemoryFactory.Create(
-                users : Users.Get(),
+                users :  Users.Get(),
                 clients: Clients.Get(), 
                 scopes:  Scopes.Get());
 
