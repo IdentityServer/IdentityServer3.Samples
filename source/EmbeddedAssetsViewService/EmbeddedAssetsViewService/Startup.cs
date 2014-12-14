@@ -16,9 +16,9 @@ namespace SampleApp
             app.Map("/core", coreApp =>
             {
                 var factory = InMemoryFactory.Create(
-                    users : Users.Get(),
+                    users:   Users.Get(),
                     clients: Clients.Get(),
-                    scopes: Scopes.Get());
+                    scopes:  Scopes.Get());
 
                 var embeddedViewServiceConfig = new DefaultViewServiceConfiguration();
                 embeddedViewServiceConfig.Stylesheets.Add("/Content/Site.css");
