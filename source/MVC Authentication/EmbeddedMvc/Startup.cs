@@ -11,9 +11,11 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
+using Thinktecture.IdentityModel.Client;
 using Thinktecture.IdentityServer.Core;
 using Thinktecture.IdentityServer.Core.Configuration;
 using Thinktecture.IdentityServer.Core.Logging;
+using System.Linq;
 
 [assembly: OwinStartup(typeof(EmbeddedMvc.Startup))]
 
@@ -59,7 +61,8 @@ namespace EmbeddedMvc
                     Authority = "https://localhost:44319/identity",
 
                     ClientId = "mvc",
-                    Scope = "openid profile roles",
+                    Scope = "openid profile roles sampleApi",
+                    ResponseType = "code id_token token",
                     RedirectUri = "https://localhost:44319/",
 
                     SignInAsAuthenticationType = "Cookies",
@@ -69,27 +72,27 @@ namespace EmbeddedMvc
                     {
                         SecurityTokenValidated = async n =>
                             {
-                                var id = n.AuthenticationTicket.Identity;
-
-                                // we want to keep first name, last name, subject and roles
-                                var givenName = id.FindFirst(Constants.ClaimTypes.GivenName);
-                                var familyName = id.FindFirst(Constants.ClaimTypes.FamilyName);
-                                var sub = id.FindFirst(Constants.ClaimTypes.Subject);
-                                var roles = id.FindAll(Constants.ClaimTypes.Role);
-
-                                // create new identity and set name and role claim type
                                 var nid = new ClaimsIdentity(
-                                    id.AuthenticationType,
+                                    n.AuthenticationTicket.Identity.AuthenticationType,
                                     Constants.ClaimTypes.GivenName,
                                     Constants.ClaimTypes.Role);
 
-                                nid.AddClaim(givenName);
-                                nid.AddClaim(familyName);
-                                nid.AddClaim(sub);
-                                nid.AddClaims(roles);
+                                // get userinfo data
+                                var userInfoClient = new UserInfoClient(
+                                    new Uri(n.Options.Authority + "/connect/userinfo"),
+                                    n.ProtocolMessage.AccessToken);
+
+                                var userInfo = await userInfoClient.GetAsync();
+                                userInfo.Claims.ToList().ForEach(ui => nid.AddClaim(new Claim(ui.Item1, ui.Item2)));
 
                                 // keep the id_token for logout
                                 nid.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+
+                                // add access token for sample API
+                                nid.AddClaim(new Claim("access_token", n.ProtocolMessage.AccessToken));
+
+                                // keep track of access token expiration
+                                nid.AddClaim(new Claim("expires_at", DateTimeOffset.Now.AddSeconds(int.Parse(n.ProtocolMessage.ExpiresIn)).ToString()));
 
                                 // add some other app specific claim
                                 nid.AddClaim(new Claim("app_specific", "some data"));

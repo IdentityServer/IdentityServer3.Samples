@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Thinktecture.IdentityModel.Client;
@@ -14,6 +15,17 @@ namespace EmbeddedMvc.Controllers
         {
             var response = await GetTokenAsync();
             var result = await CallApi(response.AccessToken);
+
+            ViewBag.Json = result;
+            return View("ShowApiResult");
+        }
+
+        // GET: CallApi/ClientCredentials
+        public async Task<ActionResult> UserCredentials()
+        {
+            var user = User as ClaimsPrincipal;
+            var token = user.FindFirst("access_token").Value;
+            var result = await CallApi(token);
 
             ViewBag.Json = result;
             return View("ShowApiResult");
