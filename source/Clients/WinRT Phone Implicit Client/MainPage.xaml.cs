@@ -25,7 +25,25 @@ using Windows.UI.Xaml.Navigation;
 namespace WinRT_Phone_Implicit_Client
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Main entry point for Windows Phone sample.  Note that if you're hosting idSrv on IIS Express 
+    /// (using the developer certificate), you will need to ensure the emulator trusts that certificate.  
+    ///
+    /// There's two steps you need to complete for this: 
+    ///    - The first is exporting the certificate from the machine you're currently working on.  
+    ///    You only need to do this once.  
+    ///    - The second is ensuring the phone emulator trusts this certificate. 
+    ///    This must be done every time you restart the emulator.
+    /// 
+    /// To export the certificate:
+    ///    - Open mmc and select the certificates plugin. (computer account)
+    ///    - Right-click on the "localhost" certificate, choose "All Tasks->Export...".
+    ///    - Click "next" without changing the defaults until you reach the "export file format" screen. Export as .P7B.
+    ///    - Save the certificate as "localhost.p7b" in any location you can surf to from the Windows Phone app (for example, your
+    ///    local IIS)
+    /// 
+    /// To trust the certificate:
+    ///    - Start the emulator, open IE on the emulator & surf to the location where you saved the certficate.  You'll
+    ///    be asked to install this certificate.  Do this, and you're done.
     /// </summary>
     public sealed partial class MainPage : Page, IWebAuthenticationContinuable
     {

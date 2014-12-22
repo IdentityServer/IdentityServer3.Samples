@@ -2,7 +2,7 @@
 {
     public static class Constants
     {
-        public const string BaseAddress = "https://ttidsrv.azurewebsites.net/core";
+        public const string BaseAddress = "https://localhost:44333/core";
         
         public const string AuthorizeEndpoint = BaseAddress + "/connect/authorize";
         public const string LogoutEndpoint = BaseAddress + "/connect/endsession";
