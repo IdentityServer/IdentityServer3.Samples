@@ -22,7 +22,7 @@ namespace SampleApp
                     clients: Clients.Get(),
                     scopes: Scopes.Get());
 
-                factory.ViewService = Registration.RegisterType<IViewService>(typeof(CustomViewService));
+                factory.ViewService = new Registration<IViewService>(typeof(CustomViewService));
 
                 var options = new IdentityServerOptions
                 {

@@ -24,7 +24,7 @@ namespace SampleApp
         
         public static List<CustomUser> Users = new List<CustomUser>();
 
-        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
+        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser, SignInMessage message)
         {
             // look for the user in our local identity system from the external identifiers
             var user = Users.SingleOrDefault(x => x.Provider == externalUser.Provider && x.ProviderID == externalUser.ProviderId);

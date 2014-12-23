@@ -76,21 +76,16 @@ namespace WpfClient
 
         private void RequestToken(string scope, string responseType)
         {
-            var additional = new Dictionary<string, string>
-            {
-                { "nonce", "should_be_random" },
-                // { "login_hint", "idp:Google" },
-                // { "acr_values", "a b c" }
-            };
-
             var client = new OAuth2Client(new Uri(Constants.AuthorizeEndpoint));
             var startUrl = client.CreateAuthorizeUrl(
-                "implicitclient",
-                responseType,
-                scope,
-                "oob://localhost/wpfclient",
-                "random_state",
-                additional);
+                clientId: "implicitclient",
+                responseType: responseType,
+                scope: scope,
+                redirectUri: "oob://localhost/wpfclient",
+                state: "random_state",
+                nonce: "random_nonce" /**,
+                loginHint: "idp:Google",
+                acrValues: "a b c" **/);
 
             _login.Show();
             _login.Start(new Uri(startUrl), new Uri("oob://localhost/wpfclient"));

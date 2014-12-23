@@ -44,7 +44,7 @@ namespace SampleApp.Controllers
                 // update the "database" for our users with the outcome
                 var subject = authentication.Identity.GetSubjectId();
                 var user = EulaAtLoginUserService.Users.Single(x => x.Subject == subject);
-                user.AccpetedEula = true;
+                user.AcceptedEula = true;
 
                 // find the URL to continue with the process to the issue the token to the RP
                 var resumeUrl = authentication.Identity.Claims.Single(x => x.Type == Constants.ClaimTypes.PartialLoginReturnUrl).Value;

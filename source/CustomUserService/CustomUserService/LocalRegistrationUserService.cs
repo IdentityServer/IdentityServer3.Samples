@@ -23,7 +23,7 @@ namespace SampleApp
         
         public static List<CustomUser> Users = new List<CustomUser>();
 
-        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
+        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser, SignInMessage message)
         {
             return Task.FromResult<AuthenticateResult>(null);
         }

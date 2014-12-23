@@ -15,7 +15,8 @@ namespace SelfHost
                 clients: Clients.Get(), 
                 scopes:  Scopes.Get());
 
-            factory.CustomGrantValidator = Registration.RegisterType<ICustomGrantValidator>(typeof(CustomGrantValidator));
+            factory.CustomGrantValidator = 
+                new Registration<ICustomGrantValidator>(typeof(CustomGrantValidator));
 
             var options = new IdentityServerOptions
             {

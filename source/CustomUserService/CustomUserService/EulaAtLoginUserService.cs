@@ -18,7 +18,7 @@ namespace SampleApp
             public string Subject { get; set; }
             public string Username { get; set; }
             public string Password { get; set; }
-            public bool AccpetedEula { get; set; }
+            public bool AcceptedEula { get; set; }
             public List<Claim> Claims { get; set; }
         }
 
@@ -28,7 +28,7 @@ namespace SampleApp
                 Subject = "123", 
                 Username = "alice", 
                 Password = "alice", 
-                AccpetedEula = false, 
+                AcceptedEula = false, 
                 Claims = new List<Claim>{
                     new Claim(Constants.ClaimTypes.GivenName, "Alice"),
                     new Claim(Constants.ClaimTypes.FamilyName, "Smith"),
@@ -39,7 +39,7 @@ namespace SampleApp
                 Subject = "890", 
                 Username = "bob", 
                 Password = "bob", 
-                AccpetedEula = false, 
+                AcceptedEula = false, 
                 Claims = new List<Claim>{
                     new Claim(Constants.ClaimTypes.GivenName, "Bob"),
                     new Claim(Constants.ClaimTypes.FamilyName, "Smith"),
@@ -48,7 +48,7 @@ namespace SampleApp
             },
         };
 
-        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser)
+        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser, SignInMessage message)
         {
             return Task.FromResult<AuthenticateResult>(null);
         }
@@ -61,7 +61,7 @@ namespace SampleApp
                 return Task.FromResult<AuthenticateResult>(null);
             }
 
-            if (user.AccpetedEula)
+            if (user.AcceptedEula)
             {
                 return Task.FromResult<AuthenticateResult>(new AuthenticateResult(user.Subject, user.Username));
             }
@@ -88,7 +88,7 @@ namespace SampleApp
         public Task<bool> IsActiveAsync(ClaimsPrincipal subject)
         {
             var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
-            return Task.FromResult(user != null && user.AccpetedEula);
+            return Task.FromResult(user != null && user.AcceptedEula);
         }
         
 

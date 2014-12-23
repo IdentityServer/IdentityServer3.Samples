@@ -16,12 +16,14 @@ namespace SelfHost.Config
         {
             var factory = new IdentityServerServiceFactory();
 
-            factory.UserService = Registration<IUserService>.RegisterFactory((resolver)=>MembershipRebootUserServiceFactory.Factory(connString));
+            factory.UserService = 
+                new Registration<IUserService>(resolver => MembershipRebootUserServiceFactory.Factory(connString));
 
             var scopeStore = new InMemoryScopeStore(Scopes.Get());
-            factory.ScopeStore = Registration.RegisterFactory<IScopeStore>((resolver) => scopeStore);
+            factory.ScopeStore = new Registration<IScopeStore>(resolver => scopeStore);
+            
             var clientStore = new InMemoryClientStore(Clients.Get());
-            factory.ClientStore = Registration.RegisterFactory<IClientStore>((resolver) => clientStore);
+            factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
 
             return factory;
         }

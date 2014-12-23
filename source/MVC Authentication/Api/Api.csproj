@@ -100,7 +100,7 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="Thinktecture.IdentityServer.v3.AccessTokenValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AccessTokenValidation.1.0.0-beta4\lib\net45\Thinktecture.IdentityServer.v3.AccessTokenValidation.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AccessTokenValidation.1.0.0-pre-10002\lib\net45\Thinktecture.IdentityServer.v3.AccessTokenValidation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
