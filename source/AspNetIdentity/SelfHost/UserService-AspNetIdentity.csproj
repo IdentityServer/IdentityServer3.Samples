@@ -102,11 +102,10 @@
     </Reference>
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-84\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-beta4\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer.AspNetIdentity, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AspNetIdentity.1.0.0-pre-7\lib\net45\Thinktecture.IdentityServer.AspNetIdentity.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer.AspNetIdentity">
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AspNetIdentity.1.0.0-beta4\lib\net45\Thinktecture.IdentityServer.AspNetIdentity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -125,7 +124,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <EmbeddedResource Include="Config\idsrv3test.pfx" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
