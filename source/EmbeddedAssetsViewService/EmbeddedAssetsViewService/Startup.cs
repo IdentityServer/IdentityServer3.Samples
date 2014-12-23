@@ -23,7 +23,7 @@ namespace SampleApp
                 var embeddedViewServiceConfig = new DefaultViewServiceConfiguration();
                 embeddedViewServiceConfig.Stylesheets.Add("/Content/Site.css");
 
-                factory.Register(Registration.RegisterSingleton(embeddedViewServiceConfig));
+                factory.Register(new Registration<DefaultViewServiceConfiguration>(embeddedViewServiceConfig));
 
                 var options = new IdentityServerOptions
                 {

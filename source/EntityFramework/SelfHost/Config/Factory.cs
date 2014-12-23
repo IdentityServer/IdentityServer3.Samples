@@ -23,7 +23,7 @@ namespace SelfHost.Config
             factory.RegisterOperationalServices(svcFactory);
 
             var userService = new Thinktecture.IdentityServer.Core.Services.InMemory.InMemoryUserService(Users.Get());
-            factory.UserService = Registration.RegisterFactory<IUserService>((resolver) => userService);
+            factory.UserService = new Registration<IUserService>(resolver => userService);
 
             return factory;
         }

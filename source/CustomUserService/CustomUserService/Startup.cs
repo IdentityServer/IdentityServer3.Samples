@@ -27,7 +27,7 @@ namespace SampleApp
                 var userService = new EulaAtLoginUserService();
                 //var userService = new LocalRegistrationUserService();
                 
-                factory.UserService = Registration.RegisterFactory<IUserService>((resolver) => userService);
+                factory.UserService = new Registration<IUserService>(resolver => userService);
 
                 var options = new IdentityServerOptions
                 {
