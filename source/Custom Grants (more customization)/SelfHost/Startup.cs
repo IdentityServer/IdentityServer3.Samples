@@ -16,17 +16,17 @@ namespace SelfHost
                 clients: Clients.Get(), 
                 scopes:  Scopes.Get());
 
-            factory.ClaimsProvider = Registration.RegisterType<IClaimsProvider>(
-                typeof(CustomClaimsProvider));
-            factory.UserService = Registration.RegisterType<IUserService>(
-                typeof(CustomUserService));
-            factory.CustomGrantValidator = Registration.RegisterType<ICustomGrantValidator>(
-                typeof(CustomGrantValidator));
+            factory.ClaimsProvider = 
+                new Registration<IClaimsProvider>(typeof(CustomClaimsProvider));
+            factory.UserService = 
+                new Registration<IUserService>(typeof(CustomUserService));
+            factory.CustomGrantValidator = 
+                new Registration<ICustomGrantValidator>(typeof(CustomGrantValidator));
 
             var options = new IdentityServerOptions
             {
                 IssuerUri = "https://idsrv3.com",
-                SiteName = "Thinktecture IdentityServer v3 - beta 2 (SelfHost)",
+                SiteName = "Thinktecture IdentityServer v3 (SelfHost)",
                 RequireSsl = false,
 
                 SigningCertificate = Certificate.Get(),
