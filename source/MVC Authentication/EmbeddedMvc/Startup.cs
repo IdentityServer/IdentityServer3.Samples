@@ -62,7 +62,7 @@ namespace EmbeddedMvc
 
                     ClientId = "mvc",
                     Scope = "openid profile roles sampleApi",
-                    ResponseType = "code id_token token",
+                    ResponseType = "id_token token",
                     RedirectUri = "https://localhost:44319/",
 
                     SignInAsAuthenticationType = "Cookies",

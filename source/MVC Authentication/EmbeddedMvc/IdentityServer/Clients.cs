@@ -14,7 +14,7 @@ namespace EmbeddedMvc.IdentityServer
                     Enabled = true,
                     ClientName = "MVC Client",
                     ClientId = "mvc",
-                    Flow = Flows.Hybrid,
+                    Flow = Flows.Implicit,
 
                     RedirectUris = new List<string>
                     {
