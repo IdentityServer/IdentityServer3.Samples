@@ -1,9 +1,11 @@
-﻿using Sample;
+﻿using Newtonsoft.Json.Linq;
+using Sample;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Thinktecture.IdentityModel.Client;
 using Thinktecture.IdentityModel.WinRT;
@@ -41,6 +43,11 @@ namespace WinRT_Implicit_Client
 
         private async Task StartFlowAsync(string responseType, string scope)
         {
+            // clear textboxes
+            Output.Text = "";
+            IdToken.Text = "";
+            AccessToken.Text = "";
+
             Exception exception = null;
 
             try
@@ -50,8 +57,12 @@ namespace WinRT_Implicit_Client
                     "implicitclient",
                     responseType,
                     scope);
-
+               
                 Output.Text = _response.Raw;
+
+                AccessToken.Text = _response.AccessToken == null ? "" : ParseToken(_response.AccessToken);
+                IdToken.Text = _response.IdentityToken == null ? "" : ParseToken(_response.IdentityToken);
+            
             }
             catch (Exception ex)
             {
@@ -63,6 +74,31 @@ namespace WinRT_Implicit_Client
                 var md = new MessageDialog(exception.ToString());
                 await md.ShowAsync();
             }
+        }
+
+        private string ParseToken(string token)
+        {
+            var parts = token.Split('.');
+            var partAsBytes = Base64Url.Decode(parts[1]);
+            var part = Encoding.UTF8.GetString(partAsBytes, 0, partAsBytes.Count());
+
+            var jwt = JObject.Parse(part);
+            return jwt.ToString();
+        }
+
+        private async void AccessTokenButton_Click(object sender, RoutedEventArgs e)
+        {
+            await StartFlowAsync("token", "read write");
+        }
+
+        private async void LoginAndAccessTokenButton_Click(object sender, RoutedEventArgs e)
+        {
+            await StartFlowAsync("id_token token", "openid read write");
+        }
+
+        private async void LoginAndAccessTokenWithIdentityClaims_Click(object sender, RoutedEventArgs e)
+        {
+            await StartFlowAsync("id_token token", "openid read write idmgr");
         }
     }
 }
