@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using Thinktecture.IdentityModel.Tokens;
 
 namespace MvcFormPostClient
 {
@@ -10,7 +10,7 @@ namespace MvcFormPostClient
     {
         public void Configuration(IAppBuilder app)
         {
-            JwtSecurityTokenHandler.InboundClaimTypeMap = ClaimMappings.None;
+            JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
                 {
