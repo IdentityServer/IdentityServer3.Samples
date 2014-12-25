@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN Client (Hybrid)", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT Implicit Client", "WinRT Implicit Client\WinRT Implicit Client.csproj", "{D7C2DBBB-6485-4508-8827-7EFD26EBD808}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Custom Grant Client", "CustomGrantClient\Console Custom Grant Client.csproj", "{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -199,6 +201,16 @@ Global
 		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|x86.ActiveCfg = Release|x86
 		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|x86.Build.0 = Release|x86
 		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|x86.Deploy.0 = Release|x86
+		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Release|ARM.ActiveCfg = Release|Any CPU
+		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Release|x64.ActiveCfg = Release|Any CPU
+		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

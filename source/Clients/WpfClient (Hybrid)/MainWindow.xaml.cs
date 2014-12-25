@@ -51,21 +51,14 @@ namespace WpfClient
 
         private void RequestToken(string scope, string responseType)
         {
-            var additional = new Dictionary<string, string>
-            {
-                { "nonce", "nonce" },
-                // { "login_hint", "idp:Google" },
-                // { "acr_values", "a b c" }
-            };
-
             var client = new OAuth2Client(new Uri(Constants.AuthorizeEndpoint));
             var startUrl = client.CreateAuthorizeUrl(
-                "hybridclient",
-                responseType,
-                scope,
-                "oob://localhost/wpfclient",
-                "state",
-                additional);
+                clientId: "hybridclient",
+                responseType: responseType,
+                scope: scope,
+                redirectUri: "oob://localhost/wpfclient",
+                state: "random_state",
+                nonce: "random_nonce");
 
             _login.Show();
             _login.Start(new Uri(startUrl), new Uri("oob://localhost/wpfclient"));
