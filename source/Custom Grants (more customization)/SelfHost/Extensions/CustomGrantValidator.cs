@@ -45,13 +45,13 @@ namespace SelfHost.Extensions
             if (result.IsError)
             {
                 Logger.Error("authentication failed");
-                return null;
+                return new CustomGrantValidationResult("Authentication failed.");
             }
 
-            return new CustomGrantValidationResult
-                {
-                    Principal = result.User
-                };
+            return new CustomGrantValidationResult(
+                result.User.GetSubjectId(),
+                "custom",
+                result.User.Claims);
         }
     }
 }

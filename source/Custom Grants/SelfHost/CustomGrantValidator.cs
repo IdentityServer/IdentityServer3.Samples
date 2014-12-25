@@ -25,10 +25,8 @@ namespace SelfHost
             var assertion = request.Raw.Get("assertion");
             if (string.IsNullOrWhiteSpace(assertion))
             {
-                return Task.FromResult<CustomGrantValidationResult>(new CustomGrantValidationResult
-                    {
-                        ErrorMessage = "Missing assertion."
-                    });
+                return Task.FromResult<CustomGrantValidationResult>(
+                    new CustomGrantValidationResult("Missing assertion."));
             }
 
             // validate assertion and return principal
@@ -38,10 +36,7 @@ namespace SelfHost
                 "custom_grant",
                 "idsrv");
 
-            return Task.FromResult(new CustomGrantValidationResult
-            {
-                Principal = principal
-            });
+            return Task.FromResult(new CustomGrantValidationResult("bob", "customGrant"));
         }
     }
 }
