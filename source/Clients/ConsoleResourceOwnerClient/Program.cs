@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using Sample;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using Thinktecture.IdentityModel.Client;
@@ -26,7 +27,15 @@ namespace ConsoleResourceOwnerClient
                 "roclient",
                 "secret");
 
-            return client.RequestResourceOwnerPasswordAsync("bob", "bob", "read write").Result;
+            // idsrv supports additional non-standard parameters 
+            // that get passed through to the user service
+            var optional = new Dictionary<string, string>
+            {
+                { "login_hint", "tenant:custom_account_store_1" },
+                { "acr_values", "for bar quux" }
+            };
+
+            return client.RequestResourceOwnerPasswordAsync("bob", "bob", "read write", optional).Result;
         }
 
         static void CallService(string token)
