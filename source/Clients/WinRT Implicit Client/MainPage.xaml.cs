@@ -1,9 +1,11 @@
-﻿using Sample;
+﻿using Newtonsoft.Json.Linq;
+using Sample;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Thinktecture.IdentityModel.Client;
 using Thinktecture.IdentityModel.WinRT;
@@ -39,6 +41,21 @@ namespace WinRT_Implicit_Client
             await StartFlowAsync("id_token", "openid");
         }
 
+        private async void LoginWithProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            await StartFlowAsync("id_token", "openid profile");
+        }
+
+        private async void LoginWithProfileAndAccessTokenButton_Click(object sender, RoutedEventArgs e)
+        {
+            await StartFlowAsync("id_token token", "openid profile read write");
+        }
+
+        private async void AccessTokenOnlyButton_Click(object sender, RoutedEventArgs e)
+        {
+            await StartFlowAsync("token", "read write");
+        }
+
         private async Task StartFlowAsync(string responseType, string scope)
         {
             Exception exception = null;
@@ -52,6 +69,7 @@ namespace WinRT_Implicit_Client
                     scope);
 
                 Output.Text = _response.Raw;
+                ParseResponse();
             }
             catch (Exception ex)
             {
@@ -63,6 +81,41 @@ namespace WinRT_Implicit_Client
                 var md = new MessageDialog(exception.ToString());
                 await md.ShowAsync();
             }
+        }
+
+        private void ParseResponse()
+        {
+            if (_response != null)
+            {
+                if (!string.IsNullOrEmpty(_response.IdentityToken))
+                {
+                    IdToken.Text = ParseJwt(_response.IdentityToken);
+                }
+                else
+                {
+                    IdToken.Text = "";
+                }
+                
+                if (!string.IsNullOrEmpty(_response.AccessToken))
+                {
+                    AccessToken.Text = ParseJwt(_response.AccessToken);
+                }
+                else
+                {
+                    AccessToken.Text = "";
+                }
+            }
+        }
+
+        private string ParseJwt(string jwt)
+        {
+            var parts = jwt.Split('.');
+
+            var bytes = Base64Url.Decode(parts[1]);
+            var part = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+
+            var json = JObject.Parse(part);
+            return json.ToString();
         }
     }
 }

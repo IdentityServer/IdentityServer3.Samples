@@ -7,9 +7,47 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button x:Name="LoginOnlyButton" Content="Login only" FontSize="24" Click="LoginOnlyButton_Click" HorizontalAlignment="Left" Margin="7,86,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="Output" HorizontalAlignment="Left" Margin="10,162,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Height="420" Width="1003"/>
+    <ScrollViewer>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
 
-    </Grid>
+            <StackPanel Orientation="Horizontal" Margin="20">
+                <Button x:Name="LoginOnlyButton" Content="Login only" FontSize="24" Click="LoginOnlyButton_Click" HorizontalAlignment="Left"   VerticalAlignment="Top"/>
+                <Button x:Name="LoginWithProfileButton" Content="Login with Profile" Click="LoginWithProfileButton_Click" FontSize="24" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="LoginWithProfileAndAccessTokenButton" Content="Login with Profile and Access Token" Click="LoginWithProfileAndAccessTokenButton_Click" FontSize="24" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="AccessTokenOnlyButton" Content="Access Token only" Click="AccessTokenOnlyButton_Click" FontSize="24" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
+            </StackPanel>
+
+            <TextBlock Grid.Row="1"  Text="Raw response" Margin="20, 10,0,0" FontSize="24"/>
+            <TextBox Grid.Row="2" x:Name="Output" HorizontalAlignment="Left" TextWrapping="Wrap"
+                 Margin="20, 10"
+                 VerticalAlignment="Top" Height="200" Width="1200"/>
+
+            <Grid Grid.Row="3" Margin="20, 10" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Identity token" Margin="0, 10" FontSize="24"/>
+                <TextBox x:Name="IdToken" HorizontalAlignment="Left"  TextWrapping="Wrap"  VerticalAlignment="Top" 
+                 Height="300" Width="580" Margin="0,0,20,0"
+                   Grid.Row="1" />
+                <TextBlock Text="Access token" Grid.Column="1" Margin="20, 10" FontSize="24"/>
+                <TextBox x:Name="AccessToken" HorizontalAlignment="Left"
+                     Margin="20, 0" 
+                     Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" 
+                     VerticalAlignment="Top" Height="300" Width="580"/>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>
