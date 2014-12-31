@@ -57,6 +57,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="rp_frame.html" />
     <Content Include="Scripts\crypto.js" />
     <Content Include="Scripts\jws-3.0.min.js.map">
       <DependentUpon>jws-3.0.min.js</DependentUpon>

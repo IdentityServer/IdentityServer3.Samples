@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <iframe id="op" src="https://localhost:44333/core/connect/checksession"></iframe>
+    <script>
+        var sessionState = window.location.hash.substr(1);
+        console.log('rp_iframe', sessionState);
+        var op = document.getElementById("op").contentWindow;
+        var timer = window.setInterval(function () {
+            op.postMessage("implicitclient " + sessionState, "https://localhost:44333");
+        }, 2000);
+
+        window.addEventListener("message", function (e) {
+            if (e.origin === "https://localhost:44333"){
+                console.log("session state", e.data);
+                if (e.data === "changed" || e.data === "error") {
+                    window.clearInterval(timer);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

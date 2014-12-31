@@ -152,6 +152,10 @@
                     var valid = jws.parseJWS(response.access_token);
                     $scope.response.access_token_json = JSON.stringify(JSON.parse(jws.parsedJWS.payloadS), null, 2);
                 }
+
+                if (response.session_state) {
+                    window.enableSessionState(response.session_state);
+                }
             }
 
             $scope.request = function (scope, responseType) {
@@ -184,7 +188,14 @@
             }
         });
 
+
+        function enableSessionState(sessionState) {
+            console.log("session state", sessionState);
+            document.getElementById("rp").src = "rp_frame.html#" + sessionState;
+        }
+
     </script>
+    <iframe id="rp"></iframe>
 </body>
 
 </html>
