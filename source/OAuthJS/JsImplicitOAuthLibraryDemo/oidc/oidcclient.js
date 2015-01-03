@@ -1,4 +1,5 @@
-﻿/*
+﻿/// <reference path="es6-promise-2.0.0.js" />
+/*
  * Copyright 2014 Dominick Baier, Brock Allen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 
 function log() {
     //var param = [].join.call(arguments);
@@ -35,7 +35,7 @@ function rand() {
 }
 
 function error(message) {
-    return Promise.reject(Error(message));
+    return _promiseFactory.reject(Error(message));
 }
 
 function parseOidcResult(queryString) {
@@ -67,37 +67,21 @@ function parseOidcResult(queryString) {
     }
 }
 
+/**
+ * @param {string} url
+ * @param {string|undefined} token
+ * @returns {Promise}
+ */
 function getJson(url, token) {
     log("getJson", url);
 
-    return new Promise(function (resolve, reject) {
+    var config = {};
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", url);
-        xhr.responseType = "json";
-        if (token) {
-            xhr.setRequestHeader("Authorization", "Bearer " + token);
-        }
+    if (token) {
+        config.headers = {"Authorization": "Bearer " + token};
+    }
 
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                var response = xhr.response;
-                if (typeof response === "string") {
-                    response = JSON.parse(response);
-                }
-                resolve(response);
-            }
-            else {
-                reject(Error(xhr.statusText + "(" + xhr.status + ")"));
-            }
-        };
-
-        xhr.onerror = function () {
-            reject(Error("Network error"));
-        }
-
-        xhr.send();
-    });
+    return _httpRequest.getJSON(url, config);
 }
 
 var requestDataKey = "OidcClient.requestDataKey";
@@ -182,7 +166,7 @@ OidcClient.prototype.loadAuthorizationEndpoint = function () {
     log("OidcClient.loadAuthorizationEndpoint");
 
     if (this._settings.authorization_endpoint) {
-        return Promise.resolve(this._settings.authorization_endpoint);
+        return _promiseFactory.resolve(this._settings.authorization_endpoint);
     }
 
     if (!this._settings.authority) {
@@ -256,7 +240,7 @@ OidcClient.prototype.loadMetadataAsync = function () {
     var settings = this._settings;
 
     if (settings.metadata) {
-        return Promise.resolve(settings.metadata);
+        return _promiseFactory.resolve(settings.metadata);
     }
 
     if (!settings.authority) {
@@ -291,7 +275,7 @@ OidcClient.prototype.loadX509SigningKeyAsync = function () {
             return error("RSA keys empty");
         }
 
-        return Promise.resolve(key.x5c[0]);
+        return _promiseFactory.resolve(key.x5c[0]);
     }
 
     if (settings.jwks) {
@@ -356,7 +340,7 @@ OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce, access_token) 
                         return id_token;
                     });
                 }
-                else{
+                else {
                     // no access token, so we have all our claims
                     return id_token;
                 }
@@ -386,7 +370,7 @@ OidcClient.prototype.validateAccessTokenAsync = function (id_token, access_token
         return error("at_hash failed to validate");
     }
 
-    return Promise.resolve();
+    return _promiseFactory.resolve();
 };
 
 OidcClient.prototype.loadUserProfile = function (access_token, id_token) {
@@ -395,7 +379,7 @@ OidcClient.prototype.loadUserProfile = function (access_token, id_token) {
     return this.loadMetadataAsync().then(function (metadata) {
 
         if (!metadata.userinfo_endpoint) {
-            return Promise.reject(Error("Metadata does not contain userinfo_endpoint"));
+            return _promiseFactory.reject(Error("Metadata does not contain userinfo_endpoint"));
         }
 
         return getJson(metadata.userinfo_endpoint, access_token).then(function (response) {
@@ -481,7 +465,7 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
         }
     }
 
-    var promise = Promise.resolve();
+    var promise = _promiseFactory.resolve();
     if (data.oidc && data.oauth) {
         promise = client.validateIdTokenAndAccessTokenAsync(result.id_token, data.nonce, result.access_token);
     }
@@ -494,8 +478,13 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
             id_token: id_token,
             id_token_jwt: result.id_token,
             access_token: result.access_token,
-            expires_in: result.expires_in
+            expires_in: result.expires_in,
+            scope: result.scope
         };
     });
 }
 
+/**
+ * @name _httpRequest
+ * @type DefaultHttpRequest
+ */

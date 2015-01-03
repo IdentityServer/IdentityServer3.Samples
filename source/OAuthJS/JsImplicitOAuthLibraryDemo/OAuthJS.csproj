@@ -111,6 +111,14 @@
     <Content Include="oidc\crypto.min.js">
       <DependentUpon>crypto.js</DependentUpon>
     </Content>
+    <Content Include="oidc\defaultHttpRequest.js" />
+    <Content Include="oidc\defaultHttpRequest.min.js">
+      <DependentUpon>defaultHttpRequest.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\defaultPromiseFactory.js" />
+    <Content Include="oidc\defaultPromiseFactory.min.js">
+      <DependentUpon>defaultPromiseFactory.js</DependentUpon>
+    </Content>
     <Content Include="oidc\es6-promise-2.0.0.js" />
     <Content Include="oidc\es6-promise-2.0.0.min.js">
       <DependentUpon>es6-promise-2.0.0.js</DependentUpon>
@@ -163,6 +171,12 @@
     <Content Include="oidc\token-manager - Copy.min.js.map">
       <DependentUpon>token-manager - Copy.min.js</DependentUpon>
     </Content>
+    <Content Include="oidc\defaultHttpRequest.min.js.map">
+      <DependentUpon>defaultHttpRequest.min.js</DependentUpon>
+    </Content>
+    <Content Include="oidc\defaultPromiseFactory.min.js.map">
+      <DependentUpon>defaultPromiseFactory.min.js</DependentUpon>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -175,6 +189,7 @@
     <Content Include="frame.html" />
     <Content Include="index.html" />
     <Content Include="jquery-2.1.0.min.js" />
+    <Content Include="tests\defaultPromiseFactory.spec.js" />
     <Content Include="tests\jasmine-2.1.3\boot.js" />
     <Content Include="tests\jasmine-2.1.3\console.js" />
     <Content Include="tests\jasmine-2.1.3\jasmine-html.js" />
@@ -191,7 +206,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

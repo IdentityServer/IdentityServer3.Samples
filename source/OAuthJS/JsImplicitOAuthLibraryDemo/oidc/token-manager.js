@@ -1,5 +1,5 @@
-﻿/// <reference path="es6-promise-2.0.0.js" />
-/// <reference path="base64.js" />
+/// <reference path="es6-promise-2.0.0.js" />
+/// <reference path="oidcclient.js" />
 /*
 * Copyright 2014 Dominick Baier, Brock Allen
 *
@@ -16,8 +16,19 @@
 * limitations under the License.
 */
 
+/**
+ * @type {DefaultHttpRequest}
+ * @private
+ */
+var _httpRequest = new DefaultHttpRequest();
 
-function Token(id_token, id_token_jwt, access_token, expires_at) {
+/**
+ * @type {DefaultPromiseFactory}
+ * @private
+ */
+var _promiseFactory = new DefaultPromiseFactory();
+
+function Token(id_token, id_token_jwt, access_token, expires_at, scope) {
     this.id_token = id_token;
     this.id_token_jwt = id_token_jwt;
     this.access_token = access_token;
@@ -44,6 +55,8 @@ function Token(id_token, id_token_jwt, access_token, expires_at) {
             return this.expires_at - now;
         }
     });
+
+    this.scopes = (scope || "").split(" ");
 }
 
 Token.fromResponse = function (response) {
@@ -51,14 +64,14 @@ Token.fromResponse = function (response) {
         var now = parseInt(Date.now() / 1000);
         var expires_at = now + parseInt(response.expires_in);
     }
-    return new Token(response.id_token, response.id_token_jwt, response.access_token, expires_at);
+    return new Token(response.id_token, response.id_token_jwt, response.access_token, expires_at, response.scope);
 }
 
 Token.fromJSON = function (json) {
     if (json) {
         try {
             var obj = JSON.parse(json);
-            return new Token(obj.id_token, obj.id_token_jwt, obj.access_token, obj.expires_at);
+            return new Token(obj.id_token, obj.id_token_jwt, obj.access_token, obj.expires_at, obj.scope);
         }
         catch (e) {
         }
@@ -71,7 +84,8 @@ Token.prototype.toJSON = function () {
         id_token: this.id_token,
         id_token_jwt: this.id_token_jwt,
         access_token: this.access_token,
-        expires_at : this.expires_at
+        expires_at: this.expires_at,
+        scope: this.scopes.join(" ")
     });
 }
 
@@ -83,10 +97,10 @@ FrameLoader.prototype.loadAsync = function (url) {
     url = url || this.url;
 
     if (!url) {
-        return Promise.reject("No url provided");
+        return _promiseFactory.reject("No url provided");
     }
 
-    return new Promise(function (resolve, reject) {
+    return _promiseFactory.create(function (resolve, reject) {
         var frameHtml = '<iframe style="display:none"></iframe>';
         var frame = $(frameHtml).appendTo("body");
 
@@ -119,7 +133,7 @@ FrameLoader.prototype.loadAsync = function (url) {
 
 function loadToken(mgr) {
     if (mgr._settings.persist) {
-        var tokenJson = mgr._settings.store.getItem(storageKey);
+        var tokenJson = mgr._settings.store.getItem(mgr._settings.persistKey);
         if (tokenJson) {
             var token = Token.fromJSON(tokenJson);
             if (!token.expired) {
@@ -153,6 +167,12 @@ function callTokenObtained(mgr) {
     });
 }
 
+function callSilentTokenRenewFailed(mgr) {
+    mgr._callbacks.silentTokenRenewFailedCallbacks.forEach(function(cb) {
+        cb();
+    });
+}
+
 function configureTokenExpiring(mgr) {
 
     function callback() {
@@ -161,6 +181,7 @@ function configureTokenExpiring(mgr) {
     }
 
     var handle = null;
+
     function cancel() {
         if (handle) {
             window.clearTimeout(handle);
@@ -185,6 +206,7 @@ function configureTokenExpiring(mgr) {
             }
         }
     }
+
     configure();
 
     mgr.addOnTokenObtained(configure);
@@ -197,6 +219,7 @@ function configureAutoRenewToken(mgr) {
 
         mgr.addOnTokenExpiring(function () {
             mgr.renewTokenSilentAsync().catch(function (e) {
+                callSilentTokenRenewFailed(mgr);
                 console.error(e.message || e);
             });
         });
@@ -217,6 +240,7 @@ function configureTokenExpired(mgr) {
     }
 
     var handle = null;
+
     function cancel() {
         if (handle) {
             window.clearTimeout(handle);
@@ -235,25 +259,26 @@ function configureTokenExpired(mgr) {
             setup(mgr.expires_in + 1);
         }
     }
+
     configure();
 
     mgr.addOnTokenObtained(configure);
     mgr.addOnTokenRemoved(cancel);
 }
 
-var storageKey = "TokenManager.token";
-
 function TokenManager(settings) {
     this._settings = settings || {};
 
     this._settings.persist = this._settings.persist || true;
     this._settings.store = this._settings.store || window.localStorage;
+    this._settings.persistKey = this._settings.persistKey || "TokenManager.token";
 
     this._callbacks = {
         tokenRemovedCallbacks: [],
         tokenExpiringCallbacks: [],
         tokenExpiredCallbacks: [],
-        tokenObtainedCallbacks: []
+        tokenObtainedCallbacks: [],
+        silentTokenRenewFailedCallbacks: []
     };
 
     Object.defineProperty(this, "id_token", {
@@ -301,11 +326,19 @@ function TokenManager(settings) {
             return 0;
         }
     });
+    Object.defineProperty(this, "scopes", {
+        get: function () {
+            if (this._token) {
+                return [].concat(this._token.scopes);
+            }
+            return [];
+        }
+    });
 
     var mgr = this;
     loadToken(mgr);
     window.addEventListener("storage", function (e) {
-        if (e.key === storageKey) {
+        if (e.key === mgr._settings.persistKey) {
             loadToken(mgr);
             if (mgr._token) {
                 callTokenObtained(mgr);
@@ -324,6 +357,24 @@ function TokenManager(settings) {
     }, 0);
 }
 
+/**
+ * @param {{ create:function(successCallback:function(), errorCallback:function()):Promise, resolve:function(value:*):Promise, reject:function():Promise}} promiseFactory
+ */
+TokenManager.setPromiseFactory = function (promiseFactory) {
+    _promiseFactory = promiseFactory;
+};
+
+/**
+ * @param {{getJSON:function(url:string, config:{ headers: object.<string, string> })}} httpRequest
+ */
+TokenManager.setHttpRequest = function (httpRequest) {
+    if ((typeof httpRequest !== 'object') || (typeof httpRequest.getJSON !== 'function')) {
+        throw Error('The provided value is not a valid http request.');
+    }
+
+    _httpRequest = httpRequest;
+};
+
 TokenManager.prototype.saveToken = function (token) {
     if (token && !(token instanceof Token)) {
         token = Token.fromResponse(token);
@@ -332,10 +383,10 @@ TokenManager.prototype.saveToken = function (token) {
     this._token = token;
 
     if (this._settings.persist && !this.expired) {
-        this._settings.store.setItem(storageKey, token.toJSON());
+        this._settings.store.setItem(this._settings.persistKey, token.toJSON());
     }
     else {
-        this._settings.store.removeItem(storageKey);
+        this._settings.store.removeItem(this._settings.persistKey);
     }
 
     if (token) {
@@ -360,6 +411,10 @@ TokenManager.prototype.addOnTokenExpiring = function (cb) {
 
 TokenManager.prototype.addOnTokenExpired = function (cb) {
     this._callbacks.tokenExpiredCallbacks.push(cb);
+}
+
+TokenManager.prototype.addOnSilentTokenRenewFailed = function(cb) {
+    this._callbacks.silentTokenRenewFailedCallbacks.push(cb);
 }
 
 TokenManager.prototype.removeToken = function () {
@@ -395,7 +450,7 @@ TokenManager.prototype.renewTokenSilentAsync = function () {
     var mgr = this;
 
     if (!mgr._settings.silent_redirect_uri) {
-        return Promise.reject("silent_redirect_uri not configured");
+        return _promiseFactory.reject("silent_redirect_uri not configured");
     }
 
     var settings = copy(mgr._settings);
@@ -405,7 +460,7 @@ TokenManager.prototype.renewTokenSilentAsync = function () {
     var oidc = new OidcClient(settings);
     return oidc.createTokenRequestAsync().then(function (request) {
         var frame = new FrameLoader(request.url);
-        return frame.loadAsync().then(function(hash) {
+        return frame.loadAsync().then(function (hash) {
             return oidc.readResponseAsync(hash).then(function (token) {
                 mgr.saveToken(token);
             });
@@ -419,5 +474,6 @@ TokenManager.prototype.processTokenCallbackSilent = function () {
         if (hash) {
             window.top.postMessage(hash, location.protocol + "//" + location.host);
         }
-    };
+    }
+    ;
 }
