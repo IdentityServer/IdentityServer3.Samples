@@ -44,7 +44,7 @@
             toggleApiButton();
 
             mgr.addOnTokenObtained(function () {
-                console.log("token obtained");
+                console.log("token obtained, scopes: ", mgr.scopes);
             });
             mgr.addOnTokenRemoved(function () {
                 console.log("token removed");
