@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Thinktecture.IdentityServer.Core;
+using Thinktecture.IdentityServer.Core.Extensions;
 using Thinktecture.IdentityServer.Core.Models;
 
 namespace SampleApp.Config
@@ -16,7 +17,9 @@ namespace SampleApp.Config
                     ClientName = "Code Flow Clients",
                     Enabled = true,
                     ClientId = "codeclient",
-                    ClientSecret = "secret",
+                    ClientSecrets = new List<ClientSecret> {
+                        new ClientSecret("secret".Sha256())
+                    },
                     Flow = Flows.AuthorizationCode,
                     
                     RequireConsent = true,
@@ -43,8 +46,6 @@ namespace SampleApp.Config
                         "write"
                     },
 
-                    
-                    IdentityTokenSigningKeyType = SigningKeyTypes.Default,
                     //SubjectType = SubjectTypes.Global,
                     AccessTokenType = AccessTokenType.Reference,
                     
@@ -58,7 +59,9 @@ namespace SampleApp.Config
                     ClientName = "Implicit Clients",
                     Enabled = true,
                     ClientId = "implicitclient",
-                    ClientSecret = "secret",
+                    ClientSecrets = new List<ClientSecret> {
+                        new ClientSecret("secret".Sha256())
+                    },
                     Flow = Flows.Implicit,
                     
                     ClientUri = "http://www.thinktecture.com",
@@ -91,7 +94,6 @@ namespace SampleApp.Config
                         "write"
                     },
 
-                    IdentityTokenSigningKeyType = SigningKeyTypes.Default,
                     //SubjectType = SubjectTypes.Global,
                     AccessTokenType = AccessTokenType.Jwt,
                     
@@ -103,7 +105,9 @@ namespace SampleApp.Config
                     ClientName = "Client Credentials Flow Client",
                     Enabled = true,
                     ClientId = "client",
-                    ClientSecret = "secret",
+                    ClientSecrets = new List<ClientSecret> {
+                        new ClientSecret("secret".Sha256())
+                    },
                     Flow = Flows.ClientCredentials,
                     
                     ScopeRestrictions = new List<string>
@@ -120,7 +124,9 @@ namespace SampleApp.Config
                     ClientName = "Resource Owner Flow Client",
                     Enabled = true,
                     ClientId = "roclient",
-                    ClientSecret = "secret",
+                    ClientSecrets = new List<ClientSecret> {
+                        new ClientSecret("secret".Sha256())
+                    },
                     Flow = Flows.ResourceOwner,
                     
                     ScopeRestrictions = new List<string>
