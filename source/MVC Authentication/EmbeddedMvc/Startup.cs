@@ -33,7 +33,6 @@ namespace EmbeddedMvc
                     idsrvApp.UseIdentityServer(new IdentityServerOptions
                     {
                         SiteName = "Embedded IdentityServer",
-                        IssuerUri = "https://idsrv3/embedded",
                         SigningCertificate = LoadCertificate(),
 
                         Factory = InMemoryFactory.Create(
@@ -101,6 +100,7 @@ namespace EmbeddedMvc
                                     nid,
                                     n.AuthenticationTicket.Properties);
                             },
+
                             RedirectToIdentityProvider = async n =>
                                 {
                                     if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
