@@ -29,8 +29,13 @@ namespace EmbeddedMvc.IdentityServer
                 {
                     Enabled = true,
                     ClientName = "MVC Client (service communication)",
+                    
                     ClientId = "mvc_service",
-                    ClientSecret = "secret",
+                    ClientSecrets = new List<ClientSecret>
+                    {
+                        new ClientSecret("secret".Sha256())
+                    },
+                    
                     Flow = Flows.ClientCredentials
                 }
             };
