@@ -16,6 +16,8 @@ using Thinktecture.IdentityServer.Core;
 using Thinktecture.IdentityServer.Core.Configuration;
 using Thinktecture.IdentityServer.Core.Logging;
 using System.Linq;
+using Thinktecture.IdentityServer.Core.Configuration.Hosting;
+using System.Web.Helpers;
 
 [assembly: OwinStartup(typeof(EmbeddedMvc.Startup))]
 
@@ -26,6 +28,8 @@ namespace EmbeddedMvc
         public void Configuration(IAppBuilder app)
         {
             LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+
+            AntiForgeryConfig.UniqueClaimTypeIdentifier = Constants.ClaimTypes.Subject;
             JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
 
             app.Map("/identity", idsrvApp =>

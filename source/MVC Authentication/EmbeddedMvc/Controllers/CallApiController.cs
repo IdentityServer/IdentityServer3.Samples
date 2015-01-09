@@ -20,7 +20,7 @@ namespace EmbeddedMvc.Controllers
             return View("ShowApiResult");
         }
 
-        // GET: CallApi/ClientCredentials
+        // GET: CallApi/UserCredentials
         public async Task<ActionResult> UserCredentials()
         {
             var user = User as ClaimsPrincipal;
