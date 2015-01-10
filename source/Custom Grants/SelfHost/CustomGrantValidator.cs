@@ -17,24 +17,12 @@ namespace SelfHost
 
         Task<CustomGrantValidationResult> ICustomGrantValidator.ValidateAsync(ValidatedTokenRequest request)
         {
-            if (request.GrantType != "custom")
-            {
-                return Task.FromResult<CustomGrantValidationResult>(null);
-            }
-
-            var assertion = request.Raw.Get("assertion");
-            if (string.IsNullOrWhiteSpace(assertion))
+            var param = request.Raw.Get("some_custom_parameter");
+            if (string.IsNullOrWhiteSpace(param))
             {
                 return Task.FromResult<CustomGrantValidationResult>(
-                    new CustomGrantValidationResult("Missing assertion."));
+                    new CustomGrantValidationResult("Missing parameters."));
             }
-
-            // validate assertion and return principal
-            var principal = IdentityServerPrincipal.Create(
-                "bob",
-                "bob",
-                "custom_grant",
-                "idsrv");
 
             return Task.FromResult(new CustomGrantValidationResult("bob", "customGrant"));
         }
