@@ -31,9 +31,9 @@ namespace SelfHost.Extensions
             var id = request.Raw.Get("legacy_id");
             var secret = request.Raw.Get("legacy_secret");
 
-            if (legacyAccountStoreType.IsMissing() ||
-                id.IsMissing() ||
-                secret.IsMissing())
+            if (string.IsNullOrWhiteSpace(legacyAccountStoreType) ||
+                string.IsNullOrWhiteSpace(id) ||
+                string.IsNullOrWhiteSpace(secret))
             {
                 Logger.Error("malformed request");
                 return null;

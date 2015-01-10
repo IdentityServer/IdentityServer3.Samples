@@ -19,11 +19,14 @@ namespace SelfHost.Extensions
 
                 if (username == password)
                 {
-                    var user = IdentityServerPrincipal.Create("123", username);
                     var claims = new List<Claim>
                     {
                         new Claim("account_store", tenant)
                     };
+
+                    var result = new AuthenticateResult("123", username, 
+                        claims: claims,
+                        authenticationMethod: "custom");
 
                     return Task.FromResult(new AuthenticateResult("123", username, claims));
                 }

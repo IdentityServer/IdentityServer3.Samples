@@ -13,12 +13,24 @@ namespace Thinktecture.IdentityServer.Host.Config
                 {
                     ClientName = "Custom Grant Client",
                     Enabled = true,
+
                     ClientId = "client",
-                    ClientSecret = "secret",
-                    Flow = Flows.Custom,
+                    ClientSecrets = new List<ClientSecret>
+                    {
+                        new ClientSecret("secret".Sha256()),
+                    },
                     
-                    AccessTokenType = AccessTokenType.Jwt,
-                    AccessTokenLifetime = 3600,
+                    Flow = Flows.Custom,
+                    CustomGrantTypeRestrictions = new List<string>
+                    {
+                        "legacy_account_store"
+                    },
+                    
+                    ScopeRestrictions = new List<string>
+                    { 
+                        "read",
+                        "write",
+                    },
                 }
             };
         }
