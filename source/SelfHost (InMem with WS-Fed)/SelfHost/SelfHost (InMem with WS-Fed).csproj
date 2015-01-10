@@ -58,11 +58,11 @@
     </Reference>
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10043\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10199\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer.WsFederation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.WsFederation.1.0.0-pre-10004\lib\net45\Thinktecture.IdentityServer.WsFederation.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.WsFederation.1.0.0-pre-10008\lib\net45\Thinktecture.IdentityServer.WsFederation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

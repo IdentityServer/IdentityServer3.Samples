@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
+using Thinktecture.IdentityServer.Core;
 using Thinktecture.IdentityServer.Core.Models;
 
 namespace Thinktecture.IdentityServer.Host.Config
@@ -15,7 +17,11 @@ namespace Thinktecture.IdentityServer.Host.Config
                     Enabled = true,
 
                     ClientId = "codeclient",
-                    ClientSecret = "secret",
+                    ClientSecrets = new List<ClientSecret>
+                    { 
+                        new ClientSecret("secret".Sha256())
+                    },
+
                     Flow = Flows.AuthorizationCode,
                     
                     RequireConsent = true,
@@ -32,9 +38,10 @@ namespace Thinktecture.IdentityServer.Host.Config
 
                     ScopeRestrictions = new List<string>
                     {
-                        "openid",
-                        "profile",
-                        "email",
+                        Constants.StandardScopes.OpenId,
+                        Constants.StandardScopes.Profile,
+                        Constants.StandardScopes.Email,
+                        Constants.StandardScopes.OfflineAccess,
                         "read",
                         "write"
                     },
@@ -48,7 +55,11 @@ namespace Thinktecture.IdentityServer.Host.Config
                     Enabled = true,
 
                     ClientId = "implicitclient",
-                    ClientSecret = "secret",
+                    ClientSecrets = new List<ClientSecret>
+                    { 
+                        new ClientSecret("secret".Sha256())
+                    },
+
                     Flow = Flows.Implicit,
                     
                     ClientUri = "http://www.thinktecture.com",
@@ -56,16 +67,20 @@ namespace Thinktecture.IdentityServer.Host.Config
 
                     RequireConsent = true,
                     AllowRememberConsent = true,
-                    
+
                     RedirectUris = new List<string>
                     {
                         // OAuthJS client
                         "http://localhost:23453/callback.html",
                         "http://localhost:23453/frame.html",
+                        "http://localhost:23453/modal.html",
 
                         // WPF client
                         "oob://localhost/wpfclient",
                         
+                        // WinRT client
+                        "ms-app://s-1-15-2-1677770454-1667073387-2045065244-1646983296-4049597744-3433330513-3528227871/",
+
                         // JavaScript client
                         "http://localhost:21575/index.html",
 
@@ -90,7 +105,11 @@ namespace Thinktecture.IdentityServer.Host.Config
                     ClientName = "Hybrid Native Client Demo",
                     Enabled = true,
                     ClientId = "hybridclient",
-                    ClientSecret = "secret",
+                    ClientSecrets = new List<ClientSecret>
+                    { 
+                        new ClientSecret("secret".Sha256())
+                    },
+
                     Flow = Flows.Hybrid,
                     
                     ClientUri = "http://www.thinktecture.com",
@@ -110,7 +129,11 @@ namespace Thinktecture.IdentityServer.Host.Config
                     ClientName = "Katana Hybrid Client Demo",
                     Enabled = true,
                     ClientId = "katanaclient",
-                    ClientSecret = "secret",
+                    ClientSecrets = new List<ClientSecret>
+                    { 
+                        new ClientSecret("secret".Sha256())
+                    },
+
                     Flow = Flows.Hybrid,
                     
                     ClientUri = "http://www.thinktecture.com",
@@ -135,17 +158,31 @@ namespace Thinktecture.IdentityServer.Host.Config
                     ClientName = "Client Credentials Flow Client",
                     Enabled = true,
                     ClientId = "client",
-                    ClientSecret = "secret",
-                    Flow = Flows.ClientCredentials,
-                    
-                    ScopeRestrictions = new List<string>
+                    ClientSecrets = new List<ClientSecret>
                     { 
-                        "read",
-                        "write"
+                        new ClientSecret("secret".Sha256())
                     },
 
-                    AccessTokenType = AccessTokenType.Jwt,
-                    AccessTokenLifetime = 3600,
+                    Flow = Flows.ClientCredentials,
+                    
+                    Claims = new List<Claim>
+                    {
+                        new Claim("client_type", "headless")
+                    },
+                    PrefixClientClaims = false
+                },
+
+                new Client
+                {
+                    ClientName = "Custom Grant Client",
+                    Enabled = true,
+                    ClientId = "customclient",
+                    ClientSecrets = new List<ClientSecret>
+                    { 
+                        new ClientSecret("secret".Sha256())
+                    },
+
+                    Flow = Flows.Custom
                 },
 
                 new Client
@@ -153,7 +190,11 @@ namespace Thinktecture.IdentityServer.Host.Config
                     ClientName = "Resource Owner Flow Client",
                     Enabled = true,
                     ClientId = "roclient",
-                    ClientSecret = "secret",
+                    ClientSecrets = new List<ClientSecret>
+                    { 
+                        new ClientSecret("secret".Sha256())
+                    },
+
                     Flow = Flows.ResourceOwner,
                     
                     AccessTokenType = AccessTokenType.Jwt,
