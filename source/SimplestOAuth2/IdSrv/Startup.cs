@@ -1,5 +1,7 @@
 ﻿using Owin;
+using System.Collections.Generic;
 using Thinktecture.IdentityServer.Core.Configuration;
+using Thinktecture.IdentityServer.Core.Services.InMemory;
 
 namespace IdSrv
 {
@@ -10,7 +12,7 @@ namespace IdSrv
             var factory = InMemoryFactory.Create(
                 scopes:  Scopes.Get(),
                 clients: Clients.Get(),
-                users:   Users.Get());
+                users:   new List<InMemoryUser>());
 
             var options = new IdentityServerOptions
             {
