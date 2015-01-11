@@ -12,7 +12,7 @@ namespace IdSrv
             var factory = InMemoryFactory.Create(
                 scopes:  Scopes.Get(),
                 clients: Clients.Get(),
-                users:   new List<InMemoryUser>());
+                users:   Users.Get());
 
             var options = new IdentityServerOptions
             {

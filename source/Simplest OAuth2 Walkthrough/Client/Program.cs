@@ -8,7 +8,10 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            var response = GetToken();
+            var response = GetClientToken();
+            CallApi(response);
+
+            response = GetUserToken();
             CallApi(response);
         }
 
@@ -20,7 +23,7 @@ namespace Client
             Console.WriteLine(client.GetStringAsync("http://localhost:14869/test").Result);
         }
 
-        static TokenResponse GetToken()
+        static TokenResponse GetClientToken()
         {
             var client = new OAuth2Client(
                 new Uri("https://localhost:44333/connect/token"),
@@ -28,6 +31,16 @@ namespace Client
                 "F621F470-9731-4A25-80EF-67A6F7C5F4B8");
 
             return client.RequestClientCredentialsAsync("api1").Result;
+        }
+
+        static TokenResponse GetUserToken()
+        {
+            var client = new OAuth2Client(
+                new Uri("https://localhost:44333/connect/token"),
+                "carbon",
+                "21B5F798-BE55-42BC-8AA8-0025B903DC3B");
+
+            return client.RequestResourceOwnerPasswordAsync("bob", "secret", "api1").Result;
         }
     }
 }
