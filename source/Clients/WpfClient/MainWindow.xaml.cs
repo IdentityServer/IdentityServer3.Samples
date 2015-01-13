@@ -84,8 +84,8 @@ namespace WpfClient
                 redirectUri: "oob://localhost/wpfclient",
                 state: "random_state",
                 nonce: "random_nonce" /**,
-                loginHint: "idp:Google",
-                acrValues: "a b c" **/);
+                loginHint: "alice",
+                acrValues: "idp:Google b c" **/);
 
             _login.Show();
             _login.Start(new Uri(startUrl), new Uri("oob://localhost/wpfclient"));
