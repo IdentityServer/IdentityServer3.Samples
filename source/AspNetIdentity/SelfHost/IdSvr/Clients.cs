@@ -18,7 +18,7 @@ using System.Collections.Generic;
 using Thinktecture.IdentityServer.Core;
 using Thinktecture.IdentityServer.Core.Models;
 
-namespace Thinktecture.IdentityServer.Host.Config
+namespace SelfHost.IdSvr
 {
     public class Clients
     {

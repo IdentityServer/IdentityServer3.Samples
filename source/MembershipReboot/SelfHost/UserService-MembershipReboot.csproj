@@ -92,11 +92,11 @@
     <Reference Include="System.Web" />
     <Reference Include="Thinktecture.IdentityManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-pre-10006\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-pre-10008\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityManager.MembershipReboot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityManager.MembershipReboot.1.0.0-pre-10007\lib\net45\Thinktecture.IdentityManager.MembershipReboot.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityManager.MembershipReboot.1.0.0-pre-10009\lib\net45\Thinktecture.IdentityManager.MembershipReboot.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityModel.Core, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -104,28 +104,32 @@
     </Reference>
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10217\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10236\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer.MembershipReboot, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.MembershipReboot.1.0.0-pre-10008\lib\net45\Thinktecture.IdentityServer.MembershipReboot.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.MembershipReboot.1.0.0-pre-10009\lib\net45\Thinktecture.IdentityServer.MembershipReboot.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\Certificate.cs" />
-    <Compile Include="Config\Clients.cs" />
-    <Compile Include="Config\Factory.cs" />
-    <Compile Include="Config\Scopes.cs" />
-    <Compile Include="MembershipRebootIdentityManagerFactory.cs" />
+    <Compile Include="IdMgr\CustomIdentityManagerService.cs" />
+    <Compile Include="IdMgr\MembershipRebootIdentityManagerServiceExtensions.cs" />
+    <Compile Include="IdSvr\Certificate.cs" />
+    <Compile Include="IdSvr\Clients.cs" />
+    <Compile Include="IdSvr\CustomUserService.cs" />
+    <Compile Include="IdSvr\Factory.cs" />
+    <Compile Include="IdSvr\Scopes.cs" />
+    <Compile Include="MR\CustomConfig.cs" />
+    <Compile Include="MR\CustomDatabase.cs" />
+    <Compile Include="MR\CustomGroup.cs" />
+    <Compile Include="MR\CustomUser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RelationalUserAccountQuery.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="MembershipRebootUserServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EmbeddedResource Include="Config\idsrv3test.pfx" />
+    <EmbeddedResource Include="IdSvr\idsrv3test.pfx" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

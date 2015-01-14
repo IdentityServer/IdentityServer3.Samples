@@ -90,11 +90,11 @@
     <Reference Include="System.Web" />
     <Reference Include="Thinktecture.IdentityManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-pre-10006\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-pre-10008\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityManager.AspNetIdentity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityManager.AspNetIdentity.1.0.0-pre-10009\lib\net45\Thinktecture.IdentityManager.AspNetIdentity.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityManager.AspNetIdentity.1.0.0-pre-10013\lib\net45\Thinktecture.IdentityManager.AspNetIdentity.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityModel.Core, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -102,29 +102,31 @@
     </Reference>
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10216\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10236\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer.AspNetIdentity, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AspNetIdentity.1.0.0-pre-10011\lib\net45\Thinktecture.IdentityServer.AspNetIdentity.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AspNetIdentity.1.0.0-pre-10012\lib\net45\Thinktecture.IdentityServer.AspNetIdentity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AspNetIdentityIdentityManagerFactory.cs" />
-    <Compile Include="Config\Certificate.cs" />
-    <Compile Include="Config\Clients.cs" />
-    <Compile Include="Config\Factory.cs" />
-    <Compile Include="Config\Scopes.cs" />
-    <Compile Include="Config\Users.cs" />
-    <Compile Include="Custom.cs" />
+    <Compile Include="AspId\CustomEntitiesWithIntKey.cs" />
+    <Compile Include="AspId\SimpleEntities.cs" />
+    <Compile Include="IdMgr\CustomIdentityManagerServiceWithIntKeys.cs" />
+    <Compile Include="IdMgr\SimpleIdentityManagerService.cs" />
+    <Compile Include="IdSvr\Certificate.cs" />
+    <Compile Include="IdSvr\Clients.cs" />
+    <Compile Include="IdSvr\CustomUserService.cs" />
+    <Compile Include="IdSvr\Factory.cs" />
+    <Compile Include="IdSvr\Scopes.cs" />
+    <Compile Include="IdSvr\UserService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="AspNetIdentityUserServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EmbeddedResource Include="Config\idsrv3test.pfx" />
+    <EmbeddedResource Include="IdSvr\idsrv3test.pfx" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
