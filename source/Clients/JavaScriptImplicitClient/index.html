@@ -165,7 +165,9 @@
                     scope,
                     responseType);
                 store.set(req.state);
-                $window.location = req.url;
+                var url = req.url;
+                //url += "&acr_values=idp:Google";
+                $window.location = url;
             }
 
             $scope.call = function () {
