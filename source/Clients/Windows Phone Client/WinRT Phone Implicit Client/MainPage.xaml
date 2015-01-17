@@ -1,0 +1,61 @@
+﻿<Page
+    x:Class="WinRT_Phone_Implicit_Client.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:WinRT_Phone_Implicit_Client"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <ScrollViewer>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Vertical" Margin="20">
+                <Button x:Name="LoginOnlyButton" Content="Login only"
+                        FontSize="24" Click="LoginOnlyButton_Click" HorizontalAlignment="Stretch"   
+                        VerticalAlignment="Top"/>
+                <Button x:Name="AccessTokenButton" Content="Access token only" FontSize="24"
+                        Click="AccessTokenButton_Click" HorizontalAlignment="Stretch"   
+                        VerticalAlignment="Top"/>
+                <Button x:Name="LoginAndAccessTokenButton" Content="Login and access token" 
+                        FontSize="24" Click="LoginAndAccessTokenButton_Click" 
+                        HorizontalAlignment="Stretch"  VerticalAlignment="Top"/>
+                <Button x:Name="LoginAndAccessTokenWithIdentityClaims" 
+                     
+                        FontSize="24" Click="LoginAndAccessTokenWithIdentityClaims_Click" 
+                        HorizontalAlignment="Stretch"   VerticalAlignment="Top">
+                    <TextBlock Text="Login and access token (with identity claims)" 
+                               TextWrapping="Wrap"></TextBlock>
+                </Button>
+            </StackPanel>
+
+            <TextBlock Grid.Row="1"  Text="Raw response" Margin="20,0,0,10" FontSize="24"/>
+            <TextBox Grid.Row="2" x:Name="Output" HorizontalAlignment="Left" TextWrapping="Wrap"
+                 Margin="20,0,0,10"
+                 VerticalAlignment="Top" Height="400" Width="350"/>
+
+            <TextBlock Grid.Row="3"  Text="Identity token" Margin="20,10,0,10" FontSize="24"/>
+
+            <TextBox Grid.Row="4" x:Name="IdToken" HorizontalAlignment="Left" TextWrapping="Wrap"
+                 Margin="20, 0,0,0"
+                 VerticalAlignment="Top"  Height="400" Width="350"/>
+
+            <TextBlock Grid.Row="5"  Text="Access token" Margin="20,10,0,10" FontSize="24"/>
+            
+            <TextBox Grid.Row="6" x:Name="AccessToken" HorizontalAlignment="Left" TextWrapping="Wrap"
+                 Margin="20, 0,0,0"
+                 VerticalAlignment="Top"  Height="400" Width="350"/>
+        </Grid>
+    </ScrollViewer>
+</Page>
