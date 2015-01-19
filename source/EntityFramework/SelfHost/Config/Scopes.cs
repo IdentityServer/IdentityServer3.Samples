@@ -3,7 +3,7 @@ using System.Linq;
 using Thinktecture.IdentityServer.Core;
 using Thinktecture.IdentityServer.Core.Models;
 
-namespace Thinktecture.IdentityServer.Host.Config
+namespace SelfHost.Config
 {
     public class Scopes
     {
