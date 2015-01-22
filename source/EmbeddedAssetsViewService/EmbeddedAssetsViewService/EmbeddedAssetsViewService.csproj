@@ -90,10 +90,12 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10217\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10271\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\permissions.html" />
+    <Content Include="assets\_login.html" />
     <Content Include="Content\Site.css" />
     <Content Include="packages.config" />
     <EmbeddedResource Include="Config\idsrv3test.pfx" />
