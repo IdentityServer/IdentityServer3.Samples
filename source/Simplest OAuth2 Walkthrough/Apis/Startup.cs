@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
-using Thinktecture.IdentityServer.v3.AccessTokenValidation;
+using Thinktecture.IdentityServer.AccessTokenValidation;
 
 [assembly: OwinStartup(typeof(Apis.Startup))]
 

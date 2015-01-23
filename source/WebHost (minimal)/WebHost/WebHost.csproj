@@ -64,12 +64,15 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Thinktecture.IdentityServer">
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10217\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer3, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.1.0.0-build00009\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <EmbeddedResource Include="Configuration\idsrv3test.pfx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

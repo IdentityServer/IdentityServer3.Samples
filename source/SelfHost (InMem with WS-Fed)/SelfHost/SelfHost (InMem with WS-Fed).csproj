@@ -56,13 +56,11 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Thinktecture.IdentityModel.Core.1.3.0\lib\net45\Thinktecture.IdentityModel.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10217\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer3">
+      <HintPath>..\packages\Thinktecture.IdentityServer3.1.0.0-build00009\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer.WsFederation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.WsFederation.1.0.0-pre-10008\lib\net45\Thinktecture.IdentityServer.WsFederation.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer3.WsFederation">
+      <HintPath>..\packages\Thinktecture.IdentityServer3.WsFederation.1.0.0-build02002\lib\net45\Thinktecture.IdentityServer3.WsFederation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
