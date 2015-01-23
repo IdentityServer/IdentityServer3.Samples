@@ -1,7 +1,7 @@
-Thinktecture IdentityServer3 Samples
+IdentityServer3 Samples
 ======================================
 
-Samples for Thinktecture IdentityServer v3
+Samples for IdentityServer v3
 
 #### MVC Authentication walk-through [link](https://github.com/thinktecture/Thinktecture.IdentityServer.v3.Samples/tree/master/source/MVC%20Authentication)
 Step by step tutorial on how to use identity server to provide authentication services to an MVC application and a Web API. See [here](https://github.com/thinktecture/Thinktecture.IdentityServer.v3/wiki/Getting-started) for instructions.
