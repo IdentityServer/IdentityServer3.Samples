@@ -94,8 +94,9 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Thinktecture.IdentityServer3">
-      <HintPath>..\packages\Thinktecture.IdentityServer3.1.0.0-build00011\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer3, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.1.0.1-build00027\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

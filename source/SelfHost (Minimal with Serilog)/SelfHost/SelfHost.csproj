@@ -60,8 +60,9 @@
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.identitymodel.services" />
     <Reference Include="System.Web" />
-    <Reference Include="Thinktecture.IdentityServer3">
-      <HintPath>..\packages\Thinktecture.IdentityServer3.1.0.0-build00009\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer3, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.1.0.1-build00027\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
