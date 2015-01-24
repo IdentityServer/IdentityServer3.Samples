@@ -55,8 +55,8 @@ namespace SampleApp
 
             string html = LoadHtml(page);
             html = Replace(html, new {
-                siteName = model.SiteName,
-                model = json,
+                siteName = Microsoft.Security.Application.Encoder.HtmlEncode(model.SiteName),
+                model = Microsoft.Security.Application.Encoder.HtmlEncode(json),
                 clientName = clientName
             });
             

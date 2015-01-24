@@ -38,6 +38,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AntiXssLibrary">
+      <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\AntiXssLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlSanitizationLibrary">
+      <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -111,6 +117,8 @@
     <Content Include="Content\libs\bootstrap\js\bootstrap.min.js" />
     <Content Include="Content\libs\bootstrap\less\bootstrap.css" />
     <Content Include="Content\libs\bootstrap\less\bootstrap.min.css" />
+    <Content Include="Content\libs\encoder\encoder.js" />
+    <Content Include="Content\libs\encoder\encoder.min.js" />
     <Content Include="Content\libs\jquery\jquery-1.11.0.js" />
     <Content Include="Content\libs\jquery\jquery-1.11.0.min.js" />
     <Content Include="Content\app\loggedOut.html" />
