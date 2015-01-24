@@ -65,6 +65,7 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.1\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
@@ -98,9 +99,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Thinktecture.IdentityServer.v3.AccessTokenValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.AccessTokenValidation.1.0.0-pre-10003\lib\net45\Thinktecture.IdentityServer.v3.AccessTokenValidation.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer3.AccessTokenValidation">
+      <HintPath>..\packages\Thinktecture.IdentityServer3.AccessTokenValidation.1.0.0-build10007\lib\net45\Thinktecture.IdentityServer3.AccessTokenValidation.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

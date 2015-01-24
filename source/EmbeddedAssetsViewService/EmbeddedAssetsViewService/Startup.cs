@@ -20,15 +20,15 @@ namespace SampleApp
                     clients: Clients.Get(),
                     scopes:  Scopes.Get());
 
-                var embeddedViewServiceConfig = new DefaultViewServiceConfiguration();
-                embeddedViewServiceConfig.Stylesheets.Add("/Content/Site.css");
-
-                factory.Register(new Registration<DefaultViewServiceConfiguration>(embeddedViewServiceConfig));
+                var viewOptions = new DefaultViewServiceOptions();
+                viewOptions.Stylesheets.Add("/Content/Site.css");
+                viewOptions.CacheViews = false;
+                factory.ConfigureDefaultViewService(viewOptions);
 
                 var options = new IdentityServerOptions
                 {
                     IssuerUri = "https://idsrv3.com",
-                    SiteName = "Thinktecture IdentityServer v3 - UserService-CustomWorkflows",
+                    SiteName = "Thinktecture IdentityServer3 - Configuring DefaultViewService",
 
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,

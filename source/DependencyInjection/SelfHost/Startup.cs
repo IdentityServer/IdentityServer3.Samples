@@ -21,7 +21,7 @@ namespace SelfHost
             var options = new IdentityServerOptions
             {
                 IssuerUri = "https://idsrv3.com",
-                SiteName = "Thinktecture IdentityServer v3 - DependencyInjection",
+                SiteName = "Thinktecture IdentityServer3 - DependencyInjection",
 
                 SigningCertificate = Certificate.Get(),
                 Factory = factory,

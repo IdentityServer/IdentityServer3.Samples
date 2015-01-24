@@ -42,11 +42,11 @@
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -77,7 +77,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -92,40 +92,44 @@
     <Reference Include="System.Web" />
     <Reference Include="Thinktecture.IdentityManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-pre-10006\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-pre-10013\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityManager.MembershipReboot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityManager.MembershipReboot.1.0.0-pre-10007\lib\net45\Thinktecture.IdentityManager.MembershipReboot.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityManager.MembershipReboot.1.0.0-pre-10011\lib\net45\Thinktecture.IdentityManager.MembershipReboot.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityModel.Core, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Thinktecture.IdentityModel.Core.1.3.0\lib\net45\Thinktecture.IdentityModel.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Thinktecture.IdentityServer3, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.1.0.0-pre-10217\lib\net45\Thinktecture.IdentityServer.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.1.0.1-build00027\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer.MembershipReboot, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Thinktecture.IdentityServer3.MembershipReboot, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer.v3.MembershipReboot.1.0.0-pre-10008\lib\net45\Thinktecture.IdentityServer.MembershipReboot.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.MembershipReboot.1.0.1-build00002\lib\net45\Thinktecture.IdentityServer3.MembershipReboot.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\Certificate.cs" />
-    <Compile Include="Config\Clients.cs" />
-    <Compile Include="Config\Factory.cs" />
-    <Compile Include="Config\Scopes.cs" />
-    <Compile Include="MembershipRebootIdentityManagerFactory.cs" />
+    <Compile Include="IdMgr\CustomIdentityManagerService.cs" />
+    <Compile Include="IdMgr\MembershipRebootIdentityManagerServiceExtensions.cs" />
+    <Compile Include="IdSvr\Certificate.cs" />
+    <Compile Include="IdSvr\Clients.cs" />
+    <Compile Include="IdSvr\CustomUserService.cs" />
+    <Compile Include="IdSvr\Factory.cs" />
+    <Compile Include="IdSvr\Scopes.cs" />
+    <Compile Include="MR\CustomConfig.cs" />
+    <Compile Include="MR\CustomDatabase.cs" />
+    <Compile Include="MR\CustomGroup.cs" />
+    <Compile Include="MR\CustomUser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RelationalUserAccountQuery.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="MembershipRebootUserServiceFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <EmbeddedResource Include="Config\idsrv3test.pfx" />
+    <EmbeddedResource Include="IdSvr\idsrv3test.pfx" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

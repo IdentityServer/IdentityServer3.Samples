@@ -8,7 +8,7 @@ namespace SelfHost
     {
         private static void Main(string[] args)
         {
-            Console.Title = "IdentityServer v3 -- EntityFramework";
+            Console.Title = "IdentityServer3 -- EntityFramework";
             LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
 
             const string url = "https://localhost:44333/core";

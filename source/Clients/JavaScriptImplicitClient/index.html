@@ -165,7 +165,10 @@
                     scope,
                     responseType);
                 store.set(req.state);
-                $window.location = req.url;
+                var url = req.url;
+                //url += "&acr_values=idp:Google";
+                //url += "&login_hint=" + encodeURIComponent("brockallen@gmail.com<script>alert(1)<" + "/script>");
+                $window.location = url;
             }
 
             $scope.call = function () {

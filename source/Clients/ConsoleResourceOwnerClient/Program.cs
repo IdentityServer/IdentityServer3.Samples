@@ -31,8 +31,7 @@ namespace ConsoleResourceOwnerClient
             // that get passed through to the user service
             var optional = new Dictionary<string, string>
             {
-                { "login_hint", "tenant:custom_account_store_1" },
-                { "acr_values", "for bar quux" }
+                { "acr_values", "tenant:custom_account_store1 foo bar quux" }
             };
 
             return client.RequestResourceOwnerPasswordAsync("bob", "bob", "read write", optional).Result;
