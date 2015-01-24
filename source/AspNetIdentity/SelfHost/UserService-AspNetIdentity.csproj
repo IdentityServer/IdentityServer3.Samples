@@ -104,6 +104,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Thinktecture.IdentityServer3.1.0.1-build00027\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
+    <Reference Include="Thinktecture.IdentityServer3.AspNetIdentity, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.AspNetIdentity.1.0.1-build00002\lib\net45\Thinktecture.IdentityServer3.AspNetIdentity.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AspId\CustomEntitiesWithIntKey.cs" />

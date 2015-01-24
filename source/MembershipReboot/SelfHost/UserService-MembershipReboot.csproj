@@ -102,11 +102,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Thinktecture.IdentityModel.Core.1.3.0\lib\net45\Thinktecture.IdentityModel.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer3">
-      <HintPath>..\packages\Thinktecture.IdentityServer3.1.0.0-build00011\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer3, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.1.0.1-build00027\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer3.MembershipReboot">
-      <HintPath>..\packages\Thinktecture.IdentityServer3.MembershipReboot.1.0.0-build10020\lib\net45\Thinktecture.IdentityServer3.MembershipReboot.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer3.MembershipReboot, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.MembershipReboot.1.0.1-build00002\lib\net45\Thinktecture.IdentityServer3.MembershipReboot.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
