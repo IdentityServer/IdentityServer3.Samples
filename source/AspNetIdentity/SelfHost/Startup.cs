@@ -47,7 +47,7 @@ namespace SelfHost
 
             var options = new IdentityServerOptions
             {
-                SiteName = "Thinktecture IdentityServer v3 - UserService-AspNetIdentity",
+                SiteName = "Thinktecture IdentityServer3 - UserService-AspNetIdentity",
                 SigningCertificate = Certificate.Get(),
                 Factory = idSvrFactory,
                 CorsPolicy = CorsPolicy.AllowAll,

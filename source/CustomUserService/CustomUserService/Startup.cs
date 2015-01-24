@@ -32,7 +32,7 @@ namespace SampleApp
                 var options = new IdentityServerOptions
                 {
                     IssuerUri = "https://idsrv3.com",
-                    SiteName = "Thinktecture IdentityServer v3 - CustomUserService",
+                    SiteName = "Thinktecture IdentityServer3 - CustomUserService",
 
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,

@@ -22,7 +22,7 @@ namespace SelfHost
             var options = new IdentityServerOptions
             {
                 IssuerUri = "https://idsrv3.com",
-                SiteName = "Thinktecture IdentityServer v3 - WsFed",
+                SiteName = "Thinktecture IdentityServer3 - WsFed",
 
                 SigningCertificate = Certificate.Get(),
                 Factory = factory,

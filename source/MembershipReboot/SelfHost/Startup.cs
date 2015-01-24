@@ -48,7 +48,7 @@ namespace SelfHost
             var options = new IdentityServerOptions
             {
                 IssuerUri = "https://idsrv3.com",
-                SiteName = "Thinktecture IdentityServer v3 - UserService-MembershipReboot",
+                SiteName = "Thinktecture IdentityServer3 - UserService-MembershipReboot",
                 
                 SigningCertificate = Certificate.Get(),
                 Factory = idSvrFactory,
