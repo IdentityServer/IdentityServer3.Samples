@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC FormPost Client", "MvcF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC CodeFlowClient Manual", "MvcCodeFlowClientManual\MVC CodeFlowClient Manual.csproj", "{C67DB8BB-6083-436D-9748-4BDD9EC8C0EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client", "JavaScriptImplicitClient\JavaScript Implicit Client.csproj", "{76BE0CCA-2F1E-4071-BEF0-C8A2673E7B04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client - TokenManager", "JavaScriptImplicitClient\JavaScript Implicit Client - TokenManager.csproj", "{76BE0CCA-2F1E-4071-BEF0-C8A2673E7B04}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN Client (Implicit)", "MVC OWIN Client\MVC OWIN Client (Implicit).csproj", "{A0D39237-D450-4F23-A3CC-79EBCA1D720D}"
 EndProject
@@ -34,6 +34,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT Implicit Client", "WinRT Implicit Client\WinRT Implicit Client.csproj", "{D7C2DBBB-6485-4508-8827-7EFD26EBD808}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Custom Grant Client", "CustomGrantClient\Console Custom Grant Client.csproj", "{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client - Simple", "JavaScriptImplicitClient-Simple\JavaScript Implicit Client - Simple.csproj", "{104B2540-1F77-4216-B801-428AE970F9C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -211,6 +213,16 @@ Global
 		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Release|ARM.ActiveCfg = Release|Any CPU
 		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Release|x64.ActiveCfg = Release|Any CPU
 		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Release|x86.ActiveCfg = Release|Any CPU
+		{104B2540-1F77-4216-B801-428AE970F9C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{104B2540-1F77-4216-B801-428AE970F9C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{104B2540-1F77-4216-B801-428AE970F9C9}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{104B2540-1F77-4216-B801-428AE970F9C9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{104B2540-1F77-4216-B801-428AE970F9C9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{104B2540-1F77-4216-B801-428AE970F9C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{104B2540-1F77-4216-B801-428AE970F9C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{104B2540-1F77-4216-B801-428AE970F9C9}.Release|ARM.ActiveCfg = Release|Any CPU
+		{104B2540-1F77-4216-B801-428AE970F9C9}.Release|x64.ActiveCfg = Release|Any CPU
+		{104B2540-1F77-4216-B801-428AE970F9C9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
