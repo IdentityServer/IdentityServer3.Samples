@@ -2,195 +2,167 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="bootstrap.min.css" rel="stylesheet" />
+    <style>
+        pre:empty {
+            display:none;
+        }
+    </style>
 </head>
-<body ng-app="app" ng-controller="OAuthCtrl">
-    <div class="container" ng-cloak>
+<body>
+    <div class="container">
         <header class="page-header">
             <h1>JavaScript Implicit Client</h1>
         </header>
 
         <div class="row">
             <ul class="list-unstyled list-inline">
-                <li><button class="btn btn-default" ng-click="request('openid', 'id_token')">Login Only</button></li>
-                <li><button class="btn btn-default" ng-click="request('openid profile email', 'id_token')">Login With Profile</button></li>
-                <li><button class="btn btn-default" ng-click="request('openid profile read write email', 'id_token token')">Login With Profile and Access Token</button></li>
-                <li><button class="btn btn-default" ng-click="request('read write', 'token')">Access Token Only</button></li>
-            </ul>
-        </div>
-        <div class="row">
-            <ul class="list-unstyled list-inline">
-                <li><button class="btn btn-default" ng-click="call()">Call Service</button></li>
+                <li><a class="btn btn-primary" href="index.html">Home</a></li>
+                <li><button class="btn btn-default request" data-scope='openid' data-type='id_token'>Login Only</button></li>
+                <li><button class="btn btn-default request" data-scope='openid profile email' data-type='id_token'>Login With Profile</button></li>
+                <li><button class="btn btn-default request" data-scope='openid profile read write email' data-type='id_token token'>Login With Profile and Access Token</button></li>
+                <li><button class="btn btn-default request" data-scope='read write' data-type='token'>Access Token Only</button></li>
+                <li><button class="btn btn-primary call">Call Service</button></li>
+                <li><button class="btn btn-info logout">Logout</button></li>
             </ul>
         </div>
 
-        <div class="row" ng-show="response.raw">
+        <div class="row">
+            <ul class="list-unstyled list-inline">
+            </ul>
+        </div>
+
+        <div class="row">
             <div class="panel panel-default">
-                <div class="panel-heading">Response</div>
+                <div class="panel-heading">Authorization Response</div>
                 <div class="panel-body">
-                    <pre>{{response.raw}}</pre>
+                    <pre id="response"></pre>
                 </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col-sm-6" ng-show="response.id_token_json">
+            <div class="col-sm-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">ID Token Contents</div>
                     <div class="panel-body">
-                        <pre>{{response.id_token_json}}</pre>
+                        <pre id="id-token"></pre>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6" ng-show="response.access_token_json">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Access Token Contents</div>
-                    <div class="panel-body">
-                        <pre>{{response.access_token_json}}</pre>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col-sm-6" ng-show="ajax_result">
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Access Token</div>
+                    <div class="panel-body">
+                        <pre id="access-token"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">Ajax Result</div>
                     <div class="panel-body">
-                        <pre ng-bind="ajax_result | json"></pre>
+                        <pre id="ajax-result"></pre>
                     </div>
                 </div>
-                
             </div>
         </div>
     </div>
 
-    <!-- for JWS -->
+    <script src="oidc.js"></script>
 
-    <script src="Scripts/crypto.js"></script>
-    <script src="Scripts/rsa.js"></script>
- 
-    <script src="Scripts/json-sans-eval.js"></script>
-    <script src="Scripts/jws-3.0.js"></script>
-    <!-- /for JWS -->
-
-
-    <script src="Scripts/jquery-1.9.0.min.js"></script>
-    <script src="Scripts/angular.min.js"></script>
-    <script src="OAuthClient.js"></script>
     <script>
-        var app = angular.module("app", []);
+        var config = {
+            client_id: "implicitclient",
+            redirect_uri: window.location.protocol + "//" + window.location.host + "/index.html",
+            post_logout_redirect_uri: window.location.protocol + "//" + window.location.host + "/index.html",
+            //response_type: "id_token token",
+            //scope: "openid profile email read write",
+            authority: "https://localhost:44333/core",
+            //silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/frame.html",
+            //silent_renew: true
+        };
+        var mgr = new TokenManager(config);
 
-        app.factory("signingCertificate", function ($http) {
-            var url = "https://localhost:44333/core/.well-known/jwks";
-            return $http.get(url).then(function (response) {
-                console.log(response.data);
-                return response.data.keys[0].x5c[0];
+        function display(selector, data) {
+            if (data && typeof data === 'string') {
+                data = JSON.parse(data);
+            }
+            if (data) {
+                data = JSON.stringify(data, null, 2);
+            }
+            document.querySelector(selector).textContent = data;
+        }
+
+        function showTokens() {
+            display("#id-token", mgr.id_token || "");
+            display("#access-token", mgr.access_token && {access_token:mgr.access_token, expires_in:mgr.expires_in} || "");
+        }
+        showTokens();
+
+        function handleCallback() {
+            mgr.processTokenCallbackAsync().then(function () {
+                showTokens();
+            }, function (error) {
+                display("#response", error.message && { error: error.message } || error);
+            });
+        }
+
+        function authorize(scope, response_type) {
+            config.scope = scope;
+            config.response_type = response_type;
+            mgr.redirectForToken();
+        }
+
+        function logout() {
+            mgr.redirectForLogout();
+        }
+
+        function callApi() {
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function (e) {
+                if (xhr.status >= 400) {
+                    display("#ajax-result", {
+                        status: xhr.status,
+                        statusText: xhr.statusText,
+                        wwwAuthenticate: xhr.getResponseHeader("WWW-Authenticate")
+                    });
+                }
+                else {
+                    display("#ajax-result", xhr.response);
+                }
+            };
+            xhr.onerror = function () {
+                if (xhr.status === 401) {
+                    mgr.removeToken();
+                    showTokens();
+                }
+
+                display("#ajax-result", {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    wwwAuthenticate: xhr.getResponseHeader("WWW-Authenticate")
+                });
+            };
+            xhr.open("GET", "http://localhost:2727/identity", true);
+            xhr.setRequestHeader("Authorization", "Bearer " + mgr.access_token);
+            xhr.send();
+        }
+
+        if (window.location.hash) {
+            handleCallback();
+        }
+
+        [].forEach.call(document.querySelectorAll(".request"), function (button) {
+            button.addEventListener("click", function () {
+                authorize(this.dataset["scope"], this.dataset["type"]);
             });
         });
 
-        app.factory("storage", function ($window) {
-
-            function Storage(name, store) {
-                this.name = store;
-                this.store = store;
-            }
-            Storage.prototype.get = function () {
-                var item = this.store.getValue(name);
-                if (item) {
-                    return JSON.parse(item);
-                }
-            };
-            Storage.prototype.set = function (value) {
-                if (value) {
-                    this.store.setItem(name, JSON.stringify(value));
-                }
-                else {
-                    this.store.removeItem(name);
-                }
-            };
-
-            return {
-                create: function (name) {
-                    return new Storage(name, $window.sessionStorage);
-                }
-            };
-        });
-
-        app.controller("OAuthCtrl", function ($scope, $window, storage, $location, signingCertificate) {
-            var oauth = new OAuthClient("https://localhost:44333/core/connect/authorize");
-            var store = storage.create("js_implicit_demo");
-
-            $scope.response = {};
-
-            var hash = $location.path().substring(1);
-            var response = oauth.parseResult(hash);
-            if (response) {
-                $scope.response.raw = JSON.stringify(response, null, 2);
-
-                if (response.id_token) {
-                    signingCertificate.then(function (cert) {
-                        try {
-                            var jws_id = new KJUR.jws.JWS();
-                            result = jws_id.verifyJWSByPemX509Cert(response.id_token, cert);
-                            if (result == 1) {
-                                $scope.response.id_token_json = JSON.stringify(JSON.parse(jws_id.parsedJWS.payloadS), null, 2);
-                            } else {
-                                $scope.response.id_token_json = "JWS signature is *Invalid*.";
-                            }
-                        } catch (ex) {
-                            //alert("Error: " + ex);
-                            result = 0;
-                        }
-                    });
-                    
-                }
-
-                if (response.access_token) {
-                    $scope.response.access_token = response.access_token;
-
-                    var jws = new KJUR.jws.JWS();
-                    var valid = jws.parseJWS(response.access_token);
-                    $scope.response.access_token_json = JSON.stringify(JSON.parse(jws.parsedJWS.payloadS), null, 2);
-                }
-
-                if (response.session_state) {
-                    window.enableSessionState(response.session_state);
-                }
-            }
-
-            $scope.request = function (scope, responseType) {
-                var req = oauth.createImplicitFlowRequest(
-                    "implicitclient",
-                    "http://localhost:21575/index.html",
-                    scope,
-                    responseType);
-                store.set(req.state);
-                var url = req.url;
-                //url += "&acr_values=idp:Google";
-                //url += "&login_hint=" + encodeURIComponent("brockallen@gmail.com<script>alert(1)<" + "/script>");
-                $window.location = url;
-            }
-
-            $scope.call = function () {
-                $.ajax({
-                    url: 'http://localhost:2727/Identity',
-                    headers: {
-                        Authorization: "Bearer " + $scope.response.access_token
-                    }
-                }).then(function (data) {
-                    $scope.ajax_result = data;
-                    $scope.$apply();
-                }, function (xhr, error, msg) {
-                    $scope.ajax_result = {
-                        result:error,
-                        message:msg,
-                        status: xhr.status
-                    };
-                    $scope.$apply();
-                });
-            }
-        });
-
+        document.querySelector(".call").addEventListener("click", callApi, false);
+        document.querySelector(".logout").addEventListener("click", logout, false);
 
         function enableSessionState(sessionState) {
             //console.log("session state", sessionState);
@@ -198,7 +170,10 @@
         }
 
     </script>
+
     <iframe id="rp" style="display:none"></iframe>
 </body>
+
+
 
 </html>
