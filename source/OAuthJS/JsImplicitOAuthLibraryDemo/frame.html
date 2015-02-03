@@ -11,7 +11,10 @@
             authority: "https://localhost:44333/core",
         };
         var mgr = new TokenManager(config);
+
         mgr.processTokenCallbackSilent();
+        // or 
+        //mgr.processTokenCallbackSilent(window.location.hash);
     </script>
 </body>
 </html>
