@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Thinktecture.IdentityModel.Client;
 using Windows.Security.Authentication.Web;
@@ -34,12 +35,13 @@ namespace Thinktecture.IdentityModel.WinRT
                 scope: scope,
                 redirectUri: redirectUri.AbsoluteUri,
                 state: state,
-                nonce: nonce);
-
+                nonce: nonce, 
+                responseMode: "form_post");
+                
             try
             {
                 var result = await WebAuthenticationBroker.AuthenticateAsync(
-                        WebAuthenticationOptions.None,
+                        WebAuthenticationOptions.UseHttpPost,
                         new Uri(startUri));
 
                 if (result.ResponseStatus == WebAuthenticationStatus.Success)
@@ -66,4 +68,6 @@ namespace Thinktecture.IdentityModel.WinRT
             }
         }
     }
+
+    
 }
