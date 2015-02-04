@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Custom HRD</h2>
+@if(ViewData["Error"] != null)
+{
+    <div class="alert alert-danger">@ViewData["Error"]</div>
+}
+<form method="post">
+    <div class="form-group">
+        <label for="email">Enter your email</label>
+        <input id="email" name="email" class="form-control">
+    </div>
+    <div>
+        <button class="btn btn-primary">Login</button>
+    </div>
+</form>
+
