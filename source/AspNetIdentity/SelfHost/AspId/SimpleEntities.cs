@@ -18,11 +18,17 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web;
 
 namespace SelfHost.AspId
 {
-    public class User : IdentityUser { }
+    public class User : IdentityUser
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
+
     public class Role : IdentityRole { }
 
     public class Context : IdentityDbContext<User, Role, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
@@ -33,7 +39,7 @@ namespace SelfHost.AspId
         }
     }
 
-    public class UserStore : UserStore<User>
+    public class UserStore : UserStore<User, Role, string, IdentityUserLogin, IdentityUserRole, IdentityUserClaim>
     {
         public UserStore(Context ctx)
             : base(ctx)
@@ -41,11 +47,36 @@ namespace SelfHost.AspId
         }
     }
 
-    public class UserManager : UserManager<User>
+    public class UserManager : UserManager<User, string>
     {
         public UserManager(UserStore store)
             : base(store)
         {
+            this.ClaimsIdentityFactory = new ClaimsFactory();
+        }
+    }
+
+    public class ClaimsFactory : ClaimsIdentityFactory<User, string>
+    {
+        public ClaimsFactory()
+        {
+            this.UserIdClaimType = Thinktecture.IdentityServer.Core.Constants.ClaimTypes.Subject;
+            this.UserNameClaimType = Thinktecture.IdentityServer.Core.Constants.ClaimTypes.PreferredUserName;
+            this.RoleClaimType = Thinktecture.IdentityServer.Core.Constants.ClaimTypes.Role;
+        }
+
+        public override async System.Threading.Tasks.Task<System.Security.Claims.ClaimsIdentity> CreateAsync(UserManager<User, string> manager, User user, string authenticationType)
+        {
+            var ci = await base.CreateAsync(manager, user, authenticationType);
+            if (!String.IsNullOrWhiteSpace(user.FirstName))
+            {
+                ci.AddClaim(new Claim("given_name", user.FirstName));
+            }
+            if (!String.IsNullOrWhiteSpace(user.LastName))
+            {
+                ci.AddClaim(new Claim("family_name", user.LastName));
+            }
+            return ci;
         }
     }
     
