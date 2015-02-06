@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Two Factor</h2>
+<p>Enter the code sent to your mobile device</p>
+<form method="post">
+    @if (ViewData["message"] != null)
+    {
+        <div class="alert alert-danger">@ViewData["message"]</div>
+    }
+    
+    <div class="form-group">
+        <label for="code">Code</label>
+        <input type="text" id="code" name="code" class="form-control">
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
