@@ -89,8 +89,9 @@
     <Reference Include="Thinktecture.IdentityServer3">
       <HintPath>..\packages\Thinktecture.IdentityServer3.1.1.0-build00071\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer3.AspNetIdentity">
-      <HintPath>..\packages\Thinktecture.IdentityServer3.AspNetIdentity.1.0.1-build00004\lib\net45\Thinktecture.IdentityServer3.AspNetIdentity.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer3.AspNetIdentity, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.AspNetIdentity.1.0.1-build00005\lib\net45\Thinktecture.IdentityServer3.AspNetIdentity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

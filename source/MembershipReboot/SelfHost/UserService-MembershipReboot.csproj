@@ -96,7 +96,7 @@
     </Reference>
     <Reference Include="Thinktecture.IdentityManager.MembershipReboot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityManager.MembershipReboot.1.0.0-pre-10011\lib\net45\Thinktecture.IdentityManager.MembershipReboot.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityManager.MembershipReboot.1.0.0-pre-10012\lib\net45\Thinktecture.IdentityManager.MembershipReboot.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityModel.Core, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -108,7 +108,7 @@
     </Reference>
     <Reference Include="Thinktecture.IdentityServer3.MembershipReboot, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.MembershipReboot.1.0.1-build00002\lib\net45\Thinktecture.IdentityServer3.MembershipReboot.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.MembershipReboot.1.0.1-build00003\lib\net45\Thinktecture.IdentityServer3.MembershipReboot.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
