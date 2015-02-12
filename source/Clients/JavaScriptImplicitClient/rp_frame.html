@@ -1,7 +1,8 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-    <title></title>
+    <title>RP Check Session IFrame</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 </head>
 <body>
     <iframe id="op" src="https://localhost:44333/core/connect/checksession"></iframe>
@@ -9,7 +10,7 @@
         if (window.location.hash) {
             var sessionState = window.location.hash.substr(1);
             if (sessionState) {
-                //console.log('rp_iframe', sessionState);
+                console.log('rp_iframe', sessionState);
                 var frame = document.getElementById("op");
                 frame.onload = function () {
                     //console.log('frame loaded');
@@ -29,6 +30,7 @@
                                 // do prompt=none w/id_token_hint to OP
                                 // check result for same sub
                                 // if same, update local id_token_hint
+                                window.parent.loggedOut();
                             }
                         }
                     });

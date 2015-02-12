@@ -85,6 +85,10 @@
             //silent_renew: true
         };
         var mgr = new TokenManager(config);
+        mgr.addOnTokenRemoved(function () {
+            display("#response", { message: "Token Removed" });
+            showTokens();
+        });
 
         function display(selector, data) {
             if (data && typeof data === 'string') {
@@ -112,6 +116,9 @@
                 }, {});
                 display("#response", result);
                 showTokens();
+                if (result.session_state) {
+                    enableSessionState(result.session_state);
+                }
             }, function (error) {
                 display("#response", error.message && { error: error.message } || error);
             });
@@ -175,12 +182,11 @@
             //console.log("session state", sessionState);
             document.getElementById("rp").src = "rp_frame.html#" + sessionState;
         }
-
+        window.loggedOut = function () {
+            mgr.removeToken();
+        }
     </script>
 
     <iframe id="rp" style="display:none"></iframe>
 </body>
-
-
-
 </html>
