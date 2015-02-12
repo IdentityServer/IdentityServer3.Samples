@@ -97,6 +97,10 @@
                     show(JSON.parse(xhr.response));
                 }
             };
+            xhr.onerror = function (e) {
+                console.log(e, xhr);
+                show({ error: "unknown http error" });
+            };
             xhr.open("GET", "http://localhost:2727/identity", true);
             xhr.setRequestHeader("Authorization", "Bearer " + token);
             xhr.send();
