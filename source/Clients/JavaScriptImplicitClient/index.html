@@ -19,8 +19,8 @@
             <ul class="list-unstyled list-inline">
                 <li><a class="btn btn-primary" href="index.html">Home</a></li>
                 <li><button class="btn btn-default request" data-scope='openid' data-type='id_token'>Login Only</button></li>
-                <li><button class="btn btn-default request" data-scope='openid profile email' data-type='id_token'>Login With Profile</button></li>
-                <li><button class="btn btn-default request" data-scope='openid profile read write email' data-type='id_token token'>Login With Profile and Access Token</button></li>
+                <li><button class="btn btn-default request" data-scope='openid profile email roles' data-type='id_token'>Login With Profile</button></li>
+                <li><button class="btn btn-default request" data-scope='openid profile email roles read write' data-type='id_token token'>Login With Profile and Access Token</button></li>
                 <li><button class="btn btn-default request" data-scope='read write' data-type='token'>Access Token Only</button></li>
                 <li><button class="btn btn-primary call">Call Service</button></li>
                 <li><button class="btn btn-info logout">Logout</button></li>
@@ -75,18 +75,27 @@
 
     <script>
         var config = {
+            authority: "https://localhost:44333/core",
             client_id: "implicitclient",
             redirect_uri: window.location.protocol + "//" + window.location.host + "/index.html",
             post_logout_redirect_uri: window.location.protocol + "//" + window.location.host + "/index.html",
+
+            // these two will be done dynamically from the buttons clicked
             //response_type: "id_token token",
             //scope: "openid profile email read write",
-            authority: "https://localhost:44333/core",
+
+            // we're not using these in this sample
             //silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/frame.html",
             //silent_renew: true
         };
+
         var mgr = new TokenManager(config);
+
+        mgr.addOnTokenObtained(function () {
+            console.log("token obtained");
+        });
         mgr.addOnTokenRemoved(function () {
-            display("#response", { message: "Token Removed" });
+            display("#response", { message: "Logged Out" });
             showTokens();
         });
 
@@ -179,11 +188,12 @@
         document.querySelector(".logout").addEventListener("click", logout, false);
 
         function enableSessionState(sessionState) {
-            //console.log("session state", sessionState);
             document.getElementById("rp").src = "rp_frame.html#" + sessionState;
         }
-        window.loggedOut = function () {
-            mgr.removeToken();
+        window.onmessage = function (e) {
+            if (e.origin === window.location.protocol + "//" + window.location.host && e.data === "logged_out") {
+                mgr.removeToken();
+            }
         }
     </script>
 

@@ -30,7 +30,7 @@
                                 // do prompt=none w/id_token_hint to OP
                                 // check result for same sub
                                 // if same, update local id_token_hint
-                                window.parent.loggedOut();
+                                window.parent.postMessage("logged_out", window.location.protocol + "//" + window.location.host);
                             }
                         }
                     });
