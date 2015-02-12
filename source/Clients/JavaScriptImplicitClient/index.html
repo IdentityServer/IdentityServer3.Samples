@@ -104,6 +104,13 @@
 
         function handleCallback() {
             mgr.processTokenCallbackAsync().then(function () {
+                var hash = window.location.hash.substr(1);
+                var result = hash.split('&').reduce(function (result, item) {
+                    var parts = item.split('=');
+                    result[parts[0]] = parts[1];
+                    return result;
+                }, {});
+                display("#response", result);
                 showTokens();
             }, function (error) {
                 display("#response", error.message && { error: error.message } || error);
