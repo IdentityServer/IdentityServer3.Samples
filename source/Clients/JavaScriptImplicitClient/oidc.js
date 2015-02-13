@@ -772,6 +772,7 @@ FrameLoader.prototype.loadAsync = function (url) {
 }
 
 function loadToken(mgr) {
+    mgr._token = null;
     if (mgr._settings.persist) {
         var tokenJson = mgr._settings.store.getItem(mgr._settings.persistKey);
         if (tokenJson) {
@@ -950,6 +951,7 @@ function TokenManager(settings) {
     window.addEventListener("storage", function (e) {
         if (e.key === mgr._settings.persistKey) {
             loadToken(mgr);
+
             if (mgr._token) {
                 mgr._callTokenObtained();
             }
@@ -1108,9 +1110,9 @@ TokenManager.prototype.renewTokenSilentAsync = function () {
     });
 }
 
-TokenManager.prototype.processTokenCallbackSilent = function () {
+TokenManager.prototype.processTokenCallbackSilent = function (hash) {
     if (window.top && window !== window.top) {
-        var hash = window.location.hash;
+        var hash = hash || window.location.hash;
         if (hash) {
             window.top.postMessage(hash, location.protocol + "//" + location.host);
         }
