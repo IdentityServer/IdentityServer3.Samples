@@ -772,6 +772,7 @@ FrameLoader.prototype.loadAsync = function (url) {
 }
 
 function loadToken(mgr) {
+    mgr._token = null;
     if (mgr._settings.persist) {
         var tokenJson = mgr._settings.store.getItem(mgr._settings.persistKey);
         if (tokenJson) {
@@ -950,6 +951,7 @@ function TokenManager(settings) {
     window.addEventListener("storage", function (e) {
         if (e.key === mgr._settings.persistKey) {
             loadToken(mgr);
+
             if (mgr._token) {
                 mgr._callTokenObtained();
             }
