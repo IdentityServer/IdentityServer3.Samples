@@ -119,7 +119,7 @@ FrameLoader.prototype.loadAsync = function (url) {
         }
 
         function message(e) {
-            if (handle && e.origin === location.protocol + "//" + location.host) {
+            if (handle && e.origin === location.protocol + "//" + location.host && e.sender == frame.contentWindow) {
                 cleanup();
                 resolve(e.data);
             }
@@ -477,4 +477,9 @@ TokenManager.prototype.processTokenCallbackSilent = function (hash) {
             window.top.postMessage(hash, location.protocol + "//" + location.host);
         }
     }
+}
+
+TokenManager.prototype.getMetadataAsync = function (hash) {
+    var oidc = new OidcClient(this._settings);
+    return oidc.loadMetadataAsync();
 }

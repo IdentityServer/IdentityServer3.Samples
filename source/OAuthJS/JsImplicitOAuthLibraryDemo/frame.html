@@ -6,12 +6,7 @@
 <body>
     <script src="oidc/oidc.js"></script>
     <script>
-        var config = {
-            client_id: "implicitclient",
-            authority: "https://localhost:44333/core",
-        };
-        var mgr = new TokenManager(config);
-
+        var mgr = new TokenManager();
         mgr.processTokenCallbackSilent();
         // or 
         //mgr.processTokenCallbackSilent(window.location.hash);
