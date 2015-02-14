@@ -59,7 +59,7 @@
   <ItemGroup>
     <Content Include="bootstrap.min.css" />
     <Content Include="oidc.js" />
-    <Content Include="rp_frame.html" />
+    <Content Include="check_session.html" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

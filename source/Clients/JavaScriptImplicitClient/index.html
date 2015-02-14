@@ -188,7 +188,15 @@
         document.querySelector(".logout").addEventListener("click", logout, false);
 
         function enableSessionState(sessionState) {
-            document.getElementById("rp").src = "rp_frame.html#" + sessionState;
+            mgr.getMetadataAsync().then(function (meta) {
+                if (meta.check_session_iframe) {
+                    document.getElementById("rp").src = "check_session.html#" + 
+                        "session_state=" + sessionState +
+                        "&check_session_iframe=" + meta.check_session_iframe +
+                        "&client_id=" + config.client_id
+                    ;
+                }
+            });
         }
         window.onmessage = function (e) {
             if (e.origin === window.location.protocol + "//" + window.location.host && e.data === "logged_out") {
