@@ -101,8 +101,9 @@ FrameLoader.prototype.loadAsync = function (url) {
     }
 
     return _promiseFactory.create(function (resolve, reject) {
-        var frameHtml = '<iframe style="display:none"></iframe>';
-        var frame = $(frameHtml).appendTo("body");
+        var frame = window.document.createElement("iframe");
+        frame.style.display = "none";
+        frame.src = url;
 
         function cleanup() {
             window.removeEventListener("message", message, false);
@@ -110,7 +111,7 @@ FrameLoader.prototype.loadAsync = function (url) {
                 window.clearTimeout(handle);
             }
             handle = null;
-            frame.remove();
+            window.document.body.removeChild(frame);
         }
 
         function cancel(e) {
@@ -119,7 +120,7 @@ FrameLoader.prototype.loadAsync = function (url) {
         }
 
         function message(e) {
-            if (handle && e.origin === location.protocol + "//" + location.host && e.sender == frame.contentWindow) {
+            if (handle && e.origin === location.protocol + "//" + location.host && e.source == frame.contentWindow) {
                 cleanup();
                 resolve(e.data);
             }
@@ -127,7 +128,7 @@ FrameLoader.prototype.loadAsync = function (url) {
 
         var handle = window.setTimeout(cancel, 5000);
         window.addEventListener("message", message, false);
-        frame.attr("src", url);
+        window.document.body.appendChild(frame);
     });
 }
 
