@@ -85,7 +85,7 @@
             //scope: "openid profile email read write",
 
             // we're not using these in this sample
-            //silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/frame.html",
+            silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/silent_renew.html",
             //silent_renew: true
         };
 
@@ -199,8 +199,15 @@
             });
         }
         window.onmessage = function (e) {
-            if (e.origin === window.location.protocol + "//" + window.location.host && e.data === "logged_out") {
+            if (e.origin === window.location.protocol + "//" + window.location.host && e.data === "changed") {
                 mgr.removeToken();
+                //config.scope = "openid";
+                //config.response_type = "id_token";
+                //mgr.renewTokenSilentAsync().then(function () {
+                //    console.log("renewTokenSilentAsync success");
+                //}, function () {
+                //    console.log("renewTokenSilentAsync failed");
+                //});
             }
         }
     </script>

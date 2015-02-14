@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bootstrap.min.css" />
+    <Content Include="silent_renew.html" />
     <Content Include="oidc.js" />
     <Content Include="check_session.html" />
     <None Include="Web.Debug.config">
