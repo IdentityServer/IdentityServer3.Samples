@@ -105,6 +105,9 @@ namespace SampleApp.Config
                     ClientName = "Client Credentials Flow Client",
                     Enabled = true,
                     ClientId = "client",
+                    ClientSecrets = new List<ClientSecret>{
+                        new ClientSecret("secret".Sha256())
+                    },
                     Flow = Flows.ClientCredentials,
                     
                     ScopeRestrictions = new List<string>
