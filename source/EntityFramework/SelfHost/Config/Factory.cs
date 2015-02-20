@@ -7,6 +7,7 @@ using Thinktecture.IdentityServer.Core.Configuration;
 using Thinktecture.IdentityServer.EntityFramework;
 using Thinktecture.IdentityServer.Core.Models;
 using Thinktecture.IdentityServer.Core.Services;
+using Thinktecture.IdentityServer.Core.Services.InMemory;
 
 namespace SelfHost.Config
 {
@@ -28,8 +29,8 @@ namespace SelfHost.Config
             factory.RegisterConfigurationServices(efConfig);
             factory.RegisterOperationalServices(efConfig);
 
-            var userService = new Thinktecture.IdentityServer.Core.Services.InMemory.InMemoryUserService(Users.Get());
-            factory.UserService = new Registration<IUserService>(resolver => userService);
+            factory.Register(new Registration<List<InMemoryUser>>(Users.Get()));
+            factory.UserService = new Registration<IUserService, InMemoryUserService>();
 
             return factory;
         }
