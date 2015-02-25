@@ -23,6 +23,7 @@ namespace SampleApp
                     scopes: Scopes.Get());
 
                 factory.ViewService = new Registration<IViewService>(typeof(CustomViewService));
+                //factory.UserService = new Registration<IUserService, UserService>();
 
                 var options = new IdentityServerOptions
                 {
