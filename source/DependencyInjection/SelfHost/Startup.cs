@@ -15,8 +15,8 @@ namespace SelfHost
                 clients: Clients.Get(), 
                 scopes:  Scopes.Get());
 
-            factory.ClaimsProvider = new Registration<IClaimsProvider>(typeof(MyCustomClaimsProvider));
-            factory.Register(new Registration<ICustomLogger>(typeof(MyCustomDebugLogger)));
+            factory.ClaimsProvider = new Registration<IClaimsProvider, MyCustomClaimsProvider>();
+            factory.Register(new Registration<ICustomLogger, MyCustomDebugLogger>());
 
             var options = new IdentityServerOptions
             {

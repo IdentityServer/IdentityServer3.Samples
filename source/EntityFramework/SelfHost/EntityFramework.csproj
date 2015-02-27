@@ -32,13 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=3.3.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+    <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AutoMapper.3.3.0\lib\net40\AutoMapper.dll</HintPath>
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper.Net4, Version=3.3.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+    <Reference Include="AutoMapper.Net4, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AutoMapper.3.3.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -73,13 +73,13 @@
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.identitymodel.services" />
     <Reference Include="System.Web" />
-    <Reference Include="Thinktecture.IdentityServer3, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Thinktecture.IdentityServer3, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.1.1.0-build00071\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.1.2.2-build00129\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer3.EntityFramework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.EntityFramework.1.0.1-build00003\lib\net45\Thinktecture.IdentityServer3.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.EntityFramework.1.2.1-build00009\lib\net45\Thinktecture.IdentityServer3.EntityFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -91,6 +91,10 @@
     <Compile Include="Migrations\ClientConfiguration\201502141840113_InitialCreate.cs" />
     <Compile Include="Migrations\ClientConfiguration\201502141840113_InitialCreate.Designer.cs">
       <DependentUpon>201502141840113_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ClientConfiguration\201502272058115_v1_2_0.cs" />
+    <Compile Include="Migrations\ClientConfiguration\201502272058115_v1_2_0.Designer.cs">
+      <DependentUpon>201502272058115_v1_2_0.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ClientConfiguration\Configuration.cs" />
     <Compile Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.cs" />
@@ -111,6 +115,9 @@
     <EmbeddedResource Include="Migrations\ClientConfiguration\201502141840113_InitialCreate.resx">
       <DependentUpon>201502141840113_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ClientConfiguration\201502272058115_v1_2_0.resx">
+      <DependentUpon>201502272058115_v1_2_0.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.resx">
       <DependentUpon>201502141840136_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
@@ -123,7 +130,7 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets')" />
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

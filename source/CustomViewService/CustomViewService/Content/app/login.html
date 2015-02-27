@@ -33,13 +33,13 @@
     </div>
 
 
-    <div class="container" ng-cloak>
+    <div class='container page-login' ng-cloak>
         <div class="page-header">
             <h1>Login</h1>
         </div>
 
-        <div class="row login-page">
-            <div class="col-md-6 col-sm-6">
+        <div class="row">
+            <div class="col-md-6 col-sm-6" ng-show="model.loginUrl">
                 <div ng-show="model.errorMessage" class="alert alert-danger">
                     <strong>Error:</strong>
                     {{model.errorMessage}}
@@ -62,13 +62,14 @@
                                     <label for="password">Password</label>
                                     <input required id="password" name="password" type="password" class="form-control" placeholder="Password" ng-model="model.password" maxlength="100" autocomplete="off">
                                 </div>
-                                <!--<div class="form-group">
-                                    <label for="extra">Extra</label>
-                                    <input required id="extra" name="extra" type="text" class="form-control" placeholder="Extra" maxlength="100" autocomplete="off">
-                                </div>-->
+                                <div class="form-group login-remember" ng-show="model.allowRememberMe">
+                                    <label for="rememberMe">
+                                        <input type="checkbox" id="rememberMe" name="rememberMe" ng-model="model.rememberMe" value="true">
+                                        <strong>Remember My Login</strong>
+                                    </label>
+                                </div>
                                 <div class="form-group">
                                     <button class="btn btn-primary" ng-disabled="form.$invalid">Login</button>
-                                    <a class="btn btn-default" ng-href="#/Home">Cancel</a>
                                 </div>
                             </fieldset>
                         </form>
@@ -79,7 +80,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 col-sm-6" ng-show="model.externalProviders">
+            <div class="col-md-6 col-sm-6 external-providers" ng-show="model.externalProviders">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">External Login</h3>
