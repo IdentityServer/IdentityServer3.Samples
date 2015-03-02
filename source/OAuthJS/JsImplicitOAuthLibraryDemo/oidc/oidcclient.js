@@ -67,11 +67,6 @@ function parseOidcResult(queryString) {
     }
 }
 
-/**
- * @param {string} url
- * @param {string|undefined} token
- * @returns {Promise}
- */
 function getJson(url, token) {
     log("getJson", url);
 
@@ -297,6 +292,19 @@ OidcClient.prototype.loadX509SigningKeyAsync = function () {
     });
 };
 
+OidcClient.prototype.loadUserProfile = function (access_token) {
+    log("OidcClient.loadUserProfile");
+
+    return this.loadMetadataAsync().then(function (metadata) {
+
+        if (!metadata.userinfo_endpoint) {
+            return _promiseFactory.reject(Error("Metadata does not contain userinfo_endpoint"));
+        }
+
+        return getJson(metadata.userinfo_endpoint, access_token);
+    });
+}
+
 OidcClient.prototype.validateIdTokenAsync = function (id_token, nonce, access_token) {
     log("OidcClient.validateIdTokenAsync");
 
@@ -373,19 +381,6 @@ OidcClient.prototype.validateAccessTokenAsync = function (id_token_contents, acc
 
     return _promiseFactory.resolve();
 };
-
-OidcClient.prototype.loadUserProfile = function (access_token) {
-    log("OidcClient.loadUserProfile");
-
-    return this.loadMetadataAsync().then(function (metadata) {
-
-        if (!metadata.userinfo_endpoint) {
-            return _promiseFactory.reject(Error("Metadata does not contain userinfo_endpoint"));
-        }
-
-        return getJson(metadata.userinfo_endpoint, access_token);
-    });
-}
 
 OidcClient.prototype.validateIdTokenAndAccessTokenAsync = function (id_token, nonce, access_token) {
     log("OidcClient.validateIdTokenAndAccessTokenAsync");
