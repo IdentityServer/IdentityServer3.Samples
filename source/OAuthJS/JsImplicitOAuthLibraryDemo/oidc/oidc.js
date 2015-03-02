@@ -631,11 +631,6 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
     });
 }
 
-/**
- * @name _httpRequest
- * @type DefaultHttpRequest
- */
-
 ///#source 1 1 token-manager.js
 /// <reference path="es6-promise-2.0.0.js" />
 /// <reference path="oidcclient.js" />

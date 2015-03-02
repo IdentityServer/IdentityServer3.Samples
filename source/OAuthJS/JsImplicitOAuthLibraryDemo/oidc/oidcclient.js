@@ -482,8 +482,3 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
         };
     });
 }
-
-/**
- * @name _httpRequest
- * @type DefaultHttpRequest
- */
