@@ -485,8 +485,8 @@ OidcClient.prototype.validateIdTokenAsync = function (id_token, nonce, access_to
 
                 if (access_token && settings.load_user_profile) {
                     // if we have an access token, then call user info endpoint
-                    return client.loadUserProfile(access_token, id_token_contents).then(function (claims) {
-                        return claims;
+                    return client.loadUserProfile(access_token, id_token_contents).then(function (profile) {
+                        return copy(profile, id_token_contents);
                     });
                 }
                 else {
@@ -522,7 +522,7 @@ OidcClient.prototype.validateAccessTokenAsync = function (id_token_contents, acc
     return _promiseFactory.resolve();
 };
 
-OidcClient.prototype.loadUserProfile = function (access_token, id_token) {
+OidcClient.prototype.loadUserProfile = function (access_token) {
     log("OidcClient.loadUserProfile");
 
     return this.loadMetadataAsync().then(function (metadata) {
@@ -531,11 +531,7 @@ OidcClient.prototype.loadUserProfile = function (access_token, id_token) {
             return _promiseFactory.reject(Error("Metadata does not contain userinfo_endpoint"));
         }
 
-        return getJson(metadata.userinfo_endpoint, access_token).then(function (response) {
-
-            return copy(response, id_token);
-
-        });
+        return getJson(metadata.userinfo_endpoint, access_token);
     });
 }
 
