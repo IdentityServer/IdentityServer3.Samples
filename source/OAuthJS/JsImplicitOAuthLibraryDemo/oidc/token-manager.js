@@ -28,18 +28,23 @@ var _httpRequest = new DefaultHttpRequest();
  */
 var _promiseFactory = new DefaultPromiseFactory();
 
-function Token(id_token, id_token_jwt, access_token, expires_at, scope) {
-    this.id_token = id_token;
-    this.id_token_jwt = id_token_jwt;
-    this.access_token = access_token;
-    if (access_token) {
-        this.expires_at = parseInt(expires_at);
-    }
-    else if (id_token) {
-        this.expires_at = id_token.exp;
+function Token(other) {
+    if (other) {
+        this.profile = other.profile;
+        this.id_token = other.id_token;
+        this.access_token = other.access_token;
+        if (other.access_token) {
+            this.expires_at = parseInt(other.expires_at);
+        }
+        else if (other.id_token) {
+            this.expires_at = other.profile.exp;
+        }
+        else {
+            throw Error("Either access_token or id_token required.");
+        }
     }
     else {
-        throw Error("Either access_token or id_token required.");
+        this.expires_at = 0;
     }
 
     Object.defineProperty(this, "expired", {
@@ -56,33 +61,33 @@ function Token(id_token, id_token_jwt, access_token, expires_at, scope) {
         }
     });
 
-    this.scopes = (scope || "").split(" ");
+    this.scopes = (other.scope || "").split(" ");
 }
 
 Token.fromResponse = function (response) {
     if (response.access_token) {
         var now = parseInt(Date.now() / 1000);
-        var expires_at = now + parseInt(response.expires_in);
+        response.expires_at = now + parseInt(response.expires_in);
     }
-    return new Token(response.id_token, response.id_token_jwt, response.access_token, expires_at, response.scope);
+    return new Token(response);
 }
 
 Token.fromJSON = function (json) {
     if (json) {
         try {
             var obj = JSON.parse(json);
-            return new Token(obj.id_token, obj.id_token_jwt, obj.access_token, obj.expires_at, obj.scope);
+            return new Token(obj);
         }
         catch (e) {
         }
     }
-    return new Token(null, 0, null);
+    return new Token(null);
 }
 
 Token.prototype.toJSON = function () {
     return JSON.stringify({
+        profile: this.profile,
         id_token: this.id_token,
-        id_token_jwt: this.id_token_jwt,
         access_token: this.access_token,
         expires_at: this.expires_at,
         scope: this.scopes.join(" ")
@@ -253,17 +258,17 @@ function TokenManager(settings) {
         silentTokenRenewFailedCallbacks: []
     };
 
+    Object.defineProperty(this, "profile", {
+        get: function () {
+            if (this._token) {
+                return this._token.profile;
+            }
+        }
+    });
     Object.defineProperty(this, "id_token", {
         get: function () {
             if (this._token) {
                 return this._token.id_token;
-            }
-        }
-    });
-    Object.defineProperty(this, "id_token_jwt", {
-        get: function () {
-            if (this._token) {
-                return this._token.id_token_jwt;
             }
         }
     });
@@ -431,9 +436,9 @@ TokenManager.prototype.redirectForToken = function () {
 
 TokenManager.prototype.redirectForLogout = function () {
     var oidc = new OidcClient(this._settings);
-    var id_token_jwt = this.id_token_jwt;
+    var id_token = this.id_token;
     this.removeToken();
-    oidc.redirectForLogout(id_token_jwt);
+    oidc.redirectForLogout(id_token);
 }
 
 TokenManager.prototype.createTokenRequestAsync = function () {

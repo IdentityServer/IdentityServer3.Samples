@@ -84,17 +84,23 @@ function getJson(url, token) {
     return _httpRequest.getJSON(url, config);
 }
 
-var requestDataKey = "OidcClient.requestDataKey";
-
 function OidcClient(settings) {
     this._settings = settings || {};
+
+    if (!this._settings.request_state_key) {
+        this._settings.request_state_key = "OidcClient.request_state";
+    }
+
+    if (!this._settings.request_state_store) {
+        this._settings.request_state_store = window.localStorage;
+    }
 
     if (typeof this._settings.load_user_profile === 'undefined') {
         this._settings.load_user_profile = true;
     }
 
     if (this._settings.authority && this._settings.authority.indexOf('.well-known/openid-configuration') < 0) {
-        if (this._settings.authority[this._settings.authority.length - 1] != '/') {
+        if (this._settings.authority[this._settings.authority.length - 1] !== '/') {
             this._settings.authority += '/';
         }
         this._settings.authority += '.well-known/openid-configuration';
@@ -102,10 +108,6 @@ function OidcClient(settings) {
 
     if (!this._settings.response_type) {
         this._settings.response_type = "id_token token";
-    }
-
-    if (!this._settings.store) {
-        this._settings.store = window.localStorage;
     }
 
     Object.defineProperty(this, "isOidc", {
@@ -189,10 +191,9 @@ OidcClient.prototype.createTokenRequestAsync = function () {
     var settings = client._settings;
 
     return client.loadAuthorizationEndpoint().then(function (authorization_endpoint) {
-        var state = rand();
 
-        var url =
-            authorization_endpoint + "?state=" + encodeURIComponent(state);
+        var state = rand();
+        var url = authorization_endpoint + "?state=" + encodeURIComponent(state);
 
         if (client.isOidc) {
             var nonce = rand();
@@ -215,20 +216,20 @@ OidcClient.prototype.createTokenRequestAsync = function () {
             }
         });
 
-        var data = {
+        var request_state = {
             oidc: client.isOidc,
             oauth: client.isOAuth,
             state: state
         };
 
         if (nonce) {
-            data["nonce"] = nonce;
+            request_state["nonce"] = nonce;
         }
 
-        settings.store.setItem(requestDataKey, JSON.stringify(data));
+        settings.request_state_store.setItem(settings.request_state_key, JSON.stringify(request_state));
 
         return {
-            data: data,
+            request_state: request_state,
             url: url
         };
     });
@@ -267,7 +268,7 @@ OidcClient.prototype.loadX509SigningKeyAsync = function () {
         }
 
         var key = jwks.keys[0];
-        if (key.kty != "RSA") {
+        if (key.kty !== "RSA") {
             return error("Signing key not RSA");
         }
 
@@ -296,7 +297,7 @@ OidcClient.prototype.loadX509SigningKeyAsync = function () {
     });
 };
 
-OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce, access_token) {
+OidcClient.prototype.validateIdTokenAsync = function (id_token, nonce, access_token) {
     log("OidcClient.validateIdTokenAsync");
 
     var client = this;
@@ -305,44 +306,44 @@ OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce, access_token) 
     return client.loadX509SigningKeyAsync().then(function (cert) {
 
         var jws = new KJUR.jws.JWS();
-        if (jws.verifyJWSByPemX509Cert(jwt, cert)) {
-            var id_token = JSON.parse(jws.parsedJWS.payloadS);
+        if (jws.verifyJWSByPemX509Cert(id_token, cert)) {
+            var id_token_contents = JSON.parse(jws.parsedJWS.payloadS);
 
-            if (nonce !== id_token.nonce) {
+            if (nonce !== id_token_contents.nonce) {
                 return error("Invalid nonce");
             }
 
             return client.loadMetadataAsync().then(function (metadata) {
 
-                if (id_token.iss !== metadata.issuer) {
+                if (id_token_contents.iss !== metadata.issuer) {
                     return error("Invalid issuer");
                 }
 
-                if (id_token.aud !== settings.client_id) {
+                if (id_token_contents.aud !== settings.client_id) {
                     return error("Invalid audience");
                 }
 
                 var now = parseInt(Date.now() / 1000);
 
                 // accept tokens issues up to 5 mins ago
-                var diff = now - id_token.iat;
+                var diff = now - id_token_contents.iat;
                 if (diff > (5 * 60)) {
                     return error("Token issued too long ago");
                 }
 
-                if (id_token.exp < now) {
+                if (id_token_contents.exp < now) {
                     return error("Token expired");
                 }
 
                 if (access_token && settings.load_user_profile) {
                     // if we have an access token, then call user info endpoint
-                    return client.loadUserProfile(access_token, id_token).then(function (id_token) {
-                        return id_token;
+                    return client.loadUserProfile(access_token, id_token_contents).then(function (claims) {
+                        return claims;
                     });
                 }
                 else {
                     // no access token, so we have all our claims
-                    return id_token;
+                    return id_token_contents;
                 }
 
             });
@@ -355,10 +356,10 @@ OidcClient.prototype.validateIdTokenAsync = function (jwt, nonce, access_token) 
 
 };
 
-OidcClient.prototype.validateAccessTokenAsync = function (id_token, access_token) {
+OidcClient.prototype.validateAccessTokenAsync = function (id_token_contents, access_token) {
     log("OidcClient.validateAccessTokenAsync");
 
-    if (!id_token.at_hash) {
+    if (!id_token_contents.at_hash) {
         return error("No at_hash in id_token");
     }
 
@@ -366,7 +367,7 @@ OidcClient.prototype.validateAccessTokenAsync = function (id_token, access_token
     var left = hash.substr(0, hash.length / 2);
     var left_b64u = hextob64u(left);
 
-    if (left_b64u !== id_token.at_hash) {
+    if (left_b64u !== id_token_contents.at_hash) {
         return error("at_hash failed to validate");
     }
 
@@ -390,16 +391,16 @@ OidcClient.prototype.loadUserProfile = function (access_token, id_token) {
     });
 }
 
-OidcClient.prototype.validateIdTokenAndAccessTokenAsync = function (id_token_jwt, nonce, access_token) {
+OidcClient.prototype.validateIdTokenAndAccessTokenAsync = function (id_token, nonce, access_token) {
     log("OidcClient.validateIdTokenAndAccessTokenAsync");
 
     var client = this;
 
-    return client.validateIdTokenAsync(id_token_jwt, nonce, access_token).then(function (id_token) {
+    return client.validateIdTokenAsync(id_token, nonce, access_token).then(function (id_token_contents) {
 
-        return client.validateAccessTokenAsync(id_token, access_token).then(function () {
+        return client.validateAccessTokenAsync(id_token_contents, access_token).then(function () {
 
-            return id_token;
+            return id_token_contents;
 
         });
 
@@ -412,19 +413,19 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
     var client = this;
     var settings = client._settings;
 
-    var data = settings.store.getItem(requestDataKey);
-    settings.store.removeItem(requestDataKey);
+    var request_state = settings.request_state_store.getItem(settings.request_state_key);
+    settings.request_state_store.removeItem(settings.request_state_key);
 
-    if (!data) {
+    if (!request_state) {
         return error("No request state loaded");
     }
 
-    data = JSON.parse(data);
-    if (!data) {
+    request_state = JSON.parse(request_state);
+    if (!request_state) {
         return error("No request state loaded");
     }
 
-    if (!data.state) {
+    if (!request_state.state) {
         return error("No state loaded");
     }
 
@@ -437,21 +438,21 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
         return error(result.error);
     }
 
-    if (result.state !== data.state) {
+    if (result.state !== request_state.state) {
         return error("Invalid state");
     }
 
-    if (data.oidc) {
+    if (request_state.oidc) {
         if (!result.id_token) {
             return error("No identity token");
         }
 
-        if (!data.nonce) {
+        if (!request_state.nonce) {
             return error("No nonce loaded");
         }
     }
 
-    if (data.oauth) {
+    if (request_state.oauth) {
         if (!result.access_token) {
             return error("No access token");
         }
@@ -466,17 +467,24 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
     }
 
     var promise = _promiseFactory.resolve();
-    if (data.oidc && data.oauth) {
-        promise = client.validateIdTokenAndAccessTokenAsync(result.id_token, data.nonce, result.access_token);
+    if (request_state.oidc && request_state.oauth) {
+        promise = client.validateIdTokenAndAccessTokenAsync(result.id_token, request_state.nonce, result.access_token);
     }
-    else if (data.oidc) {
-        promise = client.validateIdTokenAsync(result.id_token, data.nonce);
+    else if (request_state.oidc) {
+        promise = client.validateIdTokenAsync(result.id_token, request_state.nonce);
     }
 
-    return promise.then(function (id_token) {
+    return promise.then(function (profile) {
+        if (profile) {
+            var remove = ["nonce", "at_hash", "iat", "nbf", "exp", "aud", "iss", "idp"];
+            remove.forEach(function (key) {
+                delete profile[key];
+            });
+        }
+
         return {
-            id_token: id_token,
-            id_token_jwt: result.id_token,
+            profile: profile,
+            id_token: result.id_token,
             access_token: result.access_token,
             expires_in: result.expires_in,
             scope: result.scope
