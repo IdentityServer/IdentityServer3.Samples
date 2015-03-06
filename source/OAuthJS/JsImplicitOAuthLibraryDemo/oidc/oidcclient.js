@@ -478,7 +478,8 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
             id_token: result.id_token,
             access_token: result.access_token,
             expires_in: result.expires_in,
-            scope: result.scope
+            scope: result.scope,
+            session_state : result.session_state
         };
     });
 }

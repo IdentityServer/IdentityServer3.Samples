@@ -26,6 +26,7 @@
                 silent_renew : true
             };
             var mgr = new TokenManager(config);
+            window.mgr = mgr;
 
             if (!mgr.expired) {
                 console.log("Token loaded, expires in: ", mgr.expires_in);

@@ -626,7 +626,8 @@ OidcClient.prototype.readResponseAsync = function (queryString) {
             id_token: result.id_token,
             access_token: result.access_token,
             expires_in: result.expires_in,
-            scope: result.scope
+            scope: result.scope,
+            session_state : result.session_state
         };
     });
 }
@@ -676,6 +677,8 @@ function Token(other) {
         else {
             throw Error("Either access_token or id_token required.");
         }
+        this.scopes = (other.scope || "").split(" ");
+        this.session_state = other.session_state;
     }
     else {
         this.expires_at = 0;
@@ -694,8 +697,6 @@ function Token(other) {
             return this.expires_at - now;
         }
     });
-
-    this.scopes = (other.scope || "").split(" ");
 }
 
 Token.fromResponse = function (response) {
@@ -724,7 +725,8 @@ Token.prototype.toJSON = function () {
         id_token: this.id_token,
         access_token: this.access_token,
         expires_at: this.expires_at,
-        scope: this.scopes.join(" ")
+        scope: this.scopes.join(" "),
+        session_state: this.session_state
     });
 }
 
@@ -943,6 +945,13 @@ function TokenManager(settings) {
                 return [].concat(this._token.scopes);
             }
             return [];
+        }
+    });
+    Object.defineProperty(this, "session_state", {
+        get: function () {
+            if (this._token) {
+                return this._token.session_state;
+            }
         }
     });
 
