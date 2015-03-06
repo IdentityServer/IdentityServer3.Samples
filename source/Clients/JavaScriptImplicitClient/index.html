@@ -86,10 +86,11 @@
 
             // we're not using these in this sample
             silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/silent_renew.html",
-            //silent_renew: true
+            //silent_renew: true,
+            filter_protocol_claims:false
         };
 
-        var mgr = new TokenManager(config);
+        var mgr = new OidcTokenManager(config);
 
         mgr.addOnTokenObtained(function () {
             console.log("token obtained");
@@ -110,8 +111,9 @@
         }
 
         function showTokens() {
-            display("#id-token", mgr.id_token || "");
-            display("#access-token", mgr.access_token && {access_token:mgr.access_token, expires_in:mgr.expires_in} || "");
+            display("#id-token", mgr.profile || "");
+            display("#access-token", mgr.access_token && { access_token: mgr.access_token, expires_in: mgr.expires_in } || "");
+            checkSessionState();
         }
         showTokens();
 
@@ -124,10 +126,8 @@
                     return result;
                 }, {});
                 display("#response", result);
+
                 showTokens();
-                if (result.session_state) {
-                    enableSessionState(result.session_state);
-                }
             }, function (error) {
                 display("#response", error.message && { error: error.message } || error);
             });
@@ -187,14 +187,17 @@
         document.querySelector(".call").addEventListener("click", callApi, false);
         document.querySelector(".logout").addEventListener("click", logout, false);
 
-        function enableSessionState(sessionState) {
-            mgr.getMetadataAsync().then(function (meta) {
-                if (meta.check_session_iframe) {
+        function checkSessionState() {
+            mgr.oidcClient.loadMetadataAsync().then(function (meta) {
+                if (meta.check_session_iframe && mgr.session_state) {
                     document.getElementById("rp").src = "check_session.html#" + 
-                        "session_state=" + sessionState +
+                        "session_state=" + mgr.session_state +
                         "&check_session_iframe=" + meta.check_session_iframe +
                         "&client_id=" + config.client_id
                     ;
+                }
+                else {
+                    document.getElementById("rp").src = "about:blank";
                 }
             });
         }
