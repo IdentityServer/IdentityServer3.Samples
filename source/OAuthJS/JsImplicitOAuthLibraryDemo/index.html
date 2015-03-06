@@ -23,7 +23,7 @@
                 scope: "openid profile email read write",
                 authority: "https://localhost:44333/core",
                 silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/frame.html",
-                silent_renew : true
+                silent_renew: true
             };
             var mgr = new TokenManager(config);
             window.mgr = mgr;

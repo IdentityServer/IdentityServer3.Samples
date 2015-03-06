@@ -251,6 +251,8 @@ function TokenManager(settings) {
     this._settings.store = this._settings.store || window.localStorage;
     this._settings.persistKey = this._settings.persistKey || "TokenManager.token";
 
+    this.oidcClient = new OidcClient(this._settings);
+
     this._callbacks = {
         tokenRemovedCallbacks: [],
         tokenExpiringCallbacks: [],
@@ -438,7 +440,7 @@ TokenManager.prototype.removeToken = function () {
 }
 
 TokenManager.prototype.redirectForToken = function () {
-    var oidc = new OidcClient(this._settings);
+    var oidc = this.oidcClient;
     oidc.createTokenRequestAsync().then(function (request) {
         window.location = request.url;
     }, function (err) {
@@ -447,21 +449,18 @@ TokenManager.prototype.redirectForToken = function () {
 }
 
 TokenManager.prototype.redirectForLogout = function () {
-    var oidc = new OidcClient(this._settings);
-    var id_token = this.id_token;
-    this.removeToken();
-    oidc.redirectForLogout(id_token);
-}
-
-TokenManager.prototype.createTokenRequestAsync = function () {
-    var oidc = new OidcClient(this._settings);
-    return oidc.createTokenRequestAsync();
+    var mgr = this;
+    mgr.oidcClient.createLogoutRequestAsync(mgr.id_token).then(function (url) {
+        mgr.removeToken();
+        window.location = url;
+    }, function (err) {
+        console.error("TokenManager.redirectForLogout error: " + (err && err.message || err || ""));
+    });
 }
 
 TokenManager.prototype.processTokenCallbackAsync = function (queryString) {
     var mgr = this;
-    var oidc = new OidcClient(mgr._settings);
-    return oidc.processResponseAsync(queryString).then(function (token) {
+    return mgr.oidcClient.processResponseAsync(queryString).then(function (token) {
         mgr.saveToken(token);
     });
 }
@@ -495,9 +494,4 @@ TokenManager.prototype.processTokenCallbackSilent = function (hash) {
             window.top.postMessage(hash, location.protocol + "//" + location.host);
         }
     }
-}
-
-TokenManager.prototype.getMetadataAsync = function (hash) {
-    var oidc = new OidcClient(this._settings);
-    return oidc.loadMetadataAsync();
 }

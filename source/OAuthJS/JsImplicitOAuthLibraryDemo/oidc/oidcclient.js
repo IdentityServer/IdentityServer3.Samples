@@ -94,6 +94,10 @@ function OidcClient(settings) {
         this._settings.load_user_profile = true;
     }
 
+    if (typeof this._settings.filter_user_profile === 'undefined') {
+        this._settings.filter_user_profile = true;
+    }
+
     if (this._settings.authority && this._settings.authority.indexOf('.well-known/openid-configuration') < 0) {
         if (this._settings.authority[this._settings.authority.length - 1] !== '/') {
             this._settings.authority += '/';
@@ -129,26 +133,6 @@ function OidcClient(settings) {
         }
     });
 }
-
-OidcClient.prototype.redirectForLogout = function (id_token_hint) {
-    log("OidcClient.redirectForLogout");
-
-    var settings = this._settings;
-    this.loadMetadataAsync().then(function (metadata) {
-        if (!metadata.end_session_endpoint) {
-            console.error("No end_session_endpoint in metadata");
-        }
-        var url = metadata.end_session_endpoint;
-        if (id_token_hint && settings.post_logout_redirect_uri) {
-            url += "?post_logout_redirect_uri=" + settings.post_logout_redirect_uri;
-            url += "&id_token_hint=" + id_token_hint;
-        }
-        window.location = url;
-    }, function (err) {
-        console.error(err);
-    });
-}
-
 
 OidcClient.prototype.loadMetadataAsync = function () {
     log("OidcClient.loadMetadataAsync");
@@ -293,6 +277,24 @@ OidcClient.prototype.createTokenRequestAsync = function () {
             request_state: request_state,
             url: url
         };
+    });
+}
+
+OidcClient.prototype.createLogoutRequestAsync = function (id_token_hint) {
+    log("OidcClient.createLogoutRequestAsync");
+
+    var settings = this._settings;
+    return this.loadMetadataAsync().then(function (metadata) {
+        if (!metadata.end_session_endpoint) {
+            return error("No end_session_endpoint in metadata");
+        }
+
+        var url = metadata.end_session_endpoint;
+        if (id_token_hint && settings.post_logout_redirect_uri) {
+            url += "?post_logout_redirect_uri=" + settings.post_logout_redirect_uri;
+            url += "&id_token_hint=" + id_token_hint;
+        }
+        return url;
     });
 }
 
@@ -457,7 +459,7 @@ OidcClient.prototype.processResponseAsync = function (queryString) {
     }
 
     return promise.then(function (profile) {
-        if (profile) {
+        if (profile && settings.filter_user_profile) {
             var remove = ["nonce", "at_hash", "iat", "nbf", "exp", "aud", "iss", "idp"];
             remove.forEach(function (key) {
                 delete profile[key];
