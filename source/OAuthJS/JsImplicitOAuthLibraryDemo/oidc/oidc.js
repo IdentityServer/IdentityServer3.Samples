@@ -278,16 +278,6 @@ function OidcClient(settings) {
     });
 }
 
-OidcClient.prototype.redirectForToken = function () {
-    log("OidcClient.redirectForToken");
-
-    this.createTokenRequestAsync().then(function (request) {
-        window.location = request.url;
-    }, function (err) {
-        console.error(err);
-    });
-}
-
 OidcClient.prototype.redirectForLogout = function (id_token_hint) {
     log("OidcClient.redirectForLogout");
 
@@ -307,76 +297,6 @@ OidcClient.prototype.redirectForLogout = function (id_token_hint) {
     });
 }
 
-OidcClient.prototype.loadAuthorizationEndpoint = function () {
-    log("OidcClient.loadAuthorizationEndpoint");
-
-    if (this._settings.authorization_endpoint) {
-        return _promiseFactory.resolve(this._settings.authorization_endpoint);
-    }
-
-    if (!this._settings.authority) {
-        return error("No authorization_endpoint configured");
-    }
-
-    return this.loadMetadataAsync().then(function (metadata) {
-        if (!metadata.authorization_endpoint) {
-            return error("Metadata does not contain authorization_endpoint");
-        }
-
-        return metadata.authorization_endpoint;
-    });
-};
-
-OidcClient.prototype.createTokenRequestAsync = function () {
-    log("OidcClient.createTokenRequestAsync");
-
-    var client = this;
-    var settings = client._settings;
-
-    return client.loadAuthorizationEndpoint().then(function (authorization_endpoint) {
-
-        var state = rand();
-        var url = authorization_endpoint + "?state=" + encodeURIComponent(state);
-
-        if (client.isOidc) {
-            var nonce = rand();
-            url += "&nonce=" + encodeURIComponent(nonce);
-        }
-
-        var required = ["client_id", "redirect_uri", "response_type", "scope"];
-        required.forEach(function (key) {
-            var value = settings[key];
-            if (value) {
-                url += "&" + key + "=" + encodeURIComponent(value);
-            }
-        });
-
-        var optional = ["prompt", "display", "max_age", "ui_locales", "id_token_hint", "login_hint", "acr_values"];
-        optional.forEach(function (key) {
-            var value = settings[key];
-            if (value) {
-                url += "&" + key + "=" + encodeURIComponent(value);
-            }
-        });
-
-        var request_state = {
-            oidc: client.isOidc,
-            oauth: client.isOAuth,
-            state: state
-        };
-
-        if (nonce) {
-            request_state["nonce"] = nonce;
-        }
-
-        settings.request_state_store.setItem(settings.request_state_key, JSON.stringify(request_state));
-
-        return {
-            request_state: request_state,
-            url: url
-        };
-    });
-}
 
 OidcClient.prototype.loadMetadataAsync = function () {
     log("OidcClient.loadMetadataAsync");
@@ -450,6 +370,77 @@ OidcClient.prototype.loadUserProfile = function (access_token) {
         }
 
         return getJson(metadata.userinfo_endpoint, access_token);
+    });
+}
+
+OidcClient.prototype.loadAuthorizationEndpoint = function () {
+    log("OidcClient.loadAuthorizationEndpoint");
+
+    if (this._settings.authorization_endpoint) {
+        return _promiseFactory.resolve(this._settings.authorization_endpoint);
+    }
+
+    if (!this._settings.authority) {
+        return error("No authorization_endpoint configured");
+    }
+
+    return this.loadMetadataAsync().then(function (metadata) {
+        if (!metadata.authorization_endpoint) {
+            return error("Metadata does not contain authorization_endpoint");
+        }
+
+        return metadata.authorization_endpoint;
+    });
+};
+
+OidcClient.prototype.createTokenRequestAsync = function () {
+    log("OidcClient.createTokenRequestAsync");
+
+    var client = this;
+    var settings = client._settings;
+
+    return client.loadAuthorizationEndpoint().then(function (authorization_endpoint) {
+
+        var state = rand();
+        var url = authorization_endpoint + "?state=" + encodeURIComponent(state);
+
+        if (client.isOidc) {
+            var nonce = rand();
+            url += "&nonce=" + encodeURIComponent(nonce);
+        }
+
+        var required = ["client_id", "redirect_uri", "response_type", "scope"];
+        required.forEach(function (key) {
+            var value = settings[key];
+            if (value) {
+                url += "&" + key + "=" + encodeURIComponent(value);
+            }
+        });
+
+        var optional = ["prompt", "display", "max_age", "ui_locales", "id_token_hint", "login_hint", "acr_values"];
+        optional.forEach(function (key) {
+            var value = settings[key];
+            if (value) {
+                url += "&" + key + "=" + encodeURIComponent(value);
+            }
+        });
+
+        var request_state = {
+            oidc: client.isOidc,
+            oauth: client.isOAuth,
+            state: state
+        };
+
+        if (nonce) {
+            request_state["nonce"] = nonce;
+        }
+
+        settings.request_state_store.setItem(settings.request_state_key, JSON.stringify(request_state));
+
+        return {
+            request_state: request_state,
+            url: url
+        };
     });
 }
 
@@ -546,8 +537,8 @@ OidcClient.prototype.validateIdTokenAndAccessTokenAsync = function (id_token, no
     });
 }
 
-OidcClient.prototype.readResponseAsync = function (queryString) {
-    log("OidcClient.readResponseAsync");
+OidcClient.prototype.processResponseAsync = function (queryString) {
+    log("OidcClient.processResponseAsync");
 
     var client = this;
     var settings = client._settings;
@@ -1074,7 +1065,11 @@ TokenManager.prototype.removeToken = function () {
 
 TokenManager.prototype.redirectForToken = function () {
     var oidc = new OidcClient(this._settings);
-    oidc.redirectForToken();
+    oidc.createTokenRequestAsync().then(function (request) {
+        window.location = request.url;
+    }, function (err) {
+        console.error(err);
+    });
 }
 
 TokenManager.prototype.redirectForLogout = function () {
@@ -1092,7 +1087,7 @@ TokenManager.prototype.createTokenRequestAsync = function () {
 TokenManager.prototype.processTokenCallbackAsync = function (queryString) {
     var mgr = this;
     var oidc = new OidcClient(mgr._settings);
-    return oidc.readResponseAsync(queryString).then(function (token) {
+    return oidc.processResponseAsync(queryString).then(function (token) {
         mgr.saveToken(token);
     });
 }
@@ -1112,7 +1107,7 @@ TokenManager.prototype.renewTokenSilentAsync = function () {
     return oidc.createTokenRequestAsync().then(function (request) {
         var frame = new FrameLoader(request.url);
         return frame.loadAsync().then(function (hash) {
-            return oidc.readResponseAsync(hash).then(function (token) {
+            return oidc.processResponseAsync(hash).then(function (token) {
                 mgr.saveToken(token);
             });
         });

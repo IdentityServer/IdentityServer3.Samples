@@ -439,7 +439,11 @@ TokenManager.prototype.removeToken = function () {
 
 TokenManager.prototype.redirectForToken = function () {
     var oidc = new OidcClient(this._settings);
-    oidc.redirectForToken();
+    oidc.createTokenRequestAsync().then(function (request) {
+        window.location = request.url;
+    }, function (err) {
+        console.error(err);
+    });
 }
 
 TokenManager.prototype.redirectForLogout = function () {
@@ -457,7 +461,7 @@ TokenManager.prototype.createTokenRequestAsync = function () {
 TokenManager.prototype.processTokenCallbackAsync = function (queryString) {
     var mgr = this;
     var oidc = new OidcClient(mgr._settings);
-    return oidc.readResponseAsync(queryString).then(function (token) {
+    return oidc.processResponseAsync(queryString).then(function (token) {
         mgr.saveToken(token);
     });
 }
@@ -477,7 +481,7 @@ TokenManager.prototype.renewTokenSilentAsync = function () {
     return oidc.createTokenRequestAsync().then(function (request) {
         var frame = new FrameLoader(request.url);
         return frame.loadAsync().then(function (hash) {
-            return oidc.readResponseAsync(hash).then(function (token) {
+            return oidc.processResponseAsync(hash).then(function (token) {
                 mgr.saveToken(token);
             });
         });
