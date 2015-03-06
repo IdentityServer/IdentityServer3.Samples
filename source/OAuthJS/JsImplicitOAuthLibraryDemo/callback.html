@@ -20,7 +20,7 @@
         mgr.processTokenCallbackAsync().then(function () {
             console.log("Successfully Obtained Token", mgr.access_token);
             $("#message").text("Successfully Obtained Token", mgr.access_token);
-            window.location = "/index.html";
+            window.location.replace("/index.html");
         }, function (error) {
             $("#message").text("Problem Getting Token : " + (error.message || error));
         });
