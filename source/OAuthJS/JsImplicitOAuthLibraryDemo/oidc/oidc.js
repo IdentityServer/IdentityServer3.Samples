@@ -242,8 +242,8 @@ function OidcClient(settings) {
         this._settings.load_user_profile = true;
     }
 
-    if (typeof this._settings.filter_user_profile === 'undefined') {
-        this._settings.filter_user_profile = true;
+    if (typeof this._settings.filter_protocol_claims === 'undefined') {
+        this._settings.filter_protocol_claims = true;
     }
 
     if (this._settings.authority && this._settings.authority.indexOf('.well-known/openid-configuration') < 0) {
@@ -607,7 +607,7 @@ OidcClient.prototype.processResponseAsync = function (queryString) {
     }
 
     return promise.then(function (profile) {
-        if (profile && settings.filter_user_profile) {
+        if (profile && settings.filter_protocol_claims) {
             var remove = ["nonce", "at_hash", "iat", "nbf", "exp", "aud", "iss", "idp"];
             remove.forEach(function (key) {
                 delete profile[key];
@@ -1126,6 +1126,7 @@ TokenManager.prototype.processTokenCallbackSilent = function (hash) {
 
 ///#source 1 1 iife-end.js
     // exports
-    window.TokenManager = TokenManager;
+    window.OidcClient = OidcClient;
+    window.OidcTokenManager = TokenManager;
 
 })();

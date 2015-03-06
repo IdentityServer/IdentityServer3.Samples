@@ -13,9 +13,9 @@
             client_id: "implicitclient",
             authority: "https://localhost:44333/core",
             //load_user_profile : false,
-            //filter_user_profile: false,
+            //filter_protocol_claims: false,
         };
-        var mgr = new TokenManager(config);
+        var mgr = new OidcTokenManager(config);
 
         mgr.processTokenCallbackAsync().then(function () {
             console.log("Successfully Obtained Token", mgr.access_token);

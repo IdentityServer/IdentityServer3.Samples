@@ -25,7 +25,7 @@
                 silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/frame.html",
                 silent_renew: true
             };
-            var mgr = new TokenManager(config);
+            var mgr = new OidcTokenManager(config);
             window.mgr = mgr;
 
             if (!mgr.expired) {
