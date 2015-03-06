@@ -291,8 +291,8 @@ OidcClient.prototype.createLogoutRequestAsync = function (id_token_hint) {
 
         var url = metadata.end_session_endpoint;
         if (id_token_hint && settings.post_logout_redirect_uri) {
-            url += "?post_logout_redirect_uri=" + settings.post_logout_redirect_uri;
-            url += "&id_token_hint=" + id_token_hint;
+            url += "?post_logout_redirect_uri=" + encodeURIComponent(settings.post_logout_redirect_uri);
+            url += "&id_token_hint=" + encodeURIComponent(id_token_hint);
         }
         return url;
     });

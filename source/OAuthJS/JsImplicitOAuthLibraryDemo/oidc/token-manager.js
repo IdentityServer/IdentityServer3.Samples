@@ -444,7 +444,7 @@ TokenManager.prototype.redirectForToken = function () {
     oidc.createTokenRequestAsync().then(function (request) {
         window.location = request.url;
     }, function (err) {
-        console.error(err);
+        console.error("TokenManager.redirectForToken error: " + (err && err.message || err || ""));
     });
 }
 
