@@ -86,13 +86,13 @@
     <Reference Include="Thinktecture.IdentityModel.Core">
       <HintPath>..\packages\Thinktecture.IdentityModel.Core.1.3.0\lib\net45\Thinktecture.IdentityModel.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Thinktecture.IdentityServer3, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Thinktecture.IdentityServer3, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.1.2.2-build00129\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.1.3.0-build00154\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer3.AspNetIdentity, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.AspNetIdentity.1.0.1-build00005\lib\net45\Thinktecture.IdentityServer3.AspNetIdentity.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.AspNetIdentity.1.0.1-build00006\lib\net45\Thinktecture.IdentityServer3.AspNetIdentity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

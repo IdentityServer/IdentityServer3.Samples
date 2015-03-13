@@ -14,7 +14,7 @@
             response_type: "id_token token",
             scope: "openid profile email read write",
         };
-        var mgr = new TokenManager(config);
+        var mgr = new OidcTokenManager(config);
         if (!window.location.hash) {
             mgr.redirectForToken();
         }

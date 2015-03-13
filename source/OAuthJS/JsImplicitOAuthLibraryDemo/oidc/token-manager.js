@@ -28,18 +28,25 @@ var _httpRequest = new DefaultHttpRequest();
  */
 var _promiseFactory = new DefaultPromiseFactory();
 
-function Token(id_token, id_token_jwt, access_token, expires_at, scope) {
-    this.id_token = id_token;
-    this.id_token_jwt = id_token_jwt;
-    this.access_token = access_token;
-    if (access_token) {
-        this.expires_at = parseInt(expires_at);
-    }
-    else if (id_token) {
-        this.expires_at = id_token.exp;
+function Token(other) {
+    if (other) {
+        this.profile = other.profile;
+        this.id_token = other.id_token;
+        this.access_token = other.access_token;
+        if (other.access_token) {
+            this.expires_at = parseInt(other.expires_at);
+        }
+        else if (other.id_token) {
+            this.expires_at = other.profile.exp;
+        }
+        else {
+            throw Error("Either access_token or id_token required.");
+        }
+        this.scopes = (other.scope || "").split(" ");
+        this.session_state = other.session_state;
     }
     else {
-        throw Error("Either access_token or id_token required.");
+        this.expires_at = 0;
     }
 
     Object.defineProperty(this, "expired", {
@@ -55,37 +62,36 @@ function Token(id_token, id_token_jwt, access_token, expires_at, scope) {
             return this.expires_at - now;
         }
     });
-
-    this.scopes = (scope || "").split(" ");
 }
 
 Token.fromResponse = function (response) {
     if (response.access_token) {
         var now = parseInt(Date.now() / 1000);
-        var expires_at = now + parseInt(response.expires_in);
+        response.expires_at = now + parseInt(response.expires_in);
     }
-    return new Token(response.id_token, response.id_token_jwt, response.access_token, expires_at, response.scope);
+    return new Token(response);
 }
 
 Token.fromJSON = function (json) {
     if (json) {
         try {
             var obj = JSON.parse(json);
-            return new Token(obj.id_token, obj.id_token_jwt, obj.access_token, obj.expires_at, obj.scope);
+            return new Token(obj);
         }
         catch (e) {
         }
     }
-    return new Token(null, 0, null);
+    return new Token(null);
 }
 
 Token.prototype.toJSON = function () {
     return JSON.stringify({
+        profile: this.profile,
         id_token: this.id_token,
-        id_token_jwt: this.id_token_jwt,
         access_token: this.access_token,
         expires_at: this.expires_at,
-        scope: this.scopes.join(" ")
+        scope: this.scopes.join(" "),
+        session_state: this.session_state
     });
 }
 
@@ -245,6 +251,8 @@ function TokenManager(settings) {
     this._settings.store = this._settings.store || window.localStorage;
     this._settings.persistKey = this._settings.persistKey || "TokenManager.token";
 
+    this.oidcClient = new OidcClient(this._settings);
+
     this._callbacks = {
         tokenRemovedCallbacks: [],
         tokenExpiringCallbacks: [],
@@ -253,17 +261,17 @@ function TokenManager(settings) {
         silentTokenRenewFailedCallbacks: []
     };
 
+    Object.defineProperty(this, "profile", {
+        get: function () {
+            if (this._token) {
+                return this._token.profile;
+            }
+        }
+    });
     Object.defineProperty(this, "id_token", {
         get: function () {
             if (this._token) {
                 return this._token.id_token;
-            }
-        }
-    });
-    Object.defineProperty(this, "id_token_jwt", {
-        get: function () {
-            if (this._token) {
-                return this._token.id_token_jwt;
             }
         }
     });
@@ -304,6 +312,13 @@ function TokenManager(settings) {
                 return [].concat(this._token.scopes);
             }
             return [];
+        }
+    });
+    Object.defineProperty(this, "session_state", {
+        get: function () {
+            if (this._token) {
+                return this._token.session_state;
+            }
         }
     });
 
@@ -425,26 +440,27 @@ TokenManager.prototype.removeToken = function () {
 }
 
 TokenManager.prototype.redirectForToken = function () {
-    var oidc = new OidcClient(this._settings);
-    oidc.redirectForToken();
+    var oidc = this.oidcClient;
+    oidc.createTokenRequestAsync().then(function (request) {
+        window.location = request.url;
+    }, function (err) {
+        console.error("TokenManager.redirectForToken error: " + (err && err.message || err || ""));
+    });
 }
 
 TokenManager.prototype.redirectForLogout = function () {
-    var oidc = new OidcClient(this._settings);
-    var id_token_jwt = this.id_token_jwt;
-    this.removeToken();
-    oidc.redirectForLogout(id_token_jwt);
-}
-
-TokenManager.prototype.createTokenRequestAsync = function () {
-    var oidc = new OidcClient(this._settings);
-    return oidc.createTokenRequestAsync();
+    var mgr = this;
+    mgr.oidcClient.createLogoutRequestAsync(mgr.id_token).then(function (url) {
+        mgr.removeToken();
+        window.location = url;
+    }, function (err) {
+        console.error("TokenManager.redirectForLogout error: " + (err && err.message || err || ""));
+    });
 }
 
 TokenManager.prototype.processTokenCallbackAsync = function (queryString) {
     var mgr = this;
-    var oidc = new OidcClient(mgr._settings);
-    return oidc.readResponseAsync(queryString).then(function (token) {
+    return mgr.oidcClient.processResponseAsync(queryString).then(function (token) {
         mgr.saveToken(token);
     });
 }
@@ -464,7 +480,7 @@ TokenManager.prototype.renewTokenSilentAsync = function () {
     return oidc.createTokenRequestAsync().then(function (request) {
         var frame = new FrameLoader(request.url);
         return frame.loadAsync().then(function (hash) {
-            return oidc.readResponseAsync(hash).then(function (token) {
+            return oidc.processResponseAsync(hash).then(function (token) {
                 mgr.saveToken(token);
             });
         });
@@ -478,9 +494,4 @@ TokenManager.prototype.processTokenCallbackSilent = function (hash) {
             window.top.postMessage(hash, location.protocol + "//" + location.host);
         }
     }
-}
-
-TokenManager.prototype.getMetadataAsync = function (hash) {
-    var oidc = new OidcClient(this._settings);
-    return oidc.loadMetadataAsync();
 }
