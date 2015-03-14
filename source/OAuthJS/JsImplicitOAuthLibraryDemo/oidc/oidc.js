@@ -1116,10 +1116,10 @@ TokenManager.prototype.renewTokenSilentAsync = function () {
 }
 
 TokenManager.prototype.processTokenCallbackSilent = function (hash) {
-    if (window.top && window !== window.top) {
+    if (window.parent && window !== window.parent) {
         var hash = hash || window.location.hash;
         if (hash) {
-            window.top.postMessage(hash, location.protocol + "//" + location.host);
+            window.parent.postMessage(hash, location.protocol + "//" + location.host);
         }
     }
 }
