@@ -1,4 +1,5 @@
 ﻿    // exports
-    window.TokenManager = TokenManager;
+    window.OidcClient = OidcClient;
+    window.OidcTokenManager = TokenManager;
 
 })();

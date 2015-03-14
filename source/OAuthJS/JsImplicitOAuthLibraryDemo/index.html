@@ -23,13 +23,14 @@
                 scope: "openid profile email read write",
                 authority: "https://localhost:44333/core",
                 silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/frame.html",
-                silent_renew : true
+                silent_renew: true
             };
-            var mgr = new TokenManager(config);
+            var mgr = new OidcTokenManager(config);
+            window.mgr = mgr;
 
             if (!mgr.expired) {
                 console.log("Token loaded, expires in: ", mgr.expires_in);
-                console.log("id_token", mgr.id_token);
+                console.log("profile", mgr.profile);
                 console.log("access_token", !!mgr.access_token);
             }
             else {
