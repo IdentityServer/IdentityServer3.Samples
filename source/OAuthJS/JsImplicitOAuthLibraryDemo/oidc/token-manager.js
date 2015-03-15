@@ -109,7 +109,6 @@ FrameLoader.prototype.loadAsync = function (url) {
     return _promiseFactory.create(function (resolve, reject) {
         var frame = window.document.createElement("iframe");
         frame.style.display = "none";
-        frame.src = url;
 
         function cleanup() {
             window.removeEventListener("message", message, false);
@@ -135,6 +134,7 @@ FrameLoader.prototype.loadAsync = function (url) {
         var handle = window.setTimeout(cancel, 5000);
         window.addEventListener("message", message, false);
         window.document.body.appendChild(frame);
+        frame.src = url;
     });
 }
 
@@ -488,10 +488,10 @@ TokenManager.prototype.renewTokenSilentAsync = function () {
 }
 
 TokenManager.prototype.processTokenCallbackSilent = function (hash) {
-    if (window.top && window !== window.top) {
+    if (window.parent && window !== window.parent) {
         var hash = hash || window.location.hash;
         if (hash) {
-            window.top.postMessage(hash, location.protocol + "//" + location.host);
+            window.parent.postMessage(hash, location.protocol + "//" + location.host);
         }
     }
 }
