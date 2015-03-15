@@ -737,7 +737,6 @@ FrameLoader.prototype.loadAsync = function (url) {
     return _promiseFactory.create(function (resolve, reject) {
         var frame = window.document.createElement("iframe");
         frame.style.display = "none";
-        frame.src = url;
 
         function cleanup() {
             window.removeEventListener("message", message, false);
@@ -763,6 +762,7 @@ FrameLoader.prototype.loadAsync = function (url) {
         var handle = window.setTimeout(cancel, 5000);
         window.addEventListener("message", message, false);
         window.document.body.appendChild(frame);
+        frame.src = url;
     });
 }
 
