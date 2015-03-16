@@ -1,2 +1,0 @@
-Embedded Assets View Service
-======================================
