@@ -18,8 +18,8 @@ using Microsoft.Owin.Security.Twitter;
  */
 using Owin;
 using SelfHost.IdSvr;
-using Thinktecture.IdentityManager;
-using Thinktecture.IdentityManager.Configuration;
+using IdentityManager;
+using IdentityManager.Configuration;
 using Thinktecture.IdentityServer.Core.Configuration;
 using SelfHost.IdMgr;
 

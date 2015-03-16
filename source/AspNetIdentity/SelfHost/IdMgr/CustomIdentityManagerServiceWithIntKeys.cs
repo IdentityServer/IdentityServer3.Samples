@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Thinktecture.IdentityManager;
-using Thinktecture.IdentityManager.AspNetIdentity;
-using Thinktecture.IdentityManager.Configuration;
+using IdentityManager;
+using IdentityManager.AspNetIdentity;
+using IdentityManager.Configuration;
 
 namespace SelfHost.IdMgr
 {
