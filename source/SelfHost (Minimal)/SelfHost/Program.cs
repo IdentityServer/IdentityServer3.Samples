@@ -1,6 +1,6 @@
-﻿using Microsoft.Owin.Hosting;
+﻿using IdentityServer3.Core.Logging;
+using Microsoft.Owin.Hosting;
 using System;
-using Thinktecture.IdentityServer.Core.Logging;
 
 namespace SelfHost
 {
