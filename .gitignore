@@ -5,6 +5,7 @@
 *.suo
 *.user
 *.sln.docstates
+*.sln.GhostDoc.xml
 
 # Build results
 
