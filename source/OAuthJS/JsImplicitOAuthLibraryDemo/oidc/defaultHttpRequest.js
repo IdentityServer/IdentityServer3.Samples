@@ -33,27 +33,40 @@ function DefaultHttpRequest() {
 
             try {
                 var xhr = new XMLHttpRequest();
-                xhr.open("GET", url);
-                xhr.responseType = "json";
 
-                if (config) {
-                    if (config.headers) {
-                        setHeaders(xhr, config.headers);
+                if ("withCredentials" in xhr) {
+                    // XHR for Chrome/Firefox/Opera/Safari.
+                    xhr.responseType = "json";
+                    if (config) {
+                        if (config.headers) {
+                            setHeaders(xhr, config.headers);
+                        }
                     }
                 }
+                else if (typeof XDomainRequest != "undefined") {
+                    // XDomainRequest for IE.
+                    xhr = new XDomainRequest();
+                }
+                
+                xhr.open("GET", url);
 
                 xhr.onload = function () {
                     try {
+                        var response = null;
                         if (xhr.status === 200) {
-                            var response = xhr.response;
-                            if (typeof response === "string") {
-                                response = JSON.parse(response);
-                            }
-                            resolve(response);
+                            response = xhr.response;
+                        }
+                        else if (typeof xhr.responseText != "undefined") {
+                            response = xhr.responseText;
                         }
                         else {
                             reject(Error(xhr.statusText + "(" + xhr.status + ")"));
                         }
+
+                        if (typeof response === "string") {
+                            response = JSON.parse(response);
+                        }
+                        resolve(response);
                     }
                     catch (err) {
                         reject(err);
