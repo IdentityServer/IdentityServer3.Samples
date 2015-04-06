@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Services.Default;
-using Thinktecture.IdentityServer.Core.Services.InMemory;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Services.Default;
+using IdentityServer3.Core.Services.InMemory;
 
 namespace SelfHost
 {

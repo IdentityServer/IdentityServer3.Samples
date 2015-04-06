@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Thinktecture.IdentityServer.Core.Models;
+using IdentityServer3.Core.Models;
 
-namespace Thinktecture.IdentityServer.Host.Config
+namespace IdentityServer.Host.Config
 {
     public class Clients
     {
@@ -15,18 +15,18 @@ namespace Thinktecture.IdentityServer.Host.Config
                     Enabled = true,
 
                     ClientId = "client",
-                    ClientSecrets = new List<ClientSecret>
+                    ClientSecrets = new List<Secret>
                     {
-                        new ClientSecret("secret".Sha256()),
+                        new Secret("secret".Sha256()),
                     },
                     
                     Flow = Flows.Custom,
-                    CustomGrantTypeRestrictions = new List<string>
+                    AllowedCustomGrantTypes = new List<string>
                     {
                         "custom"
                     },
                     
-                    ScopeRestrictions = new List<string>
+                    AllowedScopes = new List<string>
                     { 
                         "read",
                         "write",

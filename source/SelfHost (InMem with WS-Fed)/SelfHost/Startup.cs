@@ -1,12 +1,12 @@
 ﻿using Owin;
 using SelfHost.Config;
 using System.Collections.Generic;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Services.InMemory;
-using Thinktecture.IdentityServer.Host.Config;
-using Thinktecture.IdentityServer.WsFederation.Configuration;
-using Thinktecture.IdentityServer.WsFederation.Models;
-using Thinktecture.IdentityServer.WsFederation.Services;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Services.InMemory;
+using IdentityServer3.Host.Config;
+using IdentityServer3.WsFederation.Configuration;
+using IdentityServer3.WsFederation.Models;
+using IdentityServer3.WsFederation.Services;
 
 namespace SelfHost
 {
@@ -21,8 +21,7 @@ namespace SelfHost
 
             var options = new IdentityServerOptions
             {
-                IssuerUri = "https://idsrv3.com",
-                SiteName = "Thinktecture IdentityServer3 - WsFed",
+                SiteName = "IdentityServer3 - WsFed",
 
                 SigningCertificate = Certificate.Get(),
                 Factory = factory,

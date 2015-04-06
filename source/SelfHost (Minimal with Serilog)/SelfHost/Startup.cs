@@ -1,10 +1,10 @@
 ﻿using Owin;
 using SelfHost.Config;
 using Serilog;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Logging;
-using Thinktecture.IdentityServer.Core.Logging.LogProviders;
-using Thinktecture.IdentityServer.Host.Config;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Logging;
+using IdentityServer3.Core.Logging.LogProviders;
+using IdentityServer3.Host.Config;
 
 namespace SelfHost
 {
@@ -26,8 +26,7 @@ namespace SelfHost
 
             var options = new IdentityServerOptions
             {
-                IssuerUri = "https://idsrv3.com",
-                SiteName = "Thinktecture IdentityServer3 (self host)",
+                SiteName = "IdentityServer3 (self host)",
 
                 SigningCertificate = Certificate.Get(),
                 Factory = factory,

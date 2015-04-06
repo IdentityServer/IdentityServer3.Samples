@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Services.InMemory;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Services.InMemory;
 
 namespace SelfHost.Config
 {

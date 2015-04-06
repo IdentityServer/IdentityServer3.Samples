@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Models;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Models;
 
 namespace SampleApp.Config
 {

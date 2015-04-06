@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
 using Configuration;
-using Thinktecture.IdentityServer.Core.Configuration;
+using IdentityServer3.Core.Configuration;
 
 [assembly: OwinStartup(typeof(WebHost.Startup))]
 

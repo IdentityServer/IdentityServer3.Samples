@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Models;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Models;
 
-namespace Thinktecture.IdentityServer.Host.Config
+namespace IdentityServer3.Host.Config
 {
     public class Scopes
     {

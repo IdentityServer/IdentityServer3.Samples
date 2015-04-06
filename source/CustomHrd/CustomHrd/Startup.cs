@@ -3,9 +3,10 @@ using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.Twitter;
 using Owin;
 using SampleApp.Config;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Logging;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Logging;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Services.Default;
 
 namespace SampleApp
 {
@@ -22,14 +23,14 @@ namespace SampleApp
                     scopes: Scopes.Get());
 
                 factory.UserService = new Registration<IUserService, HrdUserService>();
+                factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
 
                 var options = new IdentityServerOptions
                 {
-                    SiteName = "Thinktecture IdentityServer3 - Custom HRD",
+                    SiteName = "IdentityServer3 - Custom HRD",
 
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
-                    CorsPolicy = CorsPolicy.AllowAll,
                     
                     AuthenticationOptions = new AuthenticationOptions
                     {

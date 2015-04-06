@@ -44,7 +44,7 @@ namespace WebHost
 
                 var options = new IdentityServerOptions
                 {
-                    SiteName = "Thinktecture IdentityServer3 - AspNetIdentity 2FA",
+                    SiteName = "IdentityServer3 - AspNetIdentity 2FA",
                     SigningCertificate = Certificate.Get(),
                     Factory = idSvrFactory,
                 };

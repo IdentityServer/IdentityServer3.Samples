@@ -6,8 +6,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Extensions;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Extensions;
 
 namespace SampleApp.Controllers
 {

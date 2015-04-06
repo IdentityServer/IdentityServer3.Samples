@@ -15,7 +15,6 @@ namespace SelfHost
 
             var options = new IdentityServerOptions
             {
-                IssuerUri = "https://idsrv3.com",
                 SiteName = "IdentityServer3 (self host)",
 
                 SigningCertificate = Certificate.Get(),

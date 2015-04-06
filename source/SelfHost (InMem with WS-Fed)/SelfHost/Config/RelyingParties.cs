@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
-using Thinktecture.IdentityServer.WsFederation.Models;
+using IdentityServer3.WsFederation.Models;
 
 namespace SelfHost.Config
 {
