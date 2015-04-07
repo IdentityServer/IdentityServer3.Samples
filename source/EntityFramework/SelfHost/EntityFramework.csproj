@@ -95,6 +95,10 @@
     <Compile Include="Migrations\ClientConfiguration\201502272058115_v1_2_0.Designer.cs">
       <DependentUpon>201502272058115_v1_2_0.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\ClientConfiguration\201504070205330_v2_0_0.cs" />
+    <Compile Include="Migrations\ClientConfiguration\201504070205330_v2_0_0.Designer.cs">
+      <DependentUpon>201504070205330_v2_0_0.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ClientConfiguration\Configuration.cs" />
     <Compile Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.cs" />
     <Compile Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.Designer.cs">
@@ -116,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ClientConfiguration\201502272058115_v1_2_0.resx">
       <DependentUpon>201502272058115_v1_2_0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ClientConfiguration\201504070205330_v2_0_0.resx">
+      <DependentUpon>201504070205330_v2_0_0.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.resx">
       <DependentUpon>201502141840136_InitialCreate.cs</DependentUpon>
