@@ -48,6 +48,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="IdentityServer3">
+      <HintPath>..\packages\IdentityServer3.2.0.0-build00019\lib\net45\IdentityServer3.dll</HintPath>
+    </Reference>
+    <Reference Include="IdentityServer3.EntityFramework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.EntityFramework.1.2.1-build00018\lib\net45\IdentityServer3.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
@@ -73,14 +80,6 @@
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.identitymodel.services" />
     <Reference Include="System.Web" />
-    <Reference Include="Thinktecture.IdentityServer3, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.1.2.2-build00129\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
-    </Reference>
-    <Reference Include="Thinktecture.IdentityServer3.EntityFramework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.EntityFramework.1.2.1-build00009\lib\net45\Thinktecture.IdentityServer3.EntityFramework.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\Certificate.cs" />
@@ -96,15 +95,27 @@
     <Compile Include="Migrations\ClientConfiguration\201502272058115_v1_2_0.Designer.cs">
       <DependentUpon>201502272058115_v1_2_0.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\ClientConfiguration\201504070205330_v2_0_0.cs" />
+    <Compile Include="Migrations\ClientConfiguration\201504070205330_v2_0_0.Designer.cs">
+      <DependentUpon>201504070205330_v2_0_0.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ClientConfiguration\Configuration.cs" />
     <Compile Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.cs" />
     <Compile Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.Designer.cs">
       <DependentUpon>201502141840136_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\OperationalConfiguration\201504070214592_v2_0_0.cs" />
+    <Compile Include="Migrations\OperationalConfiguration\201504070214592_v2_0_0.Designer.cs">
+      <DependentUpon>201504070214592_v2_0_0.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\OperationalConfiguration\Configuration.cs" />
     <Compile Include="Migrations\ScopeConfiguration\201502141840088_InitialCreate.cs" />
     <Compile Include="Migrations\ScopeConfiguration\201502141840088_InitialCreate.Designer.cs">
       <DependentUpon>201502141840088_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ScopeConfiguration\201504070215165_v2_0_0.cs" />
+    <Compile Include="Migrations\ScopeConfiguration\201504070215165_v2_0_0.Designer.cs">
+      <DependentUpon>201504070215165_v2_0_0.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ScopeConfiguration\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -118,15 +129,26 @@
     <EmbeddedResource Include="Migrations\ClientConfiguration\201502272058115_v1_2_0.resx">
       <DependentUpon>201502272058115_v1_2_0.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ClientConfiguration\201504070205330_v2_0_0.resx">
+      <DependentUpon>201504070205330_v2_0_0.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.resx">
       <DependentUpon>201502141840136_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\OperationalConfiguration\201504070214592_v2_0_0.resx">
+      <DependentUpon>201504070214592_v2_0_0.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ScopeConfiguration\201502141840088_InitialCreate.resx">
       <DependentUpon>201502141840088_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ScopeConfiguration\201504070215165_v2_0_0.resx">
+      <DependentUpon>201504070215165_v2_0_0.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.config" />
     <EmbeddedResource Include="Config\idsrv3test.pfx" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
