@@ -18,8 +18,8 @@ using Microsoft.Owin.Security.Twitter;
  */
 using Owin;
 using SelfHost.IdSvr;
-using Thinktecture.IdentityManager.Configuration;
-using Thinktecture.IdentityServer.Core.Configuration;
+using IdentityManager.Configuration;
+using IdentityServer3.Core.Configuration;
 using SelfHost.IdMgr;
 
 namespace SelfHost
@@ -51,7 +51,6 @@ namespace SelfHost
                 
                 SigningCertificate = Certificate.Get(),
                 Factory = idSvrFactory,
-                CorsPolicy = CorsPolicy.AllowAll,
                 AuthenticationOptions = new AuthenticationOptions{
                     IdentityProviders = ConfigureAdditionalIdentityProviders,
                 }

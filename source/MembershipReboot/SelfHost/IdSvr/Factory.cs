@@ -19,9 +19,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Services.InMemory;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Services.InMemory;
+using IdentityServer3.Core.Services.Default;
 
 namespace SelfHost.IdSvr
 {
@@ -36,6 +37,8 @@ namespace SelfHost.IdSvr
             
             var clientStore = new InMemoryClientStore(Clients.Get());
             factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
+
+            factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
 
             return factory;
         }

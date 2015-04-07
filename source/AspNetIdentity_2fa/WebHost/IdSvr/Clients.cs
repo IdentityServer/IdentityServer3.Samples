@@ -1,22 +1,8 @@
-﻿/*
- * Copyright 2014 Dominick Baier, Brock Allen
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Models;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Extensions;
+using IdentityServer3.Core.Models;
 
 namespace WebHost.IdSvr
 {
@@ -31,8 +17,8 @@ namespace WebHost.IdSvr
                     ClientName = "Code Flow Clients",
                     Enabled = true,
                     ClientId = "codeclient",
-                    ClientSecrets = new List<ClientSecret>{
-                        new ClientSecret("secret".Sha256())
+                    ClientSecrets = new List<Secret> {
+                        new Secret("secret".Sha256())
                     },
                     Flow = Flows.AuthorizationCode,
                     
@@ -48,15 +34,14 @@ namespace WebHost.IdSvr
                         "https://localhost:44320/oidccallback",
                         
                         // MVC code client manual
-                        "https://localhost:44312/callback"
+                        "https://localhost:44312/callback",
                     },
                     
-                    ScopeRestrictions = new List<string>
+                    AllowedScopes = new List<string>
                     { 
                         Constants.StandardScopes.OpenId,
                         Constants.StandardScopes.Profile,
                         Constants.StandardScopes.Email,
-                        Constants.StandardScopes.OfflineAccess,
                         "read",
                         "write"
                     },
@@ -74,8 +59,8 @@ namespace WebHost.IdSvr
                     ClientName = "Implicit Clients",
                     Enabled = true,
                     ClientId = "implicitclient",
-                    ClientSecrets = new List<ClientSecret>{
-                        new ClientSecret("secret".Sha256())
+                    ClientSecrets = new List<Secret> {
+                        new Secret("secret".Sha256())
                     },
                     Flow = Flows.Implicit,
                     
@@ -100,7 +85,7 @@ namespace WebHost.IdSvr
                         "http://localhost:2671/",
                     },
                     
-                    ScopeRestrictions = new List<string>
+                    AllowedScopes = new List<string>
                     { 
                         Constants.StandardScopes.OpenId,
                         Constants.StandardScopes.Profile,
@@ -120,9 +105,12 @@ namespace WebHost.IdSvr
                     ClientName = "Client Credentials Flow Client",
                     Enabled = true,
                     ClientId = "client",
+                    ClientSecrets = new List<Secret> {
+                        new Secret("secret".Sha256())
+                    },
                     Flow = Flows.ClientCredentials,
                     
-                    ScopeRestrictions = new List<string>
+                    AllowedScopes = new List<string>
                     { 
                         "read",
                         "write"
@@ -136,14 +124,13 @@ namespace WebHost.IdSvr
                     ClientName = "Resource Owner Flow Client",
                     Enabled = true,
                     ClientId = "roclient",
-                    ClientSecrets = new List<ClientSecret>{
-                        new ClientSecret("secret".Sha256())
+                    ClientSecrets = new List<Secret> {
+                        new Secret("secret".Sha256())
                     },
                     Flow = Flows.ResourceOwner,
                     
-                    ScopeRestrictions = new List<string>
+                    AllowedScopes = new List<string>
                     { 
-                        Constants.StandardScopes.OfflineAccess,
                         "read",
                         "write"
                     },

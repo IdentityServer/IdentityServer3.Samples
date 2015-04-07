@@ -1,7 +1,4 @@
-﻿using Microsoft.Owin.Security.Facebook;
-using Microsoft.Owin.Security.Google;
-using Microsoft.Owin.Security.Twitter;
-/*
+﻿/*
  * Copyright 2014 Dominick Baier, Brock Allen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +17,11 @@ using Owin;
 using SelfHost.IdSvr;
 using IdentityManager;
 using IdentityManager.Configuration;
-using Thinktecture.IdentityServer.Core.Configuration;
+using IdentityServer3.Core.Configuration;
 using SelfHost.IdMgr;
+using Microsoft.Owin.Security.Facebook;
+using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.Twitter;
 
 namespace SelfHost
 {
@@ -50,7 +50,6 @@ namespace SelfHost
                 SiteName = "IdentityServer3 - UserService-AspNetIdentity",
                 SigningCertificate = Certificate.Get(),
                 Factory = idSvrFactory,
-                CorsPolicy = CorsPolicy.AllowAll,
                 AuthenticationOptions = new AuthenticationOptions
                 {
                     IdentityProviders = ConfigureAdditionalIdentityProviders,

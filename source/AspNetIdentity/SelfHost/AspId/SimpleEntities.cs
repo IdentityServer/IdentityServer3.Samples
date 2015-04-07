@@ -60,9 +60,9 @@ namespace SelfHost.AspId
     {
         public ClaimsFactory()
         {
-            this.UserIdClaimType = Thinktecture.IdentityServer.Core.Constants.ClaimTypes.Subject;
-            this.UserNameClaimType = Thinktecture.IdentityServer.Core.Constants.ClaimTypes.PreferredUserName;
-            this.RoleClaimType = Thinktecture.IdentityServer.Core.Constants.ClaimTypes.Role;
+            this.UserIdClaimType = IdentityServer3.Core.Constants.ClaimTypes.Subject;
+            this.UserNameClaimType = IdentityServer3.Core.Constants.ClaimTypes.PreferredUserName;
+            this.RoleClaimType = IdentityServer3.Core.Constants.ClaimTypes.Role;
         }
 
         public override async System.Threading.Tasks.Task<System.Security.Claims.ClaimsIdentity> CreateAsync(UserManager<User, string> manager, User user, string authenticationType)

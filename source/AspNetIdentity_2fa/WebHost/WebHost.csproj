@@ -44,6 +44,22 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="IdentityManager, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityManager.1.0.0-beta4-1\lib\net45\IdentityManager.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdentityManager.AspNetIdentity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityManager.AspNetIdentity.1.0.0-beta4-2\lib\net45\IdentityManager.AspNetIdentity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdentityServer3, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.2.0.0-build00019\lib\net45\IdentityServer3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdentityServer3.AspNetIdentity, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.AspNetIdentity.1.0.1-build00014\lib\net45\IdentityServer3.AspNetIdentity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -77,22 +93,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="Thinktecture.IdentityManager">
-      <HintPath>..\packages\Thinktecture.IdentityManager.1.0.0-pre-10013\lib\net45\Thinktecture.IdentityManager.dll</HintPath>
-    </Reference>
-    <Reference Include="Thinktecture.IdentityManager.AspNetIdentity">
-      <HintPath>..\packages\Thinktecture.IdentityManager.AspNetIdentity.1.0.0-pre-10021\lib\net45\Thinktecture.IdentityManager.AspNetIdentity.dll</HintPath>
-    </Reference>
     <Reference Include="Thinktecture.IdentityModel.Core">
       <HintPath>..\packages\Thinktecture.IdentityModel.Core.1.3.0\lib\net45\Thinktecture.IdentityModel.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Thinktecture.IdentityServer3, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.1.3.0-build00154\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
-    </Reference>
-    <Reference Include="Thinktecture.IdentityServer3.AspNetIdentity, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.AspNetIdentity.1.0.1-build00006\lib\net45\Thinktecture.IdentityServer3.AspNetIdentity.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

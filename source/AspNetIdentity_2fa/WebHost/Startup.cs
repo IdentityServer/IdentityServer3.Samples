@@ -15,9 +15,9 @@
  */
 
 using WebHost.IdSvr;
-using Thinktecture.IdentityManager;
-using Thinktecture.IdentityManager.Configuration;
-using Thinktecture.IdentityServer.Core.Configuration;
+using IdentityManager;
+using IdentityManager.Configuration;
+using IdentityServer3.Core.Configuration;
 using WebHost.IdMgr;
 using Owin;
 

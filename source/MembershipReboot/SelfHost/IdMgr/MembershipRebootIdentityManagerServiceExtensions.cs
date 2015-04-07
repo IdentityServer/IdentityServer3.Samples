@@ -23,9 +23,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using Thinktecture.IdentityManager;
-using Thinktecture.IdentityManager.Configuration;
-using Thinktecture.IdentityManager.MembershipReboot;
+using IdentityManager;
+using IdentityManager.Configuration;
+using IdentityManager.MembershipReboot;
 
 namespace SelfHost.IdMgr
 {

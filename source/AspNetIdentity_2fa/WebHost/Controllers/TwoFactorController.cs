@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Thinktecture.IdentityServer.Core;
+using IdentityServer3.Core;
 using WebHost.AspId;
 
 namespace WebHost.Controllers

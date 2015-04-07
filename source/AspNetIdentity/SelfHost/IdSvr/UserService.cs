@@ -20,9 +20,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Thinktecture.IdentityServer.AspNetIdentity;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.AspNetIdentity;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Services;
 
 namespace SelfHost.IdSvr
 {
