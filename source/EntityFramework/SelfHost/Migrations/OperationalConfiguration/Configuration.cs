@@ -5,7 +5,7 @@ namespace SelfHost.Migrations.OperationalConfiguration
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Thinktecture.IdentityServer.EntityFramework.OperationalDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<IdentityServer3.EntityFramework.OperationalDbContext>
     {
         public Configuration()
         {
@@ -13,7 +13,7 @@ namespace SelfHost.Migrations.OperationalConfiguration
             MigrationsDirectory = @"Migrations\OperationalConfiguration";
         }
 
-        protected override void Seed(Thinktecture.IdentityServer.EntityFramework.OperationalDbContext context)
+        protected override void Seed(IdentityServer3.EntityFramework.OperationalDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 
