@@ -21,7 +21,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Services;
-using IdentityServer3.MembershipReboot;
+using SelfHost.IdentityServer3.MembershipReboot;
 
 namespace SelfHost.IdSvr
 {
