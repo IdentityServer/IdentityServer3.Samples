@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
+using IdSvr3 = IdentityServer3.Core;
 
 namespace SelfHost.AspId
 {
@@ -60,9 +61,9 @@ namespace SelfHost.AspId
     {
         public ClaimsFactory()
         {
-            this.UserIdClaimType = IdentityServer3.Core.Constants.ClaimTypes.Subject;
-            this.UserNameClaimType = IdentityServer3.Core.Constants.ClaimTypes.PreferredUserName;
-            this.RoleClaimType = IdentityServer3.Core.Constants.ClaimTypes.Role;
+            this.UserIdClaimType = IdSvr3.Constants.ClaimTypes.Subject;
+            this.UserNameClaimType = IdSvr3.Constants.ClaimTypes.PreferredUserName;
+            this.RoleClaimType = IdSvr3.Constants.ClaimTypes.Role;
         }
 
         public override async System.Threading.Tasks.Task<System.Security.Claims.ClaimsIdentity> CreateAsync(UserManager<User, string> manager, User user, string authenticationType)
