@@ -45,7 +45,7 @@ namespace WebHost.IdSvr
         {
         }
 
-        protected override async Task<IdentityServer3.Core.Models.AuthenticateResult> PostAuthenticateLocalAsync(User user, SignInMessage message)
+        protected override async Task<AuthenticateResult> PostAuthenticateLocalAsync(User user, SignInMessage message)
         {
             if (base.userManager.SupportsUserTwoFactor)
             {
