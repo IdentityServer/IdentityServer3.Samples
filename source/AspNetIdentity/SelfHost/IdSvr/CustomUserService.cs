@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IdentityServer3.AspNetIdentity;
+using SelfHost.IdentityServer3.AspNetIdentity;
 using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Services;
 
