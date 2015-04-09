@@ -398,8 +398,7 @@ OidcClient.prototype.processResponseAsync = function (queryString) {
     var settings = client._settings;
 
     var request_state = settings.request_state_store.getItem(settings.request_state_key);
-    settings.request_state_store.removeItem(settings.request_state_key);
-
+    
     if (!request_state) {
         return error("No request state loaded");
     }
@@ -425,6 +424,8 @@ OidcClient.prototype.processResponseAsync = function (queryString) {
     if (result.state !== request_state.state) {
         return error("Invalid state");
     }
+
+    settings.request_state_store.removeItem(settings.request_state_key);
 
     if (request_state.oidc) {
         if (!result.id_token) {
