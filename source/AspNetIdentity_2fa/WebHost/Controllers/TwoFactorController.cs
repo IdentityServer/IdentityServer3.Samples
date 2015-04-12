@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using IdentityServer3.Core;
 using WebHost.AspId;
+using IdentityServer3.Core.Extensions;
+using System.Security.Claims;
 
 namespace WebHost.Controllers
 {
@@ -35,20 +37,28 @@ namespace WebHost.Controllers
         public async Task<ActionResult> Index(string code)
         {
             var ctx = Request.GetOwinContext();
-            var authentication = await ctx.Authentication.AuthenticateAsync(Constants.PartialSignInAuthenticationType);
-            if (authentication == null)
+            var user = await ctx.Environment.GetIdentityServerPartialLogin();
+
+            if (user == null)
             {
                 return View("Error");
             }
 
-            var id = authentication.Identity.Claims.Single(x => x.Type == Constants.ClaimTypes.Subject).Value;
+            var id = user.FindFirst("sub").Value;
             if (!(await this.userMgr.VerifyTwoFactorTokenAsync(id, "sms", code)))
             {
                 ViewData["message"] = "Incorrect code";
                 return View("Index");
             }
 
-            var resumeUrl = authentication.Identity.Claims.Single(x => x.Type == Constants.ClaimTypes.PartialLoginReturnUrl).Value;
+            var resumeUrl = user.FindFirst(Constants.ClaimTypes.PartialLoginReturnUrl).Value;
+            var newUser = new ClaimsIdentity(user.AuthenticationType);
+
+            var claims = user.Claims.Where(c => c.Type != "amr").ToList();
+            claims.Add(new Claim("amr", "2fa"));
+            newUser.AddClaims(claims);
+
+            Request.GetOwinContext().Authentication.SignIn(newUser);
             return Redirect(resumeUrl);
         }
     }
