@@ -12,5 +12,6 @@
         public const string TokenRevocationEndpoint = BaseAddress + "/connect/revocation";
 
         public const string AspNetWebApiSampleApi = "http://localhost:2727/";
+        public const string SampleWCFApi = "http://localhost:2728/Service1.svc";
     }
 }
