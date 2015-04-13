@@ -24,13 +24,20 @@ namespace ConsoleResourceOwnerClient
 
             Console.ReadLine();
 
+            var refresh_token = response.RefreshToken;
+
             while (true)
             {
-                response = RefreshToken(response.RefreshToken);
+                response = RefreshToken(refresh_token);
                 ShowResponse(response);
 
                 Console.ReadLine();
                 CallService(response.AccessToken);
+
+                if (response.RefreshToken != refresh_token)
+                {
+                    refresh_token = response.RefreshToken;
+                }
             }
         }
 
@@ -42,6 +49,8 @@ namespace ConsoleResourceOwnerClient
 
         private static TokenResponse RefreshToken(string refreshToken)
         {
+            Console.WriteLine("Using refresh token: {0}", refreshToken);
+
             return _oauth2.RequestRefreshTokenAsync(refreshToken).Result;
         }
 
