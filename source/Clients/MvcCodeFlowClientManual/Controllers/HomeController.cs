@@ -1,9 +1,9 @@
-﻿using Sample;
+﻿using IdentityModel.Client;
+using Sample;
 using System;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
-using Thinktecture.IdentityModel.Client;
 
 namespace MvcCodeFlowClientManual.Controllers
 {

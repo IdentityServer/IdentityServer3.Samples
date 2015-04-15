@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel.Client;
+using IdentityModel.Extensions;
+using Newtonsoft.Json.Linq;
 using Sample;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Thinktecture.IdentityModel.Client;
 
 namespace MvcCodeFlowClientManual.Controllers
 {

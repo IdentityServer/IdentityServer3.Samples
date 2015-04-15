@@ -1,13 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel;
+using IdentityModel.Client;
+using IdentityModel.Extensions;
+using Newtonsoft.Json.Linq;
 using Sample;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
-using Thinktecture.IdentityModel.Client;
-using Thinktecture.IdentityModel.Extensions;
 
 namespace CustomGrantClient
 {

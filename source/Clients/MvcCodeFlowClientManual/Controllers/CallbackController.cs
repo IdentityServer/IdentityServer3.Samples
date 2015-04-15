@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel;
+using IdentityModel.Client;
+using IdentityModel.Extensions;
+using Newtonsoft.Json.Linq;
 using Sample;
 using System;
 using System.Collections.Generic;
@@ -10,7 +13,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Thinktecture.IdentityModel.Client;
 
 namespace MvcCodeFlowClientManual.Controllers
 {

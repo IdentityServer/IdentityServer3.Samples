@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using IdentityModel.Client;
+using System;
 using System.Threading.Tasks;
-using Thinktecture.IdentityModel.Client;
 using Windows.Security.Authentication.Web;
 
-namespace Thinktecture.IdentityModel.WinRT
+namespace IdentityModel.WinRT
 {
     public static class WebAuthentication
     {

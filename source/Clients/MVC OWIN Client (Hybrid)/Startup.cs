@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Protocols;
+﻿using IdentityModel;
+using IdentityModel.Client;
+using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -10,8 +12,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Claims;
-using Thinktecture.IdentityModel;
-using Thinktecture.IdentityModel.Client;
 
 [assembly: OwinStartup(typeof(MVC_OWIN_Client.Startup))]
 

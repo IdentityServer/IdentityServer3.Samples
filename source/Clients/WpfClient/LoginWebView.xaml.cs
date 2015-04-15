@@ -1,7 +1,7 @@
-﻿using System;
+﻿using IdentityModel.Client;
+using System;
 using System.Windows;
 using System.Windows.Navigation;
-using Thinktecture.IdentityModel.Client;
 
 namespace Thinktecture.Samples
 {

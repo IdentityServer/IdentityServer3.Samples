@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel.Client;
+using Newtonsoft.Json.Linq;
 using Sample;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Windows;
-using Thinktecture.IdentityModel.Client;
 using Thinktecture.Samples;
 
 namespace WpfClient
