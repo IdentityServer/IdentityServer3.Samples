@@ -22,17 +22,19 @@ namespace SampleWCFApiHost
             //           c.Value
             //       };
 
-            var claims = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity).Claims;
+            //var claims = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity).Claims;
 
-            string result = "";
-            foreach (Claim claim in claims)
-            {
-                result += "Claim Type: " + claim.Type.ToString();
-                result += ", Claim Value: " + claim.Value.ToString();
-                result += "\n\r";
-            }
+            //string result = "";
+            //foreach (Claim claim in claims)
+            //{
+            //    result += "Claim Type: " + claim.Type.ToString();
+            //    result += ", Claim Value: " + claim.Value.ToString();
+            //    result += "\n\r";
+            //}
 
-            return string.Format("Claims: {0}", result);
+            //return string.Format("Claims: {0}", result);
+
+            return "Hola";
         }
     }
 }

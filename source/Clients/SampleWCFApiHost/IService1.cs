@@ -11,7 +11,7 @@ namespace SampleWCFApiHost
     [ServiceContract]
     public interface IService1
     {
-        [OperationContract]
+        [OperationContract(ProtectionLevel = System.Net.Security.ProtectionLevel.None)]
         string GetIdentityData();
     }
 }
