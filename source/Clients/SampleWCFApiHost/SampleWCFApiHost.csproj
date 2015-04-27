@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.IdentityModel">
+      <HintPath>..\packages\Microsoft.IdentityModel.6.1.7600.16394\lib\net35\Microsoft.IdentityModel.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -57,13 +60,26 @@
   <ItemGroup>
     <Compile Include="Config\Certificate.cs" />
     <Compile Include="CustomJwtSecurityTokenHandler.cs" />
+    <Compile Include="CustomToken\Constants.cs" />
+    <Compile Include="CustomToken\CustomTokenClientCredentialsSecurityManager.cs" />
+    <Compile Include="CustomToken\CustomSecurityTokenSerializer.cs" />
+    <Compile Include="CustomToken\CustomServiceCredentialsSecurityTokenManager.cs" />
+    <Compile Include="CustomToken\CustomToken.cs" />
+    <Compile Include="CustomToken\CustomTokenAuthenticator.cs" />
+    <Compile Include="CustomToken\CustomTokenAuthorizationPolicy.cs" />
+    <Compile Include="CustomToken\CustomTokenClientCredentials.cs" />
+    <Compile Include="CustomToken\CustomTokenParameters.cs" />
+    <Compile Include="CustomToken\CustomTokenProvider.cs" />
+    <Compile Include="CustomToken\CustomTokenServiceCredentials.cs" />
     <Compile Include="IService1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service1.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="Config\idsrv3test.pfx" />
     <None Include="configuration\tracing.Debug.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

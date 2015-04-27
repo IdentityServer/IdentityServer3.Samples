@@ -1,16 +1,10 @@
 ﻿using SampleWCFApiHost.Config;
+using SampleWCFApiHost.CustomToken;
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Configuration;
-using System.IdentityModel.Tokens;
-using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
-using System.ServiceModel.Security;
 using System.ServiceModel.Security.Tokens;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SampleWCFApiHost
 {
@@ -18,12 +12,13 @@ namespace SampleWCFApiHost
     {
         static void Main(string[] args)
         {
-            //EndpointAddress addressHTTPS = new EndpointAddress("https://localhost:2728/Service1.svc");
+            EndpointAddress addressHTTPS = new EndpointAddress("https://localhost:2728/Service1.svc");
             EndpointAddress addressHTTP = new EndpointAddress("http://localhost:2729/Service1.svc");
 
-            using (var host = new ServiceHost(typeof(Service1), addressHTTP.Uri ) )
+            using (var host = new ServiceHost(typeof(Service1), new Uri[] { addressHTTPS.Uri, addressHTTP.Uri }))
             {
-                ConfigureForJWTToken(host, addressHTTP.Uri);
+                //ConfigureForJWTTokenS(host, addressHTTPS.Uri);
+                ConfigureForCustomBindingToken(host, addressHTTP.Uri);
 
                 //Adding metadata exchange endpoint
                 Binding mexBinding = MetadataExchangeBindings.CreateMexHttpBinding();                
@@ -37,6 +32,37 @@ namespace SampleWCFApiHost
                 host.Close();
             }
         }
+
+        private static void ConfigureForCustomBindingToken(ServiceHost host, Uri address)
+        {
+            // Create a service credentials and add it to the behaviors.
+            CustomTokenServiceCredentials serviceCredentials = new CustomTokenServiceCredentials();
+
+            serviceCredentials.ServiceCertificate.Certificate = Certificate.Get();
+            host.Description.Behaviors.Remove((typeof(ServiceCredentials)));
+            host.Description.Behaviors.Add(serviceCredentials);
+
+            // Register a binding for the endpoint.
+            Binding customBinding = CreateCustomTokenBinding();
+            host.AddServiceEndpoint(typeof(IService1), customBinding, string.Empty);
+        }
+
+        static Binding CreateCustomTokenBinding()
+        {
+            HttpTransportBindingElement httpTransport = new HttpTransportBindingElement();
+
+            // the message security binding element will be configured to require an AccessToken
+            // token that is encrypted with the service's certificate 
+            SymmetricSecurityBindingElement messageSecurity = new SymmetricSecurityBindingElement();
+            messageSecurity.EndpointSupportingTokenParameters.SignedEncrypted.Add(new CustomTokenParameters());
+
+            X509SecurityTokenParameters x509ProtectionParameters = new X509SecurityTokenParameters();
+            x509ProtectionParameters.InclusionMode = SecurityTokenInclusionMode.Never;
+            messageSecurity.ProtectionTokenParameters = x509ProtectionParameters;
+
+            return new CustomBinding(messageSecurity, httpTransport);
+        }
+
 
         //private static void ConfigureForCustomBinding(ServiceHost host, Uri address)
         //{
@@ -94,108 +120,132 @@ namespace SampleWCFApiHost
             
         //}
 
-        private static void ConfigureForJWTToken(ServiceHost host, Uri address)
-        {
-            // Extract the ServiceCredentials behavior or create one.
-            ServiceCredentials serviceCredentials = host.Description.Behaviors.Find<ServiceCredentials>();
-            if (serviceCredentials == null)
-            {
-                serviceCredentials = new ServiceCredentials();
-                host.Description.Behaviors.Add(serviceCredentials);
-            }
-
-            // Set the service certificate.
-            host.Credentials.ServiceCertificate.Certificate = Certificate.Get();
-            host.Credentials.UseIdentityConfiguration = true;
-
-            IdentityConfiguration idConfiguration = new IdentityConfiguration();
-
-            idConfiguration.SecurityTokenHandlers.Add(new CustomJwtSecurityTokenHandler.CustomJwtSecurityTokenHandler());            
-
-            host.Credentials.IdentityConfiguration = idConfiguration;
-
-            // Create the custom binding and add an endpoint to the service.
-            Binding customTokenBinging = CreateBindingForJWTToken();
-            host.AddServiceEndpoint(typeof(IService1), customTokenBinging, address);
-        }
-
-        static Binding CreateBindingForJWTToken()
-        {
-            HttpTransportBindingElement httpTransport = new HttpTransportBindingElement();
-
-            TransportSecurityBindingElement messageSecurity = new TransportSecurityBindingElement();
-
-            messageSecurity.AllowInsecureTransport = true;
-            messageSecurity.DefaultAlgorithmSuite = SecurityAlgorithmSuite.Default;
-            messageSecurity.IncludeTimestamp = true;
-            
-            IssuedSecurityTokenParameters issuerTokenParameters = new IssuedSecurityTokenParameters();
-
-            issuerTokenParameters.TokenType = "urn:ietf:params:oauth:token-type:jwt";
-
-            messageSecurity.EndpointSupportingTokenParameters.Signed.Add(issuerTokenParameters);
-
-            TextMessageEncodingBindingElement encodingElement = new TextMessageEncodingBindingElement(MessageVersion.Soap12, Encoding.UTF8);
-
-            return new CustomBinding(messageSecurity, encodingElement, httpTransport);
-        }
-
-        //static CustomBinding CreateBindingCustomBinding()
+        //private static void ConfigureForFederationJWTToken(ServiceHost host, Uri address)
         //{
-        //    System.ServiceModel.Channels.AsymmetricSecurityBindingElement asbe = new AsymmetricSecurityBindingElement();
-        //    asbe.MessageSecurityVersion = MessageSecurityVersion.WSSecurity11WSTrust13WSSecureConversation13WSSecurityPolicy12;
+        //    // Extract the ServiceCredentials behavior or create one.
+        //    ServiceCredentials serviceCredentials = host.Description.Behaviors.Find<ServiceCredentials>();
+        //    if (serviceCredentials == null)
+        //    {
+        //        serviceCredentials = new ServiceCredentials();
+        //        host.Description.Behaviors.Add(serviceCredentials);
+        //    }
 
-        //    //asbe.InitiatorTokenParameters = new System.ServiceModel.Security.Tokens.X509SecurityTokenParameters { InclusionMode = SecurityTokenInclusionMode.AlwaysToRecipient };
-        //    //asbe.RecipientTokenParameters = new System.ServiceModel.Security.Tokens.X509SecurityTokenParameters { InclusionMode = SecurityTokenInclusionMode.Never };
-        //    asbe.InitiatorTokenParameters = new System.ServiceModel.Security.Tokens.IssuedSecurityTokenParameters { InclusionMode = SecurityTokenInclusionMode.AlwaysToRecipient };
-        //    asbe.RecipientTokenParameters = new System.ServiceModel.Security.Tokens.IssuedSecurityTokenParameters { InclusionMode = SecurityTokenInclusionMode.Never };
-        //    asbe.MessageProtectionOrder = System.ServiceModel.Security.MessageProtectionOrder.SignBeforeEncrypt;
+        //    // Set the service certificate.
+        //    host.Credentials.ServiceCertificate.Certificate = Certificate.Get();
+        //    host.Credentials.UseIdentityConfiguration = true;
 
-        //    asbe.SecurityHeaderLayout = SecurityHeaderLayout.Strict;
-        //    asbe.EnableUnsecuredResponse = true;
-        //    asbe.IncludeTimestamp = false;
-        //    asbe.SetKeyDerivation(false);
-        //    asbe.DefaultAlgorithmSuite = System.ServiceModel.Security.SecurityAlgorithmSuite.Basic128Rsa15;
-        //    asbe.EndpointSupportingTokenParameters.Signed.Add(new IssuedSecurityTokenParameters());
+        //    IdentityConfiguration idConfiguration = new IdentityConfiguration();
 
-        //    CustomBinding myBinding = new CustomBinding();
-        //    myBinding.Elements.Add(asbe);
-        //    myBinding.Elements.Add(new TextMessageEncodingBindingElement(MessageVersion.Soap11, Encoding.UTF8));
+        //    idConfiguration.SecurityTokenHandlers.Add(new CustomJwtSecurityTokenHandler.CustomJwtSecurityTokenHandler());
 
-        //    HttpTransportBindingElement httpsBindingElement = new HttpTransportBindingElement();
-        //    myBinding.Elements.Add(httpsBindingElement);
+        //    host.Credentials.IdentityConfiguration = idConfiguration;
 
-        //    return myBinding;
+        //    // Create the custom binding and add an endpoint to the service.
+        //    var federatedTokenBinging = CreateFederationBindingForJWTToken();
+        //    host.AddServiceEndpoint(typeof(IService1), federatedTokenBinging, address);
         //}
 
-        //private static Binding CreateMultiFactorAuthenticationBinding()
+        //private static void ConfigureForJWTToken(ServiceHost host, Uri address)
+        //{
+        //    // Extract the ServiceCredentials behavior or create one.
+        //    ServiceCredentials serviceCredentials = host.Description.Behaviors.Find<ServiceCredentials>();
+        //    if (serviceCredentials == null)
+        //    {
+        //        serviceCredentials = new ServiceCredentials();
+        //        host.Description.Behaviors.Add(serviceCredentials);
+        //    }
+
+        //    // Set the service certificate.
+        //    host.Credentials.UseIdentityConfiguration = true;
+
+        //    IdentityConfiguration idConfiguration = new IdentityConfiguration();
+
+        //    idConfiguration.SecurityTokenHandlers.Add(new CustomJwtSecurityTokenHandler.CustomJwtSecurityTokenHandler());            
+
+        //    host.Credentials.IdentityConfiguration = idConfiguration;
+
+        //    // Create the custom binding and add an endpoint to the service.
+        //    Binding customTokenBinging = CreateBindingForJWTToken();
+        //    host.AddServiceEndpoint(typeof(IService1), customTokenBinging, address);
+        //}
+
+        //private static void ConfigureForJWTTokenS(ServiceHost host, Uri address)
+        //{
+        //    // Extract the ServiceCredentials behavior or create one.
+        //    ServiceCredentials serviceCredentials = host.Description.Behaviors.Find<ServiceCredentials>();
+        //    if (serviceCredentials == null)
+        //    {
+        //        serviceCredentials = new ServiceCredentials();
+        //        host.Description.Behaviors.Add(serviceCredentials);
+        //    }
+
+        //    // Set the service certificate.
+        //    host.Credentials.ServiceCertificate.Certificate = Certificate.Get();
+        //    host.Credentials.UseIdentityConfiguration = true;
+
+        //    IdentityConfiguration idConfiguration = new IdentityConfiguration();
+
+        //    idConfiguration.SecurityTokenHandlers.Add(new CustomJwtSecurityTokenHandler.CustomJwtSecurityTokenHandler());
+
+        //    host.Credentials.IdentityConfiguration = idConfiguration;
+
+        //    // Create the custom binding and add an endpoint to the service.
+        //    Binding customTokenBinging = CreateBindingForJWTTokenS();
+
+        //    host.AddServiceEndpoint(typeof(IService1), customTokenBinging, address);
+        //}
+
+        //static Binding CreateBindingForJWTToken()
         //{
         //    HttpTransportBindingElement httpTransport = new HttpTransportBindingElement();
+            
+        //    TransportSecurityBindingElement messageSecurity = new TransportSecurityBindingElement();
 
-        //    // the message security binding element will be configured to require 2 tokens:
-        //    // 1) A username-password encrypted with the service token
-        //    // 2) A client certificate used to sign the message
+        //    messageSecurity.AllowInsecureTransport = true;
+            
+        //    IssuedSecurityTokenParameters issuedTokenParameters = new IssuedSecurityTokenParameters();
+                        
+        //    issuedTokenParameters.TokenType = "urn:ietf:params:oauth:token-type:jwt";
 
-        //    // Instantiate a binding element that will require the username/password token in the message (encrypted with the server cert)
-        //    //SymmetricSecurityBindingElement messageSecurity = SecurityBindingElement.CreateUserNameForCertificateBindingElement();
+        //    messageSecurity.EndpointSupportingTokenParameters.Signed.Add(issuedTokenParameters);
 
+        //    TextMessageEncodingBindingElement encodingElement = new TextMessageEncodingBindingElement(MessageVersion.Soap12, Encoding.UTF8);
 
-        //    IssuedSecurityTokenParameters tokenParams = new IssuedSecurityTokenParameters();
-        //    tokenParams.DefaultMessageSecurityVersion = MessageSecurityVersion.Default;
+        //    var customBinding = new CustomBinding(messageSecurity, encodingElement, httpTransport);
 
-        //    SymmetricSecurityBindingElement messageSecurity = SecurityBindingElement.CreateIssuedTokenBindingElement(tokenParams);
+        //    return customBinding;
+        //}
 
-        //    // Create supporting token parameters for the client X509 certificate.
-        //    X509SecurityTokenParameters clientX509SupportingTokenParameters = new X509SecurityTokenParameters();
-        //    // Specify that the supporting token is passed in message send by the client to the service
-        //    clientX509SupportingTokenParameters.InclusionMode = SecurityTokenInclusionMode.AlwaysToRecipient;
-        //    // Turn off derived keys
-        //    clientX509SupportingTokenParameters.RequireDerivedKeys = false;
-        //    // Augment the binding element to require the client's X509 certificate as an endorsing token in the message
-        //    messageSecurity.EndpointSupportingTokenParameters.Endorsing.Add(clientX509SupportingTokenParameters);
+        //static Binding CreateBindingForJWTTokenS()
+        //{
+        //    HttpsTransportBindingElement httpsTransport = new HttpsTransportBindingElement();
 
-        //    // Create a CustomBinding based on the constructed security binding element.
-        //    return new CustomBinding(messageSecurity, httpTransport);
+        //    SymmetricSecurityBindingElement messageSecurity = new SymmetricSecurityBindingElement();
+
+        //    IssuedSecurityTokenParameters issuedTokenParameters = new IssuedSecurityTokenParameters();
+
+        //    issuedTokenParameters.TokenType = "urn:ietf:params:oauth:token-type:jwt";
+
+        //    messageSecurity.EndpointSupportingTokenParameters.Signed.Add(issuedTokenParameters);
+
+        //    TextMessageEncodingBindingElement encodingElement = new TextMessageEncodingBindingElement(MessageVersion.Soap12, Encoding.UTF8);
+
+        //    var customBinding = new CustomBinding(messageSecurity, encodingElement, httpsTransport);
+
+        //    return customBinding;
+        //}
+
+        //static WS2007FederationHttpBinding CreateFederationBindingForJWTToken()
+        //{
+        //    WS2007FederationHttpBinding fedBinding = new WS2007FederationHttpBinding();
+
+        //    fedBinding.Security = new WSFederationHttpSecurity();
+        //    fedBinding.Security.Mode = WSFederationHttpSecurityMode.TransportWithMessageCredential;
+        //    fedBinding.Security.Message.IssuedKeyType = SecurityKeyType.BearerKey;
+        //    fedBinding.Security.Message.EstablishSecurityContext = false;
+        //    fedBinding.Security.Message.IssuedTokenType = "urn:ietf:params:oauth:token-type:jwt";
+
+        //    return fedBinding;
         //}
     }
 }

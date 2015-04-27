@@ -1,40 +1,60 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Security.Claims;
+using System.IdentityModel.Claims;
 using System.ServiceModel;
-using System.Text;
-using System.Threading;
 
 namespace SampleWCFApiHost
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in both code and config file together.
     public class Service1 : IService1
     {
         public string GetIdentityData()
         {
-            //var principal = User as ClaimsPrincipal;
-            //return from c in principal.Identities.First().Claims
-            //       select new
-            //       {
-            //           c.Type,
-            //           c.Value
-            //       };
+            var claims = ServiceSecurityContext.Current.AuthorizationContext.ClaimSets;
 
-            //var claims = ((ClaimsIdentity)Thread.CurrentPrincipal.Identity).Claims;
+            string result = "";
+            foreach (ClaimSet claimSet in claims)
+            {                
+                foreach(System.IdentityModel.Claims.Claim claim in claimSet)
+                { 
+                    result += "Claim Type: " + claim.ClaimType.ToString();
+                    result += ", Claim Value: " + claim.Resource.ToString();
+                    result += "\n\r";
+                }
+            }
 
-            //string result = "";
-            //foreach (Claim claim in claims)
-            //{
-            //    result += "Claim Type: " + claim.Type.ToString();
-            //    result += ", Claim Value: " + claim.Value.ToString();
-            //    result += "\n\r";
-            //}
-
-            //return string.Format("Claims: {0}", result);
-
-            return "Hola";
+            return string.Format("{0}", result);
+            //return GetCallerScopes();
         }
+
+        #region claim processing methods
+
+        bool TryGetStringClaimValue(ClaimSet claimSet, string claimType, out string claimValue)
+        {
+            claimValue = null;
+            
+            IEnumerable<Claim> matchingClaims = claimSet.FindClaims(claimType, Rights.PossessProperty);
+            if (matchingClaims == null)
+                return false;
+
+            foreach(var claim in matchingClaims)
+            {
+                claimValue += (claim.Resource == null) ? null : claim.Resource.ToString() + " ";
+            }
+            return true;
+        }
+
+        string GetCallerScopes()
+        {
+            foreach (ClaimSet claimSet in ServiceSecurityContext.Current.AuthorizationContext.ClaimSets)
+            {
+                string AccessToken = null;
+                if (TryGetStringClaimValue(claimSet, "scope", out AccessToken))
+                {
+                    return String.Format("Scopes: '{0}'", AccessToken);
+                }
+            }
+            return "Scope is not known";
+        }
+        #endregion
     }
 }

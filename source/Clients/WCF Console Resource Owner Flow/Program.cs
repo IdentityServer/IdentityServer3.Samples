@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using Sample;
 using SampleWCFApiHost;
+using SampleWCFApiHost.CustomToken;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
@@ -27,15 +28,69 @@ namespace WCF_Console_Resource_Owner_Flow
             var response = RequestToken();
             ShowResponse(response);
             
-            System.Threading.Thread.Sleep(500);
+            System.Threading.Thread.Sleep(2000);
 
-            CallServiceJWTToken(ConvertToken(response));
+            CallServiceCustomToken(response.AccessToken);
+        }
+
+        static Binding CreateCustomTokenBinding()
+        {
+            HttpTransportBindingElement httpTransport = new HttpTransportBindingElement();
+
+            // the message security binding element will be configured to require a credit card
+            // token that is encrypted with the service's certificate 
+            SymmetricSecurityBindingElement messageSecurity = new SymmetricSecurityBindingElement();
+            messageSecurity.EndpointSupportingTokenParameters.SignedEncrypted.Add(new CustomTokenParameters());
+
+            X509SecurityTokenParameters x509ProtectionParameters = new X509SecurityTokenParameters();
+            x509ProtectionParameters.InclusionMode = SecurityTokenInclusionMode.Never;
+            messageSecurity.ProtectionTokenParameters = x509ProtectionParameters;
+
+            return new CustomBinding(messageSecurity, httpTransport);
+        }
+
+        static void CallServiceCustomToken(string token)
+        {
+            Binding customTokenBinding = CreateCustomTokenBinding();
+
+            customTokenBinding.ReceiveTimeout = new TimeSpan(12, 0, 0);
+            customTokenBinding.SendTimeout = new TimeSpan(12, 0, 0);
+            customTokenBinding.OpenTimeout = new TimeSpan(12, 0, 0);
+            customTokenBinding.CloseTimeout = new TimeSpan(12, 0, 0);
+
+            var endPointIdentity = new DnsEndpointIdentity("idsrv3test");
+
+            var serviceAddress = new EndpointAddress(new Uri("http://localhost:2729/Service1.svc"), endPointIdentity);
+
+            // Create a client with given client endpoint configuration
+            var channelFactory = new ChannelFactory<IService1>(customTokenBinding, serviceAddress);
+
+            // configure the credit card credentials on the channel factory 
+            CustomTokenClientCredentials credentials = new CustomTokenClientCredentials(token);
+
+            // configure the service certificate on the credentials
+            credentials.ServiceCertificate.DefaultCertificate = LoadCertificate();
+
+            // replace ClientCredentials with CreditCardClientCredentials
+            channelFactory.Endpoint.Behaviors.Remove(typeof(ClientCredentials));
+            channelFactory.Endpoint.Behaviors.Add(credentials);
+
+            var client = channelFactory.CreateChannel();
+
+            var response = client.GetIdentityData();
+
+            ((IChannel)client).Close();
+            channelFactory.Close();
+
+            "\n\nService claims:\n".ConsoleGreen();
+            Console.WriteLine(response);
+            Console.ReadLine();
         }
 
         static TokenResponse RequestToken()
         {
             var client = new OAuth2Client(
-                new Uri(Constants.TokenEndpoint),
+                new Uri(Sample.Constants.TokenEndpoint),
                 "roclient",
                 "secret");
 
@@ -47,44 +102,6 @@ namespace WCF_Console_Resource_Owner_Flow
             };
 
             return client.RequestResourceOwnerPasswordAsync("bob", "bob", "read write", optional).Result;
-        }
-
-        static void CallServiceJWTToken(SecurityToken token)
-        {
-            var binding = CreateBindingJWTToken();
-
-            var endpointAddress = new EndpointAddress(new Uri("http://localhost:2729/Service1.svc"));
-
-            var factory = new ChannelFactory<IService1>(binding, endpointAddress);
-
-            var proxy = factory.CreateChannelWithIssuedToken(token);
-
-            var response = proxy.GetIdentityData();
-
-            "\n\nService claims:".ConsoleGreen();
-            Console.WriteLine(response);
-            Console.ReadLine();
-        }
-
-        static Binding CreateBindingJWTToken()
-        {
-            HttpTransportBindingElement httpTransport = new HttpTransportBindingElement();
-
-            TransportSecurityBindingElement messageSecurity = new TransportSecurityBindingElement();
-
-            messageSecurity.AllowInsecureTransport = true;
-            messageSecurity.DefaultAlgorithmSuite = SecurityAlgorithmSuite.Default;
-            messageSecurity.IncludeTimestamp = true;
-
-            IssuedSecurityTokenParameters issuerTokenParameters = new IssuedSecurityTokenParameters();
-
-            issuerTokenParameters.TokenType = "urn:ietf:params:oauth:token-type:jwt";
-
-            messageSecurity.EndpointSupportingTokenParameters.Signed.Add(issuerTokenParameters);
-
-            TextMessageEncodingBindingElement encodingElement = new TextMessageEncodingBindingElement(MessageVersion.Soap12, Encoding.UTF8);
-
-            return new CustomBinding(messageSecurity, encodingElement, httpTransport);
         }
 
         static void ShowResponse(TokenResponse response)
@@ -143,7 +160,7 @@ namespace WCF_Console_Resource_Owner_Flow
                     null,
                     null,
                     null);
-                
+
 
                 return token;
             }
@@ -156,6 +173,141 @@ namespace WCF_Console_Resource_Owner_Flow
             return new X509Certificate2(
                 string.Format(@"{0}\config\idsrv3test.pfx", AppDomain.CurrentDomain.BaseDirectory), "idsrv3test");
         }
+
+
+
+
+        //static void CallServiceFederatedJWTToken(SecurityToken token)
+        //{
+        //    var binding = CreateFederatedBindingJWTToken();
+
+        //    //var endPointIdentity = new DnsEndpointIdentity("idsrv3test");
+
+        //    //var endpointAddress = new EndpointAddress(new Uri("http://localhost:2729/Service1.svc"), endPointIdentity);
+        //    var endpointAddress = new EndpointAddress(new Uri("https://localhost:2728/Service1.svc"));
+
+        //    var factory = new ChannelFactory<IService1>(binding, endpointAddress);
+
+        //    factory.Credentials.SupportInteractive = false;
+        //    factory.Credentials.UseIdentityConfiguration = true;
+        //    //factory.Credentials.ServiceCertificate.DefaultCertificate = LoadCertificate();
+        //    //factory.Credentials.ClientCertificate.Certificate = LoadCertificate();
+
+        //    var proxy = factory.CreateChannelWithIssuedToken(token);
+
+        //    var response = proxy.GetIdentityData();
+
+        //    "\n\nService claims:".ConsoleGreen();
+        //    Console.WriteLine(response);
+        //    Console.ReadLine();
+        //}
+
+        //static Binding CreateBindingJWTToken()
+        //{
+        //    HttpTransportBindingElement httpTransport = new HttpTransportBindingElement();
+            
+        //    TransportSecurityBindingElement messageSecurity = new TransportSecurityBindingElement();
+
+        //    messageSecurity.AllowInsecureTransport = true;
+
+        //    IssuedSecurityTokenParameters issuedTokenParameters = new IssuedSecurityTokenParameters();
+
+        //    issuedTokenParameters.TokenType = "urn:ietf:params:oauth:token-type:jwt";
+
+        //    messageSecurity.EndpointSupportingTokenParameters.Signed.Add(issuedTokenParameters);
+
+        //    TextMessageEncodingBindingElement encodingElement = new TextMessageEncodingBindingElement(MessageVersion.Soap12, Encoding.UTF8);
+
+        //    return new CustomBinding(messageSecurity, encodingElement, httpTransport);
+        //}
+
+        //static Binding CreateBindingJWTTokenS()
+        //{
+        //    HttpsTransportBindingElement httpsTransport = new HttpsTransportBindingElement();
+
+        //    SymmetricSecurityBindingElement messageSecurity = new SymmetricSecurityBindingElement();
+
+        //    IssuedSecurityTokenParameters issuedTokenParameters = new IssuedSecurityTokenParameters();
+
+        //    issuedTokenParameters.TokenType = "urn:ietf:params:oauth:token-type:jwt";
+
+        //    messageSecurity.EndpointSupportingTokenParameters.Signed.Add(issuedTokenParameters);
+
+        //    TextMessageEncodingBindingElement encodingElement = new TextMessageEncodingBindingElement(MessageVersion.Soap12, Encoding.UTF8);
+
+        //    var customBinding = new CustomBinding(messageSecurity, encodingElement, httpsTransport);
+        //    return customBinding;
+        //}
+
+        //static WS2007FederationHttpBinding CreateFederatedBindingJWTToken()
+        //{
+        //    WS2007FederationHttpBinding fedBinding = new WS2007FederationHttpBinding();
+
+        //    fedBinding.Security = new WSFederationHttpSecurity();
+        //    fedBinding.Security.Mode = WSFederationHttpSecurityMode.TransportWithMessageCredential;
+        //    fedBinding.Security.Message.IssuedKeyType = SecurityKeyType.BearerKey;
+        //    fedBinding.Security.Message.EstablishSecurityContext = false;
+        //    fedBinding.Security.Message.IssuedTokenType = "urn:ietf:params:oauth:token-type:jwt";
+
+        //    return fedBinding;
+        //}
+
+
+        //private static void CallServiceByReference(SecurityToken securityToken)
+        //{
+        //    ServiceReference1.Service1Client client = new ServiceReference1.Service1Client();
+
+        //    client.ChannelFactory.CreateChannelWithIssuedToken(securityToken);
+
+        //    var response = client.GetIdentityData();
+
+        //    "\n\nService claims:".ConsoleGreen();
+        //    Console.WriteLine(response);
+        //    Console.ReadLine();
+        //}
+
+        //static void CallServiceJWTToken(SecurityToken token)
+        //{
+        //    var binding = CreateBindingJWTToken();
+
+        //    var endPointIdentity = new DnsEndpointIdentity("idsrv3test");
+
+        //    var endpointAddress = new EndpointAddress(new Uri("http://localhost:2729/Service1.svc"), endPointIdentity);
+
+        //    var factory = new ChannelFactory<IService1>(binding, endpointAddress);
+
+        //    var proxy = factory.CreateChannelWithIssuedToken(token);
+
+        //    var response = proxy.GetIdentityData();
+
+        //    "\n\nService claims:".ConsoleGreen();
+        //    Console.WriteLine(response);
+        //    Console.ReadLine();
+        //}
+
+        //static void CallServiceJWTTokenS(SecurityToken token)
+        //{
+        //    var binding = CreateBindingJWTTokenS();
+
+        //    var endpointAddress = new EndpointAddress(new Uri("https://localhost:2728/Service1.svc"));
+
+        //    var factory = new ChannelFactory<IService1>(binding, endpointAddress);
+
+        //    factory.Credentials.ClientCertificate.Certificate = LoadCertificate();
+        //    factory.Credentials.ServiceCertificate.DefaultCertificate = LoadCertificate();
+
+        //    factory.Credentials.SupportInteractive = false;
+        //    factory.Credentials.UseIdentityConfiguration = false;
+
+        //    //var proxy = factory.CreateChannelWithIssuedToken(token);
+        //    var proxy = factory.CreateChannel();
+
+        //    var response = proxy.GetIdentityData();
+
+        //    "\n\nService claims:".ConsoleGreen();
+        //    Console.WriteLine(response);
+        //    Console.ReadLine();
+        //}
 
         //static void CallServiceCustomBiding(SecurityToken token)
         //{
