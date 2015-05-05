@@ -1,26 +1,34 @@
 ﻿{
-    "webroot": "wwwroot",
-    "version": "1.0.0-*",
-    "dependencies": {
-        "Microsoft.AspNet.Server.IIS": "1.0.0-beta3",
-        "Thinktecture.IdentityServer3": "1.3.0.0",
-        "Microsoft.AspNet.Owin": "1.0.0.0-beta3",
-        "Microsoft.Owin": "3.0.1",
-        "Microsoft.AspNet.Security.DataProtection": "1.0.0.0-beta3"
-    },
-    "frameworks": {
-        "aspnet50": { }
-    },
-    "bundleExclude": [
-        "node_modules",
-        "bower_components",
-        "**.kproj",
-        "**.user",
-        "**.vspscc"
-    ],
-    "exclude": [
-        "wwwroot",
-        "node_modules",
-        "bower_components"
-    ]
+  "webroot": "wwwroot",
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Microsoft.AspNet.Server.IIS": "1.0.0-beta4",
+    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta4",
+    "Thinktecture.IdentityServer3": "1.5.0",
+    "Microsoft.AspNet.Owin": "1.0.0-beta4",
+    "Microsoft.Owin": "3.0.1",
+    "Microsoft.AspNet.DataProtection": "1.0.0-beta4"
+  },
+
+  "commands": {
+      "web": "Microsoft.AspNet.Hosting --server Microsoft.AspNet.Server.WebListener --server.urls http://localhost:5000"
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  },
+
+  "publishExclude": [
+    "node_modules",
+    "bower_components",
+    "**.xproj",
+    "**.user",
+    "**.vspscc"
+  ],
+  "exclude": [
+    "wwwroot",
+    "node_modules",
+    "bower_components"
+  ]
 }

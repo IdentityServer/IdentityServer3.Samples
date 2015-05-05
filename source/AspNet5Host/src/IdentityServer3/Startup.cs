@@ -1,25 +1,22 @@
-﻿using System;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.Framework.DependencyInjection;
+using Microsoft.Framework.Runtime;
 using Thinktecture.IdentityServer.Core.Configuration;
 using AspNet5Host.Configuration;
 using System.Security.Cryptography.X509Certificates;
-using System.IO;
 
-namespace AspNet5Host
+namespace IdentityServer3
 {
     public class Startup
     {
-        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataProtection();
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IApplicationEnvironment env)
         {
-            var certFile = AppDomain.CurrentDomain.BaseDirectory + "\\idsrv3test.pfx";
+            var certFile = env.ApplicationBasePath + "\\idsrv3test.pfx";
 
             app.Map("/core", core =>
             {
