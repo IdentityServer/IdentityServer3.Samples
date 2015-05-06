@@ -18,10 +18,9 @@ using Microsoft.Owin.Security.Twitter;
  */
 using Owin;
 using SelfHost.IdSvr;
-using IdentityManager;
-using IdentityManager.Configuration;
 using Thinktecture.IdentityServer.Core.Configuration;
 using SelfHost.IdMgr;
+using Thinktecture.IdentityManager.Configuration;
 
 namespace SelfHost
 {
