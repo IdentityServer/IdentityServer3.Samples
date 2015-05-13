@@ -1,6 +1,7 @@
 ﻿using Owin;
 using SelfHost.Config;
 using Thinktecture.IdentityServer.Core.Configuration;
+using Thinktecture.IdentityServer.Core.Logging;
 using Thinktecture.IdentityServer.Host.Config;
 
 namespace SelfHost
@@ -9,6 +10,8 @@ namespace SelfHost
     {
         public void Configuration(IAppBuilder appBuilder)
         {
+            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+
             var factory = InMemoryFactory.Create(
                 users:   Users.Get(), 
                 clients: Clients.Get(), 

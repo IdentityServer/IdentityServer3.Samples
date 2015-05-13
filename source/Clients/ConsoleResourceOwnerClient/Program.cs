@@ -17,7 +17,9 @@ namespace ConsoleResourceOwnerClient
             ShowResponse(response);
 
             Console.ReadLine();
+            
             CallService(response.AccessToken);
+            Console.ReadLine();
         }
 
         static TokenResponse RequestToken()

@@ -37,6 +37,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Custom Grant Client
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client - Simple", "JavaScriptImplicitClient-Simple\JavaScript Implicit Client - Simple.csproj", "{104B2540-1F77-4216-B801-428AE970F9C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWCFApiHost", "SampleWCFApiHost\SampleWCFApiHost.csproj", "{68021991-A7F4-41E0-A9DE-D763744C55E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCF Console Resource Owner Flow", "WCF Console Resource Owner Flow\WCF Console Resource Owner Flow.csproj", "{062411DC-1C0B-4F9B-922B-239A9C5A029D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -223,11 +227,32 @@ Global
 		{104B2540-1F77-4216-B801-428AE970F9C9}.Release|ARM.ActiveCfg = Release|Any CPU
 		{104B2540-1F77-4216-B801-428AE970F9C9}.Release|x64.ActiveCfg = Release|Any CPU
 		{104B2540-1F77-4216-B801-428AE970F9C9}.Release|x86.ActiveCfg = Release|Any CPU
+		{68021991-A7F4-41E0-A9DE-D763744C55E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68021991-A7F4-41E0-A9DE-D763744C55E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68021991-A7F4-41E0-A9DE-D763744C55E9}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{68021991-A7F4-41E0-A9DE-D763744C55E9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{68021991-A7F4-41E0-A9DE-D763744C55E9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{68021991-A7F4-41E0-A9DE-D763744C55E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68021991-A7F4-41E0-A9DE-D763744C55E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68021991-A7F4-41E0-A9DE-D763744C55E9}.Release|ARM.ActiveCfg = Release|Any CPU
+		{68021991-A7F4-41E0-A9DE-D763744C55E9}.Release|x64.ActiveCfg = Release|Any CPU
+		{68021991-A7F4-41E0-A9DE-D763744C55E9}.Release|x86.ActiveCfg = Release|Any CPU
+		{062411DC-1C0B-4F9B-922B-239A9C5A029D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{062411DC-1C0B-4F9B-922B-239A9C5A029D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{062411DC-1C0B-4F9B-922B-239A9C5A029D}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{062411DC-1C0B-4F9B-922B-239A9C5A029D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{062411DC-1C0B-4F9B-922B-239A9C5A029D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{062411DC-1C0B-4F9B-922B-239A9C5A029D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{062411DC-1C0B-4F9B-922B-239A9C5A029D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{062411DC-1C0B-4F9B-922B-239A9C5A029D}.Release|ARM.ActiveCfg = Release|Any CPU
+		{062411DC-1C0B-4F9B-922B-239A9C5A029D}.Release|x64.ActiveCfg = Release|Any CPU
+		{062411DC-1C0B-4F9B-922B-239A9C5A029D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C8CD1733-783A-4655-814B-9CF7FD7FDFE8} = {22C083F3-1F8A-4E90-B79C-13A6012492BC}
+		{68021991-A7F4-41E0-A9DE-D763744C55E9} = {22C083F3-1F8A-4E90-B79C-13A6012492BC}
 	EndGlobalSection
 EndGlobal
