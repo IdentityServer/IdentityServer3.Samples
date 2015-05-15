@@ -61,7 +61,8 @@ namespace WebHost.IdSvr
                     }
 
                     var name = await GetDisplayNameForAccountAsync(id);
-                    return new Thinktecture.IdentityServer.Core.Models.AuthenticateResult("~/2fa", id, name);
+                    return new Thinktecture.IdentityServer.Core.Models.AuthenticateResult("~/2fa", id, name,
+                        authenticationMethod: Thinktecture.IdentityServer.Core.Constants.AuthenticationMethods.TwoFactorAuthentication);
                 }
             }
 
