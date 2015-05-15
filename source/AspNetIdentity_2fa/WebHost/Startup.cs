@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OpenIdConnect;
 using WebHost.IdSvr;
-using Thinktecture.IdentityManager;
 using Thinktecture.IdentityManager.Configuration;
 using Thinktecture.IdentityServer.Core.Configuration;
 using WebHost.IdMgr;
@@ -27,6 +27,7 @@ namespace WebHost
     {
         public void Configuration(IAppBuilder app)
         {
+            //administrate users
             app.Map("/admin", adminApp =>
             {
                 var factory = new IdentityManagerServiceFactory();
@@ -37,6 +38,8 @@ namespace WebHost
                     Factory = factory
                 });
             });
+
+            //authentication
             app.Map("/core", core =>
             {
                 var idSvrFactory = Factory.Configure();
@@ -50,6 +53,25 @@ namespace WebHost
                 };
 
                 core.UseIdentityServer(options);
+            });
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AuthenticationType = "Cookies"
+            });
+
+            app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
+            {
+                Authority = "https://localhost:44333/core",
+
+                ClientId = "mvc", 
+                Scope = "openid profile read write",
+                ResponseType = "id_token token",
+                RedirectUri = "https://localhost:44333/",
+
+                SignInAsAuthenticationType = "Cookies",
+                UseTokenLifetime = false,
+                
             });
         }
     }

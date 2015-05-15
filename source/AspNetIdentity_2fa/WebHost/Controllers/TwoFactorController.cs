@@ -9,6 +9,7 @@ using WebHost.AspId;
 
 namespace WebHost.Controllers
 {
+    //Route must start with the same name as map in Startup.cs because of cookies
     [Route("core/2fa")]
     public class TwoFactorController : Controller
     {
