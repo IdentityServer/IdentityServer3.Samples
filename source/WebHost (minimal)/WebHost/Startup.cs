@@ -18,10 +18,10 @@ namespace WebHost
                 .WriteTo.Trace()
                 .CreateLogger();
 
-            var factory = InMemoryFactory.Create(
-                users: Users.Get(),
-                clients: Clients.Get(),
-                scopes: Scopes.Get());
+            var factory = new IdentityServerServiceFactory();
+            factory.UseInMemoryUsers(Users.Get())
+                .UseInMemoryClients(Clients.Get())
+                .UseInMemoryScopes(Scopes.Get());
 
             var options = new IdentityServerOptions
             {
