@@ -7,6 +7,7 @@ using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Logging;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Services.Default;
+using Serilog;
 
 namespace SampleApp
 {
@@ -14,7 +15,10 @@ namespace SampleApp
     {
         public void Configuration(IAppBuilder app)
         {
-            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+            Log.Logger = new LoggerConfiguration()
+                           .MinimumLevel.Debug()
+                           .WriteTo.Trace()
+                           .CreateLogger();
 
             app.Map("/core", coreApp =>
             {

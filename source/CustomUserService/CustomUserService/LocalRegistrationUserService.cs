@@ -8,10 +8,11 @@ using IdentityServer3.Core;
 using IdentityServer3.Core.Extensions;
 using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Services.Default;
 
 namespace SampleApp
 {
-    public class LocalRegistrationUserService : IUserService
+    public class LocalRegistrationUserService : UserServiceBase
     {
         public class CustomUser
         {
@@ -23,47 +24,33 @@ namespace SampleApp
         
         public static List<CustomUser> Users = new List<CustomUser>();
 
-        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser, SignInMessage message)
+        public override Task AuthenticateLocalAsync(LocalAuthenticationContext context)
         {
-            return Task.FromResult<AuthenticateResult>(null);
-        }
-
-        public Task<AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message)
-        {
-            var user = Users.SingleOrDefault(x => x.Username == username && x.Password == password);
-            if (user == null)
+            var user = Users.SingleOrDefault(x => x.Username == context.UserName && x.Password == context.Password);
+            if (user != null)
             {
-                return Task.FromResult<AuthenticateResult>(null);
+                context.AuthenticateResult = new AuthenticateResult(user.Subject, user.Username);
             }
 
-            return Task.FromResult<AuthenticateResult>(new AuthenticateResult(user.Subject, user.Username));
+            return Task.FromResult(0);
         }
 
-        public Task<IEnumerable<System.Security.Claims.Claim>> GetProfileDataAsync(ClaimsPrincipal subject, IEnumerable<string> requestedClaimTypes = null)
+        public override Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             // issue the claims for the user
-            var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
-            if (user == null)
+            var user = Users.SingleOrDefault(x => x.Subject == context.Subject.GetSubjectId());
+            if (user != null)
             {
-                return Task.FromResult<IEnumerable<Claim>>(null);
+                context.IssuedClaims = user.Claims.Where(x => context.RequestedClaimTypes.Contains(x.Type));
             }
 
-            return Task.FromResult(user.Claims.Where(x => requestedClaimTypes.Contains(x.Type)));
+            return Task.FromResult(0);
         }
 
-        public Task<bool> IsActiveAsync(ClaimsPrincipal subject)
+        public override Task IsActiveAsync(IsActiveContext context)
         {
-            var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
-            return Task.FromResult(user != null);
-        }
-
-        public Task<AuthenticateResult> PreAuthenticateAsync(SignInMessage message)
-        {
-            return Task.FromResult<AuthenticateResult>(null);
-        }
-
-        public Task SignOutAsync(ClaimsPrincipal subject)
-        {
+            var user = Users.SingleOrDefault(x => x.Subject == context.Subject.GetSubjectId());
+            context.IsActive = user != null;
             return Task.FromResult(0);
         }
     }
