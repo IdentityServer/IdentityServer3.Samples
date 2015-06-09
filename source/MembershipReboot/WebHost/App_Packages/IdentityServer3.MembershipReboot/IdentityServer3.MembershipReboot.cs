@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-//using BrockAllen.MembershipReboot;
+using BrockAllen.MembershipReboot;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -30,6 +30,8 @@ using IdentityServer3.Core.Services.Default;
 
 namespace IdentityServer3.MembershipReboot
 {
+    using BrockAllen.MembershipReboot;
+
     public class MembershipRebootUserService<TAccount> : UserServiceBase
         where TAccount : UserAccount
     {
