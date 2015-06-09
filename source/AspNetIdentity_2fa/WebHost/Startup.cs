@@ -20,6 +20,8 @@ using IdentityManager.Configuration;
 using IdentityServer3.Core.Configuration;
 using WebHost.IdMgr;
 using Owin;
+using IdentityServer3.Core.Logging;
+using Serilog;
 
 namespace WebHost
 {
@@ -27,6 +29,12 @@ namespace WebHost
     {
         public void Configuration(IAppBuilder app)
         {
+            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+            Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.Trace()
+               .CreateLogger();
+
             app.Map("/admin", adminApp =>
             {
                 var factory = new IdentityManagerServiceFactory();
@@ -37,6 +45,7 @@ namespace WebHost
                     Factory = factory
                 });
             });
+
             app.Map("/core", core =>
             {
                 var idSvrFactory = Factory.Configure();
