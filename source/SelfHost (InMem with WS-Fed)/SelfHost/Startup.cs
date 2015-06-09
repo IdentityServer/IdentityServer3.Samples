@@ -7,6 +7,7 @@ using IdentityServer3.Host.Config;
 using IdentityServer3.WsFederation.Configuration;
 using IdentityServer3.WsFederation.Models;
 using IdentityServer3.WsFederation.Services;
+using Serilog;
 
 namespace SelfHost
 {
@@ -14,6 +15,11 @@ namespace SelfHost
     {
         public void Configuration(IAppBuilder appBuilder)
         {
+            Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.Trace()
+               .CreateLogger(); 
+            
             var factory = InMemoryFactory.Create(
                 users:   Users.Get(), 
                 clients: Clients.Get(), 

@@ -8,10 +8,11 @@ namespace SelfHost
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-            var factory = InMemoryFactory.Create(
-                users:   Users.Get(), 
-                clients: Clients.Get(), 
-                scopes:  Scopes.Get());
+            var factory = new IdentityServerServiceFactory();
+            factory
+                .UseInMemoryClients(Clients.Get())
+                .UseInMemoryScopes(Scopes.Get())
+                .UseInMemoryUsers(Users.Get());
 
             var options = new IdentityServerOptions
             {
