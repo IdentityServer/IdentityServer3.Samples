@@ -24,12 +24,12 @@ namespace SampleApp
             return await Render(model, "login", name);
         }
 
-        public virtual Task<System.IO.Stream> Logout(LogoutViewModel model)
+        public Task<Stream> Logout(LogoutViewModel model, SignOutMessage message)
         {
             return Render(model, "logout");
         }
 
-        public virtual Task<System.IO.Stream> LoggedOut(LoggedOutViewModel model)
+        public Task<Stream> LoggedOut(LoggedOutViewModel model, SignOutMessage message)
         {
             return Render(model, "loggedOut");
         }
