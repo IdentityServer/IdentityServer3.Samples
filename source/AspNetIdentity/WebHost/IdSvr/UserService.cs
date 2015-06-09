@@ -14,32 +14,32 @@
  * limitations under the License.
  */
 
-using SelfHost.AspId;
+using WebHost.AspId;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SelfHost.IdentityServer3.AspNetIdentity;
+using IdentityServer3.AspNetIdentity;
 using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Services;
 
-namespace SelfHost.IdSvr
+namespace WebHost.IdSvr
 {
-    public static class CustomUserServiceExtensions
+    public static class UserServiceExtensions
     {
-        public static void ConfigureCustomUserService(this IdentityServerServiceFactory factory, string connString)
+        public static void ConfigureUserService(this IdentityServerServiceFactory factory, string connString)
         {
-            factory.UserService = new Registration<IUserService, CustomUserService>();
-            factory.Register(new Registration<CustomUserManager>());
-            factory.Register(new Registration<CustomUserStore>());
-            factory.Register(new Registration<CustomContext>(resolver => new CustomContext(connString)));
+            factory.UserService = new Registration<IUserService, UserService>();
+            factory.Register(new Registration<UserManager>());
+            factory.Register(new Registration<UserStore>());
+            factory.Register(new Registration<Context>(resolver => new Context(connString)));
         }
     }
-
-    public class CustomUserService : AspNetIdentityUserService<CustomUser, int>
+    
+    public class UserService : AspNetIdentityUserService<User, string>
     {
-        public CustomUserService(CustomUserManager userMgr)
+        public UserService(UserManager userMgr)
             : base(userMgr)
         {
         }

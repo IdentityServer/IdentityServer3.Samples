@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,23 +22,24 @@ using System.Threading.Tasks;
 using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Extensions;
-using Thinktecture.IdentityModel;
-using IdSvr3 = IdentityServer3.Core;
+using IdentityServer3.Core;
+using IdentityModel;
+using IdentityServer3.Core.Services.Default;
 
-namespace SelfHost.IdentityServer3.AspNetIdentity
+namespace IdentityServer3.AspNetIdentity
 {
-    public class AspNetIdentityUserService<TUser, TKey> : IUserService
-        where TUser : class, IUser<TKey>, new()
+    public class AspNetIdentityUserService<TUser, TKey> : UserServiceBase
+        where TUser : class, Microsoft.AspNet.Identity.IUser<TKey>, new()
         where TKey : IEquatable<TKey>
     {
         public string DisplayNameClaimType { get; set; }
         public bool EnableSecurityStamp { get; set; }
 
-        protected readonly UserManager<TUser, TKey> userManager;
+        protected readonly Microsoft.AspNet.Identity.UserManager<TUser, TKey> userManager;
 
         protected readonly Func<string, TKey> ConvertSubjectToKey;
         
-        public AspNetIdentityUserService(UserManager<TUser, TKey> userManager, Func<string, TKey> parseSubject = null)
+        public AspNetIdentityUserService(Microsoft.AspNet.Identity.UserManager<TUser, TKey> userManager, Func<string, TKey> parseSubject = null)
         {
             if (userManager == null) throw new ArgumentNullException("userManager");
             
@@ -95,10 +95,11 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
             return key;
         }
         
-        public virtual async Task<IEnumerable<Claim>> GetProfileDataAsync(
-            ClaimsPrincipal subject,
-            IEnumerable<string> requestedClaimTypes = null)
+        public override async Task GetProfileDataAsync(ProfileDataRequestContext ctx)
         {
+            var subject = ctx.Subject;
+            var requestedClaimTypes = ctx.RequestedClaimTypes;
+
             if (subject == null) throw new ArgumentNullException("subject");
 
             TKey key = ConvertSubjectToKey(subject.GetSubjectId());
@@ -113,14 +114,15 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
             {
                 claims = claims.Where(x => requestedClaimTypes.Contains(x.Type));
             }
-            return claims;
+            
+            ctx.IssuedClaims = claims;
         }
 
         protected virtual async Task<IEnumerable<Claim>> GetClaimsFromAccount(TUser user)
         {
             var claims = new List<Claim>{
-                new Claim(IdSvr3.Constants.ClaimTypes.Subject, user.Id.ToString()),
-                new Claim(IdSvr3.Constants.ClaimTypes.PreferredUserName, user.UserName),
+                new Claim(Constants.ClaimTypes.Subject, user.Id.ToString()),
+                new Claim(Constants.ClaimTypes.PreferredUserName, user.UserName),
             };
 
             if (userManager.SupportsUserEmail)
@@ -128,9 +130,9 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
                 var email = await userManager.GetEmailAsync(user.Id);
                 if (!String.IsNullOrWhiteSpace(email))
                 {
-                    claims.Add(new Claim(IdSvr3.Constants.ClaimTypes.Email, email));
+                    claims.Add(new Claim(Constants.ClaimTypes.Email, email));
                     var verified = await userManager.IsEmailConfirmedAsync(user.Id);
-                    claims.Add(new Claim(IdSvr3.Constants.ClaimTypes.EmailVerified, verified ? "true" : "false"));
+                    claims.Add(new Claim(Constants.ClaimTypes.EmailVerified, verified ? "true" : "false"));
                 }
             }
 
@@ -139,9 +141,9 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
                 var phone = await userManager.GetPhoneNumberAsync(user.Id);
                 if (!String.IsNullOrWhiteSpace(phone))
                 {
-                    claims.Add(new Claim(IdSvr3.Constants.ClaimTypes.PhoneNumber, phone));
+                    claims.Add(new Claim(Constants.ClaimTypes.PhoneNumber, phone));
                     var verified = await userManager.IsPhoneNumberConfirmedAsync(user.Id);
-                    claims.Add(new Claim(IdSvr3.Constants.ClaimTypes.PhoneNumberVerified, verified ? "true" : "false"));
+                    claims.Add(new Claim(Constants.ClaimTypes.PhoneNumberVerified, verified ? "true" : "false"));
                 }
             }
 
@@ -154,7 +156,7 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
             {
                 var roleClaims =
                     from role in await userManager.GetRolesAsync(user.Id)
-                    select new Claim(IdSvr3.Constants.ClaimTypes.Role, role);
+                    select new Claim(Constants.ClaimTypes.Role, role);
                 claims.AddRange(roleClaims);
             }
 
@@ -171,16 +173,11 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
             {
                 nameClaim = claims.FirstOrDefault(x => x.Type == DisplayNameClaimType);
             }
-            if (nameClaim == null) nameClaim = claims.FirstOrDefault(x => x.Type == IdSvr3.Constants.ClaimTypes.Name);
+            if (nameClaim == null) nameClaim = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.Name);
             if (nameClaim == null) nameClaim = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name);
             if (nameClaim != null) return nameClaim.Value;
             
             return user.UserName;
-        }
-
-        public virtual Task<AuthenticateResult> PreAuthenticateAsync(SignInMessage message)
-        {
-            return Task.FromResult<AuthenticateResult>(null);
         }
 
         protected async virtual Task<TUser> FindUserAsync(string username)
@@ -192,45 +189,48 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
         {
             return Task.FromResult<AuthenticateResult>(null);
         }
-        
-        public virtual async Task<AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message = null)
+
+        public override async Task AuthenticateLocalAsync(LocalAuthenticationContext ctx)
         {
-            if (!userManager.SupportsUserPassword)
-            {
-                return null;
-            }
+            var username = ctx.UserName;
+            var password = ctx.Password;
+            var message = ctx.SignInMessage;
 
-            var user = await FindUserAsync(username);
-            if (user == null)
-            {
-                return null;
-            }
+            ctx.AuthenticateResult = null;
 
-            if (userManager.SupportsUserLockout &&
-                await userManager.IsLockedOutAsync(user.Id))
+            if (userManager.SupportsUserPassword)
             {
-                return null;
-            }
-
-            if (await userManager.CheckPasswordAsync(user, password))
-            {
-                if (userManager.SupportsUserLockout)
+                var user = await FindUserAsync(username);
+                if (user != null)
                 {
-                    userManager.ResetAccessFailedCount(user.Id);
+                    if (userManager.SupportsUserLockout &&
+                        await userManager.IsLockedOutAsync(user.Id))
+                    {
+                        return;
+                    }
+
+                    if (await userManager.CheckPasswordAsync(user, password))
+                    {
+                        if (userManager.SupportsUserLockout)
+                        {
+                            await userManager.ResetAccessFailedCountAsync(user.Id);
+                        }
+
+                        var result = await PostAuthenticateLocalAsync(user, message);
+                        if (result == null)
+                        {
+                            var claims = await GetClaimsForAuthenticateResult(user);
+                            result = new AuthenticateResult(user.Id.ToString(), await GetDisplayNameForAccountAsync(user.Id), claims);
+                        }
+                        
+                        ctx.AuthenticateResult = result;
+                    }
+                    else if (userManager.SupportsUserLockout)
+                    {
+                        await userManager.AccessFailedAsync(user.Id);
+                    }
                 }
-
-                var result = await PostAuthenticateLocalAsync(user, message);
-                if (result != null) return result;
-
-                var claims = await GetClaimsForAuthenticateResult(user);
-                return new AuthenticateResult(user.Id.ToString(), await GetDisplayNameForAccountAsync(user.Id), claims);
             }
-            else if (userManager.SupportsUserLockout)
-            {
-                await userManager.AccessFailedAsync(user.Id);
-            }
-
-            return null;
         }
 
         protected virtual async Task<IEnumerable<Claim>> GetClaimsForAuthenticateResult(TUser user)
@@ -247,36 +247,44 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
             return claims;
         }
 
-        public virtual async Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser, SignInMessage message)
+        public override async Task AuthenticateExternalAsync(ExternalAuthenticationContext ctx)
         {
+            var externalUser = ctx.ExternalIdentity;
+            var message = ctx.SignInMessage;
+
             if (externalUser == null)
             {
                 throw new ArgumentNullException("externalUser");
             }
 
-            var user = await userManager.FindAsync(new UserLoginInfo(externalUser.Provider, externalUser.ProviderId));
+            var user = await userManager.FindAsync(new Microsoft.AspNet.Identity.UserLoginInfo(externalUser.Provider, externalUser.ProviderId));
             if (user == null)
             {
-                return await ProcessNewExternalAccountAsync(externalUser.Provider, externalUser.ProviderId, externalUser.Claims);
+                ctx.AuthenticateResult = await ProcessNewExternalAccountAsync(externalUser.Provider, externalUser.ProviderId, externalUser.Claims);
             }
             else
             {
-                return await ProcessExistingExternalAccountAsync(user.Id, externalUser.Provider, externalUser.ProviderId, externalUser.Claims);
+                ctx.AuthenticateResult = await ProcessExistingExternalAccountAsync(user.Id, externalUser.Provider, externalUser.ProviderId, externalUser.Claims);
             }
         }
 
         protected virtual async Task<AuthenticateResult> ProcessNewExternalAccountAsync(string provider, string providerId, IEnumerable<Claim> claims)
         {
-            var user = await InstantiateNewUserFromExternalProviderAsync(provider, providerId, claims);
-            if (user == null) throw new InvalidOperationException("CreateNewAccountFromExternalProvider returned null");
-
-            var createResult = await userManager.CreateAsync(user);
-            if (!createResult.Succeeded)
+            var user = await TryGetExistingUserFromExternalProviderClaimsAsync(provider, claims);
+            if (user == null)
             {
-                return new AuthenticateResult(createResult.Errors.First());
+                user = await InstantiateNewUserFromExternalProviderAsync(provider, providerId, claims);
+                if (user == null)
+                    throw new InvalidOperationException("CreateNewAccountFromExternalProvider returned null");
+
+                var createResult = await userManager.CreateAsync(user);
+                if (!createResult.Succeeded)
+                {
+                    return new AuthenticateResult(createResult.Errors.First());
+                }
             }
 
-            var externalLogin = new UserLoginInfo(provider, providerId);
+            var externalLogin = new Microsoft.AspNet.Identity.UserLoginInfo(provider, providerId);
             var addExternalResult = await userManager.AddLoginAsync(user.Id, externalLogin);
             if (!addExternalResult.Succeeded)
             {
@@ -293,6 +301,11 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
         {
             var user = new TUser() { UserName = Guid.NewGuid().ToString("N") };
             return Task.FromResult(user);
+        }
+
+        protected virtual Task<TUser> TryGetExistingUserFromExternalProviderClaimsAsync(string provider, IEnumerable<Claim> claims)
+        {
+            return Task.FromResult<TUser>(null);
         }
 
         protected virtual async Task<AuthenticateResult> AccountCreatedFromExternalProviderAsync(TKey userID, string provider, string providerId, IEnumerable<Claim> claims)
@@ -312,7 +325,7 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
                 userID.ToString(), 
                 await GetDisplayNameForAccountAsync(userID),
                 claims,
-                authenticationMethod: IdSvr3.Constants.AuthenticationMethods.External, 
+                authenticationMethod: Constants.AuthenticationMethods.External, 
                 identityProvider: provider);
         }
 
@@ -341,7 +354,7 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
 
         protected virtual async Task<IEnumerable<Claim>> SetAccountEmailAsync(TKey userID, IEnumerable<Claim> claims)
         {
-            var email = claims.FirstOrDefault(x => x.Type == IdSvr3.Constants.ClaimTypes.Email);
+            var email = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.Email);
             if (email != null)
             {
                 var userEmail = await userManager.GetEmailAsync(userID);
@@ -352,14 +365,14 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
                     var result = await userManager.SetEmailAsync(userID, email.Value);
                     if (result.Succeeded)
                     {
-                        var email_verified = claims.FirstOrDefault(x => x.Type == IdSvr3.Constants.ClaimTypes.EmailVerified);
+                        var email_verified = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.EmailVerified);
                         if (email_verified != null && email_verified.Value == "true")
                         {
                             var token = await userManager.GenerateEmailConfirmationTokenAsync(userID);
                             await userManager.ConfirmEmailAsync(userID, token);
                         }
 
-                        var emailClaims = new string[] { IdSvr3.Constants.ClaimTypes.Email, IdSvr3.Constants.ClaimTypes.EmailVerified };
+                        var emailClaims = new string[] { Constants.ClaimTypes.Email, Constants.ClaimTypes.EmailVerified };
                         return claims.Where(x => !emailClaims.Contains(x.Type));
                     }
                 }
@@ -370,7 +383,7 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
 
         protected virtual async Task<IEnumerable<Claim>> SetAccountPhoneAsync(TKey userID, IEnumerable<Claim> claims)
         {
-            var phone = claims.FirstOrDefault(x => x.Type == IdSvr3.Constants.ClaimTypes.PhoneNumber);
+            var phone = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.PhoneNumber);
             if (phone != null)
             {
                 var userPhone = await userManager.GetPhoneNumberAsync(userID);
@@ -381,14 +394,14 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
                     var result = await userManager.SetPhoneNumberAsync(userID, phone.Value);
                     if (result.Succeeded)
                     {
-                        var phone_verified = claims.FirstOrDefault(x => x.Type == IdSvr3.Constants.ClaimTypes.PhoneNumberVerified);
+                        var phone_verified = claims.FirstOrDefault(x => x.Type == Constants.ClaimTypes.PhoneNumberVerified);
                         if (phone_verified != null && phone_verified.Value == "true")
                         {
                             var token = await userManager.GenerateChangePhoneNumberTokenAsync(userID, phone.Value);
                             await userManager.ChangePhoneNumberAsync(userID, phone.Value, token);
                         }
 
-                        var phoneClaims = new string[] { IdSvr3.Constants.ClaimTypes.PhoneNumber, IdSvr3.Constants.ClaimTypes.PhoneNumberVerified };
+                        var phoneClaims = new string[] { Constants.ClaimTypes.PhoneNumber, Constants.ClaimTypes.PhoneNumberVerified };
                         return claims.Where(x => !phoneClaims.Contains(x.Type));
                     }
                 }
@@ -397,37 +410,35 @@ namespace SelfHost.IdentityServer3.AspNetIdentity
             return claims;
         }
 
-        public virtual async Task<bool> IsActiveAsync(ClaimsPrincipal subject)
+        public override async Task IsActiveAsync(IsActiveContext ctx)
         {
+            var subject = ctx.Subject;
+
             if (subject == null) throw new ArgumentNullException("subject");
 
             var id = subject.GetSubjectId();
             TKey key = ConvertSubjectToKey(id);
             var acct = await userManager.FindByIdAsync(key);
-            if (acct == null)
-            {
-                return false;
-            }
 
-            if (EnableSecurityStamp && userManager.SupportsUserSecurityStamp)
+            ctx.IsActive = false;
+
+            if (acct != null)
             {
-                var security_stamp = subject.Claims.Where(x => x.Type == "security_stamp").Select(x => x.Value).SingleOrDefault();
-                if (security_stamp != null)
+                if (EnableSecurityStamp && userManager.SupportsUserSecurityStamp)
                 {
-                    var db_security_stamp = await userManager.GetSecurityStampAsync(key);
-                    if (db_security_stamp != security_stamp)
+                    var security_stamp = subject.Claims.Where(x => x.Type == "security_stamp").Select(x => x.Value).SingleOrDefault();
+                    if (security_stamp != null)
                     {
-                        return false;
+                        var db_security_stamp = await userManager.GetSecurityStampAsync(key);
+                        if (db_security_stamp != security_stamp)
+                        {
+                            return;
+                        }
                     }
                 }
-            }
-            
-            return true;
-        }
 
-        public virtual Task SignOutAsync(ClaimsPrincipal subject)
-        {
-            return Task.FromResult<object>(null);
+                ctx.IsActive = true;
+            }
         }
     }
 }

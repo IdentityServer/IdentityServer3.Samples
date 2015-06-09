@@ -22,7 +22,7 @@ using System.Security.Claims;
 using System.Web;
 using IdSvr3 = IdentityServer3.Core;
 
-namespace SelfHost.AspId
+namespace WebHost.AspId
 {
     public class User : IdentityUser
     {

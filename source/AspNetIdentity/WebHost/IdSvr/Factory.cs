@@ -1,5 +1,5 @@
-﻿using SelfHost.AspId;
-using SelfHost.IdSvr;
+﻿using WebHost.AspId;
+using WebHost.IdSvr;
 /*
  * Copyright 2014 Dominick Baier, Brock Allen
  *
@@ -26,7 +26,7 @@ using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Services.InMemory;
 using IdentityServer3.Core.Services.Default;
 
-namespace SelfHost.IdSvr
+namespace WebHost.IdSvr
 {
     class Factory
     {
