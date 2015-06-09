@@ -40,8 +40,14 @@ namespace SelfHost.Extensions
             }
 
             var message = new SignInMessage { Tenant = legacyAccountStoreType };
-            var result = await _users.AuthenticateLocalAsync(id, secret, message);
+            var context = new LocalAuthenticationContext
+            {
+                UserName = id, Password = secret,
+                SignInMessage = message
+            };
+            await _users.AuthenticateLocalAsync(context);
 
+            var result = context.AuthenticateResult;
             if (result.IsError)
             {
                 Logger.Error("authentication failed");
