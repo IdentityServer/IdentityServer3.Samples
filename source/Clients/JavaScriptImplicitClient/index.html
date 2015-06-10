@@ -80,13 +80,15 @@
             redirect_uri: window.location.protocol + "//" + window.location.host + "/index.html",
             post_logout_redirect_uri: window.location.protocol + "//" + window.location.host + "/index.html",
 
-            // these two will be done dynamically from the buttons clicked
-            //response_type: "id_token token",
-            //scope: "openid profile email read write",
+            // these two will be done dynamically from the buttons clicked, but are
+            // needed if you want to use the silent_renew
+            response_type: "id_token token",
+            scope: "openid profile email read write",
 
-            // we're not using these in this sample
+            // silent renew will get a new access_token via an iframe 
+            // just prior to the old access_token expiring (60 seconds prior)
             silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/silent_renew.html",
-            //silent_renew: true,
+            silent_renew: true,
 
             // this will allow all the OIDC protocol claims to vbe visible in the window. normally a client app 
             // wouldn't care about them or want them taking up space
