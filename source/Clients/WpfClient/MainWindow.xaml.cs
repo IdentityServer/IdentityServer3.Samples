@@ -75,7 +75,7 @@ namespace WpfClient
 
         private void RequestToken(string scope, string responseType)
         {
-            var client = new OAuth2Client(new Uri(Constants.AuthorizeEndpoint));
+            var client = new OAuth2ClientOld(new Uri(Constants.AuthorizeEndpoint));
             var startUrl = client.CreateAuthorizeUrl(
                 clientId: "implicitclient",
                 responseType: responseType,

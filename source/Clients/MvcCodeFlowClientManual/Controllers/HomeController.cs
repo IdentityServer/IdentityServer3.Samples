@@ -23,7 +23,7 @@ namespace MvcCodeFlowClientManual.Controllers
             var nonce = Guid.NewGuid().ToString("N");
             SetTempState(state, nonce);
 
-            var client = new OAuth2Client(new Uri(Constants.AuthorizeEndpoint));
+            var client = new OAuth2ClientOld(new Uri(Constants.AuthorizeEndpoint));
             
             var url = client.CreateCodeFlowUrl(
                 clientId:    "codeclient",

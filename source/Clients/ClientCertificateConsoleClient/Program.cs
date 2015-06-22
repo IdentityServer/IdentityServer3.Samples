@@ -31,15 +31,11 @@ namespace ClientCertificateConsoleClient
 
             var client = new OAuth2Client(
                 new Uri(Constants.TokenEndpoint),
+                "certclient",
                 handler);
 
 
-            var additional = new Dictionary<string, string>
-            {
-                { "client_id", "certclient" }
-            };
-
-            return client.RequestClientCredentialsAsync("read write", additional).Result;
+            return client.RequestClientCredentialsAsync("read write").Result;
         }
 
         static void CallService(string token)

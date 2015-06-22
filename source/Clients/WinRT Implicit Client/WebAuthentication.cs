@@ -24,7 +24,7 @@ namespace IdentityModel.WinRT
             string scope, 
             Uri redirectUri)
         {
-            var client = new OAuth2Client(endpoint);
+            var client = new OAuth2ClientOld(endpoint);
             var state = Guid.NewGuid().ToString("N");
             var nonce = Guid.NewGuid().ToString("N");
 
