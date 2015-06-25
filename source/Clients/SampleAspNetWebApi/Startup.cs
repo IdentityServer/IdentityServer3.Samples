@@ -2,7 +2,7 @@
 using Owin;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using Thinktecture.IdentityServer.AccessTokenValidation;
+using IdentityServer3.AccessTokenValidation;
 
 [assembly: OwinStartup(typeof(SampleAspNetWebApi.Startup))]
 
