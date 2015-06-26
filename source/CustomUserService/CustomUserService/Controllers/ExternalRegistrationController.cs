@@ -63,7 +63,7 @@ namespace SampleApp.Controllers
                 // we captured from the external provider
                 var partialClaims = authentication.Identity.Claims.Where(x => x.Type != Constants.ClaimTypes.Name).ToList();
                 partialClaims.Add(nameClaim);
-                ctx.Authentication.SignIn(new ClaimsIdentity(partialClaims, Constants.PartialSignInAuthenticationType));
+                await ctx.Environment.UpdatePartialLoginClaimsAsync(partialClaims);
 
                 // find the URL to continue with the process to the issue the token to the RP
                 var resumeUrl = authentication.Identity.Claims.Single(x => x.Type == Constants.ClaimTypes.PartialLoginReturnUrl).Value;
