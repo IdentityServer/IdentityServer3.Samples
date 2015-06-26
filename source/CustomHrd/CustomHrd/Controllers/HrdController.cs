@@ -17,7 +17,7 @@ namespace SampleApp.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            // this verifies that we have a prtial signin from idsvr
+            // this verifies that we have a partial signin from idsvr
             var ctx = Request.GetOwinContext();
             var authentication = await ctx.Authentication.AuthenticateAsync(Constants.PartialSignInAuthenticationType);
             if (authentication == null)
@@ -63,7 +63,8 @@ namespace SampleApp.Controllers
             Request.GetOwinContext().Response.Cookies.Append("idp", idp);
             // find the custom URL to return to the login page
             var resumeUrl = authentication.Identity.Claims.Single(x => x.Type == "url").Value;
-            // clear the partial cookie because we're working around a limitation in partial redirects for hrd
+            // clear the partial cookie because we still don't know who the user is, so we're 
+            // just redirecting back to the login page to select an IdP (via the cookie)
             Request.GetOwinContext().Authentication.SignOut(Constants.PartialSignInAuthenticationType);
             // return the the login page
             return Redirect(resumeUrl);

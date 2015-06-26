@@ -31,7 +31,7 @@ namespace SampleApp
             {
                 // no idp, so do partial login to HRD page
                 var url = new Claim("url", owinContext.Request.Uri.AbsoluteUri);
-                context.AuthenticateResult = new AuthenticateResult("~/hrd", "hrd", "hrd", new Claim[] { url });
+                context.AuthenticateResult = new AuthenticateResult("~/hrd", new Claim[] { url });
             }
             else
             {
