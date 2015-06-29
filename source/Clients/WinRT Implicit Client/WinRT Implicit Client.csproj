@@ -144,7 +144,7 @@
   <ItemGroup>
     <Reference Include="IdentityModel.Portable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdentityModel.1.0.0-beta2\lib\portable-net45+win8+wpa81\IdentityModel.Portable.dll</HintPath>
+      <HintPath>..\packages\IdentityModel.1.0.0-beta4\lib\portable-net45+win8+wpa81\IdentityModel.Portable.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -24,11 +24,11 @@ namespace IdentityModel.WinRT
             string scope, 
             Uri redirectUri)
         {
-            var client = new OAuth2ClientOld(endpoint);
+            var request = new AuthorizeRequest(endpoint);
             var state = Guid.NewGuid().ToString("N");
             var nonce = Guid.NewGuid().ToString("N");
 
-            var startUri = client.CreateAuthorizeUrl(
+            var startUri = request.CreateAuthorizeUrl(
                 clientId: clientId,
                 responseType: responseType,
                 scope: scope,

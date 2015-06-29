@@ -23,9 +23,9 @@ namespace MvcCodeFlowClientManual.Controllers
             var nonce = Guid.NewGuid().ToString("N");
             SetTempState(state, nonce);
 
-            var client = new OAuth2ClientOld(new Uri(Constants.AuthorizeEndpoint));
+            var request = new AuthorizeRequest(Constants.AuthorizeEndpoint);
             
-            var url = client.CreateCodeFlowUrl(
+            var url = request.CreateCodeFlowUrl(
                 clientId:    "codeclient",
                 scope:        scopes,
                 redirectUri: "https://localhost:44312/callback",
