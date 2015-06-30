@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Certificate Client", "ClientCertificateConsoleClient\Console Client Certificate Client.csproj", "{486F3455-A541-4DF1-91BF-EB474CDE386F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials Flow using PostBody", "ConsoleClientCredentialsPostBody\Console Client Credentials Flow using PostBody.csproj", "{277F36ED-DBCA-4886-ABDF-422A8B8D2099}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -235,6 +237,16 @@ Global
 		{486F3455-A541-4DF1-91BF-EB474CDE386F}.Release|ARM.ActiveCfg = Release|Any CPU
 		{486F3455-A541-4DF1-91BF-EB474CDE386F}.Release|x64.ActiveCfg = Release|Any CPU
 		{486F3455-A541-4DF1-91BF-EB474CDE386F}.Release|x86.ActiveCfg = Release|Any CPU
+		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Release|ARM.ActiveCfg = Release|Any CPU
+		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Release|x64.ActiveCfg = Release|Any CPU
+		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
