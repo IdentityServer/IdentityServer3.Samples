@@ -41,6 +41,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Certificate 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials Flow using PostBody", "ConsoleClientCredentialsPostBody\Console Client Credentials Flow using PostBody.csproj", "{277F36ED-DBCA-4886-ABDF-422A8B8D2099}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCF Service", "WcfService\WCF Service.csproj", "{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCF Client", "WcfClient\WCF Client.csproj", "{81F7D957-719F-42AA-813C-4FA094BB9AD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -247,11 +251,32 @@ Global
 		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Release|ARM.ActiveCfg = Release|Any CPU
 		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Release|x64.ActiveCfg = Release|Any CPU
 		{277F36ED-DBCA-4886-ABDF-422A8B8D2099}.Release|x86.ActiveCfg = Release|Any CPU
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}.Release|ARM.ActiveCfg = Release|Any CPU
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}.Release|x64.ActiveCfg = Release|Any CPU
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}.Release|x86.ActiveCfg = Release|Any CPU
+		{81F7D957-719F-42AA-813C-4FA094BB9AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81F7D957-719F-42AA-813C-4FA094BB9AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81F7D957-719F-42AA-813C-4FA094BB9AD9}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{81F7D957-719F-42AA-813C-4FA094BB9AD9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{81F7D957-719F-42AA-813C-4FA094BB9AD9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{81F7D957-719F-42AA-813C-4FA094BB9AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81F7D957-719F-42AA-813C-4FA094BB9AD9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81F7D957-719F-42AA-813C-4FA094BB9AD9}.Release|ARM.ActiveCfg = Release|Any CPU
+		{81F7D957-719F-42AA-813C-4FA094BB9AD9}.Release|x64.ActiveCfg = Release|Any CPU
+		{81F7D957-719F-42AA-813C-4FA094BB9AD9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C8CD1733-783A-4655-814B-9CF7FD7FDFE8} = {22C083F3-1F8A-4E90-B79C-13A6012492BC}
+		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8} = {22C083F3-1F8A-4E90-B79C-13A6012492BC}
 	EndGlobalSection
 EndGlobal
