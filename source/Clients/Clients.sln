@@ -43,7 +43,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCF Service", "WcfService\WCF Service.csproj", "{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCF Client", "WcfClient\WCF Client.csproj", "{81F7D957-719F-42AA-813C-4FA094BB9AD9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console WCF Client", "WcfClient\Console WCF Client.csproj", "{81F7D957-719F-42AA-813C-4FA094BB9AD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
