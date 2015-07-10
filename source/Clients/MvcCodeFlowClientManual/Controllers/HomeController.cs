@@ -25,12 +25,13 @@ namespace MvcCodeFlowClientManual.Controllers
 
             var request = new AuthorizeRequest(Constants.AuthorizeEndpoint);
             
-            var url = request.CreateCodeFlowUrl(
-                clientId:    "codeclient",
+            var url = request.CreateAuthorizeUrl(
+                clientId:     "codeclient",
+                responseType: "code",
                 scope:        scopes,
-                redirectUri: "https://localhost:44312/callback",
-                state:       state,
-                nonce:       nonce);
+                redirectUri:  "https://localhost:44312/callback",
+                state:        state,
+                nonce:        nonce);
 
             return Redirect(url);
         }

@@ -29,12 +29,12 @@ namespace IdentityModel.WinRT
             var nonce = Guid.NewGuid().ToString("N");
 
             var startUri = request.CreateAuthorizeUrl(
-                clientId: clientId,
+                clientId:     clientId,
                 responseType: responseType,
-                scope: scope,
-                redirectUri: redirectUri.AbsoluteUri,
-                state: state,
-                nonce: nonce, 
+                scope:        scope,
+                redirectUri:  redirectUri.AbsoluteUri,
+                state:        state,
+                nonce:        nonce, 
                 responseMode: "form_post");
                 
             try
@@ -67,6 +67,4 @@ namespace IdentityModel.WinRT
             }
         }
     }
-
-    
 }

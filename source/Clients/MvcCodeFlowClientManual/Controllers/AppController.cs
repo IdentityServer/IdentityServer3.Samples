@@ -1,5 +1,5 @@
 ﻿using IdentityModel.Client;
-using IdentityModel.Extensions;
+using IdentityModel;
 using Newtonsoft.Json.Linq;
 using Sample;
 using System;
