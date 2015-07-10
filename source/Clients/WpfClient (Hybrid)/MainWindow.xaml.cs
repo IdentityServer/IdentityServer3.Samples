@@ -67,8 +67,8 @@ namespace WpfClient
         {
             if (_response != null && _response.Values.ContainsKey("code"))
             {
-                var client = new OAuth2Client(
-                    new Uri(Constants.TokenEndpoint),
+                var client = new TokenClient(
+                    Constants.TokenEndpoint,
                     "hybridclient",
                     "secret");
 

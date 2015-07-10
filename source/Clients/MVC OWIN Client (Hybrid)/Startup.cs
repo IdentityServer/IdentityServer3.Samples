@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 [assembly: OwinStartup(typeof(MVC_OWIN_Client.Startup))]
 
@@ -64,8 +65,8 @@ namespace MVC_OWIN_Client
                                 userInfo.Claims.ToList().ForEach(ui => claims.Add(new Claim(ui.Item1, ui.Item2)));
 
                                 // get access and refresh token
-                                var tokenClient = new OAuth2Client(
-                                    new Uri(Constants.TokenEndpoint),
+                                var tokenClient = new TokenClient(
+                                    Constants.TokenEndpoint,
                                     "katanaclient",
                                     "secret");
 
@@ -79,7 +80,7 @@ namespace MVC_OWIN_Client
                                 n.AuthenticationTicket = new AuthenticationTicket(new ClaimsIdentity(claims.Distinct(new ClaimComparer()), n.AuthenticationTicket.Identity.AuthenticationType), n.AuthenticationTicket.Properties);
                             },
 
-                        RedirectToIdentityProvider = async n =>
+                        RedirectToIdentityProvider = n =>
                             {
                                 // if signing out, add the id_token_hint
                                 if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
@@ -87,7 +88,9 @@ namespace MVC_OWIN_Client
                                     var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token").Value;
                                     n.ProtocolMessage.IdTokenHint = idTokenHint;
                                 }
-                            },
+
+                                return Task.FromResult(0);
+                            }
                     }
                 });
         }

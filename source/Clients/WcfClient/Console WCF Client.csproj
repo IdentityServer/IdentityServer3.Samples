@@ -34,7 +34,7 @@
   <ItemGroup>
     <Reference Include="IdentityModel.Net45, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\IdentityModel.1.0.0-rc1\lib\net45\IdentityModel.Net45.dll</HintPath>
+      <HintPath>..\packages\IdentityModel.1.0.0-rc5\lib\net45\IdentityModel.Net45.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -59,6 +59,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Constants\Constants.csproj">
+      <Project>{d4b8acdf-5cc3-4a7b-ae30-5055522e025a}</Project>
+      <Name>Constants</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WcfService\WCF Service.csproj">
       <Project>{cfd6a3d6-02a2-4a7b-af63-b9526a1f50e8}</Project>
       <Name>WCF Service</Name>

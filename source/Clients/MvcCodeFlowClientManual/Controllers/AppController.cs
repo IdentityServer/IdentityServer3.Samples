@@ -35,8 +35,8 @@ namespace MvcCodeFlowClientManual.Controllers
 
         public async Task<ActionResult> RefreshToken()
         {
-            var client = new OAuth2Client(
-                new Uri(Constants.TokenEndpoint),
+            var client = new TokenClient(
+                Constants.TokenEndpoint,
                 "codeclient",
                 "secret");
 

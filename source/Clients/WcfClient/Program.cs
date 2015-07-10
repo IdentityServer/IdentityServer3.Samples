@@ -1,6 +1,7 @@
 ﻿using IdentityModel.Client;
 using IdentityModel.Constants;
 using IdentityModel.Extensions;
+using Sample;
 using System;
 using System.IdentityModel.Tokens;
 using System.Security.Claims;
@@ -60,8 +61,8 @@ namespace WcfClient
 
         static string GetJwt()
         {
-            var oauth2Client = new OAuth2Client(
-                new Uri("https://localhost:44333/core/connect/token"),
+            var oauth2Client = new TokenClient(
+                Constants.TokenEndpoint,
                 "roclient",
                 "secret");
 

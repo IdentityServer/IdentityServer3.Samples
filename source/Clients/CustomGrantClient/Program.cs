@@ -23,8 +23,8 @@ namespace CustomGrantClient
 
         static TokenResponse RequestToken()
         {
-            var client = new OAuth2Client(
-                new Uri(Constants.TokenEndpoint),
+            var client = new TokenClient(
+                Constants.TokenEndpoint,
                 "customclient",
                 "secret");
 

@@ -28,8 +28,8 @@ namespace ClientCertificateConsoleClient
             var handler = new WebRequestHandler();
             handler.ClientCertificates.Add(cert);
 
-            var client = new OAuth2Client(
-                new Uri(Constants.TokenEndpoint),
+            var client = new TokenClient(
+                Constants.TokenEndpoint,
                 "certclient",
                 handler);
 

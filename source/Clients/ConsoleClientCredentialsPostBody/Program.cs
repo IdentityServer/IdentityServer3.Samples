@@ -22,11 +22,11 @@ namespace ConsoleClientCredentialsPostBody
 
         static TokenResponse RequestToken()
         {
-            var client = new OAuth2Client(
-                new Uri(Constants.TokenEndpoint),
+            var client = new TokenClient(
+                Constants.TokenEndpoint,
                 "client",
                 "secret",
-                OAuth2Client.ClientAuthenticationStyle.PostValues);
+                AuthenticationStyle.PostValues);
 
             return client.RequestClientCredentialsAsync("read write").Result;
         }
