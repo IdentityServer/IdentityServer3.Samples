@@ -44,26 +44,14 @@ namespace MVC_OWIN_Client
                     {
                         AuthorizationCodeReceived = async n =>
                             {
-                                // filter "protocol" claims
-                                var claims = new List<Claim>(from c in n.AuthenticationTicket.Identity.Claims
-                                                             where c.Type != "iss" &&
-                                                                   c.Type != "aud" &&
-                                                                   c.Type != "nbf" &&
-                                                                   c.Type != "exp" &&
-                                                                   c.Type != "iat" &&
-                                                                   c.Type != "nonce" &&
-                                                                   c.Type != "c_hash" &&
-                                                                   c.Type != "at_hash"
-                                                             select c);
-
                                 // get userinfo data
                                 var userInfoClient = new UserInfoClient(
                                     new Uri(Constants.UserInfoEndpoint),
                                     n.ProtocolMessage.AccessToken);
 
                                 var userInfo = await userInfoClient.GetAsync();
-                                userInfo.Claims.ToList().ForEach(ui => claims.Add(new Claim(ui.Item1, ui.Item2)));
-
+                                var id = userInfo.GetClaimsIdentity();
+                                
                                 // get access and refresh token
                                 var tokenClient = new TokenClient(
                                     Constants.TokenEndpoint,
@@ -72,12 +60,14 @@ namespace MVC_OWIN_Client
 
                                 var response = await tokenClient.RequestAuthorizationCodeAsync(n.Code, n.RedirectUri);
 
-                                claims.Add(new Claim("access_token", response.AccessToken));
-                                claims.Add(new Claim("expires_at", DateTime.Now.AddSeconds(response.ExpiresIn).ToLocalTime().ToString()));
-                                claims.Add(new Claim("refresh_token", response.RefreshToken));
-                                claims.Add(new Claim("id_token", n.ProtocolMessage.IdToken));
+                                id.AddClaim(new Claim("access_token", response.AccessToken));
+                                id.AddClaim(new Claim("expires_at", DateTime.Now.AddSeconds(response.ExpiresIn).ToLocalTime().ToString()));
+                                id.AddClaim(new Claim("refresh_token", response.RefreshToken));
+                                id.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
 
-                                n.AuthenticationTicket = new AuthenticationTicket(new ClaimsIdentity(claims.Distinct(new ClaimComparer()), n.AuthenticationTicket.Identity.AuthenticationType), n.AuthenticationTicket.Properties);
+                                n.AuthenticationTicket = new AuthenticationTicket(
+                                    new ClaimsIdentity(id.Claims, n.AuthenticationTicket.Identity.AuthenticationType), 
+                                    n.AuthenticationTicket.Properties);
                             },
 
                         RedirectToIdentityProvider = n =>
@@ -85,8 +75,13 @@ namespace MVC_OWIN_Client
                                 // if signing out, add the id_token_hint
                                 if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
                                 {
-                                    var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token").Value;
-                                    n.ProtocolMessage.IdTokenHint = idTokenHint;
+                                    var idTokenHint = n.OwinContext.Authentication.User.FindFirst("id_token");
+
+                                    if (idTokenHint != null)
+                                    {
+                                        n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
+                                    }
+
                                 }
 
                                 return Task.FromResult(0);
