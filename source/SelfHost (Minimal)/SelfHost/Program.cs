@@ -12,7 +12,7 @@ namespace SelfHost
             Console.Title = "IdentityServer3 SelfHost";
 
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.ColoredConsole()
+                .WriteTo.LiterateConsole(outputTemplate: "{Timestamp:HH:MM} [{Level}] ({Name:l}){NewLine} {Message}{NewLine}{Exception}")
                 .CreateLogger();
 
             const string url = "https://localhost:44333/core";
