@@ -1,6 +1,8 @@
 ﻿{
-    "sources": [ "src", "test" ],
-    "sdk": {
-        "version": "1.0.0-beta3"
-    }
+  "projects": [ "src", "test" ],
+  "sdk": {
+    "version": "1.0.0-beta5",
+    "runtime": "clr",
+    "architecture": "x86"
+  }
 }

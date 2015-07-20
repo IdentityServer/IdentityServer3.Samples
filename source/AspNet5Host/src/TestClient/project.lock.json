@@ -1,0 +1,75 @@
+{
+  "locked": false,
+  "version": -9996,
+  "targets": {
+    "DNX,Version=v4.5.1": {
+      "IdentityModel/1.0.0-rc8": {
+        "dependencies": {
+          "Newtonsoft.Json": "6.0.8"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http",
+          "System.IdentityModel"
+        ],
+        "compile": {
+          "lib/net45/IdentityModel.Net45.dll": {}
+        },
+        "runtime": {
+          "lib/net45/IdentityModel.Net45.dll": {}
+        }
+      },
+      "Newtonsoft.Json/7.0.1": {
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "IdentityModel/1.0.0-rc8": {
+      "sha512": "mPl1KImBXOp9Fs0t5ttc11s7nFXHiz/bSff6zXhJnk+VMnmYxh1xDGWRjqmB4Yvi05exkvBwiSY9iIHtXlHF1A==",
+      "files": [
+        "IdentityModel.1.0.0-rc8.nupkg",
+        "IdentityModel.1.0.0-rc8.nupkg.sha512",
+        "IdentityModel.nuspec",
+        "lib/net45/IdentityModel.Net45.dll",
+        "lib/net45/IdentityModel.Net45.pdb",
+        "lib/portable-net45+win8+wpa81/IdentityModel.Portable.dll",
+        "lib/portable-net45+win8+wpa81/IdentityModel.Portable.pdb"
+      ]
+    },
+    "Newtonsoft.Json/7.0.1": {
+      "sha512": "q3V4KLetMLnt1gpAVWgtXnHjKs0UG/RalBc29u2ZKxd5t5Ze4JBL5WiiYIklJyK/5CRiIiNwigVQUo0FgbsuWA==",
+      "files": [
+        "Newtonsoft.Json.7.0.1.nupkg",
+        "Newtonsoft.Json.7.0.1.nupkg.sha512",
+        "Newtonsoft.Json.nuspec",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
+        "tools/install.ps1"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "": [
+      "IdentityModel >= 1.0.0-rc8",
+      "Newtonsoft.Json >= 7.0.1"
+    ],
+    "DNX,Version=v4.5.1": [
+      "fx/System.Net.Http >= 4.0.0.0"
+    ]
+  }
+}

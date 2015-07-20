@@ -1,5 +1,5 @@
 ﻿using System;
-using Thinktecture.IdentityServer.Core.Configuration;
+using IdentityServer3.Core.Configuration;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Owin;
@@ -8,7 +8,6 @@ using Microsoft.Framework.DependencyInjection;
 
 namespace Microsoft.AspNet.Builder
 {
-
     using DataProtectionProviderDelegate = Func<string[], Tuple<Func<byte[], byte[]>, Func<byte[], byte[]>>>;
     using DataProtectionTuple = Tuple<Func<byte[], byte[]>, Func<byte[], byte[]>>;
 
@@ -20,11 +19,8 @@ namespace Microsoft.AspNet.Builder
             {
                 addToPipeline(next =>
                 {
-
-
                     var builder = new Microsoft.Owin.Builder.AppBuilder();
-
-                    var provider = app.ApplicationServices.GetService<Microsoft.AspNet.Security.DataProtection.IDataProtectionProvider>();
+                    var provider = app.ApplicationServices.GetService<Microsoft.AspNet.DataProtection.IDataProtectionProvider>();
 
                     builder.Properties["security.DataProtectionProvider"] = new DataProtectionProviderDelegate(purposes =>
                     {

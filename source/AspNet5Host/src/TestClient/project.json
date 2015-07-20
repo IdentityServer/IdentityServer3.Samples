@@ -1,0 +1,25 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "TestClient Console Application",
+  "authors": [ "dominick" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "IdentityModel": "1.0.0-rc8",
+    "Newtonsoft.Json": "7.0.1"
+  },
+
+  "commands": {
+    "TestClient": "TestClient"
+  },
+
+  "frameworks": {
+    "dnx451": {
+      "frameworkAssemblies": {
+        "System.Net.Http": "4.0.0.0"
+      }
+    }
+  }
+}
