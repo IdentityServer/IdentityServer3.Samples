@@ -1,13 +1,13 @@
-﻿using System;
-using IdentityModel.Client;
-using System.Net.Http;
+﻿using IdentityModel.Client;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Net.Http;
 
 namespace TestClient
 {
-    public class Program
+    class Program
     {
-        public void Main(string[] args)
+        static void Main(string[] args)
         {
             var response = GetToken();
 
@@ -18,7 +18,7 @@ namespace TestClient
             Console.WriteLine(JArray.Parse(result));
         }
 
-        TokenResponse GetToken()
+        static TokenResponse GetToken()
         {
             var client = new TokenClient(
                 "https://localhost:44300/connect/token",

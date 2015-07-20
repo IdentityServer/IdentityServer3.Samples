@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.Framework.DependencyInjection;
+using System.Collections.Generic;
 
 namespace Api1
 {
@@ -19,6 +20,8 @@ namespace Api1
                 options.Audience = "https://localhost:44300/resources";
                 options.AutomaticAuthentication = true;
             });
+
+            app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "api1" });
 
             app.UseMvc();
         }
