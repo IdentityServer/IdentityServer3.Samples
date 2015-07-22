@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Owin;
 using Microsoft.Framework.DependencyInjection;
 
-
 namespace Microsoft.AspNet.Builder
 {
     using DataProtectionProviderDelegate = Func<string[], Tuple<Func<byte[], byte[]>, Func<byte[], byte[]>>>;

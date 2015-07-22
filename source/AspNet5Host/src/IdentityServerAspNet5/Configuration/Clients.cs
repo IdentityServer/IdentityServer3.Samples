@@ -18,8 +18,10 @@ namespace IdentityServerAspNet5
                         new Secret("secret".Sha256())
                     },
 
+                    // server to server communication
                     Flow = Flows.ClientCredentials,
 
+                    // only allowed to access api1
                     AllowedScopes = new List<string>
                     {
                         "api1"
@@ -31,6 +33,7 @@ namespace IdentityServerAspNet5
                     ClientName = "MVC6 Demo Client",
                     ClientId = "mvc6",
 
+                    // human involved
                     Flow = Flows.Implicit,
 
                     RedirectUris = new List<string>
@@ -38,14 +41,14 @@ namespace IdentityServerAspNet5
                         "http://localhost:2221/",
                     },
 
+                    // access to identity data and api1
                     AllowedScopes = new List<string>
                     {
                         "openid",
                         "email",
                         "profile",
                         "api1"
-                    },
-
+                    }
                 }
             };
         }

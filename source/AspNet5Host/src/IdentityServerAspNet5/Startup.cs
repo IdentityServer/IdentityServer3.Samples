@@ -17,16 +17,27 @@ namespace IdentityServerAspNet5
         {
             var certFile = env.ApplicationBasePath + "\\idsrv3test.pfx";
 
-            var factory = new IdentityServerServiceFactory()
-                               .UseInMemoryUsers(Users.Get())
-                               .UseInMemoryClients(Clients.Get())
-                               .UseInMemoryScopes(Scopes.Get());
-
             var idsrvOptions = new IdentityServerOptions
             {
-                Factory = factory,
-                RequireSsl = false,
+                Factory = new IdentityServerServiceFactory()
+                                .UseInMemoryUsers(Users.Get())
+                                .UseInMemoryClients(Clients.Get())
+                                .UseInMemoryScopes(Scopes.Get()),
+
                 SigningCertificate = new X509Certificate2(certFile, "idsrv3test")
+            };
+
+            app.UseIdentityServer(idsrvOptions);
+        }
+
+        public void Configure(IApplicationBuilder app)
+        {
+            var idsrvOptions = new IdentityServerOptions
+            {
+                Factory = new IdentityServerServiceFactory()
+                                .UseInMemoryUsers(Users.Get())
+                                .UseInMemoryClients(Clients.Get())
+                                .UseInMemoryScopes(Scopes.Get()),
             };
 
             app.UseIdentityServer(idsrvOptions);

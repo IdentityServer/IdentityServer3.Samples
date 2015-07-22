@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.Framework.DependencyInjection;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens;
 
 namespace Api1
 {
     public class Startup
     {
-        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
@@ -14,6 +14,8 @@ namespace Api1
 
         public void Configure(IApplicationBuilder app)
         {
+            JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
+
             app.UseOAuthBearerAuthentication(options =>
             {
                 options.Authority = "https://localhost:44300";

@@ -9,15 +9,23 @@ namespace IdentityServerAspNet5
         {
             return new[]
             {
+                // standard OpenID Connect scopes
                 StandardScopes.OpenId,
                 StandardScopes.ProfileAlwaysInclude,
                 StandardScopes.EmailAlwaysInclude,
 
+                // API - access token will 
+                // contain roles of user
                 new Scope
                 {
                     Name = "api1",
                     DisplayName = "API 1",
-                    Type = ScopeType.Resource
+                    Type = ScopeType.Resource,
+
+                    Claims = new List<ScopeClaim>
+                    {
+                        new ScopeClaim("role")
+                    }
                 }
             };
         }
