@@ -15,6 +15,8 @@ namespace Apis
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
                 {
                     Authority = "https://localhost:44333",
+                    ValidationMode = ValidationMode.ValidationEndpoint,
+
                     RequiredScopes = new[] { "api1" }
                 });
 

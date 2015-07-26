@@ -1,10 +1,9 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using IdentityServer3.Core.Extensions;
+﻿using IdentityServer3.Core.Extensions;
 using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Validation;
 using SelfHost.Logging;
+using System.Threading.Tasks;
 
 namespace SelfHost.Extensions
 {
@@ -21,12 +20,6 @@ namespace SelfHost.Extensions
 
         public async Task<CustomGrantValidationResult> ValidateAsync(ValidatedTokenRequest request)
         {
-            if (request.GrantType != "legacy_account_store")
-            {
-                Logger.Error("unknown custom grant type");
-                return null;
-            }
-
             var legacyAccountStoreType = request.Raw.Get("account_store");
             var id = request.Raw.Get("legacy_id");
             var secret = request.Raw.Get("legacy_secret");
@@ -58,6 +51,11 @@ namespace SelfHost.Extensions
                 result.User.GetSubjectId(),
                 "custom",
                 result.User.Claims);
+        }
+
+        public string GrantType
+        {
+            get { return "legacy_account_store"; }
         }
     }
 }

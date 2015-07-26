@@ -17,13 +17,13 @@ namespace SelfHost
         {
             Log.Logger = new LoggerConfiguration()
                .MinimumLevel.Debug()
-               .WriteTo.Trace()
-               .CreateLogger(); 
+               .WriteTo.LiterateConsole(outputTemplate: "{Timestamp} [{Level}] ({Name}){NewLine} {Message}{NewLine}{Exception}")
+               .CreateLogger();
             
-            var factory = InMemoryFactory.Create(
-                users:   Users.Get(), 
-                clients: Clients.Get(), 
-                scopes:  Scopes.Get());
+            var factory = new IdentityServerServiceFactory()
+                            .UseInMemoryUsers(Users.Get())
+                            .UseInMemoryClients(Clients.Get())
+                            .UseInMemoryScopes(Scopes.Get());
 
             var options = new IdentityServerOptions
             {

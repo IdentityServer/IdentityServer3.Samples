@@ -14,7 +14,7 @@ namespace SampleAspNetWebApi
         {
             JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
 
-            app.UseIdentityServerTokenAuthentication(new IdentityServerTokenAuthenticationOptions
+            app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
                 {
                     Authority = "https://localhost:44333/core",
                     RequiredScopes = new[] { "write" }

@@ -15,13 +15,13 @@ namespace WebHost
         public void Configuration(IAppBuilder appBuilder)
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.Trace()
+                .WriteTo.Trace(outputTemplate: "{Timestamp} [{Level}] ({Name}){NewLine} {Message}{NewLine}{Exception}")
                 .CreateLogger();
 
-            var factory = new IdentityServerServiceFactory();
-            factory.UseInMemoryUsers(Users.Get())
-                .UseInMemoryClients(Clients.Get())
-                .UseInMemoryScopes(Scopes.Get());
+            var factory = new IdentityServerServiceFactory()
+                        .UseInMemoryUsers(Users.Get())
+                        .UseInMemoryClients(Clients.Get())
+                        .UseInMemoryScopes(Scopes.Get());
 
             var options = new IdentityServerOptions
             {

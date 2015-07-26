@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel;
+using IdentityModel.Client;
+using IdentityModel.Extensions;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Thinktecture.IdentityModel.Client;
-using Thinktecture.IdentityModel.Extensions;
 
 namespace Client
 {
@@ -11,8 +12,8 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            var client = new OAuth2Client(
-                new Uri("https://localhost:44333/core/connect/token"),
+            var client = new TokenClient(
+                "https://localhost:44333/core/connect/token",
                 "client",
                 "secret");
 

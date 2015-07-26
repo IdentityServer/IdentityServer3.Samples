@@ -1,8 +1,6 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using IdentityServer3.Core;
-using IdentityServer3.Core.Services;
+﻿using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Validation;
+using System.Threading.Tasks;
 
 namespace SelfHost
 {
@@ -25,6 +23,11 @@ namespace SelfHost
             }
 
             return Task.FromResult(new CustomGrantValidationResult("bob", "customGrant"));
+        }
+
+        public string GrantType
+        {
+            get { return "custom"; }
         }
     }
 }

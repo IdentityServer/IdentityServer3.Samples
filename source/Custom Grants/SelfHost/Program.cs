@@ -1,6 +1,6 @@
 ﻿using Microsoft.Owin.Hosting;
+using Serilog;
 using System;
-using IdentityServer3.Core.Logging;
 
 namespace SelfHost
 {
@@ -9,7 +9,11 @@ namespace SelfHost
         private static void Main(string[] args)
         {
             Console.Title = "IdentityServer3 SelfHost";
-            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo
+                .LiterateConsole(outputTemplate: "{Timestamp:HH:MM} [{Level}] ({Name:l}){NewLine} {Message}{NewLine}{Exception}")
+                .CreateLogger();
 
             const string url = "https://localhost:44333/core";
             using (WebApp.Start<Startup>(url))
