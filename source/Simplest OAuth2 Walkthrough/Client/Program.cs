@@ -13,6 +13,7 @@ namespace Client
 
             response = GetUserToken();
             CallApi(response);
+            Console.Read();
         }
 
         static void CallApi(TokenResponse response)
