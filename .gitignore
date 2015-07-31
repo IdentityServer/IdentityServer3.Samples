@@ -150,3 +150,8 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 distribution/
+source/Clients/.vs/config/applicationhost.config
+source/CustomViewService/.vs/config/applicationhost.config
+source/CustomUserService/.vs/config/applicationhost.config
+source/EmbeddedAssetsViewService/.vs/config/applicationhost.config
+source/MVC Authentication/.vs/config/applicationhost.config

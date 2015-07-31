@@ -13,18 +13,21 @@ namespace WebHost
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-            var factory = InMemoryFactory.Create(
-                users: Users.Get(),
-                clients: Clients.Get(),
-                scopes: Scopes.Get());
-
-            var options = new IdentityServerOptions
+            appBuilder.Map("/core", coreApp =>
             {
-                SigningCertificate = Certificate.Load(),
-                Factory = factory,
-            };
+                var factory = InMemoryFactory.Create(
+                    users: Users.Get(),
+                    clients: Clients.Get(),
+                    scopes: Scopes.Get());
 
-            appBuilder.UseIdentityServer(options);
+                var options = new IdentityServerOptions
+                {
+                    SigningCertificate = Certificate.Load(),
+                    Factory = factory,
+                };
+
+                coreApp.UseIdentityServer(options);
+            });
         }
     }
 }
