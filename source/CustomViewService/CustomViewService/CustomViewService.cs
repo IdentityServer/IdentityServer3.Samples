@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Web.Security.AntiXss;
 using System.Threading.Tasks;
 using Thinktecture.IdentityServer.Core.Models;
 using Thinktecture.IdentityServer.Core.Services;
@@ -55,8 +56,8 @@ namespace SampleApp
 
             string html = LoadHtml(page);
             html = Replace(html, new {
-                siteName = Microsoft.Security.Application.Encoder.HtmlEncode(model.SiteName),
-                model = Microsoft.Security.Application.Encoder.HtmlEncode(json),
+                siteName = AntiXssEncoder.HtmlEncode(model.SiteName, false),
+                model = AntiXssEncoder.HtmlEncode(json, false),
                 clientName = clientName
             });
             
