@@ -78,12 +78,5 @@ namespace SampleApp
 
             return Task.FromResult(0);
         }
-
-        public override Task IsActiveAsync(IsActiveContext context)
-        {
-            var user = Users.SingleOrDefault(x => x.Subject == context.Subject.GetSubjectId());
-            context.IsActive = user != null;
-            return Task.FromResult(0);
-        }
     }
 }

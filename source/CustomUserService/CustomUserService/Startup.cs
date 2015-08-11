@@ -22,15 +22,15 @@ namespace SampleApp
 
             app.Map("/core", coreApp =>
             {
-                var factory = InMemoryFactory.Create(
-                    clients: Clients.Get(),
-                    scopes: Scopes.Get());
+                var factory = new IdentityServerServiceFactory()
+                    .UseInMemoryClients(Clients.Get())
+                    .UseInMemoryScopes(Scopes.Get());
 
                 // different examples of custom user services
                 //var userService = new RegisterFirstExternalRegistrationUserService();
-                var userService = new ExternalRegistrationUserService();
+                //var userService = new ExternalRegistrationUserService();
                 //var userService = new EulaAtLoginUserService();
-                //var userService = new LocalRegistrationUserService();
+                var userService = new LocalRegistrationUserService();
                 
                 factory.UserService = new Registration<IUserService>(resolver => userService);
                 factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
