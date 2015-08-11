@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Validation;
 using IdentityServer3.Core.ViewModels;
 
 namespace SampleApp
@@ -34,7 +35,7 @@ namespace SampleApp
             return Render(model, "loggedOut");
         }
 
-        public virtual Task<System.IO.Stream> Consent(ConsentViewModel model)
+        public Task<Stream> Consent(ConsentViewModel model, ValidatedAuthorizeRequest authorizeRequest)
         {
             return Render(model, "consent");
         }
