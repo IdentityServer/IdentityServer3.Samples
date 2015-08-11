@@ -73,13 +73,13 @@
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.identitymodel.services" />
     <Reference Include="System.Web" />
-    <Reference Include="Thinktecture.IdentityServer3, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.1.2.2-build00129\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
+    <Reference Include="Thinktecture.IdentityServer3, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Thinktecture.IdentityServer3.1.6.2\lib\net45\Thinktecture.IdentityServer3.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Thinktecture.IdentityServer3.EntityFramework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Thinktecture.IdentityServer3.EntityFramework.1.2.1-build00009\lib\net45\Thinktecture.IdentityServer3.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\Thinktecture.IdentityServer3.EntityFramework.1.2.1\lib\net45\Thinktecture.IdentityServer3.EntityFramework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
