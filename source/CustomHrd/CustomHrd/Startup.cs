@@ -4,9 +4,9 @@ using Microsoft.Owin.Security.Twitter;
 using Owin;
 using SampleApp.Config;
 using IdentityServer3.Core.Configuration;
-using IdentityServer3.Core.Logging;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Services.Default;
+using Serilog;
 
 namespace SampleApp
 {
@@ -14,13 +14,16 @@ namespace SampleApp
     {
         public void Configuration(IAppBuilder app)
         {
-            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+            Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.Trace()
+               .CreateLogger();
 
             app.Map("/core", coreApp =>
             {
-                var factory = InMemoryFactory.Create(
-                    clients: Clients.Get(),
-                    scopes: Scopes.Get());
+                var factory = new IdentityServerServiceFactory()
+                    .UseInMemoryClients(Clients.Get())
+                    .UseInMemoryScopes(Scopes.Get());
 
                 factory.UserService = new Registration<IUserService, HrdUserService>();
                 factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });

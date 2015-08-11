@@ -24,23 +24,25 @@ namespace SampleApp
             this.owinContext = new OwinContext(env.Environment);
         }
 
-        public override Task PreAuthenticateAsync(PreAuthenticationContext context)
+        public override async Task PreAuthenticateAsync(PreAuthenticationContext context)
         {
-            var idp = owinContext.Request.Cookies["idp"];
-            if (String.IsNullOrWhiteSpace(idp))
+            var user = await owinContext.Environment.GetIdentityServerPartialLoginAsync();
+            if (user == null)
             {
                 // no idp, so do partial login to HRD page
-                var url = new Claim("url", owinContext.Request.Uri.AbsoluteUri);
-                context.AuthenticateResult = new AuthenticateResult("~/hrd", new Claim[] { url });
+                context.AuthenticateResult = new AuthenticateResult("~/hrd", (IEnumerable<Claim>)null);
             }
             else
             {
-                // we have idp, so set it
-                owinContext.Response.Cookies.Append("idp", ".", new CookieOptions { Expires = DateTime.UtcNow.AddYears(-1) });
-                context.SignInMessage.IdP = idp;
-            }
+                // we have partial login, so look for IdP claim
+                var idp_claim = user.Claims.FirstOrDefault(x => x.Type == "idp");
+                if (idp_claim == null)
+                {
+                    context.AuthenticateResult = new AuthenticateResult("Error: no IdP claim found");
+                }
 
-            return Task.FromResult(0);
+                context.SignInMessage.IdP = idp_claim.Value;
+            }
         }
     }
 }
