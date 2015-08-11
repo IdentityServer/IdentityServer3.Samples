@@ -37,7 +37,7 @@ namespace WebHost.Controllers
         public async Task<ActionResult> Index(string code)
         {
             var ctx = Request.GetOwinContext();
-            var user = await ctx.Environment.GetIdentityServerPartialLogin();
+            var user = await ctx.Environment.GetIdentityServerPartialLoginAsync();
 
             if (user == null)
             {

@@ -15,13 +15,13 @@
  */
 
 using WebHost.IdSvr;
-using IdentityManager;
 using IdentityManager.Configuration;
 using IdentityServer3.Core.Configuration;
 using WebHost.IdMgr;
 using Owin;
-using IdentityServer3.Core.Logging;
 using Serilog;
+using IdentityManager.Logging;
+using IdentityManager.Core.Logging;
 
 namespace WebHost
 {
