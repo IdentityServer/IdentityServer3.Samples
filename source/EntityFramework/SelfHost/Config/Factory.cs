@@ -29,10 +29,7 @@ namespace SelfHost.Config
             factory.RegisterConfigurationServices(efConfig);
             factory.RegisterOperationalServices(efConfig);
 
-            factory.Register(new Registration<List<InMemoryUser>>(Users.Get()));
-            factory.UserService = new Registration<IUserService, InMemoryUserService>();
-
-            factory.CorsPolicyService = new ClientConfigurationCorsPolicyRegistration(efConfig);
+            factory.UseInMemoryUsers(Users.Get());
 
             return factory;
         }
