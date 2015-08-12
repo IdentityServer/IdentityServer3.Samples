@@ -1,7 +1,4 @@
-﻿using Microsoft.Owin.Security.Facebook;
-using Microsoft.Owin.Security.Google;
-using Microsoft.Owin.Security.Twitter;
-/*
+﻿/*
  * Copyright 2014 Dominick Baier, Brock Allen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +13,7 @@ using Microsoft.Owin.Security.Twitter;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 using Owin;
 using WebHost.IdSvr;
 using IdentityManager.Configuration;
@@ -23,6 +21,9 @@ using IdentityServer3.Core.Configuration;
 using WebHost.IdMgr;
 using IdentityManager.Core.Logging;
 using IdentityManager.Logging;
+using Microsoft.Owin.Security.Facebook;
+using Microsoft.Owin.Security.Google;
+using Microsoft.Owin.Security.Twitter;
 using Serilog;
 
 namespace WebHost
