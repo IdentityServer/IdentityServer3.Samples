@@ -30,8 +30,6 @@ using IdentityServer3.Core.Services.Default;
 
 namespace IdentityServer3.MembershipReboot
 {
-    using BrockAllen.MembershipReboot;
-
     public class MembershipRebootUserService<TAccount> : UserServiceBase
         where TAccount : UserAccount
     {
@@ -72,7 +70,7 @@ namespace IdentityServer3.MembershipReboot
         {
             var claims = new List<Claim>{
                 new Claim(Constants.ClaimTypes.Subject, GetSubjectForAccount(account)),
-                new Claim(Constants.ClaimTypes.UpdatedAt, account.LastUpdated.ToEpochTime().ToString(), ClaimValueTypes.Integer),
+                new Claim(Constants.ClaimTypes.UpdatedAt, IdentityModel.EpochTimeExtensions.ToEpochTime(account.LastUpdated).ToString(), ClaimValueTypes.Integer),
                 new Claim("tenant", account.Tenant),
                 new Claim(Constants.ClaimTypes.PreferredUserName, account.Username),
             };
