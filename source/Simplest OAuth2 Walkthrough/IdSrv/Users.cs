@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Thinktecture.IdentityServer.Core.Services.InMemory;
+﻿using IdentityServer3.Core.Services.InMemory;
+using System.Collections.Generic;
 
 namespace IdSrv
 {

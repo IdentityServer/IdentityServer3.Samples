@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel.Client;
+using IdentityModel;
+using Newtonsoft.Json.Linq;
 using Sample;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Thinktecture.IdentityModel.Client;
 
 namespace MvcCodeFlowClientManual.Controllers
 {
@@ -34,8 +35,8 @@ namespace MvcCodeFlowClientManual.Controllers
 
         public async Task<ActionResult> RefreshToken()
         {
-            var client = new OAuth2Client(
-                new Uri(Constants.TokenEndpoint),
+            var client = new TokenClient(
+                Constants.TokenEndpoint,
                 "codeclient",
                 "secret");
 

@@ -3,9 +3,11 @@ using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.Twitter;
 using Owin;
 using SampleApp.Config;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Logging;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Logging;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Services.Default;
+using Serilog;
 
 namespace SampleApp
 {
@@ -13,26 +15,28 @@ namespace SampleApp
     {
         public void Configuration(IAppBuilder app)
         {
-            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+            Log.Logger = new LoggerConfiguration()
+                           .MinimumLevel.Debug()
+                           .WriteTo.Trace()
+                           .CreateLogger();
 
             app.Map("/core", coreApp =>
             {
-                var factory = InMemoryFactory.Create(
-                    users : Users.Get(),
-                    clients: Clients.Get(),
-                    scopes: Scopes.Get());
+                var factory = new IdentityServerServiceFactory()
+                    .UseInMemoryUsers(Users.Get())
+                    .UseInMemoryClients(Clients.Get())
+                    .UseInMemoryScopes(Scopes.Get());
 
                 factory.ViewService = new Registration<IViewService>(typeof(CustomViewService));
                 //factory.UserService = new Registration<IUserService, UserService>();
+                factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
 
                 var options = new IdentityServerOptions
                 {
-                    IssuerUri = "https://idsrv3.com",
-                    SiteName = "Thinktecture IdentityServer3 - CustomViewService",
+                    SiteName = "IdentityServer33 - CustomViewService",
 
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
-                    CorsPolicy = CorsPolicy.AllowAll,
                     AuthenticationOptions = new AuthenticationOptions {
                         IdentityProviders = ConfigureAdditionalIdentityProviders,
                     }

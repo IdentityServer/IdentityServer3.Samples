@@ -6,8 +6,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Extensions;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Extensions;
 
 namespace SampleApp.Controllers
 {
@@ -19,8 +19,8 @@ namespace SampleApp.Controllers
         {
             // this verifies that we have a partial signin from idsvr
             var ctx = Request.GetOwinContext();
-            var authentication = await ctx.Authentication.AuthenticateAsync(Constants.PartialSignInAuthenticationType);
-            if (authentication == null)
+            var partial_login = await ctx.Environment.GetIdentityServerPartialLoginAsync();
+            if (partial_login == null)
             {
                 return View("Error");
             }
@@ -33,8 +33,8 @@ namespace SampleApp.Controllers
         public async Task<ActionResult> Index(ExternalRegistrationModel model)
         {
             var ctx = Request.GetOwinContext();
-            var authentication = await ctx.Authentication.AuthenticateAsync(Constants.PartialSignInAuthenticationType);
-            if (authentication == null)
+            var partial_login = await ctx.Environment.GetIdentityServerPartialLoginAsync();
+            if (partial_login == null)
             {
                 return View("Error");
             }
@@ -42,7 +42,7 @@ namespace SampleApp.Controllers
             if (ModelState.IsValid)
             {
                 // update the "database" for our users with the registration data
-                var nameIdClaim = authentication.Identity.Claims.First(x => x.Type == Constants.ClaimTypes.ExternalProviderUserId);
+                var nameIdClaim = partial_login.Claims.First(x => x.Type == Constants.ClaimTypes.ExternalProviderUserId);
                 var provider = nameIdClaim.Issuer;
                 var providerUserId = nameIdClaim.Value;
 
@@ -61,7 +61,7 @@ namespace SampleApp.Controllers
                 SampleApp.RegisterFirstExternalRegistrationUserService.Users.Add(user);
 
                 // find the URL to continue with the process to the issue the token to the RP
-                var resumeUrl = authentication.Identity.Claims.Single(x => x.Type == Constants.ClaimTypes.PartialLoginReturnUrl).Value;
+                var resumeUrl = await ctx.Environment.GetPartialLoginResumeUrlAsync();
                 return Redirect(resumeUrl);
             }
 

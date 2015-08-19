@@ -3,7 +3,8 @@ using System.Threading.Tasks;
 using Microsoft.Owin;
 using Owin;
 using Configuration;
-using Thinktecture.IdentityServer.Core.Configuration;
+using IdentityServer3.Core.Configuration;
+using Serilog;
 
 [assembly: OwinStartup(typeof(WebHost.Startup))]
 
@@ -13,10 +14,14 @@ namespace WebHost
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-            var factory = InMemoryFactory.Create(
-                users: Users.Get(),
-                clients: Clients.Get(),
-                scopes: Scopes.Get());
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Trace(outputTemplate: "{Timestamp} [{Level}] ({Name}){NewLine} {Message}{NewLine}{Exception}")
+                .CreateLogger();
+
+            var factory = new IdentityServerServiceFactory()
+                        .UseInMemoryUsers(Users.Get())
+                        .UseInMemoryClients(Clients.Get())
+                        .UseInMemoryScopes(Scopes.Get());
 
             var options = new IdentityServerOptions
             {

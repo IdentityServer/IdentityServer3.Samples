@@ -1,8 +1,6 @@
-﻿using System.Security.Claims;
+﻿using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Validation;
 using System.Threading.Tasks;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Validation;
 
 namespace SelfHost
 {
@@ -25,6 +23,11 @@ namespace SelfHost
             }
 
             return Task.FromResult(new CustomGrantValidationResult("bob", "customGrant"));
+        }
+
+        public string GrantType
+        {
+            get { return "custom"; }
         }
     }
 }

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
-using Thinktecture.IdentityServer.Core.Models;
-using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.ViewModels;
+using IdentityServer3.Core.Models;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Validation;
+using IdentityServer3.Core.ViewModels;
 
 namespace SampleApp
 {
@@ -24,17 +25,17 @@ namespace SampleApp
             return await Render(model, "login", name);
         }
 
-        public virtual Task<System.IO.Stream> Logout(LogoutViewModel model)
+        public Task<Stream> Logout(LogoutViewModel model, SignOutMessage message)
         {
             return Render(model, "logout");
         }
 
-        public virtual Task<System.IO.Stream> LoggedOut(LoggedOutViewModel model)
+        public Task<Stream> LoggedOut(LoggedOutViewModel model, SignOutMessage message)
         {
             return Render(model, "loggedOut");
         }
 
-        public virtual Task<System.IO.Stream> Consent(ConsentViewModel model)
+        public Task<Stream> Consent(ConsentViewModel model, ValidatedAuthorizeRequest authorizeRequest)
         {
             return Render(model, "consent");
         }

@@ -5,7 +5,6 @@ using Owin;
 using Sample;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using System.Security.Claims;
 
 [assembly: OwinStartup(typeof(MVC_OWIN_Client.Startup))]
 

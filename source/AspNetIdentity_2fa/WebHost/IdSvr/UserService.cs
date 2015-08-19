@@ -20,10 +20,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Thinktecture.IdentityServer.AspNetIdentity;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Models;
+using IdentityServer3.AspNetIdentity;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Models;
 
 namespace WebHost.IdSvr
 {
@@ -45,7 +45,7 @@ namespace WebHost.IdSvr
         {
         }
 
-        protected override async Task<Thinktecture.IdentityServer.Core.Models.AuthenticateResult> PostAuthenticateLocalAsync(User user, SignInMessage message)
+        protected override async Task<AuthenticateResult> PostAuthenticateLocalAsync(User user, SignInMessage message)
         {
             if (base.userManager.SupportsUserTwoFactor)
             {
@@ -57,11 +57,11 @@ namespace WebHost.IdSvr
                     var result = await userManager.NotifyTwoFactorTokenAsync(id, "sms", code);
                     if (!result.Succeeded)
                     {
-                        return new Thinktecture.IdentityServer.Core.Models.AuthenticateResult(result.Errors.First());
+                        return new IdentityServer3.Core.Models.AuthenticateResult(result.Errors.First());
                     }
 
                     var name = await GetDisplayNameForAccountAsync(id);
-                    return new Thinktecture.IdentityServer.Core.Models.AuthenticateResult("~/2fa", id, name);
+                    return new IdentityServer3.Core.Models.AuthenticateResult("~/2fa", id, name);
                 }
             }
 

@@ -15,11 +15,13 @@
  */
 
 using WebHost.IdSvr;
-using Thinktecture.IdentityManager;
-using Thinktecture.IdentityManager.Configuration;
-using Thinktecture.IdentityServer.Core.Configuration;
+using IdentityManager.Configuration;
+using IdentityServer3.Core.Configuration;
 using WebHost.IdMgr;
 using Owin;
+using Serilog;
+using IdentityManager.Logging;
+using IdentityManager.Core.Logging;
 
 namespace WebHost
 {
@@ -27,6 +29,12 @@ namespace WebHost
     {
         public void Configuration(IAppBuilder app)
         {
+            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+            Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.Trace()
+               .CreateLogger();
+
             app.Map("/admin", adminApp =>
             {
                 var factory = new IdentityManagerServiceFactory();
@@ -37,6 +45,7 @@ namespace WebHost
                     Factory = factory
                 });
             });
+
             app.Map("/core", core =>
             {
                 var idSvrFactory = Factory.Configure();
@@ -44,7 +53,7 @@ namespace WebHost
 
                 var options = new IdentityServerOptions
                 {
-                    SiteName = "Thinktecture IdentityServer3 - AspNetIdentity 2FA",
+                    SiteName = "IdentityServer3 - AspNetIdentity 2FA",
                     SigningCertificate = Certificate.Get(),
                     Factory = idSvrFactory,
                 };

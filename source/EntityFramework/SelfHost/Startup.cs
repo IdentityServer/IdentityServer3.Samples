@@ -1,7 +1,7 @@
 ﻿using Owin;
 using SelfHost.Config;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Services;
 
 namespace SelfHost
 {
@@ -11,12 +11,9 @@ namespace SelfHost
         {
             var options = new IdentityServerOptions
             {
-                IssuerUri = "https://idsrv3.com",
-                SiteName = "Thinktecture IdentityServer3 - (EntityFramework)",
-
+                SiteName = "IdentityServer3 - (EntityFramework)",
                 SigningCertificate = Certificate.Get(),
                 Factory = Factory.Configure("IdSvr3Config"),
-                CorsPolicy = CorsPolicy.AllowAll
             };
 
             appBuilder.UseIdentityServer(options);

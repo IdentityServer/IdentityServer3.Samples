@@ -1,7 +1,10 @@
-﻿using System;
+﻿using IdentityModel.Client;
+using mshtml;
+using System;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Navigation;
-using Thinktecture.IdentityModel.Client;
 
 namespace Thinktecture.Samples
 {
@@ -36,11 +39,29 @@ namespace Thinktecture.Samples
         {
             if (e.Uri.ToString().StartsWith(_callbackUri.AbsoluteUri))
             {
-                AuthorizeResponse = new AuthorizeResponse(e.Uri.AbsoluteUri);
+                if (e.Uri.AbsoluteUri.Contains("#"))
+                {
+                    AuthorizeResponse = new AuthorizeResponse(e.Uri.AbsoluteUri);
+                }
+                else
+                {
+                    var document = (IHTMLDocument3)((WebBrowser)sender).Document;
+                    var inputElements = document.getElementsByTagName("INPUT").OfType<IHTMLElement>();
+                    var resultUrl = "?";
+
+                    foreach (var input in inputElements)
+                    {
+                        resultUrl += input.getAttribute("name") + "=";
+                        resultUrl += input.getAttribute("value") + "&";
+                    }
+
+                    resultUrl = resultUrl.TrimEnd('&');
+                    AuthorizeResponse = new AuthorizeResponse(resultUrl);
+                }
 
                 e.Cancel = true;
-                this.Visibility = System.Windows.Visibility.Hidden;
-                
+                this.Visibility = Visibility.Hidden;
+
                 if (Done != null)
                 {
                     Done.Invoke(this, AuthorizeResponse);

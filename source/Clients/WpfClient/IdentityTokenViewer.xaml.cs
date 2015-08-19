@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel;
+using Newtonsoft.Json.Linq;
 using System.Text;
 using System.Windows;
-using Thinktecture.IdentityModel.Client;
 
 namespace WpfClient
 {

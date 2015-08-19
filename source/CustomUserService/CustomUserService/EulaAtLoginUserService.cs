@@ -4,14 +4,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Extensions;
-using Thinktecture.IdentityServer.Core.Models;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Extensions;
+using IdentityServer3.Core.Models;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Services.Default;
 
 namespace SampleApp
 {
-    public class EulaAtLoginUserService : IUserService
+    public class EulaAtLoginUserService : UserServiceBase
     {
         public class CustomUser
         {
@@ -48,57 +49,33 @@ namespace SampleApp
             },
         };
 
-        public Task<AuthenticateResult> AuthenticateExternalAsync(ExternalIdentity externalUser, SignInMessage message)
+        public override Task AuthenticateLocalAsync(LocalAuthenticationContext context)
         {
-            return Task.FromResult<AuthenticateResult>(null);
+            var user = Users.SingleOrDefault(x => x.Username == context.UserName && x.Password == context.Password);
+            if (user != null)
+            {
+                if (user.AcceptedEula)
+                {
+                    context.AuthenticateResult = new AuthenticateResult(user.Subject, user.Username);
+                }
+                else
+                {
+                    context.AuthenticateResult = new AuthenticateResult("~/eula", user.Subject, user.Username);
+                }
+            }
+
+            return Task.FromResult(0);
         }
 
-        public Task<AuthenticateResult> AuthenticateLocalAsync(string username, string password, SignInMessage message)
-        {
-            var user = Users.SingleOrDefault(x => x.Username == username && x.Password == password);
-            if (user == null)
-            {
-                return Task.FromResult<AuthenticateResult>(null);
-            }
-
-            if (user.AcceptedEula)
-            {
-                return Task.FromResult<AuthenticateResult>(new AuthenticateResult(user.Subject, user.Username));
-            }
-            else
-            {
-                // either redirect path works
-                return Task.FromResult<AuthenticateResult>(new AuthenticateResult("/core/eula", user.Subject, user.Username));
-                //return Task.FromResult<AuthenticateResult>(new AuthenticateResult("~/eula", user.Subject, user.Username));
-            }
-        }
-
-        public Task<IEnumerable<System.Security.Claims.Claim>> GetProfileDataAsync(ClaimsPrincipal subject, IEnumerable<string> requestedClaimTypes = null)
+        public override Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
             // issue the claims for the user
-            var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
-            if (user == null)
+            var user = Users.SingleOrDefault(x => x.Subject == context.Subject.GetSubjectId());
+            if (user != null)
             {
-                return Task.FromResult<IEnumerable<Claim>>(null);
+                context.IssuedClaims = user.Claims.Where(x => context.RequestedClaimTypes.Contains(x.Type));
             }
 
-            return Task.FromResult(user.Claims.Where(x => requestedClaimTypes.Contains(x.Type)));
-        }
-
-        public Task<bool> IsActiveAsync(ClaimsPrincipal subject)
-        {
-            var user = Users.SingleOrDefault(x => x.Subject == subject.GetSubjectId());
-            return Task.FromResult(user != null && user.AcceptedEula);
-        }
-        
-
-        public Task<AuthenticateResult> PreAuthenticateAsync(SignInMessage message)
-        {
-            return Task.FromResult<AuthenticateResult>(null);
-        }
-
-        public Task SignOutAsync(ClaimsPrincipal subject)
-        {
             return Task.FromResult(0);
         }
     }

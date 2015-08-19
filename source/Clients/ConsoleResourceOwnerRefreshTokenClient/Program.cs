@@ -1,21 +1,22 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel;
+using IdentityModel.Client;
+using IdentityModel.Extensions;
+using Newtonsoft.Json.Linq;
 using Sample;
 using System;
 using System.Net.Http;
 using System.Text;
-using Thinktecture.IdentityModel.Client;
-using Thinktecture.IdentityModel.Extensions;
 
 namespace ConsoleResourceOwnerClient
 {
     class Program
     {
-        static OAuth2Client _oauth2;
+        static TokenClient _tokenClient;
 
         static void Main(string[] args)
         {
-            _oauth2 = new OAuth2Client(
-                new Uri(Constants.TokenEndpoint),
+            _tokenClient = new TokenClient(
+                Constants.TokenEndpoint,
                 "roclient",
                 "secret");
 
@@ -43,7 +44,7 @@ namespace ConsoleResourceOwnerClient
 
         static TokenResponse RequestToken()
         {
-            return _oauth2.RequestResourceOwnerPasswordAsync
+            return _tokenClient.RequestResourceOwnerPasswordAsync
                 ("bob", "bob", "read write offline_access").Result;
         }
 
@@ -51,7 +52,7 @@ namespace ConsoleResourceOwnerClient
         {
             Console.WriteLine("Using refresh token: {0}", refreshToken);
 
-            return _oauth2.RequestRefreshTokenAsync(refreshToken).Result;
+            return _tokenClient.RequestRefreshTokenAsync(refreshToken).Result;
         }
 
         static void CallService(string token)

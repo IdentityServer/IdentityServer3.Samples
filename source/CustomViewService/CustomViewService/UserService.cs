@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Services.InMemory;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Services.InMemory;
+using System.Threading.Tasks;
+using IdentityServer3.Core.Models;
 
 namespace SampleApp
 {
@@ -17,12 +19,12 @@ namespace SampleApp
             ctx = new OwinContext(env.Environment);
         }
 
-        public async override System.Threading.Tasks.Task<Thinktecture.IdentityServer.Core.Models.AuthenticateResult> AuthenticateLocalAsync(string username, string password, Thinktecture.IdentityServer.Core.Models.SignInMessage message)
+        public override async Task AuthenticateLocalAsync(LocalAuthenticationContext context)
         {
             var form = await ctx.Request.ReadFormAsync();
             var extra = form["extra"];
 
-            return await base.AuthenticateLocalAsync(username, password, message);
+            await base.AuthenticateLocalAsync(context);
         }
     }
 }

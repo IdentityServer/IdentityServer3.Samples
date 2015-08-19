@@ -3,9 +3,11 @@ using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.Twitter;
 using Owin;
 using SampleApp.Config;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Logging;
-using Thinktecture.IdentityServer.Core.Services;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Logging;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Services.Default;
+using Serilog;
 
 namespace SampleApp
 {
@@ -13,30 +15,32 @@ namespace SampleApp
     {
         public void Configuration(IAppBuilder app)
         {
-            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+            Log.Logger = new LoggerConfiguration()
+                           .MinimumLevel.Debug()
+                           .WriteTo.Trace()
+                           .CreateLogger();
 
             app.Map("/core", coreApp =>
             {
-                var factory = InMemoryFactory.Create(
-                    clients: Clients.Get(),
-                    scopes: Scopes.Get());
+                var factory = new IdentityServerServiceFactory()
+                    .UseInMemoryClients(Clients.Get())
+                    .UseInMemoryScopes(Scopes.Get());
 
                 // different examples of custom user services
-                var userService = new RegisterFirstExternalRegistrationUserService();
+                //var userService = new RegisterFirstExternalRegistrationUserService();
                 //var userService = new ExternalRegistrationUserService();
                 //var userService = new EulaAtLoginUserService();
-                //var userService = new LocalRegistrationUserService();
+                var userService = new LocalRegistrationUserService();
                 
                 factory.UserService = new Registration<IUserService>(resolver => userService);
+                factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
 
                 var options = new IdentityServerOptions
                 {
-                    IssuerUri = "https://idsrv3.com",
-                    SiteName = "Thinktecture IdentityServer3 - CustomUserService",
+                    SiteName = "IdentityServer3 - CustomUserService",
 
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
-                    CorsPolicy = CorsPolicy.AllowAll,
                     
                     AuthenticationOptions = new AuthenticationOptions
                     {

@@ -1,10 +1,9 @@
-﻿using System.Security.Claims;
+﻿using IdentityServer3.Core.Extensions;
+using IdentityServer3.Core.Models;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Validation;
+using SelfHost.Logging;
 using System.Threading.Tasks;
-using Thinktecture.IdentityServer.Core.Extensions;
-using Thinktecture.IdentityServer.Core.Logging;
-using Thinktecture.IdentityServer.Core.Models;
-using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Validation;
 
 namespace SelfHost.Extensions
 {
@@ -21,12 +20,6 @@ namespace SelfHost.Extensions
 
         public async Task<CustomGrantValidationResult> ValidateAsync(ValidatedTokenRequest request)
         {
-            if (request.GrantType != "legacy_account_store")
-            {
-                Logger.Error("unknown custom grant type");
-                return null;
-            }
-
             var legacyAccountStoreType = request.Raw.Get("account_store");
             var id = request.Raw.Get("legacy_id");
             var secret = request.Raw.Get("legacy_secret");
@@ -40,8 +33,14 @@ namespace SelfHost.Extensions
             }
 
             var message = new SignInMessage { Tenant = legacyAccountStoreType };
-            var result = await _users.AuthenticateLocalAsync(id, secret, message);
+            var context = new LocalAuthenticationContext
+            {
+                UserName = id, Password = secret,
+                SignInMessage = message
+            };
+            await _users.AuthenticateLocalAsync(context);
 
+            var result = context.AuthenticateResult;
             if (result.IsError)
             {
                 Logger.Error("authentication failed");
@@ -52,6 +51,11 @@ namespace SelfHost.Extensions
                 result.User.GetSubjectId(),
                 "custom",
                 result.User.Claims);
+        }
+
+        public string GrantType
+        {
+            get { return "legacy_account_store"; }
         }
     }
 }

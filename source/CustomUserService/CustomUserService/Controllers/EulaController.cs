@@ -6,8 +6,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Extensions;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Extensions;
 
 namespace SampleApp.Controllers
 {
@@ -19,8 +19,8 @@ namespace SampleApp.Controllers
         {
             // this verifies that we have a prtial signin from idsvr
             var ctx = Request.GetOwinContext();
-            var authentication = await ctx.Authentication.AuthenticateAsync(Constants.PartialSignInAuthenticationType);
-            if (authentication == null)
+            var partial_user = await ctx.Environment.GetIdentityServerPartialLoginAsync();
+            if (partial_user == null)
             {
                 return View("Error");
             }
@@ -33,8 +33,8 @@ namespace SampleApp.Controllers
         public async Task<ActionResult> Index(string button)
         {
             var ctx = Request.GetOwinContext();
-            var authentication = await ctx.Authentication.AuthenticateAsync(Constants.PartialSignInAuthenticationType);
-            if (authentication == null)
+            var partial_user = await ctx.Environment.GetIdentityServerPartialLoginAsync();
+            if (partial_user == null)
             {
                 return View("Error");
             }
@@ -42,12 +42,12 @@ namespace SampleApp.Controllers
             if (button == "yes")
             {
                 // update the "database" for our users with the outcome
-                var subject = authentication.Identity.GetSubjectId();
+                var subject = partial_user.GetSubjectId();
                 var user = EulaAtLoginUserService.Users.Single(x => x.Subject == subject);
                 user.AcceptedEula = true;
 
                 // find the URL to continue with the process to the issue the token to the RP
-                var resumeUrl = authentication.Identity.Claims.Single(x => x.Type == Constants.ClaimTypes.PartialLoginReturnUrl).Value;
+                var resumeUrl = await ctx.Environment.GetPartialLoginResumeUrlAsync();
                 return Redirect(resumeUrl);
             }
 

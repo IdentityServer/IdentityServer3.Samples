@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Thinktecture.IdentityServer.Core.Models;
+﻿using IdentityServer3.Core.Models;
+using System.Collections.Generic;
 
 namespace IdSrv
 {
@@ -18,9 +18,15 @@ namespace IdSrv
                     AccessTokenType = AccessTokenType.Reference,
 
                     Flow = Flows.ClientCredentials,
-                    ClientSecrets = new List<ClientSecret>
+                    
+                    ClientSecrets = new List<Secret>
                     {
-                        new ClientSecret("F621F470-9731-4A25-80EF-67A6F7C5F4B8".Sha256())
+                        new Secret("F621F470-9731-4A25-80EF-67A6F7C5F4B8".Sha256())
+                    },
+                    
+                    AllowedScopes = new List<string>
+                    {
+                        "api1"
                     }
                 },
 
@@ -33,9 +39,15 @@ namespace IdSrv
                     AccessTokenType = AccessTokenType.Reference,
 
                     Flow = Flows.ResourceOwner,
-                    ClientSecrets = new List<ClientSecret>
+                    
+                    ClientSecrets = new List<Secret>
                     {
-                        new ClientSecret("21B5F798-BE55-42BC-8AA8-0025B903DC3B".Sha256())
+                        new Secret("21B5F798-BE55-42BC-8AA8-0025B903DC3B".Sha256())
+                    },
+
+                    AllowedScopes = new List<string>
+                    {
+                        "api1"
                     }
                 }
             };

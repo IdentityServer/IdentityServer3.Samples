@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel;
+using IdentityModel.Client;
+using IdentityModel.Extensions;
+using Newtonsoft.Json.Linq;
 using Sample;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using Thinktecture.IdentityModel.Client;
-using Thinktecture.IdentityModel.Extensions;
 
 namespace ConsoleResourceOwnerClient
 {
@@ -22,16 +23,16 @@ namespace ConsoleResourceOwnerClient
 
         static TokenResponse RequestToken()
         {
-            var client = new OAuth2Client(
-                new Uri(Constants.TokenEndpoint),
+            var client = new TokenClient(
+                Constants.TokenEndpoint,
                 "roclient",
                 "secret");
 
             // idsrv supports additional non-standard parameters 
             // that get passed through to the user service
-            var optional = new Dictionary<string, string>
+            var optional = new
             {
-                { "acr_values", "tenant:custom_account_store1 foo bar quux" }
+                acr_values = "tenant:custom_account_store1 foo bar quux"
             };
 
             return client.RequestResourceOwnerPasswordAsync("bob", "bob", "read write", optional).Result;

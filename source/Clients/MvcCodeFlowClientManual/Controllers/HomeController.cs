@@ -1,9 +1,9 @@
-﻿using Sample;
+﻿using IdentityModel.Client;
+using Sample;
 using System;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
-using Thinktecture.IdentityModel.Client;
 
 namespace MvcCodeFlowClientManual.Controllers
 {
@@ -23,14 +23,15 @@ namespace MvcCodeFlowClientManual.Controllers
             var nonce = Guid.NewGuid().ToString("N");
             SetTempState(state, nonce);
 
-            var client = new OAuth2Client(new Uri(Constants.AuthorizeEndpoint));
+            var request = new AuthorizeRequest(Constants.AuthorizeEndpoint);
             
-            var url = client.CreateCodeFlowUrl(
-                clientId:    "codeclient",
+            var url = request.CreateAuthorizeUrl(
+                clientId:     "codeclient",
+                responseType: "code",
                 scope:        scopes,
-                redirectUri: "https://localhost:44312/callback",
-                state:       state,
-                nonce:       nonce);
+                redirectUri:  "https://localhost:44312/callback",
+                state:        state,
+                nonce:        nonce);
 
             return Redirect(url);
         }

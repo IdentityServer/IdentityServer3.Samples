@@ -1,6 +1,6 @@
 ﻿using Microsoft.Owin.Hosting;
+using Serilog;
 using System;
-using Thinktecture.IdentityServer.Core.Logging;
 
 namespace IdSrv
 {
@@ -8,8 +8,13 @@ namespace IdSrv
     {
         static void Main(string[] args)
         {
-            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+            // logging
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo
+                .LiterateConsole(outputTemplate: "{Timestamp:HH:MM} [{Level}] ({Name:l}){NewLine} {Message}{NewLine}{Exception}")
+                .CreateLogger();
 
+            // hosting identityserver
             using (WebApp.Start<Startup>("https://localhost:44333"))
             {
                 Console.WriteLine("server running...");

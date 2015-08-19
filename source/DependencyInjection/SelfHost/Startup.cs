@@ -1,8 +1,10 @@
 ﻿using Owin;
 using SelfHost.Config;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Host.Config;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Host.Config;
+using IdentityServer3.Core.Services.Default;
+using Serilog;
 
 namespace SelfHost
 {
@@ -10,18 +12,23 @@ namespace SelfHost
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-            var factory = InMemoryFactory.Create(
-                users :  Users.Get(),
-                clients: Clients.Get(), 
-                scopes:  Scopes.Get());
+            Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.Trace()
+               .CreateLogger();
+
+            var factory = new IdentityServerServiceFactory()
+                .UseInMemoryUsers(Users.Get())
+                .UseInMemoryClients(Clients.Get()) 
+                .UseInMemoryScopes(Scopes.Get());
 
             factory.ClaimsProvider = new Registration<IClaimsProvider, MyCustomClaimsProvider>();
             factory.Register(new Registration<ICustomLogger, MyCustomDebugLogger>());
+            factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
 
             var options = new IdentityServerOptions
             {
-                IssuerUri = "https://idsrv3.com",
-                SiteName = "Thinktecture IdentityServer3 - DependencyInjection",
+                SiteName = "IdentityServer3 - DependencyInjection",
 
                 SigningCertificate = Certificate.Get(),
                 Factory = factory,

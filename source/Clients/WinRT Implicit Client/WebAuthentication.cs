@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using IdentityModel.Client;
+using System;
 using System.Threading.Tasks;
-using Thinktecture.IdentityModel.Client;
 using Windows.Security.Authentication.Web;
 
-namespace Thinktecture.IdentityModel.WinRT
+namespace IdentityModel.WinRT
 {
     public static class WebAuthentication
     {
@@ -25,17 +24,17 @@ namespace Thinktecture.IdentityModel.WinRT
             string scope, 
             Uri redirectUri)
         {
-            var client = new OAuth2Client(endpoint);
+            var request = new AuthorizeRequest(endpoint);
             var state = Guid.NewGuid().ToString("N");
             var nonce = Guid.NewGuid().ToString("N");
 
-            var startUri = client.CreateAuthorizeUrl(
-                clientId: clientId,
+            var startUri = request.CreateAuthorizeUrl(
+                clientId:     clientId,
                 responseType: responseType,
-                scope: scope,
-                redirectUri: redirectUri.AbsoluteUri,
-                state: state,
-                nonce: nonce, 
+                scope:        scope,
+                redirectUri:  redirectUri.AbsoluteUri,
+                state:        state,
+                nonce:        nonce, 
                 responseMode: "form_post");
                 
             try
@@ -68,6 +67,4 @@ namespace Thinktecture.IdentityModel.WinRT
             }
         }
     }
-
-    
 }

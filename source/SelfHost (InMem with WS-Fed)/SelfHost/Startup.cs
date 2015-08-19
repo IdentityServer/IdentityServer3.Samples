@@ -1,12 +1,13 @@
 ﻿using Owin;
 using SelfHost.Config;
 using System.Collections.Generic;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Services.InMemory;
-using Thinktecture.IdentityServer.Host.Config;
-using Thinktecture.IdentityServer.WsFederation.Configuration;
-using Thinktecture.IdentityServer.WsFederation.Models;
-using Thinktecture.IdentityServer.WsFederation.Services;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Services.InMemory;
+using IdentityServer3.Host.Config;
+using IdentityServer3.WsFederation.Configuration;
+using IdentityServer3.WsFederation.Models;
+using IdentityServer3.WsFederation.Services;
+using Serilog;
 
 namespace SelfHost
 {
@@ -14,15 +15,19 @@ namespace SelfHost
     {
         public void Configuration(IAppBuilder appBuilder)
         {
-            var factory = InMemoryFactory.Create(
-                users:   Users.Get(), 
-                clients: Clients.Get(), 
-                scopes:  Scopes.Get());
+            Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.LiterateConsole(outputTemplate: "{Timestamp} [{Level}] ({Name}){NewLine} {Message}{NewLine}{Exception}")
+               .CreateLogger();
+            
+            var factory = new IdentityServerServiceFactory()
+                            .UseInMemoryUsers(Users.Get())
+                            .UseInMemoryClients(Clients.Get())
+                            .UseInMemoryScopes(Scopes.Get());
 
             var options = new IdentityServerOptions
             {
-                IssuerUri = "https://idsrv3.com",
-                SiteName = "Thinktecture IdentityServer3 - WsFed",
+                SiteName = "IdentityServer3 - WsFed",
 
                 SigningCertificate = Certificate.Get(),
                 Factory = factory,

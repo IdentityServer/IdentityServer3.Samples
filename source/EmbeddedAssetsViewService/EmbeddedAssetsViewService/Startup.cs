@@ -3,9 +3,10 @@ using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.Twitter;
 using Owin;
 using SampleApp.Config;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Services;
-using Thinktecture.IdentityServer.Core.Services.Default;
+using IdentityServer3.Core.Configuration;
+using IdentityServer3.Core.Services;
+using IdentityServer3.Core.Services.Default;
+using Serilog;
 
 namespace SampleApp
 {
@@ -13,25 +14,31 @@ namespace SampleApp
     {
         public void Configuration(IAppBuilder app)
         {
+            Log.Logger = new LoggerConfiguration()
+               .MinimumLevel.Debug()
+               .WriteTo.Trace()
+               .CreateLogger(); 
+
             app.Map("/core", coreApp =>
             {
-                var factory = InMemoryFactory.Create(
-                    users:   Users.Get(),
-                    clients: Clients.Get(),
-                    scopes:  Scopes.Get());
+                var factory = new IdentityServerServiceFactory()
+                    .UseInMemoryUsers(Users.Get())
+                    .UseInMemoryClients(Clients.Get())
+                    .UseInMemoryScopes(Scopes.Get());
 
                 var viewOptions = new DefaultViewServiceOptions();
                 viewOptions.Stylesheets.Add("/Content/Site.css");
                 viewOptions.CacheViews = false;
                 factory.ConfigureDefaultViewService(viewOptions);
 
+                factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
+                
                 var options = new IdentityServerOptions
                 {
-                    SiteName = "Thinktecture IdentityServer3 - Configuring DefaultViewService",
+                    SiteName = "IdentityServer3 - Configuring DefaultViewService",
 
                     SigningCertificate = Certificate.Get(),
                     Factory = factory,
-                    CorsPolicy = CorsPolicy.AllowAll,
 
                     AuthenticationOptions = new AuthenticationOptions{
                         IdentityProviders = ConfigureAdditionalIdentityProviders,

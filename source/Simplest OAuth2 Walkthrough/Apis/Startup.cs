@@ -1,7 +1,7 @@
 ﻿using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
-using Thinktecture.IdentityServer.AccessTokenValidation;
+using IdentityServer3.AccessTokenValidation;
 
 [assembly: OwinStartup(typeof(Apis.Startup))]
 
@@ -15,6 +15,8 @@ namespace Apis
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
                 {
                     Authority = "https://localhost:44333",
+                    ValidationMode = ValidationMode.ValidationEndpoint,
+
                     RequiredScopes = new[] { "api1" }
                 });
 

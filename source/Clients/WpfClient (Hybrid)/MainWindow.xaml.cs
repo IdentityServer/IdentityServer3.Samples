@@ -1,11 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel.Client;
+using Newtonsoft.Json.Linq;
 using Sample;
 using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Windows;
-using Thinktecture.IdentityModel.Client;
 using Thinktecture.Samples;
 
 namespace WpfClient
@@ -51,8 +50,8 @@ namespace WpfClient
 
         private void RequestToken(string scope, string responseType)
         {
-            var client = new OAuth2Client(new Uri(Constants.AuthorizeEndpoint));
-            var startUrl = client.CreateAuthorizeUrl(
+            var request = new AuthorizeRequest(Constants.AuthorizeEndpoint);
+            var startUrl = request.CreateAuthorizeUrl(
                 clientId: "hybridclient",
                 responseType: responseType,
                 scope: scope,
@@ -68,8 +67,8 @@ namespace WpfClient
         {
             if (_response != null && _response.Values.ContainsKey("code"))
             {
-                var client = new OAuth2Client(
-                    new Uri(Constants.TokenEndpoint),
+                var client = new TokenClient(
+                    Constants.TokenEndpoint,
                     "hybridclient",
                     "secret");
 
