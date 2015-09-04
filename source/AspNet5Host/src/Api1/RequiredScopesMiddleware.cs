@@ -24,7 +24,8 @@ namespace Api1
             {
                 if (!ScopePresent(context.User))
                 {
-                    context.Response.OnSendingHeaders(Send403, context);
+                    // todo
+                    //context.Response.OnSendingHeaders(Send403, context);
                     return;
                 }
             }

@@ -2,7 +2,7 @@
 using Microsoft.Framework.DependencyInjection;
 using System.Security.Cryptography.X509Certificates;
 using IdentityServer3.Core.Configuration;
-using Microsoft.Framework.Runtime;
+using Microsoft.Dnx.Runtime;
 
 namespace IdentityServerAspNet5
 {
@@ -25,19 +25,6 @@ namespace IdentityServerAspNet5
                                 .UseInMemoryScopes(Scopes.Get()),
 
                 SigningCertificate = new X509Certificate2(certFile, "idsrv3test")
-            };
-
-            app.UseIdentityServer(idsrvOptions);
-        }
-
-        public void Configure(IApplicationBuilder app)
-        {
-            var idsrvOptions = new IdentityServerOptions
-            {
-                Factory = new IdentityServerServiceFactory()
-                                .UseInMemoryUsers(Users.Get())
-                                .UseInMemoryClients(Clients.Get())
-                                .UseInMemoryScopes(Scopes.Get()),
             };
 
             app.UseIdentityServer(idsrvOptions);

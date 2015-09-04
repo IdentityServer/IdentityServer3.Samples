@@ -2,6 +2,7 @@
 using Microsoft.Framework.DependencyInjection;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Api1
 {
@@ -14,7 +15,7 @@ namespace Api1
 
         public void Configure(IApplicationBuilder app)
         {
-            JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
+            //JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
 
             app.UseOAuthBearerAuthentication(options =>
             {
