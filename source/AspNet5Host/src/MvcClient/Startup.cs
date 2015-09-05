@@ -58,7 +58,6 @@ namespace MvcClient
                                 n.AuthenticationTicket.Properties,
                                 n.AuthenticationTicket.AuthenticationScheme);
 
-                            // this skips nonce checking & cleanup 
                             // see https://github.com/aspnet/Security/issues/372
                             n.HandleResponse();
                             return Task.FromResult(0);
