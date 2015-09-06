@@ -15,7 +15,7 @@ namespace Api1
 
         public void Configure(IApplicationBuilder app)
         {
-            //JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
 
             app.UseOAuthBearerAuthentication(options =>
             {
