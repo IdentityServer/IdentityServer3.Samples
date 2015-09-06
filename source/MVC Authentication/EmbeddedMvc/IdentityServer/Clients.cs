@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Thinktecture.IdentityServer.Core.Models;
+﻿using IdentityServer3.Core.Models;
+using System.Collections.Generic;
 
 namespace EmbeddedMvc.IdentityServer
 {
@@ -11,7 +11,6 @@ namespace EmbeddedMvc.IdentityServer
             {
                 new Client 
                 {
-                    Enabled = true,
                     ClientName = "MVC Client",
                     ClientId = "mvc",
                     Flow = Flows.Implicit,
@@ -23,20 +22,29 @@ namespace EmbeddedMvc.IdentityServer
                     PostLogoutRedirectUris = new List<string>
                     {
                         "https://localhost:44319/"
+                    },
+                    AllowedScopes = new List<string>
+                    {
+                        "openid",
+                        "profile",
+                        "roles",
+                        "sampleApi"
                     }
                 },
                 new Client
                 {
-                    Enabled = true,
-                    ClientName = "MVC Client (service communication)",
-                    
+                    ClientName = "MVC Client (service communication)",   
                     ClientId = "mvc_service",
-                    ClientSecrets = new List<ClientSecret>
+                    Flow = Flows.ClientCredentials,
+
+                    ClientSecrets = new List<Secret>
                     {
-                        new ClientSecret("secret".Sha256())
+                        new Secret("secret".Sha256())
                     },
-                    
-                    Flow = Flows.ClientCredentials
+                    AllowedScopes = new List<string>
+                    {
+                        "sampleApi"
+                    }
                 }
             };
         }

@@ -11,13 +11,12 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
-using Thinktecture.IdentityModel.Client;
-using Thinktecture.IdentityServer.Core;
-using Thinktecture.IdentityServer.Core.Configuration;
-using Thinktecture.IdentityServer.Core.Logging;
 using System.Linq;
-using Thinktecture.IdentityServer.Core.Configuration.Hosting;
 using System.Web.Helpers;
+using IdentityServer3.Core;
+using IdentityServer3.Core.Configuration;
+using IdentityModel.Client;
+using System.Threading.Tasks;
 
 [assembly: OwinStartup(typeof(EmbeddedMvc.Startup))]
 
@@ -27,7 +26,8 @@ namespace EmbeddedMvc
     {
         public void Configuration(IAppBuilder app)
         {
-            LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
+            // todo: replace with serilog
+            //LogProvider.SetCurrentLogProvider(new DiagnosticsTraceLogProvider());
 
             AntiForgeryConfig.UniqueClaimTypeIdentifier = Constants.ClaimTypes.Subject;
             JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
@@ -39,12 +39,12 @@ namespace EmbeddedMvc
                         SiteName = "Embedded IdentityServer",
                         SigningCertificate = LoadCertificate(),
 
-                        Factory = InMemoryFactory.Create(
-                            users:   Users.Get(),
-                            clients: Clients.Get(),
-                            scopes:  Scopes.Get()),
+                        Factory = new IdentityServerServiceFactory()
+                                    .UseInMemoryUsers(Users.Get())
+                                    .UseInMemoryClients(Clients.Get())
+                                    .UseInMemoryScopes(Scopes.Get()),
 
-                        AuthenticationOptions = new Thinktecture.IdentityServer.Core.Configuration.AuthenticationOptions
+                        AuthenticationOptions = new IdentityServer3.Core.Configuration.AuthenticationOptions
                         {
                             IdentityProviders = ConfigureIdentityProviders
                         }
@@ -105,7 +105,7 @@ namespace EmbeddedMvc
                                     n.AuthenticationTicket.Properties);
                             },
 
-                            RedirectToIdentityProvider = async n =>
+                            RedirectToIdentityProvider = n =>
                                 {
                                     if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
                                     {
@@ -116,6 +116,8 @@ namespace EmbeddedMvc
                                             n.ProtocolMessage.IdTokenHint = idTokenHint.Value;
                                         }
                                     }
+
+                                    return Task.FromResult(0);
                                 }
                     }
                 });
