@@ -47,3 +47,7 @@ Sample to illustrate how add support for non-standard grant types at the token e
 
 #### Custom Grant Types (more customization) [link](https://github.com/IdentityServer/IdentityServer3.Samples/tree/master/source/Custom%20Grants%20(more%20customization))
 Sample to illustrate how add support for non-standard grant types at the token endpoint. This sample also uses a custom user service and claims provider
+
+#### Logging
+Sample to illustrate how to use IdentityServer logging in custom services (e.g. a custom user service) as well as how to 
+add a custom logging sink. 

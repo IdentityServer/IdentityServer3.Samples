@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using IdentityModel.Client;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Thinktecture.IdentityModel.Client;
 
 namespace EmbeddedMvc.Controllers
 {
@@ -42,8 +42,8 @@ namespace EmbeddedMvc.Controllers
 
         private async Task<TokenResponse> GetTokenAsync()
         {
-            var client = new OAuth2Client(
-                new Uri("https://localhost:44319/identity/connect/token"),
+            var client = new TokenClient(
+                "https://localhost:44319/identity/connect/token",
                 "mvc_service",
                 "secret");
 

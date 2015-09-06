@@ -3,12 +3,12 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Microsoft.AspNet.Server.IIS": "1.0.0-beta5",
-    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta5",
+    "Microsoft.AspNet.Server.IIS": "1.0.0-beta7",
+    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta7",
     "Microsoft.Owin": "3.0.1",
-    "Microsoft.AspNet.Owin": "1.0.0-beta5",
-    "Microsoft.AspNet.DataProtection": "1.0.0-beta5",
-    "IdentityServer3": "2.0.0-rc2"
+    "Microsoft.AspNet.DataProtection": "1.0.0-beta7",
+    "Microsoft.AspNet.Owin": "1.0.0-beta7",
+    "IdentityServer3": "2.0.0"
   },
 
   "commands": {

@@ -24,7 +24,7 @@ namespace Api1
             {
                 if (!ScopePresent(context.User))
                 {
-                    context.Response.OnSendingHeaders(Send403, context);
+                    context.Response.OnCompleted(Send403, context);
                     return;
                 }
             }
@@ -45,10 +45,12 @@ namespace Api1
             return false;
         }
 
-        private void Send403(object contextObject)
+        private Task Send403(object contextObject)
         {
             var context = contextObject as HttpContext;
             context.Response.StatusCode = 403;
+
+            return Task.FromResult(0);
         }
     }
 }
