@@ -24,6 +24,7 @@ namespace Api
             // add app local claims per request
             app.UseClaimsTransformation(incoming =>
             {
+                // either add claims to incoming, or create new principal
                 var appPrincipal = new ClaimsPrincipal(incoming);
                 incoming.Identities.First().AddClaim(new Claim("appSpecific", "some_value"));
 
