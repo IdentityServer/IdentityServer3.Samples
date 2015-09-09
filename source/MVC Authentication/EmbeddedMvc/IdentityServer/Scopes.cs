@@ -22,6 +22,7 @@ namespace EmbeddedMvc.IdentityServer
                 new Scope
                 {
                     Enabled = true,
+                    DisplayName = "Sample API",
                     Name = "sampleApi",
                     Description = "Access to a sample API",
                     Type = ScopeType.Resource,

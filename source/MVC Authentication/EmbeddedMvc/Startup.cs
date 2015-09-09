@@ -46,6 +46,7 @@ namespace EmbeddedMvc
 
                         AuthenticationOptions = new IdentityServer3.Core.Configuration.AuthenticationOptions
                         {
+                            EnablePostSignOutAutoRedirect = true,
                             IdentityProviders = ConfigureIdentityProviders
                         }
                     });
