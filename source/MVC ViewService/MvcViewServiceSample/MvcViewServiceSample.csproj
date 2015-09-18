@@ -127,9 +127,9 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <EmbeddedResource Include="Configuration\idsrv3test.pfx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EmbeddedResource Include="Configuration\idsrv3test.pfx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
