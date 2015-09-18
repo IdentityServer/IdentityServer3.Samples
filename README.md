@@ -39,6 +39,9 @@ Sample to illustrate how to add custom CSS and/or JavaScript to the default web 
 #### CustomViewService [link](https://github.com/IdentityServer/IdentityServer3.Samples/tree/master/source/CustomViewService)
 Sample to illustrate how to completely replace the views shown to the user for login, logout, logged out, consent and errors.
 
+#### MVC ViewService [link](https://github.com/IdentityServer/IdentityServer3.Samples/tree/dev/source/MVC%20ViewService)
+Sample to illustrate how to use MVC controllers and views to implement the ViewService
+
 #### DependencyInjection [link](https://github.com/IdentityServer/IdentityServer3.Samples/tree/master/source/DependencyInjection)
 Sample to illustrate how to register custom services with IdentityServer and how to accept as constructor parameters other IdentityServer dependencies and custom dependencies.
 
