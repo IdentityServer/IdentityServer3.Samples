@@ -1,0 +1,133 @@
+﻿@model IdentityServer3.Core.ViewModels.ConsentViewModel
+@{
+	ViewBag.Title = "Application Consent";
+}
+
+@* This is essentially a copy of the embedded HTML that comes from IdSvr, adapted to access the Model server-side *@
+
+<div class="row page-header">
+    <div class="col-sm-10">
+        @if (!string.IsNullOrWhiteSpace(Model.ClientLogoUrl))
+        {
+            <div class="client-logo"><img src="@Model.ClientLogoUrl"></div>
+        }
+        <h1>
+            @Model.ClientName
+            <small>is requesting your permission</small>
+        </h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-8">
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                <strong>Error:</strong>
+                @Model.ErrorMessage
+            </div>
+        }
+        <form name="form" method="post" action="@Model.ConsentUrl" class="consent-form">
+            <input type="hidden" name="@Model.AntiForgery.Name" value="@Model.AntiForgery.Value" />
+            <div>Uncheck the permissions you do not wish to grant.</div>
+            @if (Model.IdentityScopes.Any())
+            {
+                <div class="panel panel-default consent-buttons">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-user"></span>
+                        Personal Information
+                    </div>
+                    <ul class="list-group">
+                        @foreach (var scope in Model.IdentityScopes)
+                        {
+                            <li class="list-group-item">
+                                <label>
+                                    <input class="consent-scopecheck" type="checkbox" name="scopes" id="scopes_@scope.Name" value="@scope.Name" @(scope.Selected ? "checked='checked'" : "") @(scope.Required ? "disabled='disabled'" : "") />
+                                    <strong>@scope.DisplayName</strong>
+                                    @if (scope.Emphasize)
+                                    {
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    }
+                                </label>
+                                @if (scope.Required)
+                                {
+                                    <span><em>(required)</em></span>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(scope.Description))
+                                {
+                                    <div class="consent-description">
+                                        <label for="scopes_@scope.Name">@scope.Description</label>
+                                    </div>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+            @if (Model.ResourceScopes.Any())
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="glyphicon glyphicon-tasks"></span>
+                        Application Access
+                    </div>
+                    <ul class="list-group">
+                        @foreach (var scope in Model.ResourceScopes)
+                        {
+                            <li class="list-group-item">
+                                <label>
+                                    <input class="consent-scopecheck" type="checkbox" name="scopes" id="scopes_@scope.Name" value="@scope.Name" @(scope.Selected ? "checked='checked'" : "") @(scope.Required ? "disabled='disabled'" : "") />
+                                    <strong>@(!string.IsNullOrWhiteSpace(scope.DisplayName) ? scope.DisplayName : scope.Description)</strong>
+                                    @if (scope.Emphasize)
+                                    {
+                                        <span class="glyphicon glyphicon-exclamation-sign"></span>
+                                    }
+                                </label>
+                                @if (scope.Required)
+                                {
+                                    <span><em>(required)</em></span>
+                                }
+                                @if ((!string.IsNullOrWhiteSpace(scope.Description) && !string.IsNullOrWhiteSpace(scope.DisplayName)) || scope.Required)
+                                {
+                                    <div class="consent-description">
+                                        @if (scope.Required)
+                                        {
+                                            <span><em>(required)</em></span>
+                                        }
+                                        @if (!string.IsNullOrWhiteSpace(scope.DisplayName))
+                                        {
+                                            <label for="scopes_@scope.Name">@scope.Description</label>
+                                        }
+                                    </div>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+
+            @if (Model.AllowRememberConsent)
+            {
+                <div class="consent-remember">
+                    <label>
+                        <input class="consent-scopecheck" type="checkbox" name="RememberConsent" value="true" @(Model.RememberConsent ? "checked='checked'" : "") />
+                        <strong>Remember My Decision</strong>
+                    </label>
+                </div>
+            }
+            <div class="consent-buttons">
+                <button name="button" value="yes" class="btn btn-primary" autofocus>Yes, Allow</button>
+                <button name="button" value="no" class="btn">No, Do Not Allow</button>
+                @if (!string.IsNullOrWhiteSpace(Model.ClientUrl))
+                {
+                    <a class="pull-right btn btn-default" target="_blank" href="@Model.ClientUrl">
+                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <strong>@Model.ClientName</strong>
+                    </a>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+@section scripts{
+    @Html.Partial("_RenderAngularModel")
+}

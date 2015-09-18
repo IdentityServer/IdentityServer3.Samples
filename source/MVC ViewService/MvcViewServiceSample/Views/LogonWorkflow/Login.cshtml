@@ -1,0 +1,89 @@
+﻿@model IdentityServer3.Core.ViewModels.LoginViewModel
+@{
+	ViewBag.Title = "Login";
+}
+
+@* This is essentially a copy of the embedded HTML that comes from IdSvr, adapted to access the Model server-side *@
+
+<div class="page-header">
+	<h1>@ViewBag.Title</h1>
+</div>
+<div class="row">
+    @if (!string.IsNullOrWhiteSpace(Model.LoginUrl))
+    {
+        <div class="col-md-6 col-sm-6">
+            @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+            {
+                <div class="alert alert-danger">
+                    <strong>Error:</strong>
+                    @Model.ErrorMessage
+                </div>
+            }
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Local Login</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="form" method="post" action="@Model.LoginUrl">
+                        <input type="hidden" name="@Model.AntiForgery.Name" value="@Model.AntiForgery.Value" />
+                        <fieldset>
+                            <div class="form-group">
+                                <label for="username">Email address</label>
+                                <input required name="username" data-mailcheckfield=".email-suggestion" autofocus id="username" type="text" ng-model="model.username" class="form-control" placeholder="Username" value="@Model.Username" maxlength="100" @(ViewBag.DisableUserNameChange == true ? "readonly='readonly'" : "")>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input required id="password" name="password" type="password" class="form-control" placeholder="Password" ng-model="model.password" maxlength="100" autocomplete="off">
+                            </div>
+                            @if (Model.AllowRememberMe)
+                            {
+                                <div class="form-group login-remember">
+                                    <label for="rememberMe">
+                                        <input type="checkbox" id="rememberMe" name="rememberMe" @(Model.RememberMe ? "checked='checked'" : "") value="true">
+                                        <strong>Remember My Login</strong>
+                                    </label>
+                                </div>
+                            }
+                            <div class="form-group">
+                                <button class="btn btn-primary" id="login" ng-disabled="form.$invalid">Login</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <ul class="list-unstyled">
+                        @if (Model.AdditionalLinks != null)
+                        {
+                            foreach (var link in Model.AdditionalLinks)
+                            {
+                                <li><a href="@link.Href" id="@link.Text.Replace(" ", "")">@link.Text</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+    @if (Model.ExternalProviders.Any())
+    {
+        <div class="col-md-6 col-sm-6 external-providers">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">External Login</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-inline">
+                        @foreach (var provider in Model.ExternalProviders)
+                        {
+                            <li>
+                                <a class="btn btn-default" href="@provider.Href">@provider.Text</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    @Html.Partial("_RenderAngularModel")
+}
