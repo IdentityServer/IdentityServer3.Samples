@@ -1,0 +1,26 @@
+﻿@model IdentityServer3.Core.ViewModels.LogoutViewModel
+@{
+	ViewBag.Title = "Logout";
+}
+
+@* This is essentially a copy of the embedded HTML that comes from IdSvr, adapted to access the Model server-side *@
+
+<div class="page-header">
+	<h1>@ViewBag.Title</h1>
+</div>
+<div class="row">
+    <div class="col-md-6 col-sm-6">
+        <p>Would you like to logout of @Model.SiteName?</p>
+        <form name="form" method="post" action="@Model.LogoutUrl">
+            <input type="hidden" name="@Model.AntiForgery.Name" value="@Model.AntiForgery.Value" />
+            <fieldset>
+                <div class="form-group">
+                    <button class="btn btn-primary" id="yes">Yes</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+@section scripts{
+    @Html.Partial("_RenderAngularModel")
+}

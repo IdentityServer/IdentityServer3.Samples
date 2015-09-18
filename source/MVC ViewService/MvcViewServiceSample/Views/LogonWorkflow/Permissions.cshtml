@@ -1,0 +1,90 @@
+﻿@model IdentityServer3.Core.ViewModels.ClientPermissionsViewModel
+@{
+	ViewBag.Title = "Application Permissions";
+}
+
+@* This is essentially a copy of the embedded HTML that comes from IdSvr, adapted to access the Model server-side *@
+
+<div class="row page-header">
+	<div class="col-sm-10">
+		<h1>
+			@ViewBag.Title			
+		</h1>
+	</div>
+</div>
+
+<div class="row">
+    <div class="col-sm-8">
+        @if (!string.IsNullOrWhiteSpace(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                <strong>Error:</strong>
+                @Model.ErrorMessage
+            </div>
+        }
+    </div>
+    @if (!Model.Clients.Any())
+    {
+        <div class="col-sm-8">
+            <div class="alert alert-info">
+                You have not given permission to any applications
+            </div>
+        </div>
+    }
+</div>
+<div class="permissions">
+    @foreach (var client in Model.Clients)
+    {
+        <div class="row permission">
+            <div class="col-sm-2">
+                @if (!string.IsNullOrWhiteSpace(client.ClientLogoUrl))
+                {
+                    <img src="@client.ClientLogoUrl">
+                }
+                else
+                {
+                    <img src="@Url.Content("~/content/images/unknownclient.png")" width="50">
+                }
+            </div>
+            <div class="col-sm-8">
+                <div class="permission-clientname">@client.ClientName</div>
+                @if (client.IdentityPermissions.Any())
+                {
+                    <div>
+                        <div class="permission-type">Identity Permissions</div>
+                        <ul>
+                            @foreach (var permission in client.IdentityPermissions)
+                            {
+                                <li>@permission.DisplayName</li>
+                            }
+                        </ul>
+                    </div>
+                }
+                @if (client.ResourcePermissions.Any())
+                {
+                    <div>
+                        <div class="permission-type">Resource Permissions</div>
+                        <ul>
+                            @foreach (var permission in client.ResourcePermissions)
+                            {
+                                <li>
+                                    @(!string.IsNullOrWhiteSpace(permission.DisplayName) ? permission.DisplayName : permission.Description)
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+            <div class="col-sm-2">
+                <form name="form" method="post" action="@Model.RevokePermissionUrl" class="consent-form">
+                    <input type="hidden" name="@Model.AntiForgery.Name" value="@Model.AntiForgery.Value" />
+                    <input type="hidden" name="clientId" value="@client.ClientId">
+                    <button class="btn btn-danger">Revoke Access</button>
+                </form>
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    @Html.Partial("_RenderAngularModel")
+}

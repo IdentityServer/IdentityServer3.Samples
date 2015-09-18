@@ -1,0 +1,42 @@
+﻿@*
+    We used to use a modified version of the IdSvr embedded HTML on all these screens,
+    This used an Angular version of the model - which was rendered to the screen
+    using the below.
+
+    <script> id='modelJson' type='application/json'>
+        {model}
+    </script>
+    <script </script>src="{applicationPath}/assets/scripts.js"></script>
+
+    BUT, the {applicationPath}/assets/scripts.js embedded file is compiled to 
+    includes the following files in order:
+        ///#source 1 1 libs/jquery/jquery-1.11.0.min.js
+        ///#source 1 1 libs/bootstrap/js/bootstrap.min.js
+        ///#source 1 1 libs/angular/angular.1.2.13.min.js
+        ///#source 1 1 libs/encoder/encoder.min.js
+        ///#source 1 1 app/app.js
+
+    Since this uses a different version of jQuery to the ones
+    we're using (1.11.0 vs 2.1.3) and a different version of
+    Bootstrap (3.0.3 vs 3.3.4), it breaks other JS in our solution
+    (such as the Drop Down menus).
+
+    As an alternative, we could load only the extra scripts on top of our jQuery
+    and	Bootstrap (and hope that they still work with the newer versions):
+
+    <script id='modelJson' type='application/json'>
+            {model}
+    </script>
+    @Scripts.Render(
+        "~/scripts/idsvr/libs/angular/angular.1.2.13.min.js",
+        "~/scripts/idsvr/libs/encoder/encoder.min.js",
+        "~/scripts/idsvr/app/app.js");
+
+    This does currently work, but we would need to make sure we regression
+    test this every time our jQuery or Bootstrap were updated. AND make
+    sure we updated the IdSvr js source every time it was updated.
+
+    Instead, since we have swapped entirely to using only a server-side
+    version of the model, the angular binding is no longer used, so
+    we can simply not add any scripts here.
+*@

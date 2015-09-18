@@ -35,8 +35,8 @@ namespace MVC_OWIN_Client
                     Authority = Constants.BaseAddress,
                     RedirectUri = "http://localhost:2672/",
                     PostLogoutRedirectUri = "http://localhost:2672/",
-                    ResponseType = "code id_token token",
-                    Scope = "openid email profile read write offline_access",
+                    ResponseType = "code id_token",
+                    Scope = "openid profile read write offline_access",
 
                     SignInAsAuthenticationType = "Cookies",
 
@@ -44,29 +44,32 @@ namespace MVC_OWIN_Client
                     {
                         AuthorizationCodeReceived = async n =>
                             {
-                                // get userinfo data
-                                var userInfoClient = new UserInfoClient(
-                                    new Uri(Constants.UserInfoEndpoint),
-                                    n.ProtocolMessage.AccessToken);
-
-                                var userInfo = await userInfoClient.GetAsync();
-                                var id = userInfo.GetClaimsIdentity();
-                                
-                                // get access and refresh token
+                                // use the code to get the access and refresh token
                                 var tokenClient = new TokenClient(
                                     Constants.TokenEndpoint,
                                     "katanaclient",
                                     "secret");
 
                                 var response = await tokenClient.RequestAuthorizationCodeAsync(n.Code, n.RedirectUri);
+                                var id = new ClaimsIdentity(n.AuthenticationTicket.Identity.AuthenticationType);
 
+                                var preferredClaims = new[] { "given_name", "family_name" };
+                                foreach (var preferredClaim in preferredClaims)
+                                {
+                                    var claim = n.AuthenticationTicket.Identity.FindFirst(preferredClaim);
+                                    if (claim != null)
+                                    {
+                                        id.AddClaim(claim);
+                                    }
+                                }
+                                
                                 id.AddClaim(new Claim("access_token", response.AccessToken));
                                 id.AddClaim(new Claim("expires_at", DateTime.Now.AddSeconds(response.ExpiresIn).ToLocalTime().ToString()));
                                 id.AddClaim(new Claim("refresh_token", response.RefreshToken));
                                 id.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
 
                                 n.AuthenticationTicket = new AuthenticationTicket(
-                                    new ClaimsIdentity(id.Claims, n.AuthenticationTicket.Identity.AuthenticationType), 
+                                    new ClaimsIdentity(id.Claims, n.AuthenticationTicket.Identity.AuthenticationType),
                                     n.AuthenticationTicket.Properties);
                             },
 
