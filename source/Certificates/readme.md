@@ -1,7 +1,8 @@
-# How to install the test certificates #
+# Test certificates #
 
-The TestOptionsFactory uses an embedded certificate for token signing and validation. So there are no additional steps necessary. 
-On machines where you want to consume tokens, you only need to install the idsrv3test.cer into the local computer/trusted people store (see step 3).
+Here you can find the test certificates that we use in IdentityServer3 samples and core.
+
+**You don't need to install these certificates to run the core host or the samples**
 
 If you want to load certificates from the certificate store, we provide the idsrv3test public/private key pair for testing (including the root certificate). Use the following instructions:
 
