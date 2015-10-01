@@ -32,6 +32,11 @@ namespace MVC_OWIN_Client
 
                     SignInAsAuthenticationType = "Cookies",
 
+
+
+
+
+
                     Notifications = new OpenIdConnectAuthenticationNotifications
                     {
                         SecurityTokenValidated = async n =>
