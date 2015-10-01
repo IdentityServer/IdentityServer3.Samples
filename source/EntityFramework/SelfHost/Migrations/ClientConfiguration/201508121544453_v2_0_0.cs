@@ -26,6 +26,7 @@ namespace SelfHost.Migrations.ClientConfiguration
         public override void Down()
         {
             //AddColumn("dbo.ClientSecrets", "ClientSecretType", c => c.String(maxLength: 250));
+            RenameColumn("dbo.ClientSecrets", "Type", "ClientSecretType");
             //AddColumn("dbo.Clients", "UpdateAccessTokenClaimsOnRefresh", c => c.Boolean(nullable: false));
             RenameColumn("dbo.Clients", "UpdateAccessTokenOnRefresh", "UpdateAccessTokenClaimsOnRefresh");
             DropIndex("dbo.Clients", new[] { "ClientId" });
