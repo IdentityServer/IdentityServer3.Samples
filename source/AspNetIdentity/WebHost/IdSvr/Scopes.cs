@@ -27,7 +27,6 @@ namespace WebHost.IdSvr
             return new Scope[]
             {
                 StandardScopes.OpenId,
-                StandardScopes.OpenId,
                 StandardScopes.Profile,
                 StandardScopes.Email,
                 StandardScopes.OfflineAccess,
