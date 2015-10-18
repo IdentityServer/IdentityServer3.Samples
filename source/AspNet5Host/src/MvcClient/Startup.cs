@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNet.Authentication;
 using System.IdentityModel.Tokens.Jwt;
+using System;
 
 namespace MvcClient
 {
@@ -20,6 +21,9 @@ namespace MvcClient
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
 
+            app.UseIISPlatformHandler();
+            app.UseDeveloperExceptionPage();
+
             app.UseCookieAuthentication(options =>
             {
                 options.AuthenticationScheme = "Cookies";
@@ -28,41 +32,49 @@ namespace MvcClient
 
             app.UseOpenIdConnectAuthentication(options =>
             {
+                options.AuthenticationScheme = "oidc";
+                options.SignInScheme = "Cookies";
+                options.AutomaticAuthentication = true;
+                options.SaveTokensAsClaims = false;
+
                 options.Authority = "https://localhost:44300";
+                options.RedirectUri = "http://localhost:2221/";
+
                 options.ClientId = "mvc6";
                 options.ResponseType = "id_token token";
                 options.ResponseMode = "form_post";
-                options.Scope = "openid email profile api1";
-                options.RedirectUri = "http://localhost:2221/";
 
-                options.SignInScheme = "Cookies";
-                options.AutomaticAuthentication = true;
-
-                options.Notifications = new OpenIdConnectAuthenticationNotifications
+                options.Scope.Add("openid");
+                options.Scope.Add("email");
+                options.Scope.Add("profile");
+                options.Scope.Add("api1");
+                
+                options.Events = new OpenIdConnectEvents
                 {
-                    SecurityTokenValidated = n =>
-                        {
-                            var incoming = n.AuthenticationTicket.Principal;
+                    OnAuthenticationValidated = data =>
+                    {
+                        var incoming = data.AuthenticationTicket.Principal;
+                        var id = new ClaimsIdentity("application", "given_name", "role");
 
-                            // create application identity
-                            var id = new ClaimsIdentity("application", "given_name", "role");
-                            id.AddClaim(incoming.FindFirst("sub"));
-                            id.AddClaim(incoming.FindFirst("email"));
-                            id.AddClaim(incoming.FindFirst("email_verified"));
-                            id.AddClaim(incoming.FindFirst("given_name"));
-                            id.AddClaim(incoming.FindFirst("family_name"));
-                            id.AddClaim(new Claim("token", n.ProtocolMessage.AccessToken));
+                        id.AddClaim(incoming.FindFirst("sub"));
+                        id.AddClaim(incoming.FindFirst("email"));
+                        id.AddClaim(incoming.FindFirst("email_verified"));
+                        id.AddClaim(incoming.FindFirst("given_name"));
+                        id.AddClaim(incoming.FindFirst("family_name"));
+                        id.AddClaim(new Claim("access_token", data.ProtocolMessage.AccessToken));
+                        id.AddClaim(new Claim("id_token", data.ProtocolMessage.IdToken));
+                        id.AddClaim(new Claim("expires_at", DateTime.Now.AddSeconds(double.Parse(data.ProtocolMessage.ExpiresIn)).ToString()));
 
-                            n.AuthenticationTicket = new AuthenticationTicket(
-                                new ClaimsPrincipal(id),
-                                n.AuthenticationTicket.Properties,
-                                n.AuthenticationTicket.AuthenticationScheme);
+                        data.AuthenticationTicket = new AuthenticationTicket(
+                            new ClaimsPrincipal(id),
+                            data.AuthenticationTicket.Properties,
+                            data.AuthenticationTicket.AuthenticationScheme);
 
-                            // see https://github.com/aspnet/Security/issues/372
-                            n.HandleResponse();
-                            return Task.FromResult(0);
-                        }
+                        //data.HandleResponse();
+                        return Task.FromResult(0);
+                    }
                 };
+
             });
 
             app.UseMvcWithDefaultRoute();

@@ -3,16 +3,17 @@
   "version": "1.0.0-*",
 
   "dependencies": {
-    "Microsoft.AspNet.Server.IIS": "1.0.0-beta7",
-    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta7",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-beta8",
+    "Microsoft.AspNet.IISPlatformHandler": "1.0.0-beta8",
+    "Microsoft.AspNet.Diagnostics": "1.0.0-beta8",
     "Microsoft.Owin": "3.0.1",
-    "Microsoft.AspNet.DataProtection": "1.0.0-beta7",
-    "Microsoft.AspNet.Owin": "1.0.0-beta7",
-    "IdentityServer3": "2.0.0"
+    "Microsoft.AspNet.DataProtection": "1.0.0-beta8",
+    "Microsoft.AspNet.Owin": "1.0.0-beta8",
+    "IdentityServer3": "2.0.2"
   },
 
   "commands": {
-    "web": "Microsoft.AspNet.Hosting --config hosting.ini"
+    "web": "Microsoft.AspNet.Server.Kestrel"
   },
 
   "frameworks": {

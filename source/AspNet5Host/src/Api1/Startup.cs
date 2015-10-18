@@ -16,8 +16,8 @@ namespace Api1
         public void Configure(IApplicationBuilder app)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap = new Dictionary<string, string>();
-
-            app.UseOAuthBearerAuthentication(options =>
+            
+            app.UseJwtBearerAuthentication(options =>
             {
                 options.Authority = "https://localhost:44300";
                 options.Audience = "https://localhost:44300/resources";
@@ -26,7 +26,7 @@ namespace Api1
 
             app.UseMiddleware<RequiredScopesMiddleware>(new List<string> { "api1" });
 
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

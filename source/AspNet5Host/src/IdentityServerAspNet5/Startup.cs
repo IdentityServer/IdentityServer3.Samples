@@ -15,6 +15,9 @@ namespace IdentityServerAspNet5
 
         public void Configure(IApplicationBuilder app, IApplicationEnvironment env)
         {
+            app.UseIISPlatformHandler();
+            app.UseDeveloperExceptionPage();
+
             var certFile = env.ApplicationBasePath + "\\idsrv3test.pfx";
 
             var idsrvOptions = new IdentityServerOptions

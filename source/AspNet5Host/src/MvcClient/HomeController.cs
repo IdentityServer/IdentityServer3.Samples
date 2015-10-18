@@ -17,7 +17,7 @@ namespace MvcClient
 
         public async Task<IActionResult> CallApi()
         {
-            var token = User.FindFirst("token").Value;
+            var token = User.FindFirst("access_token").Value;
 
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
