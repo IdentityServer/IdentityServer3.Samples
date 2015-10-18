@@ -36,7 +36,7 @@ namespace MvcClient
                 options.SignInScheme = "Cookies";
                 options.AutomaticAuthentication = true;
                 options.SaveTokensAsClaims = false;
-
+                
                 options.Authority = "https://localhost:44300";
                 options.RedirectUri = "http://localhost:2221/";
 
@@ -70,7 +70,18 @@ namespace MvcClient
                             data.AuthenticationTicket.Properties,
                             data.AuthenticationTicket.AuthenticationScheme);
 
-                        //data.HandleResponse();
+                        return Task.FromResult(0);
+                    },
+                    OnRedirectToEndSessionEndpoint = data =>
+                    {
+                        var user = data.HttpContext.User;
+                        var idToken = user.FindFirst("id_token");
+
+                        if (idToken != null)
+                        {
+                            data.ProtocolMessage.IdTokenHint = idToken.Value;
+                        }
+
                         return Task.FromResult(0);
                     }
                 };

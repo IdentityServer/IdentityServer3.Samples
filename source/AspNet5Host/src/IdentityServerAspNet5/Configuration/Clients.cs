@@ -40,6 +40,10 @@ namespace IdentityServerAspNet5
                     {
                         "http://localhost:2221/",
                     },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "http://localhost:2221/",
+                    },
 
                     // access to identity data and api1
                     AllowedScopes = new List<string>

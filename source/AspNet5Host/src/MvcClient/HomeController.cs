@@ -15,6 +15,13 @@ namespace MvcClient
             return View();
         }
 
+        [AllowAnonymous]
+        public async Task Signout()
+        {
+            await HttpContext.Authentication.SignOutAsync("oidc");
+            await HttpContext.Authentication.SignOutAsync("Cookies");
+        }
+
         public async Task<IActionResult> CallApi()
         {
             var token = User.FindFirst("access_token").Value;
