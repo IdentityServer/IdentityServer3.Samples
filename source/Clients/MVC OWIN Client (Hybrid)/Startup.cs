@@ -1,5 +1,4 @@
-﻿using IdentityModel;
-using IdentityModel.Client;
+﻿using IdentityModel.Client;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
@@ -10,7 +9,6 @@ using Sample;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 

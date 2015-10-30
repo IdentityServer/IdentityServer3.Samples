@@ -1,6 +1,5 @@
 ﻿using IdentityModel;
 using IdentityModel.Client;
-using IdentityModel.Extensions;
 using Newtonsoft.Json.Linq;
 using Sample;
 using System;
@@ -16,7 +15,7 @@ using System.Web.Mvc;
 
 namespace MvcCodeFlowClientManual.Controllers
 {
-	public class CallbackController : Controller
+    public class CallbackController : Controller
 	{
 		public async Task<ActionResult> Index()
 		{

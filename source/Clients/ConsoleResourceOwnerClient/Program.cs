@@ -4,7 +4,6 @@ using IdentityModel.Extensions;
 using Newtonsoft.Json.Linq;
 using Sample;
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 
