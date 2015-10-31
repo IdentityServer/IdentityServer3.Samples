@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using System.Linq;
+using System.Security.Claims;
+using System.Web;
 using System.Web.Mvc;
 
 namespace MVC_OWIN_Client.Controllers
@@ -28,6 +30,17 @@ namespace MVC_OWIN_Client.Controllers
 
             Request.GetOwinContext().Authentication.SignOut();
             return Redirect("/");
+        }
+
+        [AllowAnonymous]
+        public void OidcSignOut(string sid)
+        {
+            var cp = (ClaimsPrincipal)User;
+            var sidClaim = cp.Claims.First(x => x.Type == "sid").Value;
+            if (sidClaim == sid)
+            {
+                Request.GetOwinContext().Authentication.SignOut("Cookies");
+            }
         }
     }
 }

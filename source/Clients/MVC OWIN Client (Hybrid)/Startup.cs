@@ -31,8 +31,8 @@ namespace MVC_OWIN_Client
                 {
                     ClientId = "katanaclient",
                     Authority = Constants.BaseAddress,
-                    RedirectUri = "http://localhost:2672/",
-                    PostLogoutRedirectUri = "http://localhost:2672/",
+                    RedirectUri = "https://localhost:44300/",
+                    PostLogoutRedirectUri = "https://localhost:44300/",
                     ResponseType = "code id_token",
                     Scope = "openid profile read write offline_access",
 
@@ -66,6 +66,7 @@ namespace MVC_OWIN_Client
                                 id.AddClaim(new Claim("expires_at", DateTime.Now.AddSeconds(tokenResponse.ExpiresIn).ToLocalTime().ToString()));
                                 id.AddClaim(new Claim("refresh_token", tokenResponse.RefreshToken));
                                 id.AddClaim(new Claim("id_token", n.ProtocolMessage.IdToken));
+                                id.AddClaim(new Claim("sid", n.AuthenticationTicket.Identity.FindFirst("sid").Value));
 
                                 n.AuthenticationTicket = new AuthenticationTicket(
                                     new ClaimsIdentity(id.Claims, n.AuthenticationTicket.Identity.AuthenticationType),
