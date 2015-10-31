@@ -24,8 +24,8 @@ namespace WebHost.Controllers
         public async Task<ActionResult> Index()
         {
             var ctx = Request.GetOwinContext();
-            var authentication = await ctx.Authentication.AuthenticateAsync(Constants.PartialSignInAuthenticationType);
-            if (authentication == null)
+            var user = await ctx.Environment.GetIdentityServerPartialLoginAsync();
+            if (user == null)
             {
                 return View("Error");
             }
@@ -37,8 +37,8 @@ namespace WebHost.Controllers
         public async Task<ActionResult> Index(string code)
         {
             var ctx = Request.GetOwinContext();
-            var user = await ctx.Environment.GetIdentityServerPartialLoginAsync();
 
+            var user = await ctx.Environment.GetIdentityServerPartialLoginAsync();
             if (user == null)
             {
                 return View("Error");
@@ -51,14 +51,11 @@ namespace WebHost.Controllers
                 return View("Index");
             }
 
-            var resumeUrl = user.FindFirst(Constants.ClaimTypes.PartialLoginReturnUrl).Value;
-            var newUser = new ClaimsIdentity(user.AuthenticationType);
-
             var claims = user.Claims.Where(c => c.Type != "amr").ToList();
             claims.Add(new Claim("amr", "2fa"));
-            newUser.AddClaims(claims);
+            await ctx.Environment.UpdatePartialLoginClaimsAsync(claims);
 
-            Request.GetOwinContext().Authentication.SignIn(newUser);
+            var resumeUrl = await ctx.Environment.GetPartialLoginResumeUrlAsync();
             return Redirect(resumeUrl);
         }
     }
