@@ -31,7 +31,9 @@ namespace IdentityServerAspNet5
                 AuthenticationOptions = new AuthenticationOptions
                 {
                     EnablePostSignOutAutoRedirect = true
-                }
+                },
+
+                RequireSsl = false
             };
 
             app.UseIdentityServer(idsrvOptions);
