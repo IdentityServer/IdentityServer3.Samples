@@ -9,6 +9,8 @@
     "Microsoft.Owin": "3.0.1",
     "Microsoft.AspNet.DataProtection": "1.0.0-beta8",
     "Microsoft.AspNet.Owin": "1.0.0-beta8",
+    "Microsoft.Framework.Logging": "1.0.0-beta8",
+    "Serilog.Framework.Logging": "1.0.0-beta8-10065",
     "IdentityServer3": "2.0.2"
   },
 
