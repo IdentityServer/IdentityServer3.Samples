@@ -1,6 +1,5 @@
 ﻿using Microsoft.Owin;
 using Owin;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens;
 using IdentityServer3.AccessTokenValidation;
 
@@ -12,7 +11,7 @@ namespace SampleAspNetWebApi
     {
         public void Configuration(IAppBuilder app)
         {
-            JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
+            JwtSecurityTokenHandler.InboundClaimTypeMap.Clear();
 
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
                 {
