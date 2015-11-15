@@ -1,0 +1,19 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "IdentityServerAsp5Integration Class Library",
+  "authors": [ "dominick" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "dnx451": {
+      "dependencies": {
+        "IdentityServer3": "2.1.1",
+        "Microsoft.Owin": "3.0.1",
+        "Microsoft.AspNet.DataProtection": "1.0.0-beta8",
+        "Microsoft.AspNet.Owin": "1.0.0-beta8"
+      }
+    }
+  }
+}

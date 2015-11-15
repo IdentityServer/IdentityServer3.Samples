@@ -11,7 +11,8 @@
     "Microsoft.AspNet.Owin": "1.0.0-beta8",
     "Microsoft.Framework.Logging": "1.0.0-beta8",
     "Serilog.Framework.Logging": "1.0.0-beta8-10065",
-    "IdentityServer3": "2.0.2"
+    "IdentityServer3": "2.1.1",
+    "IdentityServerAsp5Integration": ""
   },
 
   "commands": {
