@@ -3,11 +3,27 @@ using Microsoft.Framework.DependencyInjection;
 using System.Security.Cryptography.X509Certificates;
 using IdentityServer3.Core.Configuration;
 using Microsoft.Dnx.Runtime;
+using Microsoft.Framework.Logging;
+using Serilog;
+using System;
 
 namespace IdentityServerAspNet5
 {
     public class Startup
     {
+        public Startup(ILoggerFactory loggerFactory)
+        {
+            var serilogLogger = new LoggerConfiguration()
+                .WriteTo
+                .TextWriter(Console.Out)
+                .MinimumLevel.Verbose()
+                .CreateLogger();
+
+            Log.Logger = serilogLogger;
+            loggerFactory.MinimumLevel = LogLevel.Debug;
+            loggerFactory.AddSerilog(serilogLogger);
+        }
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataProtection();
@@ -31,7 +47,9 @@ namespace IdentityServerAspNet5
                 AuthenticationOptions = new AuthenticationOptions
                 {
                     EnablePostSignOutAutoRedirect = true
-                }
+                },
+
+                RequireSsl = false
             };
 
             app.UseIdentityServer(idsrvOptions);
