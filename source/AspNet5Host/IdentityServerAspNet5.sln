@@ -18,7 +18,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "MvcClient", "src\MvcClient\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClient", "TestClient\TestClient.csproj", "{15DE027E-7578-485F-A2CE-C3A2E8A3779D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "IdentityServerAsp5Integration", "src\IdentityServerAsp5Integration\IdentityServerAsp5Integration.xproj", "{CBA69F3A-BEE8-4F18-80D7-3298D0023D5A}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "IdentityServer3.AspNetIntegration", "src\IdentityServerAsp5Integration\IdentityServer3.AspNetIntegration.xproj", "{CBA69F3A-BEE8-4F18-80D7-3298D0023D5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

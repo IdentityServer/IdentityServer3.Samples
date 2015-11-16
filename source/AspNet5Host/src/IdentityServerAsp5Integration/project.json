@@ -1,7 +1,7 @@
 ﻿{
   "version": "1.0.0-*",
-  "description": "IdentityServerAsp5Integration Class Library",
-  "authors": [ "dominick" ],
+  "description": "IdentityServer3 Integration Library for ASP.NET 5",
+  "authors": [ "Dominick Baier & Brock Allen" ],
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
