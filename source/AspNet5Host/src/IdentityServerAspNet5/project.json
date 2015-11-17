@@ -9,7 +9,7 @@
     "Microsoft.Framework.Logging": "1.0.0-beta8",
     "Microsoft.AspNet.DataProtection": "1.0.0-beta8",
     "Serilog.Framework.Logging": "1.0.0-beta8-10065",
-    "IdentityServer3.Integration.AspNet": "1.0.0-beta3"
+    "IdentityServer3.Integration.AspNet": "1.0.0-beta8"
   },
 
   "commands": {
