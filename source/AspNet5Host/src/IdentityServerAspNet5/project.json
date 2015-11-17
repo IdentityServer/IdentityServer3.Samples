@@ -7,9 +7,9 @@
     "Microsoft.AspNet.IISPlatformHandler": "1.0.0-beta8",
     "Microsoft.AspNet.Diagnostics": "1.0.0-beta8",
     "Microsoft.Framework.Logging": "1.0.0-beta8",
+    "Microsoft.AspNet.DataProtection": "1.0.0-beta8",
     "Serilog.Framework.Logging": "1.0.0-beta8-10065",
-    "IdentityServer3": "2.1.1",
-    "IdentityServerAsp5Integration": ""
+    "IdentityServer3.Integration.AspNet": "1.0.0-beta3"
   },
 
   "commands": {
