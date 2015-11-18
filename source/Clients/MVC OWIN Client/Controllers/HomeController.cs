@@ -49,5 +49,15 @@ namespace MVC_OWIN_Client.Controllers
 
             return View();
         }
+
+        public void SignoutCleanup(string sid)
+        {
+            var cp = (ClaimsPrincipal)User;
+            var sidClaim = cp.FindFirst("sid");
+            if (sidClaim != null && sidClaim.Value == sid)
+            {
+                Request.GetOwinContext().Authentication.SignOut("Cookies");
+            }
+        }
     }
 }
