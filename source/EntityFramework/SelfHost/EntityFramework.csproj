@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -44,12 +44,12 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdentityServer3, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.2.0.0-build00174\lib\net45\IdentityServer3.dll</HintPath>
+    <Reference Include="IdentityServer3, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.2.2.0\lib\net45\IdentityServer3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="IdentityServer3.EntityFramework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.EntityFramework.2.0.0-build00040\lib\net45\IdentityServer3.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\IdentityServer3.EntityFramework.3.0.0-build00057\lib\net45\IdentityServer3.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -105,6 +105,10 @@
     <Compile Include="Migrations\ClientConfiguration\201508121544453_v2_0_0.Designer.cs">
       <DependentUpon>201508121544453_v2_0_0.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\ClientConfiguration\201511200152416_v2_2_0.cs" />
+    <Compile Include="Migrations\ClientConfiguration\201511200152416_v2_2_0.Designer.cs">
+      <DependentUpon>201511200152416_v2_2_0.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ClientConfiguration\Configuration.cs" />
     <Compile Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.cs" />
     <Compile Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.Designer.cs">
@@ -114,6 +118,10 @@
     <Compile Include="Migrations\OperationalConfiguration\201504070214592_v2_0_0.Designer.cs">
       <DependentUpon>201504070214592_v2_0_0.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\OperationalConfiguration\201511200152558_v2_2_0.cs" />
+    <Compile Include="Migrations\OperationalConfiguration\201511200152558_v2_2_0.Designer.cs">
+      <DependentUpon>201511200152558_v2_2_0.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\OperationalConfiguration\Configuration.cs" />
     <Compile Include="Migrations\ScopeConfiguration\201502141840088_InitialCreate.cs" />
     <Compile Include="Migrations\ScopeConfiguration\201502141840088_InitialCreate.Designer.cs">
@@ -122,6 +130,10 @@
     <Compile Include="Migrations\ScopeConfiguration\201504070215165_v2_0_0.cs" />
     <Compile Include="Migrations\ScopeConfiguration\201504070215165_v2_0_0.Designer.cs">
       <DependentUpon>201504070215165_v2_0_0.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ScopeConfiguration\201511200152080_v2_2_0.cs" />
+    <Compile Include="Migrations\ScopeConfiguration\201511200152080_v2_2_0.Designer.cs">
+      <DependentUpon>201511200152080_v2_2_0.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ScopeConfiguration\Configuration.cs" />
     <Compile Include="Program.cs" />
@@ -138,17 +150,26 @@
     <EmbeddedResource Include="Migrations\ClientConfiguration\201508121544453_v2_0_0.resx">
       <DependentUpon>201508121544453_v2_0_0.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ClientConfiguration\201511200152416_v2_2_0.resx">
+      <DependentUpon>201511200152416_v2_2_0.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\OperationalConfiguration\201502141840136_InitialCreate.resx">
       <DependentUpon>201502141840136_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\OperationalConfiguration\201504070214592_v2_0_0.resx">
       <DependentUpon>201504070214592_v2_0_0.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\OperationalConfiguration\201511200152558_v2_2_0.resx">
+      <DependentUpon>201511200152558_v2_2_0.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ScopeConfiguration\201502141840088_InitialCreate.resx">
       <DependentUpon>201502141840088_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\ScopeConfiguration\201504070215165_v2_0_0.resx">
       <DependentUpon>201504070215165_v2_0_0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\ScopeConfiguration\201511200152080_v2_2_0.resx">
+      <DependentUpon>201511200152080_v2_2_0.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
     <EmbeddedResource Include="Config\idsrv3test.pfx" />
