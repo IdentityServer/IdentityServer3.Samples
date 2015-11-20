@@ -49,7 +49,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="IdentityServer3.EntityFramework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.EntityFramework.3.0.0-build00057\lib\net45\IdentityServer3.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\IdentityServer3.EntityFramework.2.2.0-build00058\lib\net45\IdentityServer3.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
