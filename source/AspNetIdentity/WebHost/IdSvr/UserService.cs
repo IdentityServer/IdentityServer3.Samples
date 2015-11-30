@@ -43,5 +43,17 @@ namespace WebHost.IdSvr
             : base(userMgr)
         {
         }
+        
+        protected override async Task<IEnumerable<System.Security.Claims.Claim>> GetClaimsFromAccount(User user) {
+            var claims = (await base.GetClaimsFromAccount(user)).ToList();
+			if (!String.IsNullOrWhiteSpace(user.FirstName)) {
+				claims.Add(new Claim("given_name", user.FirstName));
+			}
+			if (!String.IsNullOrWhiteSpace(user.LastName)) {
+				claims.Add(new Claim("family_name", user.LastName));
+			}
+			
+			return claims;
+        }
     }
 }
