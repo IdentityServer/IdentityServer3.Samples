@@ -30,7 +30,7 @@ namespace IdentityServer
             app.UseIISPlatformHandler();
             
 
-            var certFile = env.ApplicationBasePath + "\\idsrv3test.pfx";
+            var certFile = env.ApplicationBasePath + $"{System.IO.Path.DirectorySeparatorChar}idsrv3test.pfx";
 
             var idsrvOptions = new IdentityServerOptions
             {
