@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,8 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bootstrap.min.css" />
+    <Content Include="oidc-token-manager.js" />
     <Content Include="silent_renew.html" />
-    <Content Include="oidc.js" />
     <Content Include="check_session.html" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
