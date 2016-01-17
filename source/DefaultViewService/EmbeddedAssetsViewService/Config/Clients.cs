@@ -121,12 +121,13 @@ namespace SampleApp.Config
 
                         // OWIN middleware client
                         "http://localhost:2671/",
+                        "https://localhost:44301/"
                     },
 
                     PostLogoutRedirectUris = new List<string>
                     {
                         "http://localhost:23453/index.html",
-                        "http://localhost:21575/index.html"
+                        "http://localhost:21575/index.html",
                     },
 
                     AllowedCorsOrigins = new List<string>{

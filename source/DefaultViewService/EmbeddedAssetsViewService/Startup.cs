@@ -31,8 +31,6 @@ namespace SampleApp
                 viewOptions.CacheViews = false;
                 factory.ConfigureDefaultViewService(viewOptions);
 
-                factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
-                
                 var options = new IdentityServerOptions
                 {
                     SiteName = "IdentityServer3 - Configuring DefaultViewService",
