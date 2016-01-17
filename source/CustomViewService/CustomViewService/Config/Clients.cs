@@ -121,6 +121,7 @@ namespace SampleApp.Config
 
                         // OWIN middleware client
                         "http://localhost:2671/",
+                        "https://localhost:44301/"
                     },
 
                     PostLogoutRedirectUris = new List<string>
