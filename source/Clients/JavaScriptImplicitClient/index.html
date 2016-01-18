@@ -209,13 +209,13 @@
         window.onmessage = function (e) {
             if (e.origin === window.location.protocol + "//" + window.location.host && e.data === "changed") {
                 mgr.removeToken();
-                //config.scope = "openid";
-                //config.response_type = "id_token";
-                //mgr.renewTokenSilentAsync().then(function () {
-                //    console.log("renewTokenSilentAsync success");
-                //}, function () {
-                //    console.log("renewTokenSilentAsync failed");
-                //});
+                mgr.renewTokenSilentAsync().then(function () {
+                    // Session state changed but we managed to silently get a new identity token, everything's fine
+                    console.log('renewTokenSilentAsync success');
+                }, function () {
+                    // Here we couldn't get a new identity token, we have to ask the user to log in again
+                    console.log('renewTokenSilentAsync failed');
+                });
             }
         }
     </script>
