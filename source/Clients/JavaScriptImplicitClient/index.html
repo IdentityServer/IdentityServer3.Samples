@@ -92,7 +92,10 @@
 
             // this will allow all the OIDC protocol claims to vbe visible in the window. normally a client app 
             // wouldn't care about them or want them taking up space
-            filter_protocol_claims: false
+            filter_protocol_claims: false,
+
+            // use session storage
+            store: window.sessionStorage
         };
 
         var mgr = new OidcTokenManager(config);

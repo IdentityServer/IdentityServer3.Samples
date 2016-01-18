@@ -6,7 +6,7 @@
 <body>
     <script src="oidc-token-manager.js"></script>
     <script>
-        var mgr = new OidcTokenManager();
+        var mgr = new OidcTokenManager({ store: window.sessionStorage });
         mgr.processTokenCallbackSilent();
     </script>
 </body>
