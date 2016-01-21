@@ -37,10 +37,10 @@ namespace Api
 
             app.UseJwtBearerAuthentication(options =>
             {
-                options.Authority = "http://localhost:5000";
+                options.Authority = "http://localhost:18942";
                 options.RequireHttpsMetadata = false;
 
-                options.Audience = "http://localhost:5000/resources";
+                options.Audience = "http://localhost:18942/resources";
                 options.AutomaticAuthenticate = true;
             });
 

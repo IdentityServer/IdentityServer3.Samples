@@ -30,7 +30,7 @@ namespace MvcClient
                 options.AuthenticationScheme = "Oidc";
                 options.SignInScheme = "Cookies";
 
-                options.Authority = "http://localhost:5000";
+                options.Authority = "http://localhost:18942/";
                 options.RequireHttpsMetadata = false;
 
                 options.ClientId = "mvc6";
