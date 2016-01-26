@@ -39,7 +39,7 @@ namespace MVC_OWIN_Client
                     SecurityTokenValidated = async n =>
                     {
                         // simulate a slow authorization response page
-                        await Task.Delay(2000);
+                        //await Task.Delay(2000);
 
                         var token = n.ProtocolMessage.AccessToken;
 
