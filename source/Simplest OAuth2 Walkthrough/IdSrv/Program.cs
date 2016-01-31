@@ -15,7 +15,7 @@ namespace IdSrv
                 .CreateLogger();
 
             // hosting identityserver
-            using (WebApp.Start<Startup>("https://localhost:44333"))
+            using (WebApp.Start<Startup>("http://localhost:5000"))
             {
                 Console.WriteLine("server running...");
                 Console.ReadLine();

@@ -14,7 +14,7 @@ namespace Apis
             // accept access tokens from identityserver and require a scope of 'api1'
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
                 {
-                    Authority = "https://localhost:44333",
+                    Authority = "http://localhost:5000",
                     ValidationMode = ValidationMode.ValidationEndpoint,
 
                     RequiredScopes = new[] { "api1" }

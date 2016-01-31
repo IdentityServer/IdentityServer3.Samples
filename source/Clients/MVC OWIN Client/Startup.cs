@@ -36,8 +36,11 @@ namespace MVC_OWIN_Client
 
                 Notifications = new OpenIdConnectAuthenticationNotifications
                 {
-                    SecurityTokenValidated = n =>
+                    SecurityTokenValidated = async n =>
                     {
+                        // simulate a slow authorization response page
+                        //await Task.Delay(2000);
+
                         var token = n.ProtocolMessage.AccessToken;
 
                         // persist access token in cookie
@@ -47,7 +50,7 @@ namespace MVC_OWIN_Client
                                 new Claim("access_token", token));
                         }
 
-                        return Task.FromResult(0);
+                        //return Task.FromResult(0);
                     }
                 }
             });

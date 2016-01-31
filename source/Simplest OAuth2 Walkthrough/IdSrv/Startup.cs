@@ -1,7 +1,5 @@
 ﻿using Owin;
-using System.Collections.Generic;
 using IdentityServer3.Core.Configuration;
-using IdentityServer3.Core.Services.InMemory;
 
 namespace IdSrv
 {
@@ -14,7 +12,9 @@ namespace IdSrv
                 Factory = new IdentityServerServiceFactory()
                             .UseInMemoryClients(Clients.Get())
                             .UseInMemoryScopes(Scopes.Get())
-                            .UseInMemoryUsers(Users.Get())
+                            .UseInMemoryUsers(Users.Get()),
+
+                RequireSsl = false
             };
 
             app.UseIdentityServer(options);
