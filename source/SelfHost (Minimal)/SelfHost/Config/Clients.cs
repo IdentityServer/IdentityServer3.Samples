@@ -107,6 +107,9 @@ namespace SelfHost.Config
 
                         // OWIN middleware client
                         "http://localhost:2671/",
+
+                        // Xamarin client
+                        "https://xamarin-oidc-sample/redirect"
                     },
 
                     PostLogoutRedirectUris = new List<string>
