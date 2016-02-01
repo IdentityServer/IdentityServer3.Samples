@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XamarinFormsOIDCSample.Client.Views.LoginView">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition></RowDefinition>
+    </Grid.RowDefinitions>
+
+    <Button Text="Get id_token" x:Name="btnGetIdToken"/>
+
+    <Button Text="Get access_token" Grid.Row="1" x:Name="btnGetAccessToken"/>
+
+    <Button Text="Get id_token and access_token" Grid.Row="2" x:Name="btnGetIdTokenAndAccessToken"/>
+
+    <ScrollView Grid.Row="3" >
+      <Label x:Name="txtResult"/>
+    </ScrollView>
+
+    <WebView x:Name="wvLogin" Grid.RowSpan="4" IsVisible="False"/>
+
+  </Grid>
+
+</ContentPage>
