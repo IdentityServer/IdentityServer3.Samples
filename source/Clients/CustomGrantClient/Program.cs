@@ -25,7 +25,7 @@ namespace CustomGrantClient
         {
             var client = new TokenClient(
                 Constants.TokenEndpoint,
-                "customclient",
+                "customgrant.client",
                 "secret");
 
             var customParameters = new Dictionary<string, string>

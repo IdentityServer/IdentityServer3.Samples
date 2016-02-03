@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace MvcFormPostClient.Controllers
 {
-	public class AccountController : Controller
+    public class AccountController : Controller
 	{
         public ActionResult SignIn()
         {
@@ -18,7 +18,7 @@ namespace MvcFormPostClient.Controllers
 	        var nonce = Guid.NewGuid().ToString("N");
 
             var url = Constants.AuthorizeEndpoint +
-                "?client_id=implicitclient" +
+                "?client_id=nolib.client" +
                 "&response_type=id_token" +
                 "&scope=openid email" +
                 "&redirect_uri=http://localhost:11716/account/signInCallback" +
@@ -66,7 +66,7 @@ namespace MvcFormPostClient.Controllers
 
 	        var parameters = new TokenValidationParameters
 	        {
-		        ValidAudience = "implicitclient",
+		        ValidAudience = "nolib.client",
 		        ValidIssuer = Constants.BaseAddress,
 		        IssuerSigningToken = new X509SecurityToken(cert)
 	        };
@@ -92,7 +92,7 @@ namespace MvcFormPostClient.Controllers
 		public ActionResult SignOut()
 		{
 			Request.GetOwinContext().Authentication.SignOut();
-			return Redirect(Constants.LogoutEndpoint);
+            return Redirect("/");
 		}
 
 		private void SetTempCookie(string state, string nonce)

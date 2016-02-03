@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF Implicit Client", "WpfClient\WPF Implicit Client.csproj", "{BDE643AE-47D7-4FC7-8F48-6FC898D3A333}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF WebView Sample", "WpfClient\WPF WebView Sample.csproj", "{BDE643AE-47D7-4FC7-8F48-6FC898D3A333}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constants", "Constants\Constants.csproj", "{D4B8ACDF-5CC3-4A7B-AE30-5055522E025A}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Resource Owner Flow
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials Flow", "ConsoleClientCredentialsClient\Console Client Credentials Flow.csproj", "{418097CE-3B23-4937-A73E-5EFD4C5E83CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC FormPost Client", "MvcFormPostClient\MVC FormPost Client.csproj", "{E3C5E9C3-2977-4AD5-87EC-00FC4D2F7FF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC No Library Client", "MvcFormPostClient\MVC No Library Client.csproj", "{E3C5E9C3-2977-4AD5-87EC-00FC4D2F7FF4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC CodeFlowClient Manual", "MvcCodeFlowClientManual\MVC CodeFlowClient Manual.csproj", "{C67DB8BB-6083-436D-9748-4BDD9EC8C0EB}"
 EndProject
@@ -27,17 +27,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN WS-Federation", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Resource Owner Flow with Refresh Token", "ConsoleResourceOwnerRefreshTokenClient\Console Resource Owner Flow with Refresh Token.csproj", "{9BF9BAF9-75F3-47BA-9B47-A95023764D82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF Hybrid Client", "WpfClient (Hybrid)\WPF Hybrid Client.csproj", "{51F181C7-F918-48E2-A2E2-09431C14D4FB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN Client (Hybrid)", "MVC OWIN Client (Hybrid)\MVC OWIN Client (Hybrid).csproj", "{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinRT Implicit Client", "WinRT Implicit Client\WinRT Implicit Client.csproj", "{D7C2DBBB-6485-4508-8827-7EFD26EBD808}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Custom Grant Client", "CustomGrantClient\Console Custom Grant Client.csproj", "{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client - Simple", "JavaScriptImplicitClient-Simple\JavaScript Implicit Client - Simple.csproj", "{104B2540-1F77-4216-B801-428AE970F9C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Certificate Client", "ClientCertificateConsoleClient\Console Client Certificate Client.csproj", "{486F3455-A541-4DF1-91BF-EB474CDE386F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials Flow using Certificate", "ClientCertificateConsoleClient\Console Client Credentials Flow using Certificate.csproj", "{486F3455-A541-4DF1-91BF-EB474CDE386F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials Flow using PostBody", "ConsoleClientCredentialsPostBody\Console Client Credentials Flow using PostBody.csproj", "{277F36ED-DBCA-4886-ABDF-422A8B8D2099}"
 EndProject
@@ -47,7 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console WCF Client", "WcfCl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Resource Owner Flow with UserInfo", "ConsoleResourceOwnerWithUserInfo\Console Resource Owner Flow with UserInfo.csproj", "{FC9EABBE-8F71-4DBF-BD98-9EA80E6F7759}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScriptResourceOwner", "JavaScriptResourceOwner\JavaScriptResourceOwner.csproj", "{5541BDA9-D6CD-485A-A2BE-0DF560CE126F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Resource Owner Flow", "JavaScriptResourceOwner\JavaScript Resource Owner Flow.csproj", "{5541BDA9-D6CD-485A-A2BE-0DF560CE126F}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials Flow with Introspection", "ConsoleClientCredentialsIntrospection\Console Client Credentials Flow with Introspection.csproj", "{8B8CD8E5-72A6-4DBD-B10A-7F03D357746F}"
 EndProject
 Global
@@ -172,16 +169,6 @@ Global
 		{9BF9BAF9-75F3-47BA-9B47-A95023764D82}.Release|ARM.ActiveCfg = Release|Any CPU
 		{9BF9BAF9-75F3-47BA-9B47-A95023764D82}.Release|x64.ActiveCfg = Release|Any CPU
 		{9BF9BAF9-75F3-47BA-9B47-A95023764D82}.Release|x86.ActiveCfg = Release|Any CPU
-		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Release|ARM.ActiveCfg = Release|Any CPU
-		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Release|x64.ActiveCfg = Release|Any CPU
-		{51F181C7-F918-48E2-A2E2-09431C14D4FB}.Release|x86.ActiveCfg = Release|Any CPU
 		{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -192,30 +179,6 @@ Global
 		{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}.Release|ARM.ActiveCfg = Release|Any CPU
 		{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}.Release|x64.ActiveCfg = Release|Any CPU
 		{3C42437D-1B6C-4037-8FDA-8835D1B7B12C}.Release|x86.ActiveCfg = Release|Any CPU
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|ARM.ActiveCfg = Debug|ARM
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|ARM.Build.0 = Debug|ARM
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|ARM.Deploy.0 = Debug|ARM
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|x64.ActiveCfg = Debug|x64
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|x64.Build.0 = Debug|x64
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|x64.Deploy.0 = Debug|x64
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|x86.ActiveCfg = Debug|x86
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|x86.Build.0 = Debug|x86
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Debug|x86.Deploy.0 = Debug|x86
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|ARM.ActiveCfg = Release|ARM
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|ARM.Build.0 = Release|ARM
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|ARM.Deploy.0 = Release|ARM
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|x64.ActiveCfg = Release|x64
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|x64.Build.0 = Release|x64
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|x64.Deploy.0 = Release|x64
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|x86.ActiveCfg = Release|x86
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|x86.Build.0 = Release|x86
-		{D7C2DBBB-6485-4508-8827-7EFD26EBD808}.Release|x86.Deploy.0 = Release|x86
 		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -286,7 +249,6 @@ Global
 		{FC9EABBE-8F71-4DBF-BD98-9EA80E6F7759}.Release|ARM.ActiveCfg = Release|Any CPU
 		{FC9EABBE-8F71-4DBF-BD98-9EA80E6F7759}.Release|x64.ActiveCfg = Release|Any CPU
 		{FC9EABBE-8F71-4DBF-BD98-9EA80E6F7759}.Release|x86.ActiveCfg = Release|Any CPU
-<<<<<<< HEAD
 		{5541BDA9-D6CD-485A-A2BE-0DF560CE126F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5541BDA9-D6CD-485A-A2BE-0DF560CE126F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5541BDA9-D6CD-485A-A2BE-0DF560CE126F}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -303,7 +265,6 @@ Global
 		{5541BDA9-D6CD-485A-A2BE-0DF560CE126F}.Release|x64.Build.0 = Release|Any CPU
 		{5541BDA9-D6CD-485A-A2BE-0DF560CE126F}.Release|x86.ActiveCfg = Release|Any CPU
 		{5541BDA9-D6CD-485A-A2BE-0DF560CE126F}.Release|x86.Build.0 = Release|Any CPU
-=======
 		{8B8CD8E5-72A6-4DBD-B10A-7F03D357746F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B8CD8E5-72A6-4DBD-B10A-7F03D357746F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B8CD8E5-72A6-4DBD-B10A-7F03D357746F}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -320,7 +281,6 @@ Global
 		{8B8CD8E5-72A6-4DBD-B10A-7F03D357746F}.Release|x64.Build.0 = Release|Any CPU
 		{8B8CD8E5-72A6-4DBD-B10A-7F03D357746F}.Release|x86.ActiveCfg = Release|Any CPU
 		{8B8CD8E5-72A6-4DBD-B10A-7F03D357746F}.Release|x86.Build.0 = Release|Any CPU
->>>>>>> IntrospectionEndpoint
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

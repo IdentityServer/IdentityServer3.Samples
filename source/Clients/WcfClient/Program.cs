@@ -63,7 +63,7 @@ namespace WcfClient
         {
             var oauth2Client = new TokenClient(
                 Constants.TokenEndpoint,
-                "roclient",
+                "ro.client",
                 "secret");
 
             var tokenResponse =

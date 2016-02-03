@@ -24,7 +24,7 @@ namespace ConsoleClientCredentialsPostBody
         {
             var client = new TokenClient(
                 Constants.TokenEndpoint,
-                "client",
+                "clientcredentials.client",
                 "secret",
                 AuthenticationStyle.PostValues);
 

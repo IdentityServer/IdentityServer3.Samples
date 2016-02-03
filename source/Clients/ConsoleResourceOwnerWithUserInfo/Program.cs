@@ -1,10 +1,10 @@
-﻿using IdentityModel.Client;
+﻿using IdentityModel;
+using IdentityModel.Client;
+using IdentityModel.Extensions;
+using Newtonsoft.Json.Linq;
+using Sample;
 using System;
 using System.Text;
-using IdentityModel.Extensions;
-using Sample;
-using Newtonsoft.Json.Linq;
-using IdentityModel;
 
 namespace ConsoleResourceOwnerWithUserInfo
 {
@@ -22,7 +22,7 @@ namespace ConsoleResourceOwnerWithUserInfo
         {
             var client = new TokenClient(
                 Constants.TokenEndpoint,
-                "roclient",
+                "ro.client",
                 "secret");
 
             return client.RequestResourceOwnerPasswordAsync("bob", "bob", "openid email").Result;

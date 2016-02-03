@@ -24,7 +24,7 @@ namespace ConsoleClientCredentialsClient
         {
             var client = new TokenClient(
                 Constants.TokenEndpoint,
-                "client",
+                "clientcredentials.client",
                 "secret");
 
             return client.RequestClientCredentialsAsync("read write").Result;

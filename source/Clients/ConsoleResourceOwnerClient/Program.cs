@@ -24,7 +24,7 @@ namespace ConsoleResourceOwnerClient
         {
             var client = new TokenClient(
                 Constants.TokenEndpoint,
-                "roclient",
+                "ro.client",
                 "secret");
 
             // idsrv supports additional non-standard parameters 

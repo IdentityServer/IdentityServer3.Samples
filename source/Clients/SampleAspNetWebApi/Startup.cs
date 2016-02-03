@@ -1,7 +1,7 @@
-﻿using Microsoft.Owin;
+﻿using IdentityServer3.AccessTokenValidation;
+using Microsoft.Owin;
 using Owin;
 using System.IdentityModel.Tokens;
-using IdentityServer3.AccessTokenValidation;
 
 [assembly: OwinStartup(typeof(SampleAspNetWebApi.Startup))]
 

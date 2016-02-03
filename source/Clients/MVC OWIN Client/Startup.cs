@@ -5,8 +5,6 @@ using Owin;
 using Sample;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 [assembly: OwinStartup(typeof(MVC_OWIN_Client.Startup))]
 
@@ -25,34 +23,14 @@ namespace MVC_OWIN_Client
 
             app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
             {
-                ClientId = "implicitclient",
+                ClientId = "mvc.owin.implicit",
                 Authority = Constants.BaseAddress,
                 RedirectUri = "https://localhost:44301/",
-                ResponseType = "id_token token",
-                Scope = "openid email write",
+                ResponseType = "id_token",
+                Scope = "openid email",
 
                 UseTokenLifetime = false,
                 SignInAsAuthenticationType = "Cookies",
-
-                Notifications = new OpenIdConnectAuthenticationNotifications
-                {
-                    SecurityTokenValidated = async n =>
-                    {
-                        // simulate a slow authorization response page
-                        //await Task.Delay(2000);
-
-                        var token = n.ProtocolMessage.AccessToken;
-
-                        // persist access token in cookie
-                        if (!string.IsNullOrEmpty(token))
-                        {
-                            n.AuthenticationTicket.Identity.AddClaim(
-                                new Claim("access_token", token));
-                        }
-
-                        //return Task.FromResult(0);
-                    }
-                }
             });
         }
     }

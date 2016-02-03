@@ -17,7 +17,7 @@ namespace ConsoleResourceOwnerClient
         {
             _tokenClient = new TokenClient(
                 Constants.TokenEndpoint,
-                "roclient",
+                "ro.client",
                 "secret");
 
             var response = RequestToken();

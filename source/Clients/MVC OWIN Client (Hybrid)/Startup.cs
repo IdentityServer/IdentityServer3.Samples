@@ -29,7 +29,7 @@ namespace MVC_OWIN_Client
 
             app.UseOpenIdConnectAuthentication(new OpenIdConnectAuthenticationOptions
                 {
-                    ClientId = "katanaclient",
+                    ClientId = "mvc.owin.hybrid",
                     Authority = Constants.BaseAddress,
                     RedirectUri = "https://localhost:44300/",
                     PostLogoutRedirectUri = "https://localhost:44300/",
@@ -45,7 +45,7 @@ namespace MVC_OWIN_Client
                                 // use the code to get the access and refresh token
                                 var tokenClient = new TokenClient(
                                     Constants.TokenEndpoint,
-                                    "katanaclient",
+                                    "mvc.owin.hybrid",
                                     "secret");
 
                                 var tokenResponse = await tokenClient.RequestAuthorizationCodeAsync(
