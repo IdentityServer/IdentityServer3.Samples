@@ -54,3 +54,6 @@ Sample to illustrate how add support for non-standard grant types at the token e
 #### Logging
 Sample to illustrate how to use IdentityServer logging in custom services (e.g. a custom user service) as well as how to 
 add a custom logging sink. 
+
+#### Xamarin samples
+[link](https://github.com/IdentityServer/IdentityServer3.Samples/tree/master/source/Xamarin)
