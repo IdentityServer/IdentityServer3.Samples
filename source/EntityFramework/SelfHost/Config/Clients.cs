@@ -70,7 +70,7 @@ namespace SelfHost.Config
                     ClientName = "Implicit Client Demo",
                     Enabled = true,
 
-                    ClientId = "implicitclient",
+                    ClientId = "js.tokenmanager",
                     ClientSecrets = new List<Secret>
                     { 
                         new Secret("secret".Sha256())
