@@ -1,4 +1,5 @@
-﻿using IdentityServer3.Core.Services;
+﻿using IdentityServer3.Core;
+using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Validation;
 using System;
 using System.Collections.Generic;
@@ -19,28 +20,32 @@ namespace IdentityServer
 
         Task<CustomGrantValidationResult> ICustomGrantValidator.ValidateAsync(ValidatedTokenRequest request)
         {
+            CustomGrantValidationResult grantResult = null;
+
             var param = request.Raw.Get("token");
             if (string.IsNullOrWhiteSpace(param))
             {
-                return Task.FromResult<CustomGrantValidationResult>(
-                    new CustomGrantValidationResult("Token parameter not set."));
+                grantResult = new CustomGrantValidationResult(Constants.TokenErrors.InvalidRequest);
             }
 
             var result = _validator.ValidateAccessTokenAsync(param).Result;
             if (result.IsError)
             {
-                return Task.FromResult<CustomGrantValidationResult>(
-                    new CustomGrantValidationResult(result.Error));
+                grantResult = new CustomGrantValidationResult(result.Error);
             }
 
             var subjectClaim = result.Claims.FirstOrDefault(x => x.Type == "sub");
             if(subjectClaim == null)
             {
-                return Task.FromResult<CustomGrantValidationResult>(
-                    new CustomGrantValidationResult("No subject claim for the token."));
+                grantResult = new CustomGrantValidationResult(Constants.TokenErrors.InvalidRequest);
             }
 
-            return Task.FromResult(new CustomGrantValidationResult(subjectClaim.Value, "act-as"));
+            if (grantResult == null)
+            {
+                grantResult = new CustomGrantValidationResult(subjectClaim.Value, "access_token");
+            }
+
+            return Task.FromResult(grantResult);
         }
 
         public string GrantType
