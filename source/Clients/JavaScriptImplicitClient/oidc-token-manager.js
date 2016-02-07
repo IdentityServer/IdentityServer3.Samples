@@ -3,140 +3,6 @@
     // globals
     var _promiseFactory;
     var _httpRequest;
-/**
- * @constructor
- */
-function DefaultHttpRequest() {
-
-    /**
-     * @name _promiseFactory
-     * @type DefaultPromiseFactory
-     */
-
-    /**
-     * @param {XMLHttpRequest} xhr
-     * @param {object.<string, string>} headers
-     */
-    function setHeaders(xhr, headers) {
-        var keys = Object.keys(headers);
-
-        for (var i = 0; i < keys.length; i++) {
-            var key = keys[i];
-            var value = headers[key];
-
-            xhr.setRequestHeader(key, value);
-        }
-    }
-
-    /**
-     * @param {string} url
-     * @param {{ headers: object.<string, string> }} [config]
-     * @returns {Promise}
-     */
-    this.getJSON = function (url, config) {
-        return _promiseFactory.create(function (resolve, reject) {
-
-            try {
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", url);
-                xhr.responseType = "json";
-
-                if (config) {
-                    if (config.headers) {
-                        setHeaders(xhr, config.headers);
-                    }
-                }
-
-                xhr.onload = function () {
-                    try {
-                        if (xhr.status === 200) {
-                            var response = xhr.response;
-                            if (typeof response === "string") {
-                                response = JSON.parse(response);
-                            }
-                            resolve(response);
-                        }
-                        else {
-                            reject(Error(xhr.statusText + "(" + xhr.status + ")"));
-                        }
-                    }
-                    catch (err) {
-                        reject(err);
-                    }
-                };
-
-                xhr.onerror = function () {
-                    reject(Error("Network error"));
-                };
-
-                xhr.send();
-            }
-            catch (err) {
-                return reject(err);
-            }
-        });
-    };
-}
-
-_httpRequest = new DefaultHttpRequest();
-
-/**
- * @constructor
- * @param {Promise} promise
- */
-function DefaultPromise(promise) {
-
-    /**
-     * @param {function(*):*} successCallback
-     * @param {function(*):*} errorCallback
-     * @returns {DefaultPromise}
-     */
-    this.then = function (successCallback, errorCallback) {
-        var childPromise = promise.then(successCallback, errorCallback);
-
-        return new DefaultPromise(childPromise);
-    };
-
-    /**
-     *
-     * @param {function(*):*} errorCallback
-     * @returns {DefaultPromise}
-     */
-    this.catch = function (errorCallback) {
-        var childPromise = promise.catch(errorCallback);
-
-        return new DefaultPromise(childPromise);
-    };
-}
-
-/**
- * @constructor
- */
-function DefaultPromiseFactory() {
-
-    this.resolve = function (value) {
-        return new DefaultPromise(Promise.resolve(value));
-    };
-
-    this.reject = function (reason) {
-        return new DefaultPromise(Promise.reject(reason));
-    };
-
-    /**
-     * @param {function(resolve:function, reject:function)} callback
-     * @returns {DefaultPromise}
-     */
-    this.create = function (callback) {
-        return new DefaultPromise(new Promise(callback));
-    };
-}
-
-_promiseFactory = new DefaultPromiseFactory();
-(function () {
-
-    // globals
-    var _promiseFactory;
-    var _httpRequest;
 /*
 CryptoJS v3.1.2
 code.google.com/p/crypto-js
@@ -7812,7 +7678,13 @@ function DefaultHttpRequest() {
                 xhr.onload = function () {
                     try {
                         if (xhr.status === 200) {
-                            var response = xhr.response;
+                            var response = "";
+                            // To support IE9 get the response from xhr.responseText not xhr.response
+                            if (window.XDomainRequest) {
+                                response = xhr.responseText;
+                            } else {
+                                response = xhr.response;
+                            }
                             if (typeof response === "string") {
                                 response = JSON.parse(response);
                             }
@@ -7929,6 +7801,10 @@ function rand() {
     return ((Date.now() + Math.random()) * Math.random()).toString().replace(".", "");
 }
 
+function resolve(param) {
+    return _promiseFactory.resolve(param);
+}
+
 function error(message) {
     return _promiseFactory.reject(Error(message));
 }
@@ -8037,7 +7913,7 @@ OidcClient.prototype.loadMetadataAsync = function () {
     var settings = this._settings;
 
     if (settings.metadata) {
-        return _promiseFactory.resolve(settings.metadata);
+        return resolve(settings.metadata);
     }
 
     if (!settings.authority) {
@@ -8049,7 +7925,7 @@ OidcClient.prototype.loadMetadataAsync = function () {
             settings.metadata = metadata;
             return metadata;
         }, function (err) {
-            return error("Failed to load metadata (" + err.message + ")");
+            return error("Failed to load metadata (" + err && err.message + ")");
         });
 };
 
@@ -8072,7 +7948,7 @@ OidcClient.prototype.loadX509SigningKeyAsync = function () {
             return error("RSA keys empty");
         }
 
-        return _promiseFactory.resolve(key.x5c[0]);
+        return resolve(key.x5c[0]);
     }
 
     if (settings.jwks) {
@@ -8088,7 +7964,7 @@ OidcClient.prototype.loadX509SigningKeyAsync = function () {
             settings.jwks = jwks;
             return getKeyAsync(jwks);
         }, function (err) {
-            return error("Failed to load signing keys (" + err.message + ")");
+            return error("Failed to load signing keys (" + err && err.message + ")");
         });
     });
 };
@@ -8099,7 +7975,7 @@ OidcClient.prototype.loadUserProfile = function (access_token) {
     return this.loadMetadataAsync().then(function (metadata) {
 
         if (!metadata.userinfo_endpoint) {
-            return _promiseFactory.reject(Error("Metadata does not contain userinfo_endpoint"));
+            return error("Metadata does not contain userinfo_endpoint");
         }
 
         return getJson(metadata.userinfo_endpoint, access_token);
@@ -8110,7 +7986,7 @@ OidcClient.prototype.loadAuthorizationEndpoint = function () {
     log("OidcClient.loadAuthorizationEndpoint");
 
     if (this._settings.authorization_endpoint) {
-        return _promiseFactory.resolve(this._settings.authorization_endpoint);
+        return resolve(this._settings.authorization_endpoint);
     }
 
     if (!this._settings.authority) {
@@ -8269,7 +8145,7 @@ OidcClient.prototype.validateAccessTokenAsync = function (id_token_contents, acc
         return error("at_hash failed to validate");
     }
 
-    return _promiseFactory.resolve();
+    return resolve();
 };
 
 OidcClient.prototype.validateIdTokenAndAccessTokenAsync = function (id_token, nonce, access_token) {
@@ -8347,7 +8223,7 @@ OidcClient.prototype.processResponseAsync = function (queryString) {
         }
     }
 
-    var promise = _promiseFactory.resolve();
+    var promise = resolve();
     if (request_state.oidc && request_state.oauth) {
         promise = client.validateIdTokenAndAccessTokenAsync(result.id_token, request_state.nonce, result.access_token);
     }
@@ -8375,10 +8251,14 @@ OidcClient.prototype.processResponseAsync = function (queryString) {
 }
 
     // exports
+    OidcClient._promiseFactory = _promiseFactory;
+    OidcClient._httpRequest = _httpRequest;
     window.OidcClient = OidcClient;
 })();
+(function () {
+
 /*
-* Copyright 2014 Dominick Baier, Brock Allen
+* Copyright 2014-2016 Dominick Baier, Brock Allen
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -8393,8 +8273,9 @@ OidcClient.prototype.processResponseAsync = function (queryString) {
 * limitations under the License.
 */
 
-var _httpRequest = new DefaultHttpRequest();
-var _promiseFactory = new DefaultPromiseFactory();
+// globals
+var _promiseFactory = OidcClient._promiseFactory;
+var _httpRequest  = OidcClient._httpRequest;
 
 function copy(obj, target) {
     target = target || {};
@@ -8479,15 +8360,19 @@ Token.prototype.toJSON = function () {
     });
 }
 
-function FrameLoader(url) {
+function FrameLoader(url, config) {
     this.url = url;
+    config = config || {};
+    config.cancelDelay = config.cancelDelay || 5000;
+    this.config = config;
 }
 
 FrameLoader.prototype.loadAsync = function (url) {
+    var self = this;
     url = url || this.url;
 
     if (!url) {
-        return _promiseFactory.reject("No url provided");
+        return _promiseFactory.reject(Error("No url provided"));
     }
 
     return _promiseFactory.create(function (resolve, reject) {
@@ -8515,7 +8400,7 @@ FrameLoader.prototype.loadAsync = function (url) {
             }
         }
 
-        var handle = window.setTimeout(cancel, 5000);
+        var handle = window.setTimeout(cancel, self.config.cancelDelay);
         window.addEventListener("message", message, false);
         window.document.body.appendChild(frame);
         frame.src = url;
@@ -8582,7 +8467,7 @@ function configureAutoRenewToken(mgr) {
         mgr.addOnTokenExpiring(function () {
             mgr.renewTokenSilentAsync().catch(function (e) {
                 mgr._callSilentTokenRenewFailed();
-                console.error(e.message || e);
+                console.error(e && e.message || "Unknown error");
             });
         });
 
@@ -8834,20 +8719,22 @@ TokenManager.prototype.removeToken = function () {
 
 TokenManager.prototype.redirectForToken = function () {
     var oidc = this.oidcClient;
-    oidc.createTokenRequestAsync().then(function (request) {
+    return oidc.createTokenRequestAsync().then(function (request) {
         window.location = request.url;
     }, function (err) {
-        console.error("TokenManager.redirectForToken error: " + (err && err.message || err || ""));
+        console.error("TokenManager.redirectForToken error: " + (err && err.message || "Unknown error"));
+        return _promiseFactory.reject(err);
     });
 }
 
 TokenManager.prototype.redirectForLogout = function () {
     var mgr = this;
-    mgr.oidcClient.createLogoutRequestAsync(mgr.id_token).then(function (url) {
+    return mgr.oidcClient.createLogoutRequestAsync(mgr.id_token).then(function (url) {
         mgr.removeToken();
         window.location = url;
     }, function (err) {
-        console.error("TokenManager.redirectForLogout error: " + (err && err.message || err || ""));
+        console.error("TokenManager.redirectForLogout error: " + (err && err.message || "Unknown error"));
+        return _promiseFactory.reject(err);
     });
 }
 
@@ -8862,16 +8749,18 @@ TokenManager.prototype.renewTokenSilentAsync = function () {
     var mgr = this;
 
     if (!mgr._settings.silent_redirect_uri) {
-        return _promiseFactory.reject("silent_redirect_uri not configured");
+        return _promiseFactory.reject(Error("silent_redirect_uri not configured"));
     }
 
     var settings = copy(mgr._settings);
     settings.redirect_uri = settings.silent_redirect_uri;
-    settings.prompt = "none";
+    if (!settings.prompt) {
+        settings.prompt = "none";
+    }
 
     var oidc = new OidcClient(settings);
     return oidc.createTokenRequestAsync().then(function (request) {
-        var frame = new FrameLoader(request.url);
+        var frame = new FrameLoader(request.url, { cancelDelay: mgr._settings.silent_renew_timeout });
         return frame.loadAsync().then(function (hash) {
             return oidc.processResponseAsync(hash).then(function (token) {
                 mgr.saveToken(token);
@@ -8940,7 +8829,7 @@ TokenManager.prototype.openPopupForTokenAsync = function (popupSettings) {
     function checkClosed() {
         if (!popup.window) {
             cleanup();
-            reject_popup(Error({msg:"Popup closed"}));
+            reject_popup(Error("Popup closed"));
         }
     }
     var handle = window.setInterval(checkClosed, 1000);
@@ -9001,6 +8890,7 @@ TokenManager.prototype.processTokenPopup = function (hash) {
     }
 }
    
+
     // exports
     window.OidcTokenManager = TokenManager;
 })();
