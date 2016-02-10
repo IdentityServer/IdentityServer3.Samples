@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC No Library Client", "MvcFormPostClient\MVC No Library Client.csproj", "{E3C5E9C3-2977-4AD5-87EC-00FC4D2F7FF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC CodeFlowClient Manual", "MvcCodeFlowClientManual\MVC CodeFlowClient Manual.csproj", "{C67DB8BB-6083-436D-9748-4BDD9EC8C0EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC Manual Code Flow Client", "MvcCodeFlowClientManual\MVC Manual Code Flow Client.csproj", "{C67DB8BB-6083-436D-9748-4BDD9EC8C0EB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client - TokenManager", "JavaScriptImplicitClient\JavaScript Implicit Client - TokenManager.csproj", "{76BE0CCA-2F1E-4071-BEF0-C8A2673E7B04}"
 EndProject
