@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF Client (Hybrid with PKCE)", "WpfOidcClient\WPF Client (Hybrid with PKCE).csproj", "{86CAEDFB-800A-441B-BBA1-C930FD23EE49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebForms OWIN Implicit", "WebFormsClient\WebForms OWIN Implicit.csproj", "{43757AF6-7762-44AC-A8B7-842C119BE3CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -299,6 +301,22 @@ Global
 		{86CAEDFB-800A-441B-BBA1-C930FD23EE49}.Release|x64.Build.0 = Release|Any CPU
 		{86CAEDFB-800A-441B-BBA1-C930FD23EE49}.Release|x86.ActiveCfg = Release|Any CPU
 		{86CAEDFB-800A-441B-BBA1-C930FD23EE49}.Release|x86.Build.0 = Release|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Debug|ARM.Build.0 = Debug|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Debug|x64.Build.0 = Debug|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Debug|x86.Build.0 = Debug|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|ARM.ActiveCfg = Release|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|ARM.Build.0 = Release|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|x64.ActiveCfg = Release|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|x64.Build.0 = Release|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|x86.ActiveCfg = Release|Any CPU
+		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
