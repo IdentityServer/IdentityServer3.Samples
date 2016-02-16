@@ -54,8 +54,8 @@ namespace MVC_OWIN_Client.Controllers
         public void OidcSignOut(string sid)
         {
             var cp = (ClaimsPrincipal)User;
-            var sidClaim = cp.Claims.First(x => x.Type == "sid").Value;
-            if (sidClaim == sid)
+            var sidClaim = cp.FindFirst("sid");
+            if (sidClaim != null && sidClaim.Value == sid)
             {
                 Request.GetOwinContext().Authentication.SignOut("Cookies");
             }
