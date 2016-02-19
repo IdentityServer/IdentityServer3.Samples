@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using IdentityServer3.AspNetIdentity;
 using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Services;
@@ -44,7 +45,7 @@ namespace WebHost.IdSvr
         {
         }
         
-        protected override async Task<IEnumerable<System.Security.Claims.Claim>> GetClaimsFromAccount(User user) {
+        protected override async Task<IEnumerable<Claim>> GetClaimsFromAccount(User user) {
             var claims = (await base.GetClaimsFromAccount(user)).ToList();
 			if (!String.IsNullOrWhiteSpace(user.FirstName)) {
 				claims.Add(new Claim("given_name", user.FirstName));
