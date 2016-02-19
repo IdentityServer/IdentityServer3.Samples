@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common">
+      <HintPath>..\..\Common\bin\Debug\Common.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -152,10 +155,8 @@
     <Compile Include="IdMgr\CustomIdentityManagerServiceWithIntKeys.cs" />
     <Compile Include="IdMgr\SimpleIdentityManagerService.cs" />
     <Compile Include="IdSvr\Certificate.cs" />
-    <Compile Include="IdSvr\Clients.cs" />
     <Compile Include="IdSvr\CustomUserService.cs" />
     <Compile Include="IdSvr\Factory.cs" />
-    <Compile Include="IdSvr\Scopes.cs" />
     <Compile Include="IdSvr\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

@@ -1,24 +1,10 @@
-﻿/*
- * Copyright 2014 Dominick Baier, Brock Allen
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+﻿using IdentityServer3.Core;
+using IdentityServer3.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using IdentityServer3.Core;
-using IdentityServer3.Core.Models;
 
-namespace SelfHost.Config
+namespace Common
 {
     public class Clients
     {
@@ -107,7 +93,7 @@ namespace SelfHost.Config
                         "http://localhost:23453/modal.html",
 
                         // WPF client
-                        "oob://localhost/wpfclient",
+                        "oob://localhost/wpf.webview.client",
                         
                         // WinRT client
                         "ms-app://s-1-15-2-1677770454-1667073387-2045065244-1646983296-4049597744-3433330513-3528227871/",
@@ -121,6 +107,9 @@ namespace SelfHost.Config
 
                         // OWIN middleware client
                         "http://localhost:2671/",
+
+                        // Xamarin client
+                        "https://xamarin-oidc-sample/redirect"
                     },
 
                     PostLogoutRedirectUris = new List<string>
@@ -141,13 +130,13 @@ namespace SelfHost.Config
                 {
                     ClientName = "Hybrid Native Client Demo",
                     Enabled = true,
-                    ClientId = "hybridclient",
+                    ClientId = "wpf.hybrid",
                     ClientSecrets = new List<Secret>
                     { 
                         new Secret("secret".Sha256())
                     },
 
-                    Flow = Flows.Hybrid,
+                    Flow = Flows.HybridWithProofKey,
                     
                     AllowedScopes = new List<string>
                     {
@@ -168,15 +157,15 @@ namespace SelfHost.Config
                     
                     RedirectUris = new List<string>
                     {
-                        "oob://localhost/wpfclient"
+                        "oob://localhost/wpf.hybrid"
                     }
                 },
 
                 new Client
                 {
-                    ClientName = "Katana Hybrid Client Demo",
+                    ClientName = "MVC OWIN Hybrid Client Demo",
                     Enabled = true,
-                    ClientId = "katanaclient",
+                    ClientId = "mvc.owin.hybrid",
                     ClientSecrets = new List<Secret>
                     { 
                         new Secret("secret".Sha256())
@@ -203,12 +192,12 @@ namespace SelfHost.Config
                     
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:2672/",
+                        "https://localhost:44300/",
                     },
 
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:2672/"
+                        "https://localhost:44300/"
                     }
                 },
 
@@ -216,7 +205,7 @@ namespace SelfHost.Config
                 {
                     ClientName = "Client Credentials Flow Client",
                     Enabled = true,
-                    ClientId = "client",
+                    ClientId = "clientcredentials.client",
                     
                     ClientSecrets = new List<Secret>
                     { 
@@ -272,7 +261,7 @@ namespace SelfHost.Config
                 {
                     ClientName = "Custom Grant Client",
                     Enabled = true,
-                    ClientId = "customclient",
+                    ClientId = "customgrant.client",
                     ClientSecrets = new List<Secret>
                     { 
                         new Secret("secret".Sha256())
@@ -291,7 +280,7 @@ namespace SelfHost.Config
                 {
                     ClientName = "Resource Owner Flow Client",
                     Enabled = true,
-                    ClientId = "roclient",
+                    ClientId = "ro.client",
                     ClientSecrets = new List<Secret>
                     { 
                         new Secret("secret".Sha256())
@@ -301,6 +290,8 @@ namespace SelfHost.Config
                     
                     AllowedScopes = new List<string> 
                     {
+                        "openid",
+                        "email",
                         "read", 
                         "write",
                         "offline_access"

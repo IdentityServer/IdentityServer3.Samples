@@ -3,7 +3,7 @@ using IdentityServer3.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SelfHost.Config
+namespace Common
 {
     public class Scopes
     {
@@ -40,6 +40,10 @@ namespace SelfHost.Config
                         DisplayName = "Write data",
                         Type = ScopeType.Resource,
                         Emphasize = true,
+                        ScopeSecrets = new List<Secret>
+                        {
+                            new Secret("secret".Sha256())
+                        }
                     },
                     new Scope
                     {
@@ -54,6 +58,13 @@ namespace SelfHost.Config
                             new ScopeClaim(Constants.ClaimTypes.Name),
                             new ScopeClaim(Constants.ClaimTypes.Role)
                         }
+                    },
+                    new Scope
+                    {
+                        Name = "forbidden",
+                        DisplayName = "Forbidden scope",
+                        Type = ScopeType.Resource,
+                        Emphasize = true
                     }
                 };
         }

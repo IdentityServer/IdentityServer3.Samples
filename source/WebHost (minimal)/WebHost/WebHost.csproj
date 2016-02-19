@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common">
+      <HintPath>..\..\Common\bin\Debug\Common.dll</HintPath>
+    </Reference>
     <Reference Include="IdentityServer3, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityServer3.2.0.0-build00174\lib\net45\IdentityServer3.dll</HintPath>
       <Private>True</Private>
@@ -97,8 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Cert.cs" />
-    <Compile Include="Configuration\Clients.cs" />
-    <Compile Include="Configuration\Scopes.cs" />
     <Compile Include="Configuration\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
