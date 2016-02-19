@@ -2,6 +2,7 @@
 using IdentityServer3.Core.Services;
 using Owin;
 using SelfHost.Config;
+using Common;
 
 namespace SelfHost
 {

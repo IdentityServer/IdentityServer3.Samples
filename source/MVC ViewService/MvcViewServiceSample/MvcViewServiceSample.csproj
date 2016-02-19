@@ -42,6 +42,9 @@
     <Reference Include="AntiXssLibrary">
       <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\AntiXssLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Common">
+      <HintPath>..\..\Common\bin\Debug\Common.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlSanitizationLibrary">
       <HintPath>..\packages\AntiXSS.4.3.0\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
     </Reference>
@@ -161,8 +164,6 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Configuration\Cert.cs" />
-    <Compile Include="Configuration\Clients.cs" />
-    <Compile Include="Configuration\Scopes.cs" />
     <Compile Include="Configuration\Users.cs" />
     <Compile Include="Controllers\LogonWorkflowController.cs" />
     <Compile Include="Global.asax.cs">

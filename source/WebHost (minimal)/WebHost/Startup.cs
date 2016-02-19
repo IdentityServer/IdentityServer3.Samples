@@ -5,6 +5,7 @@ using Owin;
 using Configuration;
 using IdentityServer3.Core.Configuration;
 using Serilog;
+using Common;
 
 [assembly: OwinStartup(typeof(WebHost.Startup))]
 
