@@ -54,6 +54,13 @@ namespace Common
                             new ScopeClaim(Constants.ClaimTypes.Name),
                             new ScopeClaim(Constants.ClaimTypes.Role)
                         }
+                    },
+                    new Scope
+                    {
+                        Name = "forbidden",
+                        DisplayName = "Forbidden scope",
+                        Type = ScopeType.Resource,
+                        Emphasize = true
                     }
                 };
         }
