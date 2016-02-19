@@ -93,7 +93,7 @@ namespace Common
                         "http://localhost:23453/modal.html",
 
                         // WPF client
-                        "oob://localhost/wpfclient",
+                        "oob://localhost/wpf.webview.client",
                         
                         // WinRT client
                         "ms-app://s-1-15-2-1677770454-1667073387-2045065244-1646983296-4049597744-3433330513-3528227871/",
@@ -130,13 +130,13 @@ namespace Common
                 {
                     ClientName = "Hybrid Native Client Demo",
                     Enabled = true,
-                    ClientId = "hybridclient",
+                    ClientId = "wpf.hybrid",
                     ClientSecrets = new List<Secret>
                     { 
                         new Secret("secret".Sha256())
                     },
 
-                    Flow = Flows.Hybrid,
+                    Flow = Flows.HybridWithProofKey,
                     
                     AllowedScopes = new List<string>
                     {
@@ -157,15 +157,15 @@ namespace Common
                     
                     RedirectUris = new List<string>
                     {
-                        "oob://localhost/wpfclient"
+                        "oob://localhost/wpf.hybrid"
                     }
                 },
 
                 new Client
                 {
-                    ClientName = "Katana Hybrid Client Demo",
+                    ClientName = "MVC OWIN Hybrid Client Demo",
                     Enabled = true,
-                    ClientId = "katanaclient",
+                    ClientId = "mvc.owin.hybrid",
                     ClientSecrets = new List<Secret>
                     { 
                         new Secret("secret".Sha256())
@@ -192,12 +192,12 @@ namespace Common
                     
                     RedirectUris = new List<string>
                     {
-                        "http://localhost:2672/",
+                        "https://localhost:44300/",
                     },
 
                     PostLogoutRedirectUris = new List<string>
                     {
-                        "http://localhost:2672/"
+                        "https://localhost:44300/"
                     }
                 },
 
@@ -205,7 +205,7 @@ namespace Common
                 {
                     ClientName = "Client Credentials Flow Client",
                     Enabled = true,
-                    ClientId = "client",
+                    ClientId = "clientcredentials.client",
                     
                     ClientSecrets = new List<Secret>
                     { 
@@ -261,7 +261,7 @@ namespace Common
                 {
                     ClientName = "Custom Grant Client",
                     Enabled = true,
-                    ClientId = "customclient",
+                    ClientId = "customgrant.client",
                     ClientSecrets = new List<Secret>
                     { 
                         new Secret("secret".Sha256())
@@ -280,7 +280,7 @@ namespace Common
                 {
                     ClientName = "Resource Owner Flow Client",
                     Enabled = true,
-                    ClientId = "roclient",
+                    ClientId = "ro.client",
                     ClientSecrets = new List<Secret>
                     { 
                         new Secret("secret".Sha256())

@@ -30,7 +30,7 @@ namespace ClientCertificateConsoleClient
 
             var client = new TokenClient(
                 Constants.TokenEndpoint,
-                "clientcredentials.client",
+                "certclient",
                 handler);
 
 

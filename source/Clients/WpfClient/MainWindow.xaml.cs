@@ -77,7 +77,7 @@ namespace WpfClient
         {
             var request = new AuthorizeRequest(Constants.AuthorizeEndpoint);
             var startUrl = request.CreateAuthorizeUrl(
-                clientId: "wpf.webview.client",
+                clientId: "implicitclient",
                 responseType: responseType,
                 scope: scope,
                 redirectUri: "oob://localhost/wpf.webview.client",

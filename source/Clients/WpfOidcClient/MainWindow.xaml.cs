@@ -33,7 +33,7 @@ namespace WpfOidcClient
                 Authority = "https://localhost:44333/core",
                 ClientId = "wpf.hybrid",
                 ClientSecret = "secret",
-                RedirectUri = "http://localhost/wpf.hybrid",
+                RedirectUri = "oob://localhost/wpf.hybrid",
                 Scope = "openid profile write",
                 LoadUserProfile = true
             };
