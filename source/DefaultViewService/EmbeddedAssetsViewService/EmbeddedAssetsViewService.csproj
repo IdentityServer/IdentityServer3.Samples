@@ -40,7 +40,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IdentityServer3, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.2.3.0-build00379\lib\net45\IdentityServer3.dll</HintPath>
+      <HintPath>..\packages\IdentityServer3.2.3.0\lib\net45\IdentityServer3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
