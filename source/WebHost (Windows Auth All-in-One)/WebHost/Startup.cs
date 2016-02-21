@@ -6,6 +6,7 @@ using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Services;
 using Microsoft.Owin.Security.WsFederation;
 using Serilog;
+using IdentityServer3.Host.Config;
 
 [assembly: OwinStartup(typeof(WebHost.Startup))]
 
