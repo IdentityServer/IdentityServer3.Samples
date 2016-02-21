@@ -9,6 +9,7 @@ using Owin;
 using Configuration;
 using IdentityServer3.Core.Configuration;
 using Serilog;
+using IdentityServer3.Host.Config;
 
 [assembly: OwinStartup(typeof(MvcViewServiceSample.Startup))]
 
