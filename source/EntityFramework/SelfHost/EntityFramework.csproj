@@ -45,11 +45,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="IdentityServer3, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.2.4.1-build00415\lib\net45\IdentityServer3.dll</HintPath>
+      <HintPath>..\packages\IdentityServer3.2.4.1-build00428\lib\net45\IdentityServer3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="IdentityServer3.EntityFramework, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.EntityFramework.2.4.1-build00067\lib\net45\IdentityServer3.EntityFramework.dll</HintPath>
+      <HintPath>..\packages\IdentityServer3.EntityFramework.2.4.1-build00068\lib\net45\IdentityServer3.EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -88,11 +88,17 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\_sharedConfiguration\Clients.cs">
+      <Link>Config\Clients.cs</Link>
+    </Compile>
+    <Compile Include="..\..\_sharedConfiguration\Scopes.cs">
+      <Link>Config\Scopes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\_sharedConfiguration\Users.cs">
+      <Link>Config\Users.cs</Link>
+    </Compile>
     <Compile Include="Config\Certificate.cs" />
-    <Compile Include="Config\Clients.cs" />
     <Compile Include="Config\Factory.cs" />
-    <Compile Include="Config\Scopes.cs" />
-    <Compile Include="Config\Users.cs" />
     <Compile Include="Migrations\ClientConfiguration\201502141840113_InitialCreate.cs" />
     <Compile Include="Migrations\ClientConfiguration\201502141840113_InitialCreate.Designer.cs">
       <DependentUpon>201502141840113_InitialCreate.cs</DependentUpon>
