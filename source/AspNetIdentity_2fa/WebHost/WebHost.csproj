@@ -59,8 +59,8 @@
       <HintPath>..\packages\IdentityModel.1.0.0\lib\net45\IdentityModel.Net45.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdentityServer3, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.2.1.2-build00267\lib\net45\IdentityServer3.dll</HintPath>
+    <Reference Include="IdentityServer3, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.2.4.1-build00428\lib\net45\IdentityServer3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -151,6 +151,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="index.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -166,6 +167,12 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\_sharedConfiguration\Clients.cs">
+      <Link>IdSvr\Clients.cs</Link>
+    </Compile>
+    <Compile Include="..\..\_sharedConfiguration\Scopes.cs">
+      <Link>IdSvr\Scopes.cs</Link>
+    </Compile>
     <Compile Include="App_Packages\IdentityServer3.AspNetIdentity\IdentityServer3.AspNetIdentity.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AspId\SimpleEntities.cs" />
@@ -175,9 +182,7 @@
     </Compile>
     <Compile Include="IdMgr\SimpleIdentityManagerService.cs" />
     <Compile Include="IdSvr\Certificate.cs" />
-    <Compile Include="IdSvr\Clients.cs" />
     <Compile Include="IdSvr\Factory.cs" />
-    <Compile Include="IdSvr\Scopes.cs" />
     <Compile Include="IdSvr\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
