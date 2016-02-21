@@ -4,6 +4,7 @@ using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Services.Default;
 using Serilog;
+using IdentityServer3.Host.Config;
 
 namespace CustomLoginPage
 {
