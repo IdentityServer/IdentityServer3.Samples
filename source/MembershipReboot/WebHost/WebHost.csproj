@@ -67,8 +67,8 @@
       <HintPath>..\packages\IdentityModel.1.0.0\lib\net45\IdentityModel.Net45.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdentityServer3, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.2.0.0-build00174\lib\net45\IdentityServer3.dll</HintPath>
+    <Reference Include="IdentityServer3, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.2.4.1-build00428\lib\net45\IdentityServer3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="IdSvr\idsrv3test.pfx" />
+    <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -146,14 +147,18 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\_sharedConfiguration\Clients.cs">
+      <Link>IdSvr\Clients.cs</Link>
+    </Compile>
+    <Compile Include="..\..\_sharedConfiguration\Scopes.cs">
+      <Link>IdSvr\Scopes.cs</Link>
+    </Compile>
     <Compile Include="App_Packages\IdentityServer3.MembershipReboot\IdentityServer3.MembershipReboot.cs" />
     <Compile Include="IdMgr\CustomIdentityManagerService.cs" />
     <Compile Include="IdMgr\MembershipRebootIdentityManagerServiceExtensions.cs" />
     <Compile Include="IdSvr\Certificate.cs" />
-    <Compile Include="IdSvr\Clients.cs" />
     <Compile Include="IdSvr\CustomUserService.cs" />
     <Compile Include="IdSvr\Factory.cs" />
-    <Compile Include="IdSvr\Scopes.cs" />
     <Compile Include="MR\CustomConfig.cs" />
     <Compile Include="MR\CustomDatabase.cs" />
     <Compile Include="MR\CustomGroup.cs" />
