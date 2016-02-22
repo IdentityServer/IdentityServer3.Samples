@@ -8,6 +8,7 @@ using IdentityServer3.EntityFramework;
 using IdentityServer3.Core.Models;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Services.InMemory;
+using IdentityServer3.Host.Config;
 
 namespace SelfHost.Config
 {

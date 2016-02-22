@@ -18,7 +18,7 @@ namespace CustomLoginPage.Controllers
 
         [Route("core/custom/login")]
         [HttpPost]
-        public async Task<ActionResult> Index(string id, string sub, string name)
+        public ActionResult Index(string id, string sub, string name)
         {
             var env = Request.GetOwinContext().Environment;
             env.IssueLoginCookie(new IdentityServer3.Core.Models.AuthenticatedLogin

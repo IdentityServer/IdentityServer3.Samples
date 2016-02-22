@@ -23,6 +23,7 @@ using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Services.InMemory;
 using IdentityServer3.Core.Services.Default;
+using IdentityServer3.Host.Config;
 
 namespace WebHost.IdSvr
 {
@@ -37,8 +38,6 @@ namespace WebHost.IdSvr
             
             var clientStore = new InMemoryClientStore(Clients.Get());
             factory.ClientStore = new Registration<IClientStore>(resolver => clientStore);
-
-            factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
 
             return factory;
         }

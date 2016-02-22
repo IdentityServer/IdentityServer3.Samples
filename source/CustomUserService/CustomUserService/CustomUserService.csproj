@@ -43,8 +43,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="IdentityServer3, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.2.0.0-build00174\lib\net45\IdentityServer3.dll</HintPath>
+    <Reference Include="IdentityServer3, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.2.4.1-build00428\lib\net45\IdentityServer3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -190,13 +190,19 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\_sharedConfiguration\Clients.cs">
+      <Link>Config\Clients.cs</Link>
+    </Compile>
+    <Compile Include="..\..\_sharedConfiguration\Scopes.cs">
+      <Link>Config\Scopes.cs</Link>
+    </Compile>
+    <Compile Include="..\..\_sharedConfiguration\Users.cs">
+      <Link>Config\Users.cs</Link>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Config\Certificate.cs" />
-    <Compile Include="Config\Clients.cs" />
-    <Compile Include="Config\Scopes.cs" />
-    <Compile Include="Config\Users.cs" />
     <Compile Include="Controllers\EulaController.cs" />
     <Compile Include="Controllers\RegisterFirstExternalRegistrationController.cs" />
     <Compile Include="Controllers\LocalRegistrationController.cs" />

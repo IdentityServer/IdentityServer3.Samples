@@ -42,6 +42,7 @@ namespace SampleApp
                 }
 
                 context.SignInMessage.IdP = idp_claim.Value;
+                owinContext.Environment.RemovePartialLoginCookie();
             }
         }
     }

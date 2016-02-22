@@ -59,8 +59,8 @@
       <HintPath>..\packages\IdentityModel.1.0.0\lib\net45\IdentityModel.Net45.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IdentityServer3, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.2.0.0-build00174\lib\net45\IdentityServer3.dll</HintPath>
+    <Reference Include="IdentityServer3, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityServer3.2.4.1-build00428\lib\net45\IdentityServer3.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -133,6 +133,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="index.html" />
     <Content Include="packages.config" />
     <EmbeddedResource Include="IdSvr\idsrv3test.pfx" />
     <None Include="Web.Debug.config">
@@ -143,19 +144,25 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\_sharedConfiguration\Clients.cs">
+      <Link>IdSvr\Clients.cs</Link>
+    </Compile>
+    <Compile Include="..\..\_sharedConfiguration\Scopes.cs">
+      <Link>IdSvr\Scopes.cs</Link>
+    </Compile>
     <Compile Include="App_Packages\IdentityServer3.AspNetIdentity\IdentityServer3.AspNetIdentity.cs" />
     <Compile Include="AspId\CustomEntitiesWithIntKey.cs" />
     <Compile Include="AspId\SimpleEntities.cs" />
     <Compile Include="IdMgr\CustomIdentityManagerServiceWithIntKeys.cs" />
     <Compile Include="IdMgr\SimpleIdentityManagerService.cs" />
     <Compile Include="IdSvr\Certificate.cs" />
-    <Compile Include="IdSvr\Clients.cs" />
     <Compile Include="IdSvr\CustomUserService.cs" />
     <Compile Include="IdSvr\Factory.cs" />
-    <Compile Include="IdSvr\Scopes.cs" />
     <Compile Include="IdSvr\UserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

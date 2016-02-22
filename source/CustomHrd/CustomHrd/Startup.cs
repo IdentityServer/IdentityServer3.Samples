@@ -7,6 +7,7 @@ using IdentityServer3.Core.Configuration;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Services.Default;
 using Serilog;
+using IdentityServer3.Host.Config;
 
 namespace SampleApp
 {
@@ -26,7 +27,6 @@ namespace SampleApp
                     .UseInMemoryScopes(Scopes.Get());
 
                 factory.UserService = new Registration<IUserService, HrdUserService>();
-                factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
 
                 var options = new IdentityServerOptions
                 {

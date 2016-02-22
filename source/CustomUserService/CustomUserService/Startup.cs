@@ -8,6 +8,7 @@ using IdentityServer3.Core.Logging;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Services.Default;
 using Serilog;
+using IdentityServer3.Host.Config;
 
 namespace SampleApp
 {
@@ -31,9 +32,9 @@ namespace SampleApp
                 //var userService = new ExternalRegistrationUserService();
                 //var userService = new EulaAtLoginUserService();
                 var userService = new LocalRegistrationUserService();
-                
+
+                // note: for the sample this registration is a singletone (not what you want in production probably)
                 factory.UserService = new Registration<IUserService>(resolver => userService);
-                factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
 
                 var options = new IdentityServerOptions
                 {

@@ -8,6 +8,7 @@ using IdentityServer3.Core.Logging;
 using IdentityServer3.Core.Services;
 using IdentityServer3.Core.Services.Default;
 using Serilog;
+using IdentityServer3.Host.Config;
 
 namespace SampleApp
 {
@@ -27,9 +28,10 @@ namespace SampleApp
                     .UseInMemoryClients(Clients.Get())
                     .UseInMemoryScopes(Scopes.Get());
 
-                factory.ViewService = new Registration<IViewService>(typeof(CustomViewService));
+                factory.ViewService = new Registration<IViewService, CustomViewService>();
+                
+                // this custom user service shows how to accept custom form params on login page
                 //factory.UserService = new Registration<IUserService, UserService>();
-                factory.CorsPolicyService = new Registration<ICorsPolicyService>(new DefaultCorsPolicyService { AllowAll = true });
 
                 var options = new IdentityServerOptions
                 {
