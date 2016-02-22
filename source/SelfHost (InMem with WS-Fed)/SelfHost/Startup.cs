@@ -2,7 +2,6 @@
 using SelfHost.Config;
 using System.Collections.Generic;
 using IdentityServer3.Core.Configuration;
-using IdentityServer3.Core.Services.InMemory;
 using IdentityServer3.Host.Config;
 using IdentityServer3.WsFederation.Configuration;
 using IdentityServer3.WsFederation.Models;

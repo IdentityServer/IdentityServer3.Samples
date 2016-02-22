@@ -1,5 +1,4 @@
-﻿using IdentityServer3.Core.Logging;
-using Microsoft.Owin.Hosting;
+﻿using Microsoft.Owin.Hosting;
 using Serilog;
 using System;
 

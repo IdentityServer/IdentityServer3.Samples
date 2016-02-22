@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Web;
 using EnhancedCoding.Samples.IdSvrServices;
 using IdentityServer3.Core.Services;
 using Microsoft.Owin;
@@ -9,6 +7,7 @@ using Owin;
 using Configuration;
 using IdentityServer3.Core.Configuration;
 using Serilog;
+using IdentityServer3.Host.Config;
 
 [assembly: OwinStartup(typeof(MvcViewServiceSample.Startup))]
 
