@@ -42,7 +42,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IdentityServer.WindowsAuthentication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer.WindowsAuthentication.1.1.0-build00008\lib\net45\IdentityServer.WindowsAuthentication.dll</HintPath>
+      <HintPath>..\packages\IdentityServer.WindowsAuthentication.1.1.0\lib\net45\IdentityServer.WindowsAuthentication.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
