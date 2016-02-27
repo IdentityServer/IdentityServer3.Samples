@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC No Library Client", "Mv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC Manual Code Flow Client", "MvcCodeFlowClientManual\MVC Manual Code Flow Client.csproj", "{C67DB8BB-6083-436D-9748-4BDD9EC8C0EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client - TokenManager", "JavaScriptImplicitClient\JavaScript Implicit Client - TokenManager.csproj", "{76BE0CCA-2F1E-4071-BEF0-C8A2673E7B04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript TokenManager Client", "JavaScriptImplicitClient\JavaScript TokenManager Client.csproj", "{76BE0CCA-2F1E-4071-BEF0-C8A2673E7B04}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN Client (Implicit)", "MVC OWIN Client\MVC OWIN Client (Implicit).csproj", "{A0D39237-D450-4F23-A3CC-79EBCA1D720D}"
 EndProject
@@ -31,7 +31,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN Client (Hybrid)", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Custom Grant Client", "CustomGrantClient\Console Custom Grant Client.csproj", "{B8D904DE-BCAD-4AAD-BF61-AD1C37A7D277}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Implicit Client - Simple", "JavaScriptImplicitClient-Simple\JavaScript Implicit Client - Simple.csproj", "{104B2540-1F77-4216-B801-428AE970F9C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript OAuth only", "JavaScriptImplicitClient-Simple\JavaScript OAuth only.csproj", "{104B2540-1F77-4216-B801-428AE970F9C9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console Client Credentials Flow using Certificate", "ClientCertificateConsoleClient\Console Client Credentials Flow using Certificate.csproj", "{486F3455-A541-4DF1-91BF-EB474CDE386F}"
 EndProject
@@ -50,6 +50,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF Client (Hybrid with PKCE)", "WpfOidcClient\WPF Client (Hybrid with PKCE).csproj", "{86CAEDFB-800A-441B-BBA1-C930FD23EE49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebForms OWIN Implicit", "WebFormsClient\WebForms OWIN Implicit.csproj", "{43757AF6-7762-44AC-A8B7-842C119BE3CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Client Manual", "JavaScriptImplicitClient Manual\JavaScript Client Manual.csproj", "{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -317,6 +319,22 @@ Global
 		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|x64.Build.0 = Release|Any CPU
 		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|x86.ActiveCfg = Release|Any CPU
 		{43757AF6-7762-44AC-A8B7-842C119BE3CB}.Release|x86.Build.0 = Release|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Debug|ARM.Build.0 = Debug|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Debug|x64.Build.0 = Debug|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Debug|x86.Build.0 = Debug|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|ARM.ActiveCfg = Release|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|ARM.Build.0 = Release|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|x64.ActiveCfg = Release|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|x64.Build.0 = Release|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|x86.ActiveCfg = Release|Any CPU
+		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

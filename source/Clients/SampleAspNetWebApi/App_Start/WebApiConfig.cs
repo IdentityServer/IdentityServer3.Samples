@@ -14,7 +14,7 @@ namespace SampleAspNetWebApi
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            config.EnableCors(new EnableCorsAttribute("http://localhost:21575, http://localhost:37045", "accept, authorization", "GET", "WWW-Authenticate"));
+            config.EnableCors(new EnableCorsAttribute("http://localhost:21575, http://localhost:37045, http://localhost:37046", "accept, authorization", "GET", "WWW-Authenticate"));
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
