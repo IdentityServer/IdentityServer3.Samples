@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebForms OWIN Implicit", "W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript Client Manual", "JavaScriptImplicitClient Manual\JavaScript Client Manual.csproj", "{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample Web Api Using Pop", "SampleAspNetWebApiWithPop\Sample Web Api Using Pop.csproj", "{BB87949A-9B35-42D1-8805-799BAC60BBC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -335,6 +337,22 @@ Global
 		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|x64.Build.0 = Release|Any CPU
 		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|x86.ActiveCfg = Release|Any CPU
 		{0109EFFE-B823-47C0-A27D-6DFD7B7169F2}.Release|x86.Build.0 = Release|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Debug|ARM.Build.0 = Debug|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Debug|x64.Build.0 = Debug|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Debug|x86.Build.0 = Debug|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Release|ARM.ActiveCfg = Release|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Release|ARM.Build.0 = Release|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Release|x64.ActiveCfg = Release|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Release|x64.Build.0 = Release|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Release|x86.ActiveCfg = Release|Any CPU
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -342,5 +360,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C8CD1733-783A-4655-814B-9CF7FD7FDFE8} = {22C083F3-1F8A-4E90-B79C-13A6012492BC}
 		{CFD6A3D6-02A2-4A7B-AF63-B9526A1F50E8} = {22C083F3-1F8A-4E90-B79C-13A6012492BC}
+		{BB87949A-9B35-42D1-8805-799BAC60BBC5} = {22C083F3-1F8A-4E90-B79C-13A6012492BC}
 	EndGlobalSection
 EndGlobal

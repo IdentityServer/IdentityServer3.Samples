@@ -12,5 +12,6 @@
         public const string TokenRevocationEndpoint = BaseAddress + "/connect/revocation";
 
         public const string AspNetWebApiSampleApi = "http://localhost:2727/";
+        public const string AspNetWebApiSampleApiUsingPoP = "http://localhost:46613/";
     }
 }
