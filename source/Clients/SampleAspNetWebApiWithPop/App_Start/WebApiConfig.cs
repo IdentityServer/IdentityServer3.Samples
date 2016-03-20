@@ -9,6 +9,7 @@ namespace SampleAspNetWebApiWithPop
             // Web API configuration and services
             var config = new HttpConfiguration();
             config.Formatters.Remove(config.Formatters.XmlFormatter);
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
 
             // Web API routes
             config.MapHttpAttributeRoutes();

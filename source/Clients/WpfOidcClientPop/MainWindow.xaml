@@ -1,0 +1,12 @@
+﻿<Window x:Class="WpfOidcClientPop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="700" Width="700">
+    <Canvas>
+        <Button x:Name="button" Content="Login" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="10" Canvas.Top="10" Click="LoginButton_Click"/>
+        <Button x:Name="api" Content="Call API" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="120" Canvas.Top="10" Click="api_Click"/>
+        <Button x:Name="refresh" Content="Use Refresh Token" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Canvas.Left="230" Canvas.Top="10" Click="refresh_Click"/>
+        <TextBox x:Name="IdentityTextBox" Height="614" Canvas.Left="10" TextWrapping="Wrap" Text="TextBox" Canvas.Top="48" Width="675"/>
+    </Canvas>
+
+</Window>
