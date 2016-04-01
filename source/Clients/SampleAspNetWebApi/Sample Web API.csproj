@@ -47,7 +47,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="IdentityServer3.AccessTokenValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityServer3.AccessTokenValidation.2.9.0\lib\net45\IdentityServer3.AccessTokenValidation.dll</HintPath>
+      <HintPath>..\packages\IdentityServer3.AccessTokenValidation.2.9.1\lib\net45\IdentityServer3.AccessTokenValidation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
