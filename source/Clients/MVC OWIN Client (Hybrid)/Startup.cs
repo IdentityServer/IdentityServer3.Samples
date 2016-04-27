@@ -31,8 +31,8 @@ namespace MVC_OWIN_Client
             {
                 ClientId = "mvc.owin.hybrid",
                 Authority = Constants.BaseAddress,
-                RedirectUri = "https://localhost:44300/",
-                PostLogoutRedirectUri = "https://localhost:44300/",
+                //RedirectUri = "https://localhost:44300/",
+                //PostLogoutRedirectUri = "https://localhost:44300/",
                 ResponseType = "code id_token",
                 Scope = "openid profile read write offline_access",
 
@@ -53,6 +53,11 @@ namespace MVC_OWIN_Client
                             Constants.TokenEndpoint,
                             "mvc.owin.hybrid",
                             "secret");
+                            
+                            if (String.IsNullOrEmpty(n.RedirectUri))
+                            {
+                                n.RedirectUri = n.Request.Scheme + "://" + n.Request.Host + n.Request.PathBase;
+                            }
 
                             var tokenResponse = await tokenClient.RequestAuthorizationCodeAsync(
                                 n.Code, n.RedirectUri);
@@ -81,6 +86,12 @@ namespace MVC_OWIN_Client
 
                     RedirectToIdentityProvider = n =>
                         {
+                            // This ensures that the address used for sign in and sign out is picked up dynamically from the request
+                            // this allows you to deploy the app (to Azure Web Sites, for example) without having to change settings.
+                            var appBaseUrl = n.Request.Scheme + "://" + n.Request.Host + n.Request.PathBase;
+                            n.ProtocolMessage.RedirectUri = appBaseUrl;
+                            n.ProtocolMessage.PostLogoutRedirectUri = appBaseUrl;
+                        
                             // if signing out, add the id_token_hint
                             if (n.ProtocolMessage.RequestType == OpenIdConnectRequestType.LogoutRequest)
                             {
