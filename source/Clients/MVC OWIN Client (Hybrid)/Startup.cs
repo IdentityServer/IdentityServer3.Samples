@@ -50,12 +50,17 @@ namespace MVC_OWIN_Client
                         {
                             // use the code to get the access and refresh token
                             var tokenClient = new TokenClient(
-                            Constants.TokenEndpoint,
-                            "mvc.owin.hybrid",
-                            "secret");
+                                Constants.TokenEndpoint,
+                                "mvc.owin.hybrid",
+                                "secret");
 
                             var tokenResponse = await tokenClient.RequestAuthorizationCodeAsync(
                                 n.Code, n.RedirectUri);
+
+                            if (tokenResponse.IsError)
+                            {
+                                throw new Exception(tokenResponse.Error);
+                            }
 
                             // use the access token to retrieve claims from userinfo
                             var userInfoClient = new UserInfoClient(
