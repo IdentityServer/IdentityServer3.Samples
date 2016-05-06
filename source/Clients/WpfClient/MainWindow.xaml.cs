@@ -79,6 +79,7 @@ namespace WpfClient
             var startUrl = request.CreateAuthorizeUrl(
                 clientId: "wpf.webview.client",
                 responseType: responseType,
+                responseMode:"form_post",
                 scope: scope,
                 redirectUri: "oob://localhost/wpf.webview.client",
                 state: "random_state",
