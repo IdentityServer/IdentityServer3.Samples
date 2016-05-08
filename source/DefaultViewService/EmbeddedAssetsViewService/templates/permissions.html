@@ -1,14 +1,15 @@
 ﻿<!DOCTYPE html>
-<html ng-app="app" ng-controller="LayoutCtrl">
+<html ng-app="app" ng-csp ng-controller="LayoutCtrl">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{siteName}</title>
     {stylesheets}
 </head>
 <body lang="en">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-header">
-            <a href="{applicationPath}">
+            <a href="{applicationPath}/">
                 <span class="navbar-brand">{siteName}</span>
             </a>
         </div>
@@ -32,7 +33,7 @@
                 </h1>
             </div>
         </div>
-
+    
         <div class="row">
             <div class="col-sm-8">
                 <div ng-show="model.errorMessage" class="alert alert-danger">
@@ -51,17 +52,17 @@
         <div class="permissions">
             <div ng-repeat="client in model.clients" class="row permission">
                 <div class="col-sm-2">
-                    <img ng-src="{{client.clientLogoUrl}}">
+                    <img ng-src="{{client.clientLogoUrl}}" ng-show="client.clientLogoUrl">
                 </div>
                 <div class="col-sm-8">
                     <div class="permission-clientname">{{client.clientName}}</div>
-                    <div ng-show="client.identityPermissions">
+                    <div ng-show="client.identityPermissions.length">
                         <div class="permission-type">Identity Permissions</div>
                         <ul>
                             <li ng-repeat="permission in client.identityPermissions" ng-bind="permission.displayName"></li>
                         </ul>
                     </div>
-                    <div ng-show="client.resourcePermissions">
+                    <div ng-show="client.resourcePermissions.length">
                         <div class="permission-type">Resource Permissions</div>
                         <ul>
                             <li ng-repeat="permission in client.resourcePermissions" ng-bind="permission.displayName"></li>
@@ -82,7 +83,7 @@
     <script id='modelJson' type='application/json'>
         {model}
     </script>
-    <script src="{applicationPath}/assets/scripts.js"></script>
+    <script src="{applicationPath}/assets/scripts.2.5.0.js"></script>
     {scripts}
 </body>
 </html>
