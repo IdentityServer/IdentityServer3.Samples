@@ -42,6 +42,20 @@
         }
     </div>
 </div>
+
+@if (Model.AutoRedirect && !string.IsNullOrEmpty(Model.RedirectUrl))
+{
+    var autoRedirectDelay = Model.AutoRedirectDelay < 0 ? 0 : Model.AutoRedirectDelay;
+
+    <script>
+        (function() {
+            window.setTimeout(function() {
+                window.location = '@Model.RedirectUrl';
+            }, @autoRedirectDelay * 1000);
+        })();
+    </script>
+}
+
 @section scripts{
     @Html.Partial("_RenderAngularModel")
 }
