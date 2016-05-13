@@ -44,11 +44,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="IdentityModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityModel.1.9.2\lib\net45\IdentityModel.dll</HintPath>
+      <HintPath>..\packages\IdentityModel.1.10.0\lib\net45\IdentityModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IdentityModel.HttpSigning, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IdentityModel.HttpSigning.1.0.0\lib\net45\IdentityModel.HttpSigning.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="IdentityModel.Owin.PopAuthentication, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IdentityModel.Owin.PopAuthentication.1.0.0-build00016\lib\net45\IdentityModel.Owin.PopAuthentication.dll</HintPath>
+      <HintPath>..\packages\IdentityModel.Owin.PopAuthentication.1.0.0\lib\net45\IdentityModel.Owin.PopAuthentication.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="IdentityServer3.AccessTokenValidation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

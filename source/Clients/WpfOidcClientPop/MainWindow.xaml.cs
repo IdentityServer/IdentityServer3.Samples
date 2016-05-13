@@ -1,6 +1,7 @@
 ﻿using IdentityModel;
 using IdentityModel.Client;
 using IdentityModel.HttpSigning;
+using IdentityModel.Jwt;
 using Microsoft.IdentityModel.Protocols;
 using Newtonsoft.Json.Linq;
 using Sample;
@@ -126,9 +127,8 @@ namespace WpfOidcClientPop
                 return new LoginResult { ErrorMessage = "Invalid code." };
             }
 
-            _provider = RsaPublicKeyJwk.CreateProvider();
-
-            var jwk = new RsaPublicKeyJwk("key_id", _provider);
+            _provider = JwkNetExtensions.CreateProvider();
+            var jwk = _provider.ToJsonWebKey();
 
             // code eintauschen gegen tokens
             var tokenClient = new TokenClient(
@@ -140,7 +140,7 @@ namespace WpfOidcClientPop
                 code: response.Code,
                 redirectUri: _settings.RedirectUri,
                 codeVerifier: _verifier,
-                algorithm: jwk.alg,
+                algorithm: jwk.Alg,
                 key: jwk.ToJwkString());
 
             if (tokenResponse.IsError)
@@ -307,13 +307,13 @@ namespace WpfOidcClientPop
                 _settings.ClientId,
                 _settings.ClientSecret);
 
-            _provider = RsaPublicKeyJwk.CreateProvider();
+            _provider = JwkNetExtensions.CreateProvider();
 
-            var jwk = new RsaPublicKeyJwk("key_id", _provider);
+            var jwk = _provider.ToJsonWebKey();
 
             var tokenResponse = await tokenClient.RequestRefreshTokenPopAsync(
                 refreshToken: _result?.RefreshToken,
-                algorithm: jwk.alg,
+                algorithm: jwk.Alg,
                 key: jwk.ToJwkString());
 
             if (tokenResponse.IsError)

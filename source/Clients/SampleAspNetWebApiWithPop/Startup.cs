@@ -19,7 +19,7 @@ namespace SampleAspNetWebApiWithPop
 
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
             {
-                // we're looking for the PoP scheme, not Bearer
+                // The HttpSignatureValidation middleware looks for another middleware called PoP
                 AuthenticationType = "PoP",
 
                 Authority = "https://localhost:44333/core",

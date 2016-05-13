@@ -1,5 +1,32 @@
 ﻿<h3>@ViewBag.Message</h3>
 
+
+<div>
+    <a class="btn btn-default" href="~/Home/CallApi">Call API from MVC</a>
+    <button id="api" class="btn btn-default">Call API from JS</button>
+</div>
+
+<div id="result" style="display:none">
+    <h2>API result from JS</h2>
+    <pre id="api_result"></pre>
+</div>
+
+
+<script>
+    var access_token = '@ViewData["access_token"]';
+    document.getElementById('api').addEventListener("click", function () {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://localhost:44379/identity");
+        xhr.onload = function () {
+            document.getElementById('result').style.display = "";
+            document.getElementById('api_result').innerText = JSON.stringify(JSON.parse(xhr.response), null, 2);
+        };
+        xhr.setRequestHeader("Authorization", "Bearer " + access_token);
+        xhr.send();
+    }, false);
+</script>
+
+
 <dl>
     @foreach (var claim in System.Security.Claims.ClaimsPrincipal.Current.Claims)
     {
@@ -11,3 +38,5 @@
         </dd>
     }
 </dl>
+
+

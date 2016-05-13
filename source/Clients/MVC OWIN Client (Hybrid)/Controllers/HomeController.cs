@@ -21,6 +21,9 @@ namespace MVC_OWIN_Client.Controllers
         {
             ViewBag.Message = "Claims";
 
+            var cp = (ClaimsPrincipal)User;
+            ViewData["access_token"] = cp.FindFirst("access_token").Value;
+
             return View();
         }
 
