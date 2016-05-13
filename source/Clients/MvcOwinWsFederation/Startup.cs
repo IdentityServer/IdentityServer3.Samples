@@ -22,8 +22,9 @@ namespace MvcOwinWsFederation
                     MetadataAddress = Constants.BaseAddress + "/wsfed/metadata",
                     Wtrealm = "urn:owinrp",
 
-                    SignInAsAuthenticationType = "Cookies"
-                });
+                    SignInAsAuthenticationType = "Cookies",
+                    SignOutWreply = "http://localhost:10313/"
+            });
         }
     }
 }
