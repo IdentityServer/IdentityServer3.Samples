@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF WebView Sample", "WpfClient\WPF WebView Sample.csproj", "{BDE643AE-47D7-4FC7-8F48-6FC898D3A333}"
 EndProject
@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC No Library Client", "Mv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC Manual Code Flow Client", "MvcCodeFlowClientManual\MVC Manual Code Flow Client.csproj", "{C67DB8BB-6083-436D-9748-4BDD9EC8C0EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript TokenManager Client", "JavaScriptImplicitClient\JavaScript TokenManager Client.csproj", "{76BE0CCA-2F1E-4071-BEF0-C8A2673E7B04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JavaScript OidcClient and UserManager", "JavaScriptImplicitClient\JavaScript OidcClient and UserManager.csproj", "{76BE0CCA-2F1E-4071-BEF0-C8A2673E7B04}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC OWIN Client (Implicit)", "MVC OWIN Client\MVC OWIN Client (Implicit).csproj", "{A0D39237-D450-4F23-A3CC-79EBCA1D720D}"
 EndProject
