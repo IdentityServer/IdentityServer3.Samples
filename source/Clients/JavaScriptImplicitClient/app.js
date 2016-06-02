@@ -8,7 +8,7 @@ Oidc.Log.level = Oidc.Log.INFO;
 
 var settings = {
     authority: "https://localhost:44333/core",
-    client_id: "js.usermanager",
+    client_id: "js.tokenmanager",
     redirect_uri: window.location.protocol + "//" + window.location.host + "/index.html",
     post_logout_redirect_uri: window.location.protocol + "//" + window.location.host + "/index.html",
 
