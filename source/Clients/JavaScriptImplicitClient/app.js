@@ -4,7 +4,7 @@
 // config
 ///////////////////////////////
 Oidc.Log.logger = console;
-Oidc.Log.level = Oidc.Log.INFO;
+Oidc.Log.level = Oidc.Log.NONE;
 
 var settings = {
     authority: "https://localhost:44333/core",
