@@ -1,6 +1,6 @@
 ﻿<h3>@ViewBag.Message</h3>
 
-<div>
+@*<div>
     <a class="btn btn-default" href="~/Home/CallApi">Call API from MVC</a>
     <button id="api" class="btn btn-default">Call API from JS</button>
 </div>
@@ -23,7 +23,7 @@
         xhr.setRequestHeader("Authorization", "Bearer " + access_token);
         xhr.send();
     }, false);
-</script>
+</script>*@
 
 <dl>
     @foreach (var claim in System.Security.Claims.ClaimsPrincipal.Current.Claims)
