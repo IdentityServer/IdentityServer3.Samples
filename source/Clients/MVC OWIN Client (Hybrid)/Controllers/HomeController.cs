@@ -27,6 +27,7 @@ namespace MVC_OWIN_Client.Controllers
             return View();
         }
 
+        [Authorize]
         public async Task<ActionResult> CallApi()
         {
             var token = (User as ClaimsPrincipal).FindFirst("access_token").Value;
