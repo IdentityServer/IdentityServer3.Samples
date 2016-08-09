@@ -38,6 +38,7 @@ var user;
 mgr.events.addUserLoaded(function (u) {
     user = u;
     console.log("user loaded");
+    log("user loaded");
     showUser(user);
 });
 
@@ -50,11 +51,13 @@ mgr.events.addUserUnloaded(function () {
 mgr.events.addAccessTokenExpiring(function () {
     console.log("token expiring");
     log("token expiring");
+    showUser(user);
 });
 
 mgr.events.addAccessTokenExpired(function () {
     console.log("token expired");
     log("token expired");
+    showUser(user);
 });
 
 mgr.events.addSilentRenewError(function (e) {
