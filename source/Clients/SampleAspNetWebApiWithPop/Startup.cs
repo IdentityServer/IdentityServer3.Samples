@@ -6,6 +6,7 @@ using System.IdentityModel.Tokens;
 using IdentityServer3.AccessTokenValidation;
 using Microsoft.Owin.Security.OAuth;
 using IdentityModel.Owin.PopAuthentication;
+using Sample;
 
 [assembly: OwinStartup(typeof(SampleAspNetWebApiWithPop.Startup))]
 
@@ -22,7 +23,7 @@ namespace SampleAspNetWebApiWithPop
                 // The HttpSignatureValidation middleware looks for another middleware called PoP
                 AuthenticationType = "PoP",
 
-                Authority = "https://localhost:44333/core",
+                Authority = Constants.BaseAddress,
                 RequiredScopes = new[] { "write" },
 
                 // client credentials for the introspection endpoint
