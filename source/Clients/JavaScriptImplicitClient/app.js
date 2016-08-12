@@ -22,6 +22,9 @@ var settings = {
     silent_redirect_uri: window.location.protocol + "//" + window.location.host + "/silent_renew.html",
     automaticSilentRenew: true,
 
+    // will raise events for when user has performed a logout at IdentityServer
+    monitorSession : true,
+
     // this will allow all the OIDC protocol claims to vbe visible in the window. normally a client app 
     // wouldn't care about them or want them taking up space
     filterProtocolClaims: true,
@@ -63,6 +66,11 @@ mgr.events.addAccessTokenExpired(function () {
 mgr.events.addSilentRenewError(function (e) {
     console.log("silent renew error", e.message);
     log("silent renew error", e.message);
+});
+
+mgr.events.addUserSignedOut(function () {
+    console.log("user signed out");
+    log("user signed out");
 });
 
 ///////////////////////////////
@@ -135,36 +143,36 @@ function callApi() {
     xhr.send();
 }
 
-function checkSessionState(user) {
-    mgr.metadataService.getCheckSessionIframe().then(function (url) {
-        if (url && user && user.session_state) {
-            console.log("setting up check session iframe for session state", user.session_state);
-            document.getElementById("rp").src = "check_session.html#" +
-                "session_state=" + user.session_state +
-                "&check_session_iframe=" + url +
-                "&client_id=" + mgr.settings.client_id
-            ;
-        }
-        else {
-            console.log("no check session url, user, or session state: not setting up check session iframe");
-            document.getElementById("rp").src = "about:blank";
-        }
-    });
-}
+//function checkSessionState(user) {
+//    mgr.metadataService.getCheckSessionIframe().then(function (url) {
+//        if (url && user && user.session_state) {
+//            console.log("setting up check session iframe for session state", user.session_state);
+//            document.getElementById("rp").src = "check_session.html#" +
+//                "session_state=" + user.session_state +
+//                "&check_session_iframe=" + url +
+//                "&client_id=" + mgr.settings.client_id
+//            ;
+//        }
+//        else {
+//            console.log("no check session url, user, or session state: not setting up check session iframe");
+//            document.getElementById("rp").src = "about:blank";
+//        }
+//    });
+//}
 
-window.onmessage = function (e) {
-    if (e.origin === window.location.protocol + "//" + window.location.host && e.data === "changed") {
-        console.log("user session has changed");
-        mgr.removeUser();
-        mgr.signinSilent().then(function () {
-            // Session state changed but we managed to silently get a new identity token, everything's fine
-            console.log('renewTokenSilentAsync success');
-        }).catch(function (err) {
-            // Here we couldn't get a new identity token, we have to ask the user to log in again
-            console.log('renewTokenSilentAsync failed', err.message);
-        });
-    }
-}
+//window.onmessage = function (e) {
+//    if (e.origin === window.location.protocol + "//" + window.location.host && e.data === "changed") {
+//        console.log("user session has changed");
+//        mgr.removeUser();
+//        mgr.signinSilent().then(function () {
+//            // Session state changed but we managed to silently get a new identity token, everything's fine
+//            console.log('renewTokenSilentAsync success');
+//        }).catch(function (err) {
+//            // Here we couldn't get a new identity token, we have to ask the user to log in again
+//            console.log('renewTokenSilentAsync failed', err.message);
+//        });
+//    }
+//}
 
 ///////////////////////////////
 // init
@@ -217,6 +225,7 @@ function display(selector, msg) {
         document.querySelector(selector).innerHTML += msg + '\r\n';
     }
 }
+
 function showUser(user) {
     if (!user) {
         log("user not signed in");
@@ -238,5 +247,4 @@ function showUser(user) {
             logAccessToken();
         }
     }
-    checkSessionState(user);
 }
