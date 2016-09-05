@@ -19,6 +19,7 @@ namespace SelfHost.Config
             var efConfig = new EntityFrameworkServiceOptions
             {
                 ConnectionString = connString,
+                //SynchronousReads = true
             };
 
             // these two calls just pre-populate the test DB from the in-memory config
@@ -29,6 +30,9 @@ namespace SelfHost.Config
 
             factory.RegisterConfigurationServices(efConfig);
             factory.RegisterOperationalServices(efConfig);
+
+            factory.ConfigureClientStoreCache();
+            factory.ConfigureScopeStoreCache();
 
             factory.UseInMemoryUsers(Users.Get());
 

@@ -27,6 +27,28 @@ namespace IdentityServer3.Host.Config
         {
             return new List<Client>
             {
+                /////////////////////////////////////////////////////////////
+                // Client Credentials With Reference Token
+                /////////////////////////////////////////////////////////////
+                new Client
+                {
+                    ClientName = "Client Credentials Flow Client",
+                    Enabled = true,
+                    ClientId = "clientcredentials.reference",
+                    Flow = Flows.ClientCredentials,
+                    AccessTokenType = AccessTokenType.Reference,
+
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("secret".Sha256()),
+                    },
+
+                    AllowedScopes = new List<string>
+                    {
+                        "read",
+                        "write"
+                    },
+                },
 
                 /////////////////////////////////////////////////////////////
                 // Console Client Credentials Sample

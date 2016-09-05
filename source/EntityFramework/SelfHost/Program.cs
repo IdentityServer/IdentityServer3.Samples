@@ -12,7 +12,8 @@ namespace SelfHost
             Console.Title = "IdentityServer3 -- EntityFramework";
             Log.Logger = new LoggerConfiguration()
                .MinimumLevel.Debug()
-               .WriteTo.Trace()
+               //.WriteTo.Trace()
+               .WriteTo.File(@"c:\logs\ef-sample.txt")
                .CreateLogger();
 
             const string url = "https://localhost:44333/core";
