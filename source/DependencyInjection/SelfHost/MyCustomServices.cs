@@ -28,7 +28,7 @@ namespace SelfHost
     {
         ICustomLogger logger;
 
-        public MyCustomClaimsProvider(ICustomLogger logger, IUserService userSvc)
+        public MyCustomClaimsProvider(ICustomLogger logger, IUserService userSvc, OwinEnvironmentService owin)
             : base(userSvc)
         {
             this.logger = logger;
