@@ -1,0 +1,119 @@
+﻿@using Microsoft.Ajax.Utilities
+@model SampleApp.Models.U2F.CompleteLoginModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Finish Authentication</h2>
+@using (Html.BeginForm("ResumePartial", "U2FAuthenticate", FormMethod.Post, new { id = "loginForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>U2F Authentication</legend>
+        <h3>Please plug in your device and touch the button.</h3>
+
+        <div class=".col-xs-12 .col-sm-6 .col-lg-8">
+            <div class=".col-xs-6 .col-sm-4">
+                @Html.LabelFor(m => m.UserName)
+            </div>
+            <div class=".col-xs-6 .col-sm-4">
+                @Html.TextBoxFor(m => m.UserName, new { @readonly = true })
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+        </div>
+
+        <div class=".col-xs-12 .col-sm-6 .col-lg-8">
+            <div class=".col-xs-6 .col-sm-4">
+                @Html.LabelFor(m => m.AppId)
+            </div>
+            <div class=".col-xs-6 .col-sm-4">
+                <input data-val="true" name="appId" readonly="readonly" type="text" value="@Model.AppId" />
+            </div>
+        </div>
+
+        <div class=".col-xs-12 .col-sm-6 .col-lg-8">
+            <div class=".col-xs-6 .col-sm-4">
+                @Html.LabelFor(m => m.Challenges)
+            </div>
+            <div class=".col-xs-6 .col-sm-4">
+                <input data-val="true" name="challenges" readonly="readonly" type="text" value="@Model.Challenges" />
+            </div>
+        </div>
+
+        <div class=".col-xs-12 .col-sm-6 .col-lg-8">
+            <div class=".col-xs-6 .col-sm-4">
+                @Html.LabelFor(m => m.Version)
+            </div>
+            <div class=".col-xs-6 .col-sm-4">
+                <input data-val="true" name="version" readonly="readonly" type="text" value="@Model.Version" />
+            </div>
+        </div>
+
+
+        <div class=".col-xs-12 .col-sm-6 .col-lg-8">
+            <div class=".col-xs-6 .col-sm-4">
+                @Html.LabelFor(m => m.DeviceResponse)
+
+            </div>
+            <div class=".col-xs-6 .col-sm-4">
+                @Html.TextBoxFor(m => m.DeviceResponse)
+            </div>
+        </div>
+        <br />
+        <input type="submit" value="Login" />
+    </fieldset>
+
+    <!-- Modal -->
+    <div id="promptModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h3 id="myModalLabel">Performing U2F action</h3>
+                </div>
+                <div class="modal-body">
+                    <p>You may be prompted to allow the site permission to access your security keys. After granting permission, the device will start to blink.</p>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default" href="javascript:history.back()">Abort</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        var errorMap = {
+            1: 'Unknown error, try again',
+            2: "Bad request error, try again",
+            3: "This key isn't supported, please try another one",
+            4: 'The device is already registered, please login',
+            5: 'Authentication timed out. Please reload to try again.'
+        };
+        $('#promptModal').modal('show');
+
+        setTimeout(function() {
+                window.u2f.sign(
+                    @Html.Raw(JSON.Validate(Model.Challenges).Replace("\"", "'")),
+                    function(data) {
+                        console.log("call back data: ", data);
+
+                        if (data.errorCode) {
+                            $('#promptModal').modal('hide');
+                            return alert(errorMap[data.errorCode]);
+                        }
+                        $('#promptModal').modal('hide');
+                        $('#DeviceResponse').val(JSON.stringify(data));
+                        $('#loginForm').submit();
+
+                        return "";
+                    });
+            },
+            1000);
+    </script>
+}
+
+

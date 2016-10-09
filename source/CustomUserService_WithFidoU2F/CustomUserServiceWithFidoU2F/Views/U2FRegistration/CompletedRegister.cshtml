@@ -1,0 +1,12 @@
+﻿@model SampleApp.Models.U2F.CompleteRegisterModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>User: "@Model.UserName" you have successfully registered your U2F device</h1>
+
+<p>
+    @Html.ActionLink("Resume Login", "ResumePartial", "U2FRegistration") now you can log in with Yubico's U2F
+</p>
+
+
