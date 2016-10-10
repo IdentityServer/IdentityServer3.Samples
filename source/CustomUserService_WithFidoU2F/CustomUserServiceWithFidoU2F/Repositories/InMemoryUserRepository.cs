@@ -6,13 +6,15 @@ using SampleApp.Models.U2F;
 
 namespace SampleApp.Repositories
 {
+    using SampleApp.Config;
+
     public class InMemoryUserRepository : IUserRepository
     {
         private static readonly IEnumerable<U2FUser> Users;
 
         static InMemoryUserRepository()
         {
-            Users = IdentityServer3.Host.Config.Users.Get();
+            Users = U2FUsers.Get();
         }
 
         public U2FUser FindUser(string username)

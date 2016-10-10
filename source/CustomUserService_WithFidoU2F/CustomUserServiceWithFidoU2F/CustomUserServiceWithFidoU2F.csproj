@@ -212,6 +212,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Config\Certificate.cs" />
+    <Compile Include="Config\U2FUsers.cs" />
     <Compile Include="Controllers\U2FAuthenticateController.cs" />
     <Compile Include="Controllers\U2FRegistrationController.cs" />
     <Compile Include="Extensions\OwinEnvironmentExtensions.cs" />
