@@ -23,7 +23,7 @@ namespace Apis
             // configure web api
             var config = new HttpConfiguration();
             config.MapHttpAttributeRoutes();
-            
+
             // require authentication for all controllers
             config.Filters.Add(new AuthorizeAttribute());
 

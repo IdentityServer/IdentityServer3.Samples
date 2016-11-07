@@ -3,7 +3,7 @@ using IdentityServer3.Core.Configuration;
 
 namespace IdSrv
 {
-    class Startup
+    public class Startup
     {
         public void Configuration(IAppBuilder app)
         {
