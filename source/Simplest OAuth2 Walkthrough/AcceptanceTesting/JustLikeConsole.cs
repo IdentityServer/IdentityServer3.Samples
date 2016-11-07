@@ -11,7 +11,7 @@
     public class JustLikeConsole
     {
         private static readonly string ServerUrl = "http://localhost:11111";
-        private static readonly string IdentityServerUrl = "http://localhost:5000";
+        private static readonly string IdentityServerUrl = "http://localhost:22222";
 
         private IDisposable webApp;
         private IDisposable identityServer;
@@ -22,6 +22,7 @@
         {
             "establish server"._(() =>
             {
+                Apis.Startup.IdentityServerUrl = IdentityServerUrl;
                 this.identityServer = Microsoft.Owin.Hosting.WebApp.Start<IdSrv.Startup>(IdentityServerUrl);
                 this.webApp = Microsoft.Owin.Hosting.WebApp.Start<Apis.Startup>(ServerUrl);
                 this.appClient = new HttpClient { BaseAddress = new Uri(ServerUrl) };

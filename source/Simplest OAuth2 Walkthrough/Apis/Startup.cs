@@ -9,12 +9,14 @@ namespace Apis
 {
     public class Startup
     {
+        public static string IdentityServerUrl { get; set; } = "http://localhost:5000";
+
         public void Configuration(IAppBuilder app)
         {
             // accept access tokens from identityserver and require a scope of 'api1'
             app.UseIdentityServerBearerTokenAuthentication(new IdentityServerBearerTokenAuthenticationOptions
                 {
-                    Authority = "http://localhost:5000",
+                    Authority = IdentityServerUrl,
                     ValidationMode = ValidationMode.ValidationEndpoint,
 
                     RequiredScopes = new[] { "api1" }
