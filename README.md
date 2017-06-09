@@ -7,7 +7,7 @@ IdentityServer3 Samples
 [link](https://github.com/IdentityServer/IdentityServer3.Samples/tree/master/source/AspNetCore)
 
 #### MVC Authentication walk-through [link](https://github.com/IdentityServer/IdentityServer3.Samples/tree/master/source/MVC%20Authentication)
-Step by step tutorial on how to use identity server to provide authentication services to an MVC application and a Web API. See [here](https://github.com/IdentityServer/IdentityServer3/wiki/Getting-started) for instructions.
+Step by step tutorial on how to use identity server to provide authentication services to an MVC application and a Web API. See [here](https://identityserver.github.io/Documentation/docsv2/overview/mvcGettingStarted.html) for instructions.
 
 #### Clients [link](https://github.com/IdentityServer/IdentityServer3.Samples/tree/master/source/Clients)
 Sample clients and API for: client credentials, resource owner flow, code flow, form post, native and JavaScript implicit flow, WS-Federation and OpenID Connect Katana middleware.
